@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cugipy8lrygqf"]
+[gd_scene load_steps=16 format=3 uid="uid://cugipy8lrygqf"]
 
 [ext_resource type="Texture2D" uid="uid://t1nvjcd83q64" path="res://assets/CavalierIdle(Frame1).png" id="2_4yqpg"]
 [ext_resource type="Texture2D" uid="uid://cq3lstwb1h0wu" path="res://assets/CavalierIdle(Frame2).png" id="3_kpumb"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://d24dubwayouwn" path="res://assets/CavalierWalk(Frame4).png" id="9_g22do"]
 [ext_resource type="PackedScene" uid="uid://trbtttyoi73s" path="res://components/health.tscn" id="10_ee3dp"]
 [ext_resource type="PackedScene" uid="uid://pbkj4qkp0rkj" path="res://components/hitbox.tscn" id="11_4ftkq"]
+[ext_resource type="PackedScene" uid="uid://e7c1lgocth0p" path="res://components/movement.tscn" id="11_r0gjx"]
 
 [sub_resource type="GDScript" id="GDScript_6vu3l"]
 script/source = "extends Node2D
@@ -19,15 +20,16 @@ class_name Entity
 
 func process_hit(ability: Ability) -> void:
 
-    # health interactions
-    var health_component: HealthComponent = get_node_or_null(\"Health\")
+	# health interactions
+	var health_component: HealthComponent = get_node_or_null(\"Health\")
 
-    if health_component:
-        health_component.reduce(ability.damage)
+	if health_component:
+		health_component.reduce(ability.damage)
 
 
-    # apply knockback
-    velocity = (global_position - ability.position).normalized() * ability.knockback_force"
+	# apply knockback
+	velocity = (global_position - ability.position).normalized() * ability.knockback_force
+"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bxr4j"]
 size = Vector2(11, 7)
@@ -93,3 +95,5 @@ health_component = NodePath("../Health")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(-0.5, 4.5)
 shape = SubResource("RectangleShape2D_g4k6y")
+
+[node name="Movement" parent="." instance=ExtResource("11_r0gjx")]
