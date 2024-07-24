@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://0of6a72gstpj"]
+
+[ext_resource type="Script" path="res://scenes/base_entities/combat_actor.gd" id="1_7siy7"]
+[ext_resource type="Script" path="res://scripts/functionals/hurtbox.gd" id="1_xdpi6"]
+[ext_resource type="Script" path="res://scripts/functionals/allegiance.gd" id="3_fejlo"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_446gn"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"move",
+"speed": 5.0
+}]
+
+[node name="CombatActor" type="Node2D"]
+script = ExtResource("1_7siy7")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_446gn")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+
+[node name="HurtboxComponent" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_mask = 0
+script = ExtResource("1_xdpi6")
+
+[node name="Allegiance" type="Node" parent="." node_paths=PackedStringArray("actor")]
+script = ExtResource("3_fejlo")
+actor = NodePath("..")

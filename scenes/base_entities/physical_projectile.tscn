@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://b71tjsbg3f1e4"]
+
+[ext_resource type="Script" path="res://scenes/base_entities/physical_projectile.gd" id="1_xfppo"]
+[ext_resource type="Script" path="res://scripts/functionals/hitbox.gd" id="2_f88a1"]
+
+[node name="PhysicalProjectile" type="Node2D"]
+script = ExtResource("1_xfppo")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+
+[node name="HitboxComponent" type="Area2D" parent="."]
+script = ExtResource("2_f88a1")
