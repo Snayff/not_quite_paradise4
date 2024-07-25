@@ -4,16 +4,22 @@ class_name DeathTrigger
 extends Node
 
 
-@export var root_actor: CombatActor  ## the actor this component will operate on
-@export var resource: ResourceComponent  ## the resource that triggers death on empty
-@export var destroy_effect_spawner: SpawnerComponent  ## a spawner component for creating an effect on death
+@export var root: Node  ## the node this component will operate on
+@export var resource: ResourceComponent  ## the resource that triggers death on empty. @OPTIONAL.
+@export var destroy_effect_spawner: SpawnerComponent  ## a spawner component for creating an effect on death. @OPTIONAL.
 
 
 func _ready() -> void:
-	# Connect the the no health signal on our stats to the destroy function
-	resource.emptied.connect(destroy)
+	# check for mandatory properties set in editor
+	assert(root is Node, "Misssing `root`. ")
 
-func destroy() -> void:
+	# Connect the the no health signal on our stats to the activate function, if we have a resource.
+	if resource is ResourceComponent:
+		resource.emptied.connect(activate)
+
+func activate() -> void:
 	# create an effect (from the spawner component) and free the actor
-	destroy_effect_spawner.spawn(root_actor.global_position)
-	root_actor.queue_free()
+	if destroy_effect_spawner is SpawnerComponent:
+		destroy_effect_spawner.spawn(root.global_position)
+
+	root.queue_free()

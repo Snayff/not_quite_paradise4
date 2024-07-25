@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://scripts/functionals/spawner.gd" id="5_3lw38"]
 [ext_resource type="Script" path="res://scripts/visuals/flash.gd" id="7_kxpls"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_446gn"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_vxvtc"]
 animations = [{
 "frames": [],
 "loop": true,
@@ -25,7 +25,7 @@ animations = [{
 script = ExtResource("1_7siy7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_446gn")
+sprite_frames = SubResource("SpriteFrames_vxvtc")
 animation = &"idle"
 autoplay = "idle"
 
@@ -40,22 +40,24 @@ script = ExtResource("1_xdpi6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
 
-[node name="Allegiance" type="Node" parent="." node_paths=PackedStringArray("actor")]
+[node name="Allegiance" type="Node" parent="." node_paths=PackedStringArray("root_actor")]
 unique_name_in_owner = true
 script = ExtResource("3_fejlo")
-actor = NodePath("..")
+root_actor = NodePath("..")
 
-[node name="DeathTrigger" type="Node" parent="." node_paths=PackedStringArray("resource", "destroy_effect_spawner")]
+[node name="DeathTrigger" type="Node" parent="." node_paths=PackedStringArray("root", "resource", "destroy_effect_spawner")]
 script = ExtResource("4_0s2co")
+root = NodePath("..")
 resource = NodePath("../Health")
 destroy_effect_spawner = NodePath("../DeathEffectSpawner")
 
 [node name="DeathEffectSpawner" type="Node2D" parent="."]
 script = ExtResource("5_3lw38")
 
-[node name="OnHitFlash" type="Node" parent="."]
+[node name="OnHitFlash" type="Node" parent="." node_paths=PackedStringArray("sprite")]
 unique_name_in_owner = true
 script = ExtResource("7_kxpls")
+sprite = NodePath("../AnimatedSprite2D")
 
 [node name="Health" type="Node" parent="."]
 unique_name_in_owner = true

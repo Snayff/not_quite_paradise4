@@ -5,17 +5,17 @@ extends Node
 # You should shake the sprite and not the root node or you'll get unexpected behavior
 # since we are manipulating the position of the node and moving it to 0,0
 
-## the sprite to apply the shake to
-@export var sprite: Node2D
+@export var sprite: CanvasItem  ## the sprite to apply the shake to
+@export var amount: int = 2.0  ## the max position offset in the shake
+@export var duration: float = 0.4  ## how long to shake for
 
-## the max position offset in the shake
-@export var amount: int = 2.0
 
-## how long to shake for
-@export var duration: float = 0.4
+var _current_shake = 0  ## store the current amount we are shaking the node (this value will decrease over time)
 
-# store the current amount we are shaking the node (this value will decrease over time)
-var _current_shake = 0
+
+func _ready() -> void:
+	# check for mandatory properties set in editor
+	assert(sprite is CanvasItem, "Misssing `sprite`.")
 
 ## apply the shake effect
 func activate():

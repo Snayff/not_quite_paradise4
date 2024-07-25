@@ -7,6 +7,10 @@ extends Node2D
 @export var node: Node  ## the node we want to duplicate, e.g. a template projectile.
 
 
+func _ready() -> void:
+	# check for mandatory properties set in editor
+	assert(scene is PackedScene or node is Node, "Misssing at least one of `scene` or `node. ")
+
 ## spawn either the scene or the node, preferring the scene.
 ## useful when whether there is a scene or node is not known.
 func spawn(global_spawn_position: Vector2 = global_position, parent: Node = get_tree().current_scene) -> Variant:

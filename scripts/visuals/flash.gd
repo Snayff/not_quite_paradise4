@@ -2,12 +2,9 @@
 class_name FlashComponent
 extends Node
 
-## the material to alter the sprite
-@export var material = preload("res://assets/effects/white_flash/white_flash_material.tres")
-## the sprite this compononet will be flashing
-@export var sprite: CanvasItem
-## duration of the flash
-@export var flash_duration: = 0.2
+@export var material = preload("res://assets/effects/white_flash/white_flash_material.tres")  ## the material to alter the sprite
+@export var sprite: CanvasItem  ## the sprite this compononet will be flashing
+@export var flash_duration: = 0.2  ## duration of the flash
 
 # store the original sprite's material to reset it after the flash
 var original_sprite_material: Material
@@ -15,7 +12,11 @@ var original_sprite_material: Material
 # create a timer for the flash component to use
 var timer: Timer = Timer.new()
 
+
 func _ready() -> void:
+	# check for mandatory properties set in editor
+	assert(sprite is CanvasItem, "Missing `sprite`.")
+
 	# add the timer as a child of this component in order to use it
 	add_child(timer)
 

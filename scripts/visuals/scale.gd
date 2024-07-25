@@ -2,14 +2,15 @@
 class_name ScaleComponent
 extends Node
 
-## the sprite that this component will be scaling
-@export var sprite: Node2D
 
-## the scale amount (as a vector)
-@export var scale_amount = Vector2(1.5, 1.5)
+@export var sprite: CanvasItem  ## the sprite that this component will be scaling
+@export var scale_amount = Vector2(1.5, 1.5)  ## the scale amount (as a vector)
+@export var scale_duration: = 0.4  ## the scale duration
 
-## the scale duration
-@export var scale_duration: = 0.4
+
+func _ready() -> void:
+	# check for mandatory properties set in editor
+	assert(sprite is CanvasItem, "Misssing `sprite`.")
 
 ## apply the scale effect, before reverting to normal.
 func activate() -> void:

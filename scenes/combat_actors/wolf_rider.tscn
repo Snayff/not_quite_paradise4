@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b4xlnewit7p5l"]
+[gd_scene load_steps=11 format=3 uid="uid://b4xlnewit7p5l"]
 
 [ext_resource type="PackedScene" uid="uid://0of6a72gstpj" path="res://scenes/abcs/combat_actor.tscn" id="1_8ep5a"]
 [ext_resource type="Texture2D" uid="uid://dopseo1w5jxrl" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame1).png" id="2_ia004"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dcdgt417cspcb" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame3).png" id="4_1yqef"]
 [ext_resource type="Texture2D" uid="uid://bwamwonvpg20u" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame4).png" id="5_c5krc"]
 [ext_resource type="PackedScene" uid="uid://drhecv7pq5ypa" path="res://scenes/effects/explosion.tscn" id="6_krs8u"]
+[ext_resource type="PackedScene" uid="uid://lsbutqx8scoq" path="res://scenes/combat_actives/fireblast.tscn" id="7_7rdur"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fpxp7"]
 animations = [{
@@ -56,3 +57,7 @@ shape = SubResource("CircleShape2D_xglps")
 
 [node name="DeathEffectSpawner" parent="." index="5"]
 scene = ExtResource("6_krs8u")
+
+[node name="Fireblast" parent="." index="9" node_paths=PackedStringArray("creator", "allegiance") instance=ExtResource("7_7rdur")]
+creator = NodePath("..")
+allegiance = NodePath("../Allegiance")

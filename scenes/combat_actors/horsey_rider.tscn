@@ -1,0 +1,61 @@
+[gd_scene load_steps=10 format=3 uid="uid://crlrjwg1g5vtc"]
+
+[ext_resource type="PackedScene" uid="uid://0of6a72gstpj" path="res://scenes/abcs/combat_actor.tscn" id="1_wekre"]
+[ext_resource type="Texture2D" uid="uid://dldmflst28sas" path="res://assets/actors/horse_rider/RampartSpriteFemale-Right(Frame1).png" id="2_47her"]
+[ext_resource type="Texture2D" uid="uid://b0ioe50hirnxg" path="res://assets/actors/horse_rider/RampartSpriteFemale-Right(Frame2).png" id="3_u27cx"]
+[ext_resource type="Texture2D" uid="uid://ffba1pgjsx4n" path="res://assets/actors/horse_rider/RampartSpriteFemale-Right(Frame3).png" id="4_85r4q"]
+[ext_resource type="Texture2D" uid="uid://dwxusomrgbenr" path="res://assets/actors/horse_rider/RampartSpriteFemale-Right(Frame4).png" id="5_dg0kh"]
+[ext_resource type="PackedScene" uid="uid://drhecv7pq5ypa" path="res://scenes/effects/explosion.tscn" id="6_xmhc5"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k5smb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_47her")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_47her")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_u27cx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_85r4q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_dg0kh")
+}],
+"loop": true,
+"name": &"move",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4njet"]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1e663"]
+radius = 6.0
+
+[node name="HorseyRider" instance=ExtResource("1_wekre")]
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_k5smb")
+
+[node name="CollisionShape2D" parent="RigidBody2D" index="0"]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_4njet")
+
+[node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_1e663")
+
+[node name="DeathEffectSpawner" parent="." index="5"]
+scene = ExtResource("6_xmhc5")
+
+[node name="Health" parent="." index="7"]
+_value = 2

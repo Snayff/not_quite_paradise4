@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://b71tjsbg3f1e4"]
+[gd_scene load_steps=8 format=3 uid="uid://b71tjsbg3f1e4"]
 
 [ext_resource type="Script" path="res://scenes/abcs/physical_projectile.gd" id="1_xfppo"]
 [ext_resource type="Script" path="res://scripts/functionals/hitbox.gd" id="2_f88a1"]
 [ext_resource type="Script" path="res://scripts/functionals/movement.gd" id="3_soigt"]
 [ext_resource type="Script" path="res://scripts/functionals/spawner.gd" id="4_78i0h"]
 [ext_resource type="PackedScene" uid="uid://drhecv7pq5ypa" path="res://scenes/effects/explosion.tscn" id="5_u8e2e"]
+[ext_resource type="Script" path="res://scripts/functionals/death_trigger.gd" id="6_mn4qt"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_c16yo"]
 
@@ -12,6 +13,7 @@
 script = ExtResource("1_xfppo")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_c16yo")
 autoplay = "default"
 
@@ -26,6 +28,7 @@ script = ExtResource("2_f88a1")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
 
 [node name="MovementComponent" type="Node" parent="." node_paths=PackedStringArray("rigid_body_2d", "root")]
+unique_name_in_owner = true
 script = ExtResource("3_soigt")
 rigid_body_2d = NodePath("../RigidBody2D")
 root = NodePath("..")
@@ -34,3 +37,8 @@ root = NodePath("..")
 unique_name_in_owner = true
 script = ExtResource("4_78i0h")
 scene = ExtResource("5_u8e2e")
+
+[node name="DeathTrigger" type="Node" parent="." node_paths=PackedStringArray("root")]
+unique_name_in_owner = true
+script = ExtResource("6_mn4qt")
+root = NodePath("..")
