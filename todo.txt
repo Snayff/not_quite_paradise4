@@ -10,3 +10,11 @@ review:
 	deal damage
 	can apply effects, e.g. knockback, status
 - create visual projectile
+
+
+
+## THOUGHTS ##
+
+do we need to differentiate between visual and physical projectiles?
+can we create a template projectile on CombatActive then duplicate that? How to duplicate node?
+projectile needs max travel distance and if 0, minimum duration (to allow hit registers)

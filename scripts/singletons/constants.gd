@@ -23,7 +23,7 @@ const COLLISION_LAYER_MAP: Dictionary = {
 }
 
 ## target options
-enum TARGETS {
+enum TARGET {
 	self_,
 	ally,
 	enemy,

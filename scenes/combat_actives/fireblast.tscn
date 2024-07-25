@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://lsbutqx8scoq"]
+
+[ext_resource type="PackedScene" uid="uid://cn8jpy03lpd4m" path="res://scenes/abcs/combat_active.tscn" id="1_34rtn"]
+[ext_resource type="PackedScene" uid="uid://fbgfulkn14kk" path="res://scenes/projectiles/fireball.tscn" id="2_figyj"]
+
+[node name="Fireblast" instance=ExtResource("1_34rtn")]
+valid_targets = 2
+
+[node name="ProjectileSpawner" parent="." index="3" node_paths=PackedStringArray("node")]
+node = NodePath("../Fireball")
+
+[node name="Fireball" parent="." index="4" instance=ExtResource("2_figyj")]
