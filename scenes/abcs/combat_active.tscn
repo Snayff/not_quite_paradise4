@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://cn8jpy03lpd4m"]
+
+[ext_resource type="Script" path="res://scripts/functionals/hitbox.gd" id="1_2dmah"]
+[ext_resource type="Script" path="res://scenes/abcs/combat_active.gd" id="1_lm2qw"]
+[ext_resource type="Script" path="res://scripts/functionals/spawner.gd" id="2_p0160"]
+
+[node name="CombatActive" type="Node2D"]
+script = ExtResource("1_lm2qw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+
+[node name="CooldownTimer" type="Timer" parent="."]
+
+[node name="HitboxComponent" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_2dmah")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+
+[node name="ProjectileSpawner" type="Node2D" parent="."]
+script = ExtResource("2_p0160")

@@ -2,13 +2,16 @@
 class_name ResourceComponent
 extends Node
 
+
 signal value_changed() ## the resource value has changed
+signal value_decreased() ## the resource value has decreased
 signal emptied() ##  there is none of the resource left
 signal max_value_changed() ## the resource's max value has changed
 
-@export var value: int:
+
+@export var _value: int:
 	set(value):
-		value = value
+		_value = value
 		value_changed.emit()
 		# Signal out when health is at 0
 		if value == 0: emptied.emit()
@@ -16,12 +19,31 @@ signal max_value_changed() ## the resource's max value has changed
 	set(value):
 		max_value = clamp(value, 1, INF)
 		value_changed.emit()
+@export var regeneration_per_second: float
 
+
+var value: int:
+	set(value):
+		push_warning("Can't set health directly. Use funcs.")
+	get:
+		return _value
+var _regen_timer: Timer = Timer.new()
+
+
+func _ready() -> void:
+	# setup regen timer
+	_regen_timer.autostart = true
+	_regen_timer.wait_time = 1
+	_regen_timer.timeout.connect(increase.bind(regeneration_per_second))
 
 ## decrease the resource by an amount
 func decrease(amount: int) -> void:
-	value -= amount
+	_value -= amount
+	value_decreased.emit()
 
 ## increase the resource by an amount
 func increase(amount: int) -> void:
-	clamp(value + amount, value, max_value)
+	_value = clamp(value + amount, value, max_value)
+
+func set_value(value: int) -> void:
+	_value = value

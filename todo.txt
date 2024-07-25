@@ -4,3 +4,9 @@ review:
 - https://github.com/lampe-games/godot-open-rts/tree/main/source/match/units/actions
 - https://github.com/OctoD/godot-gameplay-systems
 - https://www.youtube.com/watch?v=MRwM3LOal5o&list=PLUzx1-8efVAqKvR9F-PAcUpF8aCHaRcte&index=4
+
+## TODO ##
+- finish physical projectile
+	deal damage
+	can apply effects, e.g. knockback, status
+- create visual projectile

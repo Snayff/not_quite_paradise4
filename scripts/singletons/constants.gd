@@ -18,6 +18,15 @@ enum COLLISION_LAYER {
 const COLLISION_LAYER_MAP = {
 	COLLISION_LAYER.ally_hurtbox: 1,
 	COLLISION_LAYER.ally_collision: 2,
-	COLLISION_LAYER.enemy_hurtbox: 3,
-	COLLISION_LAYER.enemy_collision: 4,
+	COLLISION_LAYER.enemy_hurtbox: 4,
+	COLLISION_LAYER.enemy_collision: 8,
+}
+
+## target options
+enum TARGETS {
+	self_,
+	ally,
+	enemy,
+	other,
+	anyone
 }

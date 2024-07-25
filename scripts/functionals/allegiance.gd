@@ -3,13 +3,15 @@
 class_name Allegiance
 extends Node
 
-@export var actor: CombatActor
-@export var team: Constants.TEAM
 @onready var hurtbox_component: HurtboxComponent = %HurtboxComponent
 
 
+@export var root_actor: CombatActor
+@export var team: Constants.TEAM
+
+
 func _ready() -> void:
-	add_to_group(str("team_", team), true)
+	root_actor.add_to_group(str("team_", team), true)
 
 	if hurtbox_component is HurtboxComponent:
 		if team == Constants.TEAM.ally:
