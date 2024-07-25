@@ -2,24 +2,24 @@ extends Node
 
 ## the team the entity is on
 enum TEAM {
-	ally,
-	enemy
+	team1,
+	team2
 }
 
 ## the used collision layers
 enum COLLISION_LAYER {
-	ally_hurtbox,
-	ally_collision,
-	enemy_hurtbox,
-	enemy_collision,
+	team1_hurtbox,
+	team1_collision,
+	team2_hurtbox,
+	team2_collision,
 }
 
 ## collision layers mapped to their layer number
-const COLLISION_LAYER_MAP = {
-	COLLISION_LAYER.ally_hurtbox: 1,
-	COLLISION_LAYER.ally_collision: 2,
-	COLLISION_LAYER.enemy_hurtbox: 4,
-	COLLISION_LAYER.enemy_collision: 8,
+const COLLISION_LAYER_MAP: Dictionary = {
+	COLLISION_LAYER.team1_hurtbox: 1,
+	COLLISION_LAYER.team1_collision: 2,
+	COLLISION_LAYER.team2_hurtbox: 4,
+	COLLISION_LAYER.team2_collision: 8,
 }
 
 ## target options
