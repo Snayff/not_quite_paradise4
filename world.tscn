@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://rf7q3r0jhupi"]
+[gd_scene load_steps=7 format=3 uid="uid://rf7q3r0jhupi"]
 
+[ext_resource type="Script" path="res://world.gd" id="1_e5ypc"]
 [ext_resource type="Texture2D" uid="uid://csx5xkiiijtyh" path="res://assets/tiles/lava_caves/LB-Lava-Lake-Main.png" id="1_ml8d5"]
 [ext_resource type="PackedScene" uid="uid://b4xlnewit7p5l" path="res://scenes/combat_actors/wolf_rider.tscn" id="2_1xjme"]
 [ext_resource type="PackedScene" uid="uid://crlrjwg1g5vtc" path="res://scenes/combat_actors/horsey_rider.tscn" id="3_xkt6n"]
@@ -48,6 +49,7 @@ texture = ExtResource("1_ml8d5")
 sources/0 = SubResource("TileSetAtlasSource_pfbyd")
 
 [node name="World" type="Node2D"]
+script = ExtResource("1_e5ypc")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_hbatt")

@@ -7,7 +7,6 @@
 projectile_template = NodePath("Fireball")
 valid_targets = 2
 delivery_method = "projectile"
-range = 200
 damage = 1
 cooldown = 1.5
 

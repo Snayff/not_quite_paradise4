@@ -1,3 +1,4 @@
+@icon("res://assets/node_icons/allegiance.png")
 ## info regarding the team the actor is on.
 ## updates linked components to reflect the team.
 class_name Allegiance

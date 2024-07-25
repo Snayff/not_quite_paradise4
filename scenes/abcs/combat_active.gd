@@ -1,3 +1,4 @@
+@icon("res://assets/node_icons/combat_active.png")
 ## an active skill used in combat
 class_name CombatActive
 extends Node2D
@@ -16,7 +17,7 @@ extends Node2D
 
 @export_category("Travel")
 @export_enum("target", "projectile") var delivery_method: String  ## how the active's effects are delivered
-@export var range: int
+@export var travel_range: int
 
 @export_category("Hit")
 @export var damage: int
@@ -26,28 +27,40 @@ extends Node2D
 @export var cooldown: float  ## in seconds
 
 
+var target_actor: CombatActor:
+	set(value):
+		value = value
+var target_position: Vector2  ## NOTE: not used
+
+
 func _ready() -> void:
 	# check for mandatory properties set in editor
 	assert(creator is CombatActor, "Misssing `creator`.")
 	assert(allegiance is Allegiance, "Misssing `allegiance`.")
 	assert(projectile_template is PhysicalProjectile, "Misssing `projectile_template`.")
 
+	creator.target_changed.connect(func(target_actor_: CombatActor):
+		target_actor = target_actor_
+	)
+
 	# config cooldown timer
 	cooldown_timer.wait_time = cooldown
 	cooldown_timer.timeout.connect(cast)
 
 	# config projectile template
+	projectile_template.is_disabled = true
 	projectile_template.damage = damage
-	projectile_template.range = range
+	projectile_template.travel_range = travel_range
 
 	# TODO: add target info to projectile template
 
-func cast(target_actor = null, target_position = null)-> void:
+func cast()-> void:
 	if not target_actor is CombatActor and not target_position is Vector2:
 		push_error("No target given to cast.")
 		return
 
 	var projectile: PhysicalProjectile = projectile_spawner.spawn()
+	projectile.enable()
 	if target_actor is CombatActor:
 		projectile.set_target_actor(target_actor)
 	elif target_position is Vector2:

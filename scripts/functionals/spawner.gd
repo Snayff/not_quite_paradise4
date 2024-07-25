@@ -1,3 +1,4 @@
+@icon("res://assets/node_icons/spawner.png")
 ## spawn a scene at Spawner position
 class_name SpawnerComponent
 extends Node2D

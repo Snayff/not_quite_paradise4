@@ -1,3 +1,4 @@
+@icon("res://assets/node_icons/resource.png")
 ## info regarding a changeable value, such as health or mana.
 class_name ResourceComponent
 extends Node
@@ -45,5 +46,5 @@ func decrease(amount: int) -> void:
 func increase(amount: int) -> void:
 	_value = clamp(value + amount, value, max_value)
 
-func set_value(value: int) -> void:
-	_value = value
+func set_value(value_: int) -> void:
+	_value = value_

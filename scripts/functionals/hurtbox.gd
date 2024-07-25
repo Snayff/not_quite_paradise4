@@ -1,3 +1,4 @@
+@icon("res://assets/node_icons/hurt.png")
 ## Area where entity can be hurt.
 class_name HurtboxComponent
 extends Area2D

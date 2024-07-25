@@ -1,10 +1,11 @@
+@icon("res://assets/node_icons/hit.png")
 ## area that deals damage to a Hurtbox.
 class_name HitboxComponent
 extends Area2D
 
 
 # Create a signal for when the hitbox hits a hurtbox
-signal hit_hurtbox(hurtbox)
+signal hit_hurtbox(hurtbox: HurtboxComponent)
 
 
 func _ready():

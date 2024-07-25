@@ -1,3 +1,4 @@
+@icon("res://assets/node_icons/move.png")
 ## apply movement to the actor
 class_name MovementComponent
 extends Node

@@ -1,3 +1,4 @@
+@icon("res://assets/node_icons/flash.png")
 ## flash the attached sprite
 class_name FlashComponent
 extends Node

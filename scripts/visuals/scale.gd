@@ -1,3 +1,4 @@
+@icon("res://assets/node_icons/scale.png")
 ## scale a sprite
 class_name ScaleComponent
 extends Node
