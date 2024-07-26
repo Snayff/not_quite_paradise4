@@ -18,6 +18,7 @@ var direction: Vector2  ## direction towards target
 		#return _direction
 #var _direction: Vector2 = Vector2.ZERO
 var distance_travelled: float = 0  ## how far we have travelled
+var speed: float
 
 
 func _ready() -> void:
@@ -29,8 +30,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	# move towards target
 	_update_direction()
-	var force = direction * 10000
-	print(force)
+	var force = direction * speed
 	rigid_body_2d.apply_central_impulse(force)
 
 	# rotate towards target

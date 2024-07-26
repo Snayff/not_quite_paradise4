@@ -25,11 +25,3 @@ var is_invincible = false:
 			# Use call deferred to make sure this doesn't happen in the middle of the
 			# physics process
 			child.set_deferred("disabled", is_invincible)
-
-
-#func _ready() -> void:
-	## Connect the hurt signal to an anonymous function
-	## that removes health equal to the damage from the hitbox
-	#hurt.connect(func(hitbox_component: HitboxComponent):
-		#target_resource.decrease(hitbox_component.damage)
-	#)

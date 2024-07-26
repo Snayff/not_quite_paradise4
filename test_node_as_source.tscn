@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://q0qw74yt1k0v"]
+
+[ext_resource type="Texture2D" uid="uid://dopseo1w5jxrl" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame1).png" id="1_1jr3u"]
+[ext_resource type="Script" path="res://test_node_as_source.gd" id="1_ovy1y"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cba0h"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_ovy1y")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
+texture = ExtResource("1_1jr3u")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+shape = SubResource("CircleShape2D_cba0h")
