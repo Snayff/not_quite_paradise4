@@ -7,6 +7,7 @@ extends Node2D
 @export var scene: PackedScene  ## The scene we want to spawn
 @export var node: Node  ## the node we want to duplicate, e.g. a template projectile.
 
+
 var _is_disabled: bool = false
 
 
@@ -18,7 +19,7 @@ func _ready() -> void:
 
 ## spawn either the scene or the node, preferring the scene.
 ## useful when whether there is a scene or node is not known.
-func spawn(global_spawn_position: Vector2 = global_position, parent: Node = get_tree().current_scene) -> Variant:
+func spawn(global_spawn_position: Vector2 = global_position, parent: Node = get_tree().current_scene) -> Node:
 	if _is_disabled:
 		return null
 

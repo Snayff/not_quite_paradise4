@@ -1,5 +1,4 @@
 review:
-- https://github.com/Zennyth/EnhancedStat
 -  https://github.com/don-tnowe/godot-wyvernshield-triggers
 - https://github.com/lampe-games/godot-open-rts/tree/main/source/match/units/actions
 - https://github.com/OctoD/godot-gameplay-systems
@@ -16,5 +15,5 @@ review:
 ## THOUGHTS ##
 
 do we need to differentiate between visual and physical projectiles?
-can we create a template projectile on CombatActive then duplicate that? How to duplicate node?
 projectile needs max travel distance and if 0, minimum duration (to allow hit registers)
+look at adding the signal visualiser add on, as signals are already getting messy

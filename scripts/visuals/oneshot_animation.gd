@@ -2,6 +2,7 @@
 class_name OneShotAnimation
 extends AnimatedSprite2D
 
+
 func _ready() -> void:
 	# Free this node when the animation is finished
 	animation_finished.connect(queue_free)

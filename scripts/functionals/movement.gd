@@ -3,6 +3,8 @@
 class_name MovementComponent
 extends Node
 
+
+@export_category("Component Links")
 @export var rigid_body_2d: RigidBody2D
 @export var root: Node2D
 

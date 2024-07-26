@@ -10,6 +10,7 @@ signal emptied() ##  there is none of the resource left
 signal max_value_changed() ## the resource's max value has changed
 
 
+@export_category("Details")
 @export var _value: int:
 	set(value):
 		_value = value

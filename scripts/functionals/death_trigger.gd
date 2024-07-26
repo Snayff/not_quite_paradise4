@@ -4,9 +4,11 @@
 class_name DeathTrigger
 extends Node
 
-
-@export var root: Node  ## the node this component will operate on
+@export_category("Component Links")
+@export var root: Node  ## the node this component will operate on#
+@export_category("Automatic Triggers")
 @export var resource: ResourceComponent  ## the resource that triggers death on empty. @OPTIONAL.
+@export_category("Results")
 @export var destroy_effect_spawner: SpawnerComponent  ## a spawner component for creating an effect on death. @OPTIONAL.
 
 

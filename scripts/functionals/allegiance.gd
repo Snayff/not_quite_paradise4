@@ -4,15 +4,17 @@
 class_name Allegiance
 extends Node
 
+@export_category("Component Links")
 @export var hurtbox: HurtboxComponent
 @export var root_actor: CombatActor
+
+@export_category("Details")
 @export var team: Constants.TEAM
 
 
 func _ready() -> void:
 	# check for mandatory properties set in editor
 	assert(root_actor is CombatActor, "Misssing `root_actor`.")
-
 
 	root_actor.add_to_group(str("team_", team), true)
 

@@ -19,9 +19,9 @@ extends Node2D
 @export_enum("target", "projectile") var delivery_method: String  ## how the active's effects are delivered
 @export var travel_range: int
 
-@export_category("Hit")
+@export_category("Hit")  # NOTE: whole section should probs be in a data class
 @export var damage: int
-@export var aoe_radius: int
+@export var aoe_radius: int  # NOTE: not used.
 
 @export_category("Meta")
 @export var cooldown: float  ## in seconds

@@ -1,11 +1,15 @@
 ## shake a sprite's visual position
+## Note, this shakes the sprite and not the root node, otherwise we'd get unexpected behavior
+## as we are manipulating the position of the node and moving it to 0,0
 class_name ShakeComponent
 extends Node
 
-# You should shake the sprite and not the root node or you'll get unexpected behavior
-# since we are manipulating the position of the node and moving it to 0,0
 
+
+@export_category("Component Links")
 @export var sprite: CanvasItem  ## the sprite to apply the shake to
+
+@export_category("Details")
 @export var amount: int = 2.0  ## the max position offset in the shake
 @export var duration: float = 0.4  ## how long to shake for
 

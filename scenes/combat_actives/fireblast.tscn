@@ -14,4 +14,3 @@ cooldown = 1.5
 scene = ExtResource("2_figyj")
 
 [node name="Fireball" parent="." index="2" instance=ExtResource("2_figyj")]
-is_disabled = true

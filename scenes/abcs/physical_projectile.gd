@@ -3,15 +3,14 @@
 class_name PhysicalProjectile
 extends RigidBody2D
 
+
 @onready var on_hit_effect_spawner: SpawnerComponent = %OnHitEffectSpawner
 @onready var hitbox: HitboxComponent = %HitboxComponent
 @onready var movement_component: MovementComponent = %MovementComponent
 @onready var death_trigger: DeathTrigger = %DeathTrigger
 
 
-@export var is_disabled: bool = false  ## whether the projectile is disabled and hidden, or not
-
-
+var is_disabled: bool = false  ## whether the projectile is disabled and hidden, or not
 # NOTE: this seems dumb. Maybe use a data class and deliver that?
 var creator: CombatActor  ## who created the projectile
 var damage: int
