@@ -11,6 +11,10 @@ extends RigidBody2D
 
 
 var is_disabled: bool = false  ## whether the projectile is disabled and hidden, or not
+var target_actor: CombatActor:
+	set(value):
+		movement_component.target_actor = value
+		target_actor = value
 # NOTE: this seems dumb. Maybe use a data class and deliver that?
 var creator: CombatActor  ## who created the projectile
 var damage: int

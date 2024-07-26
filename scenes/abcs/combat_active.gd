@@ -53,6 +53,7 @@ func cast()-> void:
 	projectile.travel_range = travel_range
 	projectile.team = allegiance.team
 	projectile.valid_targets = valid_targets
+	projectile.target_actor = target_actor
 	if target_actor is CombatActor:
 		projectile.set_target_actor(target_actor)
 	elif target_position is Vector2:
