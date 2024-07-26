@@ -3,8 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cn8jpy03lpd4m" path="res://scenes/abcs/combat_active.tscn" id="1_34rtn"]
 [ext_resource type="PackedScene" uid="uid://fbgfulkn14kk" path="res://scenes/projectiles/fireball.tscn" id="2_figyj"]
 
-[node name="Fireblast" node_paths=PackedStringArray("projectile_template") instance=ExtResource("1_34rtn")]
-projectile_template = NodePath("Fireball")
+[node name="Fireblast" instance=ExtResource("1_34rtn")]
 valid_targets = 2
 delivery_method = "projectile"
 travel_range = 100
@@ -13,7 +12,6 @@ cooldown = 1.5
 
 [node name="ProjectileSpawner" parent="." index="1"]
 scene = ExtResource("2_figyj")
-node = NodePath("")
 
 [node name="Fireball" parent="." index="2" instance=ExtResource("2_figyj")]
 is_disabled = true

@@ -1,16 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://b71tjsbg3f1e4"]
+[gd_scene load_steps=7 format=3 uid="uid://b71tjsbg3f1e4"]
 
 [ext_resource type="Script" path="res://scenes/abcs/physical_projectile.gd" id="1_xfppo"]
 [ext_resource type="Script" path="res://scripts/functionals/hitbox.gd" id="2_f88a1"]
 [ext_resource type="Script" path="res://scripts/functionals/movement.gd" id="3_soigt"]
 [ext_resource type="Script" path="res://scripts/functionals/spawner.gd" id="4_78i0h"]
-[ext_resource type="PackedScene" uid="uid://drhecv7pq5ypa" path="res://scenes/effects/explosion.tscn" id="5_u8e2e"]
 [ext_resource type="Script" path="res://scripts/functionals/death_trigger.gd" id="6_mn4qt"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_c16yo"]
 
 [node name="PhysicalProjectile" type="RigidBody2D"]
 script = ExtResource("1_xfppo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
@@ -34,11 +35,13 @@ root = NodePath("..")
 [node name="OnHitEffectSpawner" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("4_78i0h")
-scene = ExtResource("5_u8e2e")
 
-[node name="DeathTrigger" type="Node" parent="." node_paths=PackedStringArray("root")]
+[node name="DeathTrigger" type="Node" parent="." node_paths=PackedStringArray("root", "destroy_effect_spawner")]
 unique_name_in_owner = true
 script = ExtResource("6_mn4qt")
 root = NodePath("..")
+destroy_effect_spawner = NodePath("../OnDeathEffectSpawner")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="OnDeathEffectSpawner" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_78i0h")

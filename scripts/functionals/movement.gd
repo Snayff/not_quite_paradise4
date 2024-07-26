@@ -10,13 +10,6 @@ extends Node
 var target_actor: CombatActor  ## the actor being targeted. use when target updating required. preferred over target_position.
 var target_position: Vector2  ## the position being targeted.
 var direction: Vector2  ## direction towards target
-	#set(value):
-		#push_warning("Can't set movement direction directly, need to set `target_position` or `target_actor`.")
-		#return
-	#get:
-		#_update_direction()
-		#return _direction
-#var _direction: Vector2 = Vector2.ZERO
 var distance_travelled: float = 0  ## how far we have travelled
 var speed: float
 
@@ -25,7 +18,6 @@ func _ready() -> void:
 	# check for mandatory properties set in editor
 	assert(root is Node2D, "Misssing `root`. ")
 	assert(rigid_body_2d is RigidBody2D, "Misssing `rigid_body_2d`. ")
-
 
 func _physics_process(delta: float) -> void:
 	# move towards target

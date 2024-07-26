@@ -1,7 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://fbgfulkn14kk"]
+[gd_scene load_steps=7 format=3 uid="uid://fbgfulkn14kk"]
 
 [ext_resource type="PackedScene" uid="uid://b71tjsbg3f1e4" path="res://scenes/abcs/physical_projectile.tscn" id="1_8b5r4"]
 [ext_resource type="Texture2D" uid="uid://sndx4f18hm41" path="res://assets/projectiles/fireball.png" id="2_b35gk"]
+[ext_resource type="PackedScene" uid="uid://drhecv7pq5ypa" path="res://scenes/effects/explosion.tscn" id="3_qlhda"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_go546"]
+radius = 2.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_k8rb1"]
 animations = [{
@@ -14,19 +18,19 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_xvv0y"]
-radius = 2.0
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_i6l54"]
 radius = 2.0
 
 [node name="Fireball" instance=ExtResource("1_8b5r4")]
 
-[node name="AnimatedSprite2D" parent="." index="0"]
-sprite_frames = SubResource("SpriteFrames_k8rb1")
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("CircleShape2D_go546")
 
-[node name="CollisionShape2D" parent="RigidBody2D" index="0"]
-shape = SubResource("CircleShape2D_xvv0y")
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_k8rb1")
 
 [node name="CollisionShape2D" parent="HitboxComponent" index="0"]
 shape = SubResource("CircleShape2D_i6l54")
+
+[node name="OnHitEffectSpawner" parent="." index="4"]
+scene = ExtResource("3_qlhda")

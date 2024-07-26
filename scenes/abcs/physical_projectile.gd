@@ -7,12 +7,12 @@ extends RigidBody2D
 @onready var hitbox: HitboxComponent = %HitboxComponent
 @onready var movement_component: MovementComponent = %MovementComponent
 @onready var death_trigger: DeathTrigger = %DeathTrigger
-@onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 
 
 @export var is_disabled: bool = false  ## whether the projectile is disabled and hidden, or not
 
 
+# NOTE: this seems dumb. Maybe use a data class and deliver that?
 var creator: CombatActor  ## who created the projectile
 var damage: int
 var travel_range: int
@@ -86,8 +86,6 @@ func _update_hitbox_collision() -> void:
 			push_error("Team not found.")
 	else:
 		push_warning("Not enough info to setup hitbox collisions. No masks set (so wont hit anything). ")
-
-
 
 ## wrapper for setting movement component's target actor
 func set_target_actor(actor: CombatActor) -> void:

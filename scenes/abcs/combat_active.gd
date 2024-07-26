@@ -10,7 +10,6 @@ extends Node2D
 @export_category("Component Links")
 @export var creator: CombatActor  ## who created this active
 @export var allegiance: Allegiance  ## creator's allegiance component
-@export var projectile_template: PhysicalProjectile  ## the projectile to use as a template
 @export var projectile_position: Marker2D  ## the actors projectile spawn location
 
 @export_category("Targeting")
@@ -28,9 +27,7 @@ extends Node2D
 @export var cooldown: float  ## in seconds
 
 
-var target_actor: CombatActor:
-	set(value):
-		target_actor = value
+var target_actor: CombatActor
 var target_position: Vector2  ## NOTE: not used
 
 
@@ -38,17 +35,12 @@ func _ready() -> void:
 	# check for mandatory properties set in editor
 	assert(creator is CombatActor, "Misssing `creator`.")
 	assert(allegiance is Allegiance, "Misssing `allegiance`.")
-	assert(projectile_template is PhysicalProjectile, "Misssing `projectile_template`.")
+	assert(projectile_spawner is SpawnerComponent, "Misssing `projectile_spawner`.")
 
 	creator.target_changed.connect(_set_target_actor)
 
 	# config cooldown timer
 	cooldown_timer.wait_time = cooldown
-
-	# config projectile template - # FIXME: no longer needed? now using spawn scene
-	#projectile_template.is_disabled = true
-	#projectile_template.damage = damage
-	#projectile_template.travel_range = travel_range
 
 func cast()-> void:
 	if not target_actor is CombatActor and not target_position is Vector2:

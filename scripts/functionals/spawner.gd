@@ -7,14 +7,21 @@ extends Node2D
 @export var scene: PackedScene  ## The scene we want to spawn
 @export var node: Node  ## the node we want to duplicate, e.g. a template projectile.
 
+var _is_disabled: bool = false
+
 
 func _ready() -> void:
 	# check for mandatory properties set in editor
-	assert(scene is PackedScene or node is Node, "Misssing at least one of `scene` or `node. ")
+	if not scene is PackedScene and not node is Node:
+		push_warning("EffectSpawner has nothing to spawn. Is this intended? ")
+		_is_disabled = true
 
 ## spawn either the scene or the node, preferring the scene.
 ## useful when whether there is a scene or node is not known.
 func spawn(global_spawn_position: Vector2 = global_position, parent: Node = get_tree().current_scene) -> Variant:
+	if _is_disabled:
+		return null
+
 	if scene is PackedScene:
 		return spawn_scene(global_spawn_position, parent)
 	elif node is Node:
@@ -28,6 +35,9 @@ func spawn(global_spawn_position: Vector2 = global_position, parent: Node = get_
 ## By default, the parent is the current "main" scene , but can pass in an alternative parent if you so choose.
 ## returns the instance of the spawned scene.
 func spawn_scene(global_spawn_position: Vector2 = global_position, parent: Node = get_tree().current_scene) -> Node:
+	if _is_disabled:
+		return null
+
 	# Instance the scene
 	var instance = scene.instantiate()
 
@@ -47,6 +57,9 @@ func spawn_scene(global_spawn_position: Vector2 = global_position, parent: Node 
 ## By default, the parent is the current "main" scene , but can pass in an alternative parent if you so choose.
 ## returns the instance of the spawned scene.
 func spawn_duplicate_node(global_spawn_position: Vector2 = global_position, parent: Node = get_tree().current_scene) -> Node:
+	if _is_disabled:
+		return null
+
 	var new_node = node.duplicate()
 
 	# Add it as a child of the parent
