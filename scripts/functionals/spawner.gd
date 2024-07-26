@@ -28,8 +28,6 @@ func spawn(global_spawn_position: Vector2 = global_position, parent: Node = get_
 ## By default, the parent is the current "main" scene , but can pass in an alternative parent if you so choose.
 ## returns the instance of the spawned scene.
 func spawn_scene(global_spawn_position: Vector2 = global_position, parent: Node = get_tree().current_scene) -> Node:
-	assert(scene is PackedScene, "Error: The scene export was never set on this spawner component.")
-
 	# Instance the scene
 	var instance = scene.instantiate()
 
@@ -49,8 +47,6 @@ func spawn_scene(global_spawn_position: Vector2 = global_position, parent: Node 
 ## By default, the parent is the current "main" scene , but can pass in an alternative parent if you so choose.
 ## returns the instance of the spawned scene.
 func spawn_duplicate_node(global_spawn_position: Vector2 = global_position, parent: Node = get_tree().current_scene) -> Node:
-	assert(node != null, "Error: The scene export was never set on this spawner component.")
-
 	var new_node = node.duplicate()
 
 	# Add it as a child of the parent

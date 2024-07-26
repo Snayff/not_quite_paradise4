@@ -25,3 +25,8 @@ Constants="*res://scripts/singletons/constants.gd"
 2d_physics/layer_2="team1_collision"
 2d_physics/layer_3="team2_hurtbox"
 2d_physics/layer_4="team2_collision"
+
+[physics]
+
+2d/default_gravity=0.0
+2d/default_gravity_vector=Vector2(0, 0)

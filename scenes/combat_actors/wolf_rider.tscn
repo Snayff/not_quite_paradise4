@@ -58,6 +58,10 @@ shape = SubResource("CircleShape2D_xglps")
 [node name="DeathEffectSpawner" parent="." index="5"]
 scene = ExtResource("6_krs8u")
 
-[node name="Fireblast" parent="." index="9" node_paths=PackedStringArray("creator", "allegiance") instance=ExtResource("7_7rdur")]
+[node name="Fireblast" parent="." index="9" node_paths=PackedStringArray("creator", "allegiance", "projectile_position") instance=ExtResource("7_7rdur")]
 creator = NodePath("..")
 allegiance = NodePath("../Allegiance")
+projectile_position = NodePath("../ProjectilePosition")
+
+[node name="ProjectilePosition" parent="." index="10"]
+position = Vector2(11, 0)

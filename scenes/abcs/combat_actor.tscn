@@ -33,16 +33,18 @@ autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
 
-[node name="HurtboxComponent" type="Area2D" parent="."]
+[node name="HurtboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("root")]
 unique_name_in_owner = true
 collision_mask = 0
 script = ExtResource("1_xdpi6")
+root = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
 
-[node name="Allegiance" type="Node" parent="." node_paths=PackedStringArray("root_actor")]
+[node name="Allegiance" type="Node" parent="." node_paths=PackedStringArray("hurtbox", "root_actor")]
 unique_name_in_owner = true
 script = ExtResource("3_fejlo")
+hurtbox = NodePath("../HurtboxComponent")
 root_actor = NodePath("..")
 
 [node name="DeathTrigger" type="Node" parent="." node_paths=PackedStringArray("root", "resource", "destroy_effect_spawner")]
@@ -68,3 +70,5 @@ max_value = 2
 script = ExtResource("4_2s3x1")
 _value = 10
 max_value = 10
+
+[node name="ProjectilePosition" type="Marker2D" parent="."]

@@ -7,11 +7,13 @@
 projectile_template = NodePath("Fireball")
 valid_targets = 2
 delivery_method = "projectile"
+travel_range = 100
 damage = 1
 cooldown = 1.5
 
-[node name="ProjectileSpawner" parent="." index="1" node_paths=PackedStringArray("node")]
-node = NodePath("../Fireball")
+[node name="ProjectileSpawner" parent="." index="1"]
+scene = ExtResource("2_figyj")
+node = NodePath("")
 
 [node name="Fireball" parent="." index="2" instance=ExtResource("2_figyj")]
 is_disabled = true

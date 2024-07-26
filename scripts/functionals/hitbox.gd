@@ -8,6 +8,9 @@ extends Area2D
 signal hit_hurtbox(hurtbox: HurtboxComponent)
 
 
+var originator: CombatActor  ## the actor that created the thing that used this hitbox
+
+
 func _ready():
 	# Connect on area entered to our hurtbox entered function
 	area_entered.connect(_on_hurtbox_entered)

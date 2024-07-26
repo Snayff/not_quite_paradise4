@@ -23,6 +23,8 @@ autoplay = "default"
 
 [node name="HitboxComponent" type="Area2D" parent="."]
 unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("2_f88a1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]

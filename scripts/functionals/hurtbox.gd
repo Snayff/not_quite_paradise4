@@ -3,12 +3,18 @@
 class_name HurtboxComponent
 extends Area2D
 
-@export var target_resource: ResourceComponent  ## the resource damaged when this Hurtbox is hit # TODO: move to projectile
 
 ## this hurtbox is hit by a hitbox
 signal hurt(hitbox)
 
-var is_invincible = false :
+
+@export var root: CombatActor  ## the actor that created the thing that used this hitbox
+
+
+func _ready() -> void:
+	assert(root is CombatActor, "Missing `root`.")
+
+var is_invincible = false:
 	# disable and enable collision shapes on the hurtbox when is_invincible is changed.
 	set(value):
 		is_invincible = value
