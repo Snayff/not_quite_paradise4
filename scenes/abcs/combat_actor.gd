@@ -6,6 +6,7 @@ extends Node2D
 
 signal target_changed(actor: CombatActor)
 
+
 @onready var health: ResourceComponent = %Health
 @onready var on_hit_flash: FlashComponent = %OnHitFlash
 
@@ -14,6 +15,7 @@ signal target_changed(actor: CombatActor)
 	set(value):
 		target = value
 		target_changed.emit(target)
+
 
 func _ready() -> void:
 	if health is ResourceComponent:

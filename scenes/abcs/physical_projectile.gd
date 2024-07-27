@@ -21,7 +21,7 @@ var damage: int
 var travel_range: int
 var valid_targets: Constants.TARGET
 var team: Constants.TEAM
-var target_resource: ResourceComponent  ## the resource damaged when this Hurtbox is hit
+var target_resource: ResourceComponent  ## the resource damaged when the attached Hurtbox is hit
 var speed: float  = 0.5 ## must be >0
 
 

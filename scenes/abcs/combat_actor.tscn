@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://0of6a72gstpj"]
+[gd_scene load_steps=10 format=3 uid="uid://0of6a72gstpj"]
 
 [ext_resource type="Script" path="res://scenes/abcs/combat_actor.gd" id="1_7siy7"]
 [ext_resource type="Script" path="res://scripts/functionals/hurtbox.gd" id="1_xdpi6"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/functionals/resource.gd" id="4_2s3x1"]
 [ext_resource type="Script" path="res://scripts/functionals/spawner.gd" id="5_3lw38"]
 [ext_resource type="Script" path="res://scripts/visuals/flash.gd" id="7_kxpls"]
+[ext_resource type="Script" path="res://scripts/functionals/tags.gd" id="8_2ht42"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vxvtc"]
 animations = [{
@@ -72,3 +73,7 @@ _value = 10
 max_value = 10
 
 [node name="ProjectilePosition" type="Marker2D" parent="."]
+
+[node name="TagsComponent" type="Node" parent="."]
+script = ExtResource("8_2ht42")
+_tags = Array[int]([3])

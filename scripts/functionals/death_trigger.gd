@@ -1,6 +1,6 @@
-@icon("res://assets/node_icons/death.png")
 ## actions to trigger on the death of the actor.
-## handles freeing the actor.
+## handles freeing the attached node.
+@icon("res://assets/node_icons/death.png")
 class_name DeathTrigger
 extends Node
 

@@ -30,3 +30,11 @@ enum TARGET {
 	other,
 	anyone
 }
+
+## tags that denote current properties
+enum COMBAT_TAG {
+	alive,
+	dead,
+	out_of_stamina,
+	actor,
+}
