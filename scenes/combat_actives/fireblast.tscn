@@ -17,6 +17,3 @@ scene = ExtResource("2_figyj")
 [node name="EffectChain" type="Node" parent="." index="2"]
 unique_name_in_owner = true
 script = ExtResource("3_rbbfq")
-damage = null
-caster_required_tags = null
-target_required_tags = null

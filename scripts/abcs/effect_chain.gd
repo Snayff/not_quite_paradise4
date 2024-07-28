@@ -31,7 +31,7 @@ var caster: CombatActor
 
 #region FUNCS
 
-
+########### ACTIVATIONS ############
 ## check the conditions to activate are met
 ##
 ## this is usually casting, but can be activated by other means.
@@ -40,7 +40,6 @@ func can_activate() -> bool:
 	if tags is TagsComponent:
 		return tags.has_tags(caster_required_tags)
 	return false
-
 
 ## activate the chain of effects.
 ##
@@ -53,11 +52,5 @@ func on_activate() -> void:
 
 func on_hit(hurtbox: HurtboxComponent) -> void:
 	pass
-
-## reduce health of target
-func _effect_deal_damage(target: CombatActor, amount: int) -> void:
-	var health = target.get_node_or_null("Health")
-	if health is ResourceComponent:
-		health.decrease(amount)
 
 #endregion

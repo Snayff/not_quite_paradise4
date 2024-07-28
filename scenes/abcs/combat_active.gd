@@ -42,7 +42,7 @@ func _ready() -> void:
 	creator.target_changed.connect(_set_target_actor)
 
 	# config cooldown timer
-	cooldown_timer.wait_time = cooldown
+	cooldown_timer.start(cooldown)
 
 	# config effect chain
 	effect_chain.caster = creator
@@ -69,6 +69,7 @@ func _set_target_actor(actor: CombatActor) -> void:
 	if actor is CombatActor:
 		target_actor = actor
 		cooldown_timer.timeout.connect(cast)
+		target_actor.died.connect(_set_target_actor.bind(null))
 	else:
 		# if no target then keep cooldown going but dont connect to the cast
 		cooldown_timer.timeout.disconnect(cast)

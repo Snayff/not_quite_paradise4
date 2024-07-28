@@ -17,8 +17,12 @@ extends EffectChain
 # @export_category("Component Links")
 # @export var
 #
-@export_category("Details")
+@export_category("On Hit")
 @export var damage: int = 1
+@export_category("Interval")
+@export var repeat_damage: int = 1
+@export var num_iterations: int = 10
+@export var interval: float = 1
 #endregion
 
 
@@ -30,7 +34,17 @@ extends EffectChain
 #region FUNCS
 func on_hit(hurtbox: HurtboxComponent) -> void:
 	var actor_hit: CombatActor = hurtbox.root
-	_effect_deal_damage(actor_hit, damage)
+	var effect = DealDamageEffect.new()
+	effect.damage = damage
+	effect.apply(actor_hit)
+
+	effect = RepeatApplicationEffect.new()
+	effect.interval = interval
+	effect.num_iterations = num_iterations
+	var interval_effect = DealDamageEffect.new()
+	interval_effect.damage = repeat_damage
+	effect.effects.append(interval_effect)
+	effect.apply(actor_hit)
 
 
 

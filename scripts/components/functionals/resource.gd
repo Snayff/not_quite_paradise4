@@ -15,6 +15,7 @@ signal max_value_changed() ## the resource's max value has changed
 	set(value):
 		_value = value
 		value_changed.emit()
+		print("Resource is now", value)
 		# Signal out when health is at 0
 		if value == 0: emptied.emit()
 @export var max_value: int:

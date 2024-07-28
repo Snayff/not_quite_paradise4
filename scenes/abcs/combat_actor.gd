@@ -4,7 +4,8 @@ class_name CombatActor
 extends Node2D
 
 
-signal target_changed(actor: CombatActor)
+signal target_changed(actor: CombatActor)  ## changed target to new combat_actor
+signal died  ## actor has died
 
 
 @onready var health: ResourceComponent = %Health
@@ -20,6 +21,8 @@ signal target_changed(actor: CombatActor)
 func _ready() -> void:
 	if health is ResourceComponent:
 		health.value_decreased.connect(on_hit_flash.activate)  # activate flash on hit
+		health.emptied.connect(func(): died.emit())  # inform of death when empty
+
 
 	target_changed.emit(target)
 
