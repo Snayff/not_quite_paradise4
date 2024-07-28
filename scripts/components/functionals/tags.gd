@@ -42,3 +42,10 @@ func has_tag(tag: Constants.COMBAT_TAG) -> bool:
 	if tag in _tags:
 		return true
 	return false
+
+## check if a group of tags all exist
+func has_tags(tags: Array[Constants.COMBAT_TAG]) -> bool:
+	for tag in tags:
+		if not tag in _tags:
+			return false
+	return true

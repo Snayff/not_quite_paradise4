@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://b71tjsbg3f1e4"]
 
 [ext_resource type="Script" path="res://scenes/abcs/physical_projectile.gd" id="1_xfppo"]
-[ext_resource type="Script" path="res://scripts/functionals/hitbox.gd" id="2_f88a1"]
-[ext_resource type="Script" path="res://scripts/functionals/movement.gd" id="3_soigt"]
-[ext_resource type="Script" path="res://scripts/functionals/spawner.gd" id="4_78i0h"]
-[ext_resource type="Script" path="res://scripts/functionals/death_trigger.gd" id="6_mn4qt"]
+[ext_resource type="Script" path="res://scripts/components/functionals/hitbox.gd" id="2_3ly8p"]
+[ext_resource type="Script" path="res://scripts/components/functionals/movement.gd" id="3_r7m4a"]
+[ext_resource type="Script" path="res://scripts/components/functionals/spawner.gd" id="4_nys0u"]
+[ext_resource type="Script" path="res://scripts/components/functionals/death_trigger.gd" id="5_i6an6"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_c16yo"]
 
@@ -22,25 +22,25 @@ autoplay = "default"
 unique_name_in_owner = true
 collision_layer = 0
 collision_mask = 0
-script = ExtResource("2_f88a1")
+script = ExtResource("2_3ly8p")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
 
 [node name="MovementComponent" type="Node" parent="." node_paths=PackedStringArray("root")]
 unique_name_in_owner = true
-script = ExtResource("3_soigt")
+script = ExtResource("3_r7m4a")
 root = NodePath("..")
 
 [node name="OnHitEffectSpawner" type="Node2D" parent="."]
 unique_name_in_owner = true
-script = ExtResource("4_78i0h")
+script = ExtResource("4_nys0u")
 
 [node name="DeathTrigger" type="Node" parent="." node_paths=PackedStringArray("root", "destroy_effect_spawner")]
 unique_name_in_owner = true
-script = ExtResource("6_mn4qt")
+script = ExtResource("5_i6an6")
 root = NodePath("..")
 destroy_effect_spawner = NodePath("../OnDeathEffectSpawner")
 
 [node name="OnDeathEffectSpawner" type="Node2D" parent="."]
 unique_name_in_owner = true
-script = ExtResource("4_78i0h")
+script = ExtResource("4_nys0u")

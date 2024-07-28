@@ -3,8 +3,10 @@
 class_name CombatActive
 extends Node2D
 
+
 @onready var cooldown_timer: Timer = %CooldownTimer
 @onready var projectile_spawner: SpawnerComponent = %ProjectileSpawner
+@onready var effect_chain: EffectChain = %EffectChain
 
 
 @export_category("Component Links")
@@ -42,7 +44,10 @@ func _ready() -> void:
 	# config cooldown timer
 	cooldown_timer.wait_time = cooldown
 
-func cast()-> void:
+	# config effect chain
+	effect_chain.caster = creator
+
+func cast()-> void:  # NOTE: should this be in an activation node?
 	if not target_actor is CombatActor and not target_position is Vector2:
 		push_error("No target given to cast.")
 		return
@@ -58,6 +63,7 @@ func cast()-> void:
 		projectile.set_target_actor(target_actor)
 	elif target_position is Vector2:
 		projectile.set_target_position(target_position)
+	projectile.hitbox.hit_hurtbox.connect(effect_chain.on_hit)
 
 func _set_target_actor(actor: CombatActor) -> void:
 	if actor is CombatActor:

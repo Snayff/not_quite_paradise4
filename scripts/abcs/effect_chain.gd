@@ -1,5 +1,5 @@
 ## abc for a series of effects
-#@icon("")
+@icon("res://assets/node_icons/effect_chain.png")
 class_name EffectChain
 extends Node
 
@@ -20,25 +20,44 @@ extends Node
 #
 @export_category("Details")
 @export var caster_required_tags: Array[Constants.COMBAT_TAG] = []  ## tags the caster must have to be able to activate
-@export var target_required_tags: Array[Constants.COMBAT_TAG] = []  ## tags the target must have to be able to activate
+@export var target_required_tags: Array[Constants.COMBAT_TAG] = []  ## tags the target must have to be able to effect
 #endregion
 
 
 #region VARS
-
+var caster: CombatActor
 #endregion
 
 
 #region FUNCS
+
+
 ## check the conditions to activate are met
+##
+## this is usually casting, but can be activated by other means.
 func can_activate() -> bool:
+	var tags = caster.get_node_or_null("Tags")
+	if tags is TagsComponent:
+		return tags.has_tags(caster_required_tags)
 	return false
 
-## activate the chain of effects
+
+## activate the chain of effects.
+##
+## this is usually casting, but can be activated by other means.
 func activate() -> void:
 	pass
 
+func on_activate() -> void:
+	pass
 
+func on_hit(hurtbox: HurtboxComponent) -> void:
+	pass
 
+## reduce health of target
+func _effect_deal_damage(target: CombatActor, amount: int) -> void:
+	var health = target.get_node_or_null("Health")
+	if health is ResourceComponent:
+		health.decrease(amount)
 
 #endregion

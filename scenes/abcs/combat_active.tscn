@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cn8jpy03lpd4m"]
 
 [ext_resource type="Script" path="res://scenes/abcs/combat_active.gd" id="1_lm2qw"]
-[ext_resource type="Script" path="res://scripts/functionals/spawner.gd" id="2_p0160"]
+[ext_resource type="Script" path="res://scripts/components/functionals/spawner.gd" id="2_unp6u"]
 
 [node name="CombatActive" type="Node2D"]
 script = ExtResource("1_lm2qw")
@@ -12,4 +12,4 @@ autostart = true
 
 [node name="ProjectileSpawner" type="Node2D" parent="."]
 unique_name_in_owner = true
-script = ExtResource("2_p0160")
+script = ExtResource("2_unp6u")
