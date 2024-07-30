@@ -1,4 +1,6 @@
 ## abc for a series of effects
+##
+## an EffectChain usually remains active as a child of a [CombatActive], meaning it isnt freed and reinstatiated.
 @icon("res://assets/node_icons/effect_chain.png")
 class_name EffectChain
 extends Node
@@ -32,10 +34,6 @@ var _startup_allowance: float = 5.0  ## time to allow effects to be added to the
 
 
 #region FUNCS
-func _process(delta: float) -> void:
-	_startup_allowance -= delta
-	if len(_active_effects) == 0 and _startup_allowance <= 0:
-		_terminate()
 
 ########### ACTIVATIONS ############
 ## check the conditions to activate are met
@@ -72,8 +70,6 @@ func _register_effect(effect: Effect) -> void:
 func _cleanup_effect(effect: Effect) -> void:
 	if effect in _active_effects:
 		_active_effects.erase(effect)
-		if len(_active_effects) == 0:
-			_terminate()
 
 func _terminate() -> void:
 	queue_free()
