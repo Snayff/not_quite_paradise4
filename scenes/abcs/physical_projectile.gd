@@ -15,9 +15,9 @@ var target_actor: CombatActor:
 	set(value):
 		movement_component.target_actor = value
 		target_actor = value
+
 # NOTE: this seems dumb. Maybe use a data class and deliver that?
 var creator: CombatActor  ## who created the projectile
-var damage: int
 var travel_range: int
 var valid_targets: Constants.TARGET
 var team: Constants.TEAM
@@ -37,6 +37,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if movement_component.distance_travelled >= travel_range:
+		print_debug("Projectile hit max range before hitting anything. ")
 		death_trigger.activate()
 
 ## trigger on hit effects, if target is valid

@@ -35,11 +35,9 @@ root = NodePath("..")
 unique_name_in_owner = true
 script = ExtResource("4_nys0u")
 
-[node name="DeathTrigger" type="Node" parent="." node_paths=PackedStringArray("root", "destroy_effect_spawner")]
+[node name="DeathTrigger" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("5_i6an6")
-root = NodePath("..")
-destroy_effect_spawner = NodePath("../OnDeathEffectSpawner")
 
 [node name="OnDeathEffectSpawner" type="Node2D" parent="."]
 unique_name_in_owner = true

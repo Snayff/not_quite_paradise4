@@ -21,28 +21,29 @@ extends Node
 # @export var
 #
 @export_category("Details")
-@export var caster_required_tags: Array[Constants.COMBAT_TAG] = []  ## tags the caster must have to be able to activate
-@export var target_required_tags: Array[Constants.COMBAT_TAG] = []  ## tags the target must have to be able to effect
+@export var _caster_required_tags: Array[Constants.COMBAT_TAG] = []  ## tags the caster must have to be able to activate
+@export var target_required_tags: Array[Constants.COMBAT_TAG] = []  ## tags the target must have to be able to effect  # NOTE: not currently used. Should maybe be on the effect.
 #endregion
 
 
 #region VARS
-var caster: CombatActor
+var _caster: CombatActor
 var _active_effects: Array[Effect] = []  ## an array of all active effects. Each effect needs to be removed when terminated.
-var _startup_allowance: float = 5.0  ## time to allow effects to be added to the effect chain, so that we dont clean up too early
 #endregion
 
 
 #region FUNCS
+func set_caster(caster: CombatActor) -> void:
+	_caster = caster
 
 ########### ACTIVATIONS ############
 ## check the conditions to activate are met
 ##
 ## this is usually casting, but can be activated by other means.
 func can_activate() -> bool:
-	var tags = caster.get_node_or_null("Tags")
+	var tags = _caster.get_node_or_null("Tags")
 	if tags is TagsComponent:
-		return tags.has_tags(caster_required_tags)
+		return tags.has_tags(_caster_required_tags)
 	return false
 
 ## activate the chain of effects.

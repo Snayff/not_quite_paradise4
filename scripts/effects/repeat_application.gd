@@ -18,18 +18,22 @@ extends Effect
 # @export_category("Component Links")
 # @export var
 #
-@export_category("Details")
-@export var interval: float = 1.0  ## how long between each application
-@export var num_iterations: int = 1  ## how many iterations total
-@export var _effects: Array[Effect] = []  ## the effects to apply each interval
+#@export_category("Details")
+
 
 #endregion
 
 
 #region VARS
+# internals
 var _current_iteration: int = 0
 var _target: CombatActor
 var _timer: Timer = Timer.new()
+var _effects: Array[Effect] = []  ## the effects to apply each interval
+
+# config
+var interval: float = 1.0  ## how long between each application
+var num_iterations: int = 1  ## how many iterations total
 #endregion
 
 

@@ -48,11 +48,8 @@ script = ExtResource("3_wb4p5")
 hurtbox = NodePath("../HurtboxComponent")
 root_actor = NodePath("..")
 
-[node name="DeathTrigger" type="Node" parent="." node_paths=PackedStringArray("root", "resource", "destroy_effect_spawner")]
+[node name="DeathTrigger" type="Node" parent="."]
 script = ExtResource("4_jbu0c")
-root = NodePath("..")
-resource = NodePath("../Health")
-destroy_effect_spawner = NodePath("../DeathEffectSpawner")
 
 [node name="DeathEffectSpawner" type="Node2D" parent="."]
 script = ExtResource("5_8f86d")

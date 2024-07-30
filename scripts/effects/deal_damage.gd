@@ -17,14 +17,14 @@ extends Effect
 #region EXPORTS
 # @export_category("Component Links")
 # @export var
-@export_category("Details")
-@export var damage: int = 1
-@export var is_one_shot: bool = true  ## if true, terminates after 1 application. if false, needs to be terminated manually.
+#@export_category("Details")
+
 #endregion
 
 
 #region VARS
-
+var damage: int = 1
+var is_one_shot: bool = true  ## if true, terminates after 1 application. if false, needs to be terminated manually.
 #endregion
 
 

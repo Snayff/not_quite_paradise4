@@ -5,11 +5,8 @@
 [ext_resource type="Script" path="res://scripts/effect_chains/fireblast.gd" id="3_rbbfq"]
 
 [node name="Fireblast" instance=ExtResource("1_34rtn")]
-valid_targets = 2
-delivery_method = "projectile"
-travel_range = 100
-damage = 1
-cooldown = 1.5
+_valid_targets = 2
+_travel_range = 100
 
 [node name="ProjectileSpawner" parent="." index="1"]
 scene = ExtResource("2_figyj")

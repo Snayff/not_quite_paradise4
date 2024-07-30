@@ -1,5 +1,5 @@
-@icon("res://assets/node_icons/tags.png")
 ## manage tags on an entity
+@icon("res://assets/node_icons/tags.png")
 class_name TagsComponent
 extends Node
 
