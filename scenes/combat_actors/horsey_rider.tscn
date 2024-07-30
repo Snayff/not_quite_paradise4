@@ -58,7 +58,8 @@ shape = SubResource("CircleShape2D_1e663")
 scene = ExtResource("6_n6jvf")
 
 [node name="Health" parent="." index="7"]
-_value = 2
+_value = 10
+max_value = 10
 
 [node name="ProjectilePosition" parent="." index="9"]
 position = Vector2(12, 0)

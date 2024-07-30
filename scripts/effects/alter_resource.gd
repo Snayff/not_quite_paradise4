@@ -48,7 +48,4 @@ func apply(target: CombatActor) -> void:
 		# apply multiplier
 		resource.set_value(resource.value * multiplier)
 
-
-
-
 #endregion

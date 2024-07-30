@@ -5,7 +5,7 @@ extends Node
 
 
 #region SIGNALS
-
+signal terminated(effect: Effect)
 #endregion
 
 
@@ -23,17 +23,22 @@ extends Node
 
 
 #region VARS
-
+var _parent: EffectChain
 #endregion
 
 
 #region FUNCS
+func _init(parent: EffectChain) -> void:
+	_parent = parent
+
+## apply the effect to the target
 func apply(target: CombatActor) -> void:
 	pass
 
-
-
-
+## finish and clean up
+func terminate() -> void:
+	terminated.emit(self)
+	queue_free()
 
 
 

@@ -19,6 +19,7 @@ extends Effect
 # @export var
 @export_category("Details")
 @export var damage: int = 1
+@export var is_one_shot: bool = true  ## if true, terminates after 1 application. if false, needs to be terminated manually.
 #endregion
 
 
@@ -35,10 +36,7 @@ func apply(target: CombatActor) -> void:
 	if health is ResourceComponent:
 		health.decrease(damage)
 
-
-
-
-
-
+	if is_one_shot:
+		terminate()
 
 #endregion

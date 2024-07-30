@@ -26,10 +26,16 @@ extends Node
 
 #region VARS
 var caster: CombatActor
+var _active_effects: Array[Effect] = []  ## an array of all active effects. Each effect needs to be removed when terminated.
+var _startup_allowance: float = 5.0  ## time to allow effects to be added to the effect chain, so that we dont clean up too early
 #endregion
 
 
 #region FUNCS
+func _process(delta: float) -> void:
+	_startup_allowance -= delta
+	if len(_active_effects) == 0 and _startup_allowance <= 0:
+		_terminate()
 
 ########### ACTIVATIONS ############
 ## check the conditions to activate are met
@@ -53,4 +59,22 @@ func on_activate() -> void:
 func on_hit(hurtbox: HurtboxComponent) -> void:
 	pass
 
+## register an effect with the internals, for automated cleanup
+func _register_effect(effect: Effect) -> void:
+	if effect is Effect:
+		add_child(effect)
+		_active_effects.append(effect)
+		effect.terminated.connect(_cleanup_effect)
+
+## remove any lingering aspects of an effect in this class
+##
+## called automatically on effect.terminate()
+func _cleanup_effect(effect: Effect) -> void:
+	if effect in _active_effects:
+		_active_effects.erase(effect)
+		if len(_active_effects) == 0:
+			_terminate()
+
+func _terminate() -> void:
+	queue_free()
 #endregion

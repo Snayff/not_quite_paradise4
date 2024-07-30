@@ -15,7 +15,6 @@ signal max_value_changed() ## the resource's max value has changed
 	set(value):
 		_value = value
 		value_changed.emit()
-		print("Resource is now", value)
 		# Signal out when health is at 0
 		if value == 0: emptied.emit()
 @export var max_value: int:
@@ -35,6 +34,7 @@ var _regen_timer: Timer = Timer.new()
 
 func _ready() -> void:
 	# setup regen timer
+	add_child(_regen_timer)
 	_regen_timer.autostart = true
 	_regen_timer.wait_time = 1
 	_regen_timer.timeout.connect(increase.bind(regeneration_per_second))

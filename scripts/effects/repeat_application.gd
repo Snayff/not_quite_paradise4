@@ -1,7 +1,7 @@
 ## apply an array of effects a number of times, at given intervals
 #@icon("")
 class_name RepeatApplicationEffect
-extends Node
+extends Effect
 
 
 #region SIGNALS
@@ -21,7 +21,7 @@ extends Node
 @export_category("Details")
 @export var interval: float = 1.0  ## how long between each application
 @export var num_iterations: int = 1  ## how many iterations total
-@export var effects: Array[Effect] = []  ## the effects to apply each interval
+@export var _effects: Array[Effect] = []  ## the effects to apply each interval
 
 #endregion
 
@@ -35,6 +35,7 @@ var _timer: Timer = Timer.new()
 
 #region FUNCS
 func _ready() -> void:
+	add_child(_timer)
 	_timer.autostart = false
 	_timer.wait_time = interval
 	_timer.timeout.connect(_interval_passed)
@@ -42,22 +43,28 @@ func _ready() -> void:
 func apply(target: CombatActor) -> void:
 	if target is CombatActor:
 		_target = target
-	_timer.start()  #FIXME: timer not added to scene tree
+	_timer.start()
 
 func _interval_passed() -> void:
-	for effect in effects:
-		if effect is Effect:
+	for effect in _effects:
+		if effect is Effect and is_instance_valid(_target):
 			effect.apply(_target)
 
 	_current_iteration += 1
 	if _current_iteration >= num_iterations:
-		_timer.stop
-		queue_free()
+		_timer.stop()
+		terminate()
 
+func terminate() -> void:
+	super()
+	_timer.timeout.disconnect(_interval_passed)
+	for effect in _effects:
+		effect.terminate()
 
-
-
-
+## add an effect to be applied each interval
+func add_repeating_effect(effect: Effect) -> void:
+	if effect is Effect:
+		_effects.append(effect)
 
 
 #endregion

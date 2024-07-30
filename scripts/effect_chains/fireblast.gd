@@ -34,17 +34,22 @@ extends EffectChain
 #region FUNCS
 func on_hit(hurtbox: HurtboxComponent) -> void:
 	var actor_hit: CombatActor = hurtbox.root
-	var effect = DealDamageEffect.new()
+	var effect = DealDamageEffect.new(self)
+	_register_effect(effect)
 	effect.damage = damage
 	effect.apply(actor_hit)
 
-	effect = RepeatApplicationEffect.new()
+	effect = RepeatApplicationEffect.new(self)
+	_register_effect(effect)
 	effect.interval = interval
 	effect.num_iterations = num_iterations
-	var interval_effect = DealDamageEffect.new()
+	var interval_effect = DealDamageEffect.new(self)
 	interval_effect.damage = repeat_damage
-	effect.effects.append(interval_effect)
+	interval_effect.is_one_shot = false
+	effect.add_repeating_effect(interval_effect)
 	effect.apply(actor_hit)
+
+	# TODO: add create visual effect
 
 
 
