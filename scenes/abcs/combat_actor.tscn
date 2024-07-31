@@ -37,6 +37,7 @@ autoplay = "idle"
 [node name="HurtboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("root")]
 unique_name_in_owner = true
 collision_mask = 0
+monitoring = false
 script = ExtResource("2_fwdkd")
 root = NodePath("..")
 

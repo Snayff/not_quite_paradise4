@@ -3,6 +3,8 @@
 class_name PhysicalProjectile
 extends RigidBody2D
 
+signal hit_valid_target(hurtbox: HurtboxComponent)
+
 
 @onready var on_hit_effect_spawner: SpawnerComponent = %OnHitEffectSpawner
 @onready var hitbox: HitboxComponent = %HitboxComponent
@@ -15,14 +17,14 @@ var target_actor: CombatActor:
 	set(value):
 		movement_component.target_actor = value
 		target_actor = value
-
-# NOTE: this seems dumb. Maybe use a data class and deliver that?
+# config
 var creator: CombatActor  ## who created the projectile
 var travel_range: int
-var valid_targets: Constants.TARGET
+var valid_targets: Constants.TARGET_OPTION
 var team: Constants.TEAM
 var target_resource: ResourceComponent  ## the resource damaged when the attached Hurtbox is hit
 var speed: float  = 0.5 ## must be >0
+var effect_chain: EffectChain  ## effect chain to be called when hitting valid target
 
 
 func _ready() -> void:
@@ -43,20 +45,28 @@ func _process(delta: float) -> void:
 ## trigger on hit effects, if target is valid
 func _on_hit(hurtbox: HurtboxComponent) -> void:
 	if target_is_valid(hurtbox):
+		hurtbox.hurt.emit(self)
 		on_hit_effect_spawner.spawn_scene(global_position)
 		death_trigger.activate()
+		hit_valid_target.emit(hurtbox)
 
 ## check target is of type expected in `valid_targets`.
 ## Only check against the items that identify self or not self, as the team element is handled by collision layer/mask.
 func target_is_valid(hurtbox: HurtboxComponent) -> bool:
-	if valid_targets == Constants.TARGET.self_:
+	if valid_targets == Constants.TARGET_OPTION.self_:
 		if hitbox.originator == hurtbox.root:
 			return true
 		else:
 			return false
 
-	elif valid_targets == Constants.TARGET.other:
+	elif valid_targets == Constants.TARGET_OPTION.other:
 		if hitbox.originator != hurtbox.root:
+			return true
+		else:
+			return false
+
+	elif valid_targets == Constants.TARGET_OPTION.target:
+		if target_actor == hurtbox.root:
 			return true
 		else:
 			return false
@@ -65,25 +75,25 @@ func target_is_valid(hurtbox: HurtboxComponent) -> bool:
 	return true
 
 func _update_hitbox_collision() -> void:
-	if hitbox is HitboxComponent and team is Constants.TEAM and valid_targets is Constants.TARGET:
+	if hitbox is HitboxComponent and team is Constants.TEAM and valid_targets is Constants.TARGET_OPTION:
 		if team == Constants.TEAM.team1:
-			if valid_targets == Constants.TARGET.self_ or  valid_targets == Constants.TARGET.ally:
+			if valid_targets == Constants.TARGET_OPTION.self_ or valid_targets == Constants.TARGET_OPTION.ally:
 				hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_hurtbox], true)
 				hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_hurtbox], false)
-			elif valid_targets == Constants.TARGET.enemy:
+			elif valid_targets == Constants.TARGET_OPTION.enemy:
 				hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_hurtbox], false)
 				hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_hurtbox], true)
-			elif valid_targets == Constants.TARGET.other or valid_targets == Constants.TARGET.anyone:
+			elif valid_targets == Constants.TARGET_OPTION.other or valid_targets == Constants.TARGET_OPTION.anyone:
 				hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_hurtbox], true)
 				hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_hurtbox], true)
 		elif team == Constants.TEAM.team2:
-			if valid_targets == Constants.TARGET.self_ or  valid_targets == Constants.TARGET.ally:
+			if valid_targets == Constants.TARGET_OPTION.self_ or  valid_targets == Constants.TARGET_OPTION.ally:
 				hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_hurtbox], false)
 				hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_hurtbox], true)
-			elif valid_targets == Constants.TARGET.enemy:
+			elif valid_targets == Constants.TARGET_OPTION.enemy:
 				hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_hurtbox], true)
 				hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_hurtbox], false)
-			elif valid_targets == Constants.TARGET.other or valid_targets == Constants.TARGET.anyone:
+			elif valid_targets == Constants.TARGET_OPTION.other or valid_targets == Constants.TARGET_OPTION.anyone:
 				hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_hurtbox], true)
 				hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_hurtbox], true)
 		else:

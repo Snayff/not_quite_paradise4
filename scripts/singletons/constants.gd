@@ -23,12 +23,13 @@ const COLLISION_LAYER_MAP: Dictionary = {
 }
 
 ## target options
-enum TARGET {
+enum TARGET_OPTION {
 	self_,
 	ally,
 	enemy,
 	other,
-	anyone
+	anyone,
+	target,
 }
 
 ## tags that denote current properties

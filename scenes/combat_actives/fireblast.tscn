@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dy4cr4ku2spty" path="res://scenes/effects/fire.tscn" id="4_0h3fc"]
 
 [node name="Fireblast" instance=ExtResource("1_34rtn")]
-_valid_targets = 2
+_valid_targets = 5
 _travel_range = 100
 
 [node name="ProjectileSpawner" parent="." index="1"]

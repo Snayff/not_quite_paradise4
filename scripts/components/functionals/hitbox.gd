@@ -15,6 +15,7 @@ func _ready():
 	# Connect on area entered to our hurtbox entered function
 	area_entered.connect(_on_hurtbox_entered)
 
+## this is a wrapper for area entered
 func _on_hurtbox_entered(hurtbox: HurtboxComponent):
 	# Make sure the area we are overlapping is a hurtbox
 	if not hurtbox is HurtboxComponent: return
@@ -24,6 +25,3 @@ func _on_hurtbox_entered(hurtbox: HurtboxComponent):
 
 	# Signal out that we hit a hurtbox (this is useful for destroying projectiles when they hit something)
 	hit_hurtbox.emit(hurtbox)
-
-	# Have the hurtbox signal out that it was hit
-	hurtbox.hurt.emit(self)

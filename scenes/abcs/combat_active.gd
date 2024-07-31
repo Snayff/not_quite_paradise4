@@ -15,7 +15,7 @@ extends Node2D
 @export var _projectile_position: Marker2D  ## the actors projectile spawn location
 
 @export_category("Targeting")
-@export var _valid_targets: Constants.TARGET  ## who the active can affect
+@export var _valid_targets: Constants.TARGET_OPTION  ## who the active can affect
 
 @export_category("Travel")
 @export_enum("target", "projectile") var _delivery_method: String  ## how the active's effects are delivered  # NOTE: not used.
@@ -55,7 +55,7 @@ func cast()-> void:  # NOTE: should this be in an activation node?
 		projectile.set_target_actor(target_actor)
 	elif target_position is Vector2:
 		projectile.set_target_position(target_position)
-	projectile.hitbox.hit_hurtbox.connect(_effect_chain.on_hit)
+	projectile.hit_valid_target.connect(_effect_chain.on_hit)
 
 func set_target_actor(actor: CombatActor) -> void:
 	if actor is CombatActor:

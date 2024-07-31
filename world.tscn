@@ -65,4 +65,7 @@ position = Vector2(50, 46)
 target = NodePath("../HorseyRider")
 
 [node name="HorseyRider" parent="." instance=ExtResource("3_xkt6n")]
-position = Vector2(86, 46)
+position = Vector2(127, 69)
+
+[node name="HorseyRider2" parent="." instance=ExtResource("3_xkt6n")]
+position = Vector2(92, 58)
