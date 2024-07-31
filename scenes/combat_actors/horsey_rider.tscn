@@ -54,11 +54,6 @@ shape = SubResource("CircleShape2D_4njet")
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_1e663")
 
-[node name="DeathTrigger" parent="." index="4" node_paths=PackedStringArray("_root", "_resource", "_destroy_effect_spawner")]
-_root = NodePath("..")
-_resource = NodePath("../Health")
-_destroy_effect_spawner = NodePath("../DeathEffectSpawner")
-
 [node name="DeathEffectSpawner" parent="." index="5"]
 scene = ExtResource("6_n6jvf")
 

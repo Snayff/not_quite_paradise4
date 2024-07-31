@@ -23,6 +23,7 @@ extends EffectChain
 @export var _repeat_damage: int = 1
 @export var _num_iterations: int = 10
 @export var _interval: float = 1
+@export var _repeat_damage_animation: PackedScene  ## the animation to apply on interval
 #endregion
 
 
@@ -50,6 +51,9 @@ func on_hit(hurtbox: HurtboxComponent) -> void:
 	interval_effect.damage = _repeat_damage
 	interval_effect.is_one_shot = false
 	effect.add_repeating_effect(interval_effect)
+	var interval_animation = SpawnSceneEffect.new(self)
+	interval_animation.scene = _repeat_damage_animation
+	effect.add_repeating_effect(interval_animation)
 	effect.apply(actor_hit)
 
 	# TODO: add create visual effect

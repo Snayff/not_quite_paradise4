@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://dy4cr4ku2spty"]
+
+[ext_resource type="Texture2D" uid="uid://b7cpj3x1030t2" path="res://assets/effects/fire/FireWall(Frame1).png" id="1_wp8wl"]
+[ext_resource type="Texture2D" uid="uid://h3op5n404lfn" path="res://assets/effects/fire/FireWall(Frame2).png" id="2_qeu4a"]
+[ext_resource type="Script" path="res://scripts/components/visuals/oneshot_animation.gd" id="3_bgtvl"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e2yp8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_wp8wl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_qeu4a")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Fire" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_e2yp8")
+autoplay = "default"
+script = ExtResource("3_bgtvl")

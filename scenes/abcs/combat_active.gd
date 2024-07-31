@@ -57,6 +57,9 @@ func cast()-> void:  # NOTE: should this be in an activation node?
 		projectile.set_target_position(target_position)
 	projectile.hitbox.hit_hurtbox.connect(_effect_chain.on_hit)
 
+	#TEST
+	_travel_range = 0
+
 func set_target_actor(actor: CombatActor) -> void:
 	if actor is CombatActor:
 		target_actor = actor

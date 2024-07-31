@@ -2,7 +2,7 @@
 ##
 ## these are direct manipulations, no resistances are taken into consideration.
 #@icon("")
-class_name AlterResource
+class_name AlterResourceEffect
 extends Effect
 
 

@@ -48,8 +48,11 @@ script = ExtResource("3_wb4p5")
 hurtbox = NodePath("../HurtboxComponent")
 root_actor = NodePath("..")
 
-[node name="DeathTrigger" type="Node" parent="."]
+[node name="DeathTrigger" type="Node" parent="." node_paths=PackedStringArray("_root", "_resource", "_destroy_effect_spawner")]
 script = ExtResource("4_jbu0c")
+_root = NodePath("..")
+_resource = NodePath("../Health")
+_destroy_effect_spawner = NodePath("../DeathEffectSpawner")
 
 [node name="DeathEffectSpawner" type="Node2D" parent="."]
 script = ExtResource("5_8f86d")
@@ -74,3 +77,7 @@ max_value = 10
 [node name="Tags" type="Node" parent="."]
 script = ExtResource("8_ni5ln")
 _tags = Array[int]([3])
+
+[node name="ReusableSpawner" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("5_8f86d")

@@ -6,14 +6,17 @@ review:
 
 ## TODO ##
 - finish physical projectile
-	deal damage
-	can apply effects, e.g. knockback, status
+	travel range is handled by resource that drains on distance travelled
+		?projectile needs max travel distance and if 0, minimum duration (to allow hit registers)?
+	knockback
+	physics modifiers
 - create visual projectile
+	? do we need to differentiate between visual and physical projectiles?
+- effects
+	apply status effects
+		? on_trigger and connect to a relevant signal?
 
 
 
 ## THOUGHTS ##
-
-do we need to differentiate between visual and physical projectiles?
-projectile needs max travel distance and if 0, minimum duration (to allow hit registers)
 look at adding the signal visualiser add on, as signals are already getting messy

@@ -10,6 +10,7 @@ signal died  ## actor has died
 
 @onready var _health: ResourceComponent = %Health
 @onready var _on_hit_flash: FlashComponent = %OnHitFlash
+@onready var reusable_spawner: SpawnerComponent = %ReusableSpawner  ## component for spawning runtime-defined Nodes on the actor
 
 
 @export var target: CombatActor:  ## TODO: remove once proper targeting is in
