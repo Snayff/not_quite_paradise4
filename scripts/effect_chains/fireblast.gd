@@ -56,8 +56,6 @@ func on_hit(hurtbox: HurtboxComponent) -> void:
 	effect.add_repeating_effect(interval_animation)
 	effect.apply(actor_hit)
 
-	# TODO: add create visual effect
-
 
 
 

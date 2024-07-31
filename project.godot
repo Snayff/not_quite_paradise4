@@ -18,11 +18,16 @@ config/icon="res://icon.svg"
 [autoload]
 
 Constants="*res://scripts/singletons/constants.gd"
+Signal_Debugger="*res://addons/SignalVisualizer/Debugger/SignalDebugger.gd"
 
 [display]
 
 window/size/viewport_width=720
 window/size/viewport_height=480
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/SignalVisualizer/plugin.cfg")
 
 [layer_names]
 
