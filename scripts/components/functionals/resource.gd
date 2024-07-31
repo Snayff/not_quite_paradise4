@@ -1,5 +1,5 @@
-@icon("res://assets/node_icons/resource.png")
 ## info regarding a changeable value, such as health or mana.
+@icon("res://assets/node_icons/resource.png")
 class_name ResourceComponent
 extends Node
 
@@ -26,7 +26,7 @@ signal max_value_changed() ## the resource's max value has changed
 
 var value: int:
 	set(value):
-		push_warning("Can't set health directly. Use funcs.")
+		push_warning("ResourceComponent: Can't set value directly. Use funcs.")
 	get:
 		return _value
 var _regen_timer: Timer = Timer.new()

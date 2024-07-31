@@ -42,7 +42,7 @@ func _ready() -> void:
 
 func cast()-> void:  # NOTE: should this be in an activation node?
 	if not target_actor is CombatActor and not target_position is Vector2:
-		push_error("No target given to cast.")
+		push_error("CombatActive: No target given to cast.")
 		return
 
 	var projectile: PhysicalProjectile = _projectile_spawner.spawn_scene(_projectile_position.global_position)

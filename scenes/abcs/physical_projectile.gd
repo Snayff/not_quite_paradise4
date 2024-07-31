@@ -1,5 +1,5 @@
-@icon("res://assets/node_icons/projectile.png")
 ## a projectile with physics
+@icon("res://assets/node_icons/projectile.png")
 class_name PhysicalProjectile
 extends RigidBody2D
 
@@ -87,9 +87,9 @@ func _update_hitbox_collision() -> void:
 				hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_hurtbox], true)
 				hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_hurtbox], true)
 		else:
-			push_error("Team not found.")
+			push_error("PhysicalProjectile: Team not found.")
 	else:
-		push_warning("Not enough info to setup hitbox collisions. No masks set (so wont hit anything). ")
+		push_warning("PhysicalProjectile: Not enough info to setup hitbox collisions. No masks set (so wont hit anything). ")
 
 ## wrapper for setting movement component's target actor
 func set_target_actor(actor: CombatActor) -> void:

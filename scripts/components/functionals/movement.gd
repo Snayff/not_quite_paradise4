@@ -1,5 +1,5 @@
+## apply movement to the attached node
 @icon("res://assets/node_icons/move.png")
-## apply movement to the actor
 class_name MovementComponent
 extends Node
 
@@ -37,5 +37,5 @@ func _update_direction() -> void:
 	elif  target_position != Vector2.ZERO:
 		direction = target_position - root.global_position
 	else:
-		push_error("No target to move towards.")
+		push_error("MovementComponent: No target to move towards.")
 		direction = Vector2.ZERO

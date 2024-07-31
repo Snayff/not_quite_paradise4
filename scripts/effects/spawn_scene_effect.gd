@@ -1,4 +1,4 @@
-## class desc
+## class spawn a scene on a [CombatActor], using the CombatActor's ReusableSpawner (a [SpawnerComponent]).
 #@icon("")
 class_name SpawnSceneEffect
 extends Effect

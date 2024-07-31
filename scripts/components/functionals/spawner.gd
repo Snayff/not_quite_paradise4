@@ -15,7 +15,7 @@ extends Node2D
 ## returns the instance of the spawned scene.
 func spawn_scene(global_spawn_position: Vector2 = global_position, parent: Node = get_tree().current_scene) -> Node:
 	if not scene is PackedScene:
-		push_warning("Nothing to spawn.")
+		push_warning("SpawnerComponent: Nothing to spawn.")
 		return
 
 	# Instance the scene

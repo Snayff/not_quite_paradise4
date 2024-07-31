@@ -35,6 +35,5 @@ shape = SubResource("CircleShape2D_i6l54")
 [node name="OnHitEffectSpawner" parent="." index="4"]
 scene = ExtResource("3_qlhda")
 
-[node name="DeathTrigger" parent="." index="5" node_paths=PackedStringArray("_root", "_destroy_effect_spawner")]
+[node name="DeathTrigger" parent="." index="5" node_paths=PackedStringArray("_root")]
 _root = NodePath("..")
-_destroy_effect_spawner = NodePath("../OnDeathEffectSpawner")

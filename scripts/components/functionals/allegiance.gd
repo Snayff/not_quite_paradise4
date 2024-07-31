@@ -1,6 +1,6 @@
-@icon("res://assets/node_icons/allegiance.png")
 ## info regarding the team the actor is on.
 ## updates linked components to reflect the team.
+@icon("res://assets/node_icons/allegiance.png")
 class_name Allegiance
 extends Node
 
@@ -30,4 +30,4 @@ func _update_hurtbox_collisions() -> void:
 		hurtbox.set_collision_layer_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_hurtbox], false)
 		hurtbox.set_collision_layer_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_hurtbox], true)
 	else:
-		push_error("Team selected in Allegiance not found.")
+		push_error("Allegiance: Team selected in Allegiance not found.")
