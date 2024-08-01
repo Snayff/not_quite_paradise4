@@ -53,14 +53,10 @@ func cast()-> void:  # NOTE: should this be in an activation node?
 	var projectile: PhysicalProjectile = _projectile_spawner.spawn_scene(_projectile_position.global_position)
 	projectile.enable()
 	projectile.travel_range = _travel_range
-	projectile.team = _allegiance.team
-	projectile.valid_targets = _valid_targets
-	projectile.target_actor = target_actor
-	if target_actor is CombatActor:
-		projectile.set_target_actor(target_actor)
-	elif target_position is Vector2:
-		projectile.set_target_position(target_position)
+	projectile.set_target(target_actor, target_position)  # give both, blank one will be ignored
+	projectile.set_interaction_info(_allegiance.team, _valid_targets, _valid_targets)
 	projectile.hit_valid_target.connect(_effect_chain.on_hit)
+	projectile.update_collisions()
 
 
 func set_target_actor(actor: CombatActor) -> void:

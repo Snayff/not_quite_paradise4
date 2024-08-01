@@ -5,7 +5,7 @@ extends Node
 
 
 @export_category("Component Links")
-@export var root: RigidBody2D
+@export var root: Node2D
 
 
 var target_actor: CombatActor  ## the actor being targeted. use when target updating required. preferred over target_position.
@@ -13,14 +13,19 @@ var target_position: Vector2  ## the position being targeted.
 var direction: Vector2  ## direction towards target
 var distance_travelled: float = 0  ## how far we have travelled
 var speed: float
+var _movement_update_type: Constants.MOVEMENT_UPDATE_TYPE = Constants.MOVEMENT_UPDATE_TYPE.physics
 
 
 func _ready() -> void:
 	# check for mandatory properties set in editor
 	assert(root is Node2D, "Misssing `root`. ")
 
+	if root is RigidBody2D:
+		_movement_update_type = Constants.MOVEMENT_UPDATE_TYPE.physics
+	#elif root is
+
 func _physics_process(delta: float) -> void:
-	if is_instance_valid(target_actor):
+	if is_instance_valid(target_actor) and _movement_update_type == Constants.MOVEMENT_UPDATE_TYPE.physics:
 		# move towards target
 		_update_direction()
 		var force = direction * speed

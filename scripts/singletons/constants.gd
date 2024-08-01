@@ -14,12 +14,12 @@ enum COLLISION_LAYER {
 	team2_collision,
 }
 
-## collision layers mapped to their layer number
+## collision layers mapped to their layer number (not bit value)
 const COLLISION_LAYER_MAP: Dictionary = {
 	COLLISION_LAYER.team1_hurtbox: 1,
 	COLLISION_LAYER.team1_collision: 2,
-	COLLISION_LAYER.team2_hurtbox: 4,
-	COLLISION_LAYER.team2_collision: 8,
+	COLLISION_LAYER.team2_hurtbox: 3,
+	COLLISION_LAYER.team2_collision: 4,
 }
 
 ## target options
@@ -38,4 +38,11 @@ enum COMBAT_TAG {
 	dead,
 	out_of_stamina,
 	actor,
+}
+
+
+## how an entity moves in the world
+enum MOVEMENT_UPDATE_TYPE {
+	physics,
+	transform,
 }

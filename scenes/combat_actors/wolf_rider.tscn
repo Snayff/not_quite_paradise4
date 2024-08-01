@@ -49,6 +49,9 @@ shape = SubResource("CircleShape2D_nvgpk")
 [node name="AnimatedSprite2D" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_s36p7")
 
+[node name="HurtboxComponent" parent="." index="2"]
+collision_layer = 2
+
 [node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
 shape = SubResource("CircleShape2D_3e800")
 
