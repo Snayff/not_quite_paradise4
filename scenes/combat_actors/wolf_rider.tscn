@@ -1,18 +1,20 @@
-[gd_scene load_steps=11 format=3 uid="uid://b4xlnewit7p5l"]
+[gd_scene load_steps=10 format=3 uid="uid://cta4xur1b7ano"]
 
-[ext_resource type="PackedScene" uid="uid://0of6a72gstpj" path="res://scenes/abcs/combat_actor.tscn" id="1_8ep5a"]
-[ext_resource type="Texture2D" uid="uid://dopseo1w5jxrl" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame1).png" id="2_ia004"]
-[ext_resource type="Texture2D" uid="uid://y6wkn3lkdhy1" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame2).png" id="3_cqpjg"]
-[ext_resource type="Texture2D" uid="uid://dcdgt417cspcb" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame3).png" id="4_1yqef"]
-[ext_resource type="Texture2D" uid="uid://bwamwonvpg20u" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame4).png" id="5_c5krc"]
-[ext_resource type="PackedScene" uid="uid://kupnh58vddx7" path="res://scenes/effects/death.tscn" id="6_1q5kf"]
-[ext_resource type="PackedScene" uid="uid://lsbutqx8scoq" path="res://scenes/combat_actives/fireblast.tscn" id="7_7rdur"]
+[ext_resource type="PackedScene" uid="uid://cgd54nt0un6ix" path="res://scenes/abcs/combat_actor.tscn" id="1_m432m"]
+[ext_resource type="Texture2D" uid="uid://dopseo1w5jxrl" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame1).png" id="2_2j4ap"]
+[ext_resource type="Texture2D" uid="uid://y6wkn3lkdhy1" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame2).png" id="3_k08ba"]
+[ext_resource type="Texture2D" uid="uid://dcdgt417cspcb" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame3).png" id="4_qq01u"]
+[ext_resource type="Texture2D" uid="uid://bwamwonvpg20u" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame4).png" id="5_2jq15"]
+[ext_resource type="PackedScene" uid="uid://lsbutqx8scoq" path="res://scenes/combat_actives/fireblast.tscn" id="6_jm2bo"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_fpxp7"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_nvgpk"]
+radius = 6.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s36p7"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_ia004")
+"texture": ExtResource("2_2j4ap")
 }],
 "loop": true,
 "name": &"idle",
@@ -20,53 +22,45 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_ia004")
+"texture": ExtResource("2_2j4ap")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_cqpjg")
+"texture": ExtResource("3_k08ba")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_1yqef")
+"texture": ExtResource("4_qq01u")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_c5krc")
+"texture": ExtResource("5_2jq15")
 }],
 "loop": true,
 "name": &"move",
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_hw3ku"]
-radius = 6.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_3e800"]
+radius = 7.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_xglps"]
-radius = 6.0
+[node name="WolfRider" instance=ExtResource("1_m432m")]
 
-[node name="WolfRider" instance=ExtResource("1_8ep5a")]
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("CircleShape2D_nvgpk")
 
-[node name="AnimatedSprite2D" parent="." index="0"]
-sprite_frames = SubResource("SpriteFrames_fpxp7")
-
-[node name="CollisionShape2D" parent="RigidBody2D" index="0"]
-position = Vector2(-1, 2)
-shape = SubResource("CircleShape2D_hw3ku")
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_s36p7")
 
 [node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
-position = Vector2(-1, 2)
-shape = SubResource("CircleShape2D_xglps")
+shape = SubResource("CircleShape2D_3e800")
 
-[node name="DeathTrigger" parent="." index="4" node_paths=PackedStringArray("_root", "_resource", "_destroy_effect_spawner")]
-_root = NodePath("..")
-_resource = NodePath("../Health")
-_destroy_effect_spawner = NodePath("../DeathEffectSpawner")
+[node name="Health" parent="." index="7"]
+_value = 10
+max_value = 10
 
-[node name="DeathEffectSpawner" parent="." index="5"]
-scene = ExtResource("6_1q5kf")
+[node name="ProjectilePosition" parent="." index="9"]
+position = Vector2(12, 0)
 
-[node name="Fireblast" parent="." index="9" node_paths=PackedStringArray("_creator", "_allegiance", "_projectile_position") instance=ExtResource("7_7rdur")]
+[node name="Fireblast" parent="." index="12" node_paths=PackedStringArray("_creator", "_allegiance", "_projectile_position") instance=ExtResource("6_jm2bo")]
 _creator = NodePath("..")
 _allegiance = NodePath("../Allegiance")
 _projectile_position = NodePath("../ProjectilePosition")
-
-[node name="ProjectilePosition" parent="." index="10"]
-position = Vector2(11, 0)
+_delivery_method = "projectile"

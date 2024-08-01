@@ -1,7 +1,7 @@
 @icon("res://assets/node_icons/actor.png")
 ## entity that can move and fight in combat
 class_name CombatActor
-extends Node2D
+extends RigidBody2D
 
 
 signal target_changed(actor: CombatActor)  ## changed target to new combat_actor
@@ -31,4 +31,9 @@ func _ready() -> void:
 				target_changed.connect(child.set_target_actor)
 
 	target_changed.emit(target)
+
+func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
+	# stop sprite spinning
+	rotation_degrees = 0
+	#linear_velocity = linear_velocity * 0.9
 

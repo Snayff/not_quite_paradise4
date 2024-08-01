@@ -25,10 +25,12 @@ var team: Constants.TEAM
 var target_resource: ResourceComponent  ## the resource damaged when the attached Hurtbox is hit
 var speed: float  = 0.5 ## must be >0
 var effect_chain: EffectChain  ## effect chain to be called when hitting valid target
+var force: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
 	hitbox.hit_hurtbox.connect(_on_hit)
+	hit_valid_target.connect(death_trigger.activate.unbind(1))
 
 	movement_component.speed = speed
 
@@ -36,6 +38,12 @@ func _ready() -> void:
 		disable()
 
 	_update_hitbox_collision()
+
+func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
+	if target_actor == null:
+		return
+
+	apply_central_impulse(force)
 
 func _process(delta: float) -> void:
 	if movement_component.distance_travelled >= travel_range:

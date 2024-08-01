@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://world.gd" id="1_e5ypc"]
 [ext_resource type="Texture2D" uid="uid://csx5xkiiijtyh" path="res://assets/tiles/lava_caves/LB-Lava-Lake-Main.png" id="1_ml8d5"]
-[ext_resource type="PackedScene" uid="uid://b4xlnewit7p5l" path="res://scenes/combat_actors/wolf_rider.tscn" id="2_1xjme"]
-[ext_resource type="PackedScene" uid="uid://crlrjwg1g5vtc" path="res://scenes/combat_actors/horsey_rider.tscn" id="3_xkt6n"]
+[ext_resource type="PackedScene" uid="uid://cta4xur1b7ano" path="res://scenes/combat_actors/wolf_rider.tscn" id="5_gequ5"]
+[ext_resource type="PackedScene" uid="uid://bkqc7x4yp0pn2" path="res://scenes/combat_actors/horsey_rider.tscn" id="6_d7rtk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pfbyd"]
 texture = ExtResource("1_ml8d5")
@@ -60,12 +60,15 @@ layer_0/tile_data = PackedInt32Array(0, 65536, 1, 65536, 0, 3, 131072, 0, 3, 196
 anchor_mode = 0
 zoom = Vector2(4, 4)
 
-[node name="WolfRider" parent="." node_paths=PackedStringArray("target") instance=ExtResource("2_1xjme")]
-position = Vector2(50, 46)
-target = NodePath("../HorseyRider")
+[node name="WolfRider2" parent="." node_paths=PackedStringArray("target") instance=ExtResource("5_gequ5")]
+position = Vector2(67, 57)
+collision_layer = 1
+collision_mask = 1
+linear_damp = 999999.0
+target = NodePath("../HorseyRider2")
 
-[node name="HorseyRider" parent="." instance=ExtResource("3_xkt6n")]
-position = Vector2(127, 69)
-
-[node name="HorseyRider2" parent="." instance=ExtResource("3_xkt6n")]
-position = Vector2(92, 58)
+[node name="HorseyRider2" parent="." instance=ExtResource("6_d7rtk")]
+position = Vector2(162, 60)
+collision_layer = 1
+collision_mask = 1
+linear_damp = 999999.0

@@ -1,15 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://0of6a72gstpj"]
+[gd_scene load_steps=10 format=3 uid="uid://cgd54nt0un6ix"]
 
-[ext_resource type="Script" path="res://scenes/abcs/combat_actor.gd" id="1_7siy7"]
-[ext_resource type="Script" path="res://scripts/components/functionals/hurtbox.gd" id="2_fwdkd"]
-[ext_resource type="Script" path="res://scripts/components/functionals/allegiance.gd" id="3_wb4p5"]
-[ext_resource type="Script" path="res://scripts/components/functionals/death_trigger.gd" id="4_jbu0c"]
-[ext_resource type="Script" path="res://scripts/components/functionals/spawner.gd" id="5_8f86d"]
-[ext_resource type="Script" path="res://scripts/components/visuals/flash.gd" id="6_e1his"]
-[ext_resource type="Script" path="res://scripts/components/functionals/resource.gd" id="7_1mgn1"]
-[ext_resource type="Script" path="res://scripts/components/functionals/tags.gd" id="8_ni5ln"]
+[ext_resource type="Script" path="res://scenes/abcs/combat_actor.gd" id="1_7c8xu"]
+[ext_resource type="Script" path="res://scripts/components/functionals/hurtbox.gd" id="2_24d4q"]
+[ext_resource type="Script" path="res://scripts/components/functionals/allegiance.gd" id="3_y0mah"]
+[ext_resource type="Script" path="res://scripts/components/functionals/death_trigger.gd" id="4_4tuqr"]
+[ext_resource type="Script" path="res://scripts/components/functionals/spawner.gd" id="5_wut4g"]
+[ext_resource type="Script" path="res://scripts/components/visuals/flash.gd" id="6_uyev7"]
+[ext_resource type="Script" path="res://scripts/components/functionals/resource.gd" id="7_1jndp"]
+[ext_resource type="Script" path="res://scripts/components/functionals/tags.gd" id="8_5531i"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vxvtc"]
+resource_local_to_scene = true
 animations = [{
 "frames": [],
 "loop": true,
@@ -22,63 +23,68 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="CombatActor" type="Node2D"]
-script = ExtResource("1_7siy7")
+[node name="CombatActor2" type="RigidBody2D"]
+collision_layer = 5
+collision_mask = 5
+gravity_scale = 0.0
+can_sleep = false
+lock_rotation = true
+linear_damp = 1.0
+script = ExtResource("1_7c8xu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vxvtc")
 animation = &"idle"
 autoplay = "idle"
 
-[node name="RigidBody2D" type="RigidBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
-
 [node name="HurtboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("root")]
 unique_name_in_owner = true
+collision_layer = 5
 collision_mask = 0
 monitoring = false
-script = ExtResource("2_fwdkd")
+script = ExtResource("2_24d4q")
 root = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
 
 [node name="Allegiance" type="Node" parent="." node_paths=PackedStringArray("hurtbox", "root_actor")]
 unique_name_in_owner = true
-script = ExtResource("3_wb4p5")
+script = ExtResource("3_y0mah")
 hurtbox = NodePath("../HurtboxComponent")
 root_actor = NodePath("..")
 
 [node name="DeathTrigger" type="Node" parent="." node_paths=PackedStringArray("_root", "_resource", "_destroy_effect_spawner")]
-script = ExtResource("4_jbu0c")
+script = ExtResource("4_4tuqr")
 _root = NodePath("..")
 _resource = NodePath("../Health")
 _destroy_effect_spawner = NodePath("../DeathEffectSpawner")
 
 [node name="DeathEffectSpawner" type="Node2D" parent="."]
-script = ExtResource("5_8f86d")
+script = ExtResource("5_wut4g")
 
 [node name="OnHitFlash" type="Node" parent="." node_paths=PackedStringArray("sprite")]
 unique_name_in_owner = true
-script = ExtResource("6_e1his")
+script = ExtResource("6_uyev7")
 sprite = NodePath("../AnimatedSprite2D")
 
 [node name="Health" type="Node" parent="."]
 unique_name_in_owner = true
-script = ExtResource("7_1mgn1")
+script = ExtResource("7_1jndp")
 max_value = 2
 
 [node name="Stamina" type="Node" parent="."]
-script = ExtResource("7_1mgn1")
+script = ExtResource("7_1jndp")
 _value = 10
 max_value = 10
 
 [node name="ProjectilePosition" type="Marker2D" parent="."]
 
 [node name="Tags" type="Node" parent="."]
-script = ExtResource("8_ni5ln")
+script = ExtResource("8_5531i")
 _tags = Array[int]([3])
 
 [node name="ReusableSpawner" type="Node2D" parent="."]
 unique_name_in_owner = true
-script = ExtResource("5_8f86d")
+script = ExtResource("5_wut4g")

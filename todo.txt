@@ -5,11 +5,12 @@ review:
 - RTS Composition: https://www.youtube.com/watch?v=MRwM3LOal5o&list=PLUzx1-8efVAqKvR9F-PAcUpF8aCHaRcte&index=4
 
 ## TODO ##
-- finish physical projectile
+- physical projectile
 	travel range is handled by resource that drains on distance travelled
 		?projectile needs max travel distance and if 0, minimum duration (to allow hit registers)?
 	knockback
 	physics modifiers
+	delivery method; create projectile or just instantly affect target
 - create visual projectile
 	? do we need to differentiate between visual and physical projectiles?
 - effects

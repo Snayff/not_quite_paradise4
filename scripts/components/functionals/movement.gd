@@ -20,11 +20,11 @@ func _ready() -> void:
 	assert(root is Node2D, "Misssing `root`. ")
 
 func _physics_process(delta: float) -> void:
-	if target_actor is CombatActor:
+	if is_instance_valid(target_actor):
 		# move towards target
 		_update_direction()
 		var force = direction * speed
-		root.apply_central_impulse(force)
+		root.force = force
 
 		# rotate towards target
 		root.rotation = direction.angle()

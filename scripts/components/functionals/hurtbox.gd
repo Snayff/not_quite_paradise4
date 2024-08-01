@@ -11,9 +11,6 @@ signal hurt(hitbox)
 @export var root: CombatActor  ## the actor that created the thing that used this hitbox
 
 
-func _ready() -> void:
-	assert(root is CombatActor, "Missing `root`.")
-
 var is_invincible = false:  # NOTE: probs needs moving to some central status effects
 	# disable and enable collision shapes on the hurtbox when is_invincible is changed.
 	set(value):
@@ -25,3 +22,7 @@ var is_invincible = false:  # NOTE: probs needs moving to some central status ef
 			# Use call deferred to make sure this doesn't happen in the middle of the
 			# physics process
 			child.set_deferred("disabled", is_invincible)
+
+func _ready() -> void:
+	assert(root is CombatActor, "Missing `root`.")
+

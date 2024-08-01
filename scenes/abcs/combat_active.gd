@@ -24,6 +24,7 @@ extends Node2D
 
 var target_actor: CombatActor
 var target_position: Vector2  ## NOTE: not used
+var is_active: bool = true  ## whether the CombatActive is functioning or not
 
 
 func _ready() -> void:
@@ -40,9 +41,13 @@ func _ready() -> void:
 	# config effect chain
 	_effect_chain.set_caster(_creator)
 
+
 func cast()-> void:  # NOTE: should this be in an activation node?
 	if not target_actor is CombatActor and not target_position is Vector2:
 		push_error("CombatActive: No target given to cast.")
+		return
+
+	if not is_active:  # FIXME: this approach means the CombatActive will just keep looping the cooldown, rather than staying ready
 		return
 
 	var projectile: PhysicalProjectile = _projectile_spawner.spawn_scene(_projectile_position.global_position)
@@ -56,6 +61,7 @@ func cast()-> void:  # NOTE: should this be in an activation node?
 	elif target_position is Vector2:
 		projectile.set_target_position(target_position)
 	projectile.hit_valid_target.connect(_effect_chain.on_hit)
+
 
 func set_target_actor(actor: CombatActor) -> void:
 	if actor is CombatActor:
