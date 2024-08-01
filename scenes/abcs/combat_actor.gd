@@ -34,6 +34,7 @@ func _ready() -> void:
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	# stop sprite spinning
-	rotation_degrees = 0
+	#rotation_degrees = 0
+	pass
 	#linear_velocity = linear_velocity * 0.9
 

@@ -60,15 +60,21 @@ layer_0/tile_data = PackedInt32Array(0, 65536, 1, 65536, 0, 3, 131072, 0, 3, 196
 anchor_mode = 0
 zoom = Vector2(4, 4)
 
-[node name="WolfRider2" parent="." node_paths=PackedStringArray("target") instance=ExtResource("5_gequ5")]
-position = Vector2(67, 57)
+[node name="WolfRider" parent="." node_paths=PackedStringArray("target") instance=ExtResource("5_gequ5")]
+position = Vector2(37, 51)
 collision_layer = 1
 collision_mask = 1
 linear_damp = 999999.0
-target = NodePath("../HorseyRider2")
+target = NodePath("../HorseyRider")
+
+[node name="HorseyRider" parent="." instance=ExtResource("6_d7rtk")]
+position = Vector2(165, 85)
+collision_layer = 1
+collision_mask = 1
+linear_damp = 999999.0
 
 [node name="HorseyRider2" parent="." instance=ExtResource("6_d7rtk")]
-position = Vector2(162, 60)
+position = Vector2(101, 67)
 collision_layer = 1
 collision_mask = 1
 linear_damp = 999999.0

@@ -18,7 +18,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_i6l54"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_5yevd"]
 radius = 2.0
 
 [node name="Fireball" instance=ExtResource("1_8b5r4")]
@@ -29,11 +29,14 @@ shape = SubResource("CircleShape2D_go546")
 [node name="AnimatedSprite2D" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_k8rb1")
 
-[node name="CollisionShape2D" parent="HitboxComponent" index="0"]
-shape = SubResource("CircleShape2D_i6l54")
-
-[node name="OnHitEffectSpawner" parent="." index="4"]
+[node name="OnHitEffectSpawner" parent="." index="3"]
 scene = ExtResource("3_qlhda")
 
-[node name="DeathTrigger" parent="." index="5" node_paths=PackedStringArray("_root")]
+[node name="DeathTrigger" parent="." index="4" node_paths=PackedStringArray("_root")]
 _root = NodePath("..")
+
+[node name="HitboxComponent" parent="." index="6"]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" index="0"]
+shape = SubResource("CircleShape2D_5yevd")
