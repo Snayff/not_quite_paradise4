@@ -33,10 +33,6 @@ _root = NodePath("..")
 _resource = NodePath("../TravelRange")
 _destroy_effect_spawner = NodePath("../OnDeathEffectSpawner")
 
-[node name="TravelRange" parent="." index="4"]
-_value = 50
-max_value = 50
-
 [node name="MovementComponent" parent="." index="5" node_paths=PackedStringArray("root", "_travel_resource")]
 root = NodePath("..")
 _travel_resource = NodePath("../TravelRange")

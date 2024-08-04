@@ -35,7 +35,6 @@ var _target_position: Vector2
 var creator: CombatActor  ## who created the projectile
 var team: Constants.TEAM
 # config - these are all set by the combat active
-var travel_range: int
 var valid_effect_chain_target: Constants.TARGET_OPTION  ## who the effect chain can apply to
 var target_resource: ResourceComponent  ## the resource damaged when a valid Hurtbox is hit
 var effect_chain: EffectChain  ## effect chain to be called when hitting valid target
@@ -47,8 +46,6 @@ var effect_chain: EffectChain  ## effect chain to be called when hitting valid t
 func _ready() -> void:
 	hitbox.hit_hurtbox.connect(_on_hit)
 	hit_valid_target.connect(death_trigger.activate.unbind(1))
-	travel_range_resource.value = travel_range
-	travel_range_resource.max_value = travel_range
 
 
 ## trigger on hit effects, if target is valid
@@ -63,11 +60,11 @@ func _on_hit(hurtbox: HurtboxComponent) -> void:
 ##
 ## Can give either an actor or a position. If both are given only actor is used.
 ## collisions may need updating after this.
-func set_target(actor: CombatActor = null, position: Vector2 = Vector2.ZERO) -> void:
+func set_target(actor: CombatActor = null, position_: Vector2 = Vector2.ZERO) -> void:
 	if actor is CombatActor:
 		_set_target_actor(actor)
-	elif position is Vector2:
-		_set_target_position(position)
+	elif position_ is Vector2:
+		_set_target_position(position_)
 
 func _set_target_actor(actor: CombatActor) -> void:
 	_target_actor = actor
@@ -85,6 +82,10 @@ func _set_target_position(position_: Vector2) -> void:
 func set_interaction_info(team_: Constants.TEAM, effect_chain_target: Constants.TARGET_OPTION) -> void:
 	team = team_
 	valid_effect_chain_target = effect_chain_target
+
+func set_travel_range(travel_range_: float) -> void:
+	travel_range_resource.set_value(travel_range_)
+	travel_range_resource.max_value = travel_range_
 
 ## updates all collisions to reflect current target, team etc.
 func update_collisions() -> void:

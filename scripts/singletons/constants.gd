@@ -1,5 +1,7 @@
 extends Node
 
+const  COMBAT_INIT_TIME: float = 0.5  # num seconds to allow everything to load in combat. some components trigger before others have setup properly, so use this delay.
+
 ## the team the entity is on
 enum TEAM {
 	team1,

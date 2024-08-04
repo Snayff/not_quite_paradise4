@@ -11,13 +11,13 @@ signal max_value_changed() ## the resource's max value has changed
 
 
 @export_category("Details")
-@export var _value: int:
+@export var _value: int = 999:
 	set(value):
 		_value = value
 		value_changed.emit()
 		# Signal out when health is at 0
-		if value == 0: emptied.emit()
-@export var max_value: int:
+		if value <= 0: emptied.emit()
+@export var max_value: int = 999:
 	set(value):
 		max_value = clamp(value, 1, INF)
 		value_changed.emit()
@@ -39,10 +39,14 @@ func _ready() -> void:
 	_regen_timer.wait_time = 1
 	_regen_timer.timeout.connect(increase.bind(regeneration_per_second))
 
+	print("Resource init value ", value)
+
 ## decrease the resource by an amount
 func decrease(amount: int) -> void:
+	print("Resource value decreased by ", amount)
 	_value -= amount
 	value_decreased.emit()
+	print("Resource value now ", value)
 
 ## increase the resource by an amount
 func increase(amount: int) -> void:

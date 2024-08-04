@@ -41,17 +41,18 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	# update travel resource; if empty it may auto self-destruct, based on [DeathTrigger] settings.
 	if _travel_resource is ResourceComponent:
-		var travelled: float = root.global_position.distance_to(_previous_position)
-		_travel_resource.decrease(travelled)
-		_previous_position = root.global_position
+		if _previous_position == Vector2.ZERO:
+			_previous_position = root.global_position
+		else:
+			var travelled: float = root.global_position.distance_to(_previous_position)
+			_travel_resource.decrease(travelled)
+			_previous_position = root.global_position
 
 	# move the root
 	if (is_instance_valid(target_actor) or target_position != Vector2.ZERO) and _movement_update_type == Constants.MOVEMENT_UPDATE_TYPE.transform:
 		_update_direction()
 		var movement: Vector2 = direction * move_speed
-		root.global_position = root.global_position.lerp(root.global_position + movement, delta * acceleration)  # NOTE: no idea if this works
-		#move_toward(root.global_position, movement, delta)
-		#lerp(velocity, MAX_SPEED * direction, delta * ACCELERATION)}
+		root.global_position = root.global_position.lerp(root.global_position + movement, delta * acceleration)
 
 func _physics_process(delta: float) -> void:
 	# give the new force to the root. due to needing the physics node at top level it must handle its own movement
@@ -67,13 +68,12 @@ func _physics_process(delta: float) -> void:
 
 func _update_direction() -> void:
 	if target_actor is CombatActor:
-		#direction = target_actor.global_position - root.global_position
 		direction = root.global_position.direction_to(target_actor.global_position)
 
 	elif  target_position != Vector2.ZERO:
 		direction =  root.global_position.direction_to(target_position)
 
+	# dont change direction if we dont have someone or something to aim for
 	else:
-		push_error("MovementComponent: No target to move towards.")
-		direction = Vector2.ZERO
+		pass
 #endregion

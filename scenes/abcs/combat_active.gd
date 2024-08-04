@@ -52,7 +52,7 @@ func cast()-> void:  # NOTE: should this be in an activation node?
 
 	var projectile: VisualProjectile = _projectile_spawner.spawn_scene(_projectile_position.global_position)
 	#projectile.enable()
-	projectile.travel_range = _travel_range
+	projectile.set_travel_range(_travel_range)
 	projectile.set_target(target_actor, target_position)  # give both, blank one will be ignored
 	projectile.set_interaction_info(_allegiance.team, _valid_targets)
 	projectile.hit_valid_target.connect(_effect_chain.on_hit)
