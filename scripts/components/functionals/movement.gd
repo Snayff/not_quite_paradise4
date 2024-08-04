@@ -12,7 +12,7 @@ var target_actor: CombatActor  ## the actor being targeted. use when target upda
 var target_position: Vector2  ## the position being targeted.
 var direction: Vector2  ## direction towards target
 var distance_travelled: float = 0  ## how far we have travelled
-var speed: float
+var force_magnitude: float
 var _movement_update_type: Constants.MOVEMENT_UPDATE_TYPE = Constants.MOVEMENT_UPDATE_TYPE.physics
 
 
@@ -28,7 +28,7 @@ func _physics_process(delta: float) -> void:
 	if is_instance_valid(target_actor) and _movement_update_type == Constants.MOVEMENT_UPDATE_TYPE.physics:
 		# move towards target
 		_update_direction()
-		var force = direction * speed
+		var force = direction * force_magnitude
 		root.force = force
 
 		# rotate towards target
@@ -38,7 +38,8 @@ func _physics_process(delta: float) -> void:
 
 func _update_direction() -> void:
 	if target_actor is CombatActor:
-		direction = target_actor.global_position - root.global_position
+		#direction = target_actor.global_position - root.global_position
+		direction = root.global_position.direction_to(target_actor.global_position)
 	elif  target_position != Vector2.ZERO:
 		direction = target_position - root.global_position
 	else:

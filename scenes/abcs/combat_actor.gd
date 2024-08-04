@@ -19,11 +19,13 @@ signal died  ## actor has died
 		target = value
 		target_changed.emit(target)
 @export_category("Physics")
-@export var _linear_damp: float = 0.9
+@export var _linear_damp: float = 5
+@export var _mass: float = 100
 
 
 func _ready() -> void:
 	linear_damp = _linear_damp
+	mass = _mass
 	update_collisions()
 
 	if _health is ResourceComponent:

@@ -22,16 +22,18 @@ var valid_effect_chain_target: Constants.TARGET_OPTION  ## who the effect chain 
 var valid_collision_target: Constants.TARGET_OPTION  ## who the physics collides with
 var team: Constants.TEAM
 var target_resource: ResourceComponent  ## the resource damaged when the attached Hurtbox is hit
-var speed: float  = 0.5 ## must be >0
+var force_magnitude: float = 50.0
+var force_application: String = "initial"
+var _force_applied = false
 var effect_chain: EffectChain  ## effect chain to be called when hitting valid target
-var force: Vector2 = Vector2.ZERO
+var force: Vector2 = Vector2.ZERO  # TODO: as it is passed up it shoudl be asignal
 
 
 func _ready() -> void:
 	hitbox.hit_hurtbox.connect(_on_hit)
 	hit_valid_target.connect(death_trigger.activate.unbind(1))
 
-	movement_component.speed = speed
+	movement_component.force_magnitude = force_magnitude
 
 	if is_disabled:
 		disable()
@@ -40,7 +42,11 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if _target_actor == null:
 		return
 
-	apply_central_impulse(force)
+	if force_application == "initial" and _force_applied == false:
+		apply_central_impulse(force)  #FIXME: somehow keeps pushing actors for ages
+		_force_applied = true
+	elif force_application == "constant":
+		apply_central_force(force)  # FIXME: why does this start slow then get faster?
 
 func _process(delta: float) -> void:
 	if movement_component.distance_travelled >= travel_range:
