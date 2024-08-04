@@ -50,11 +50,11 @@ func cast()-> void:  # NOTE: should this be in an activation node?
 	if not is_active:  # FIXME: this approach means the CombatActive will just keep looping the cooldown, rather than staying ready
 		return
 
-	var projectile: PhysicalProjectile = _projectile_spawner.spawn_scene(_projectile_position.global_position)
-	projectile.enable()
+	var projectile: VisualProjectile = _projectile_spawner.spawn_scene(_projectile_position.global_position)
+	#projectile.enable()
 	projectile.travel_range = _travel_range
 	projectile.set_target(target_actor, target_position)  # give both, blank one will be ignored
-	projectile.set_interaction_info(_allegiance.team, _valid_targets, _valid_targets)
+	projectile.set_interaction_info(_allegiance.team, _valid_targets)
 	projectile.hit_valid_target.connect(_effect_chain.on_hit)
 	projectile.update_collisions()
 

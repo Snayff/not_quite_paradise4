@@ -9,10 +9,6 @@ extends Node
 
 #region FUNCS
 
-
-
-
-
 func update_body_collisions(node: CollisionObject2D, team: Constants.TEAM, target_option: Constants.TARGET_OPTION, target_actor: CombatActor = null) -> void:
 		# check we have necessary info
 	if node is CollisionObject2D and team is Constants.TEAM and target_option is Constants.TARGET_OPTION:
@@ -43,9 +39,6 @@ func update_body_collisions(node: CollisionObject2D, team: Constants.TEAM, targe
 					node.set_collision_layer_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_collision], target_team == Constants.TEAM.team1)
 					node.set_collision_layer_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_collision], target_team == Constants.TEAM.team2)
 
-		#breakpoint
-
-
 func update_hitbox_hurtbox_collision(node: CollisionObject2D, team: Constants.TEAM, target_option: Constants.TARGET_OPTION, target_actor: CombatActor = null) -> void:
 	# check we have necessary info
 	if node is CollisionObject2D and team is Constants.TEAM and target_option is Constants.TARGET_OPTION:
@@ -74,6 +67,31 @@ func update_hitbox_hurtbox_collision(node: CollisionObject2D, team: Constants.TE
 					node.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_hurtbox], target_team == Constants.TEAM.team1)
 					node.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_hurtbox], target_team == Constants.TEAM.team2)
 
+
+## check target is of type expected, as per [TARGET_OPTION]
+##.
+## Only check against the items that identify self, not self, or target, as the [TEAM] element should be handled by collision layer/mask.
+func target_is_valid(target_option: Constants.TARGET_OPTION, hitbox_originator: Node2D, hurtbox_originator: Node2D, target_actor: CombatActor = null) -> bool:
+	if target_option == Constants.TARGET_OPTION.self_:
+		if hitbox_originator == hurtbox_originator:
+			return true
+		else:
+			return false
+
+	elif target_option == Constants.TARGET_OPTION.other:
+		if hitbox_originator != hurtbox_originator:
+			return true
+		else:
+			return false
+
+	elif target_option == Constants.TARGET_OPTION.target:
+		if target_actor == hurtbox_originator:
+			return true
+		else:
+			return false
+
+	## ignore other target checks as already filtered by collision layers
+	return true
 
 
 

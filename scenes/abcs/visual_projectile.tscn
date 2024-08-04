@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://id57j61u33cs"]
+
+[ext_resource type="Script" path="res://scenes/abcs/visual_projectile.gd" id="1_6ihfu"]
+[ext_resource type="Script" path="res://scripts/components/functionals/hitbox.gd" id="1_w6l00"]
+[ext_resource type="Script" path="res://scripts/components/functionals/spawner.gd" id="2_4xm8c"]
+[ext_resource type="Script" path="res://scripts/components/functionals/death_trigger.gd" id="3_0na4o"]
+[ext_resource type="Script" path="res://scripts/components/functionals/resource.gd" id="4_nwywe"]
+[ext_resource type="Script" path="res://scripts/components/functionals/movement.gd" id="6_a0r7r"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7jh8p"]
+resource_local_to_scene = true
+
+[node name="VisualProjectile" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_7jh8p")
+script = ExtResource("1_6ihfu")
+
+[node name="HitboxComponent" type="Area2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("1_w6l00")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+
+[node name="OnHitEffectSpawner" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_4xm8c")
+
+[node name="OnDeathEffectSpawner" type="Node2D" parent="."]
+script = ExtResource("2_4xm8c")
+
+[node name="DeathTrigger" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_0na4o")
+
+[node name="TravelRange" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_nwywe")
+
+[node name="MovementComponent" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("6_a0r7r")
