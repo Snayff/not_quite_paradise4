@@ -12,6 +12,8 @@ signal died  ## actor has died
 @onready var _on_hit_flash: FlashComponent = %OnHitFlash
 @onready var reusable_spawner: SpawnerComponent = %ReusableSpawner  ## component for spawning runtime-defined Nodes on the actor
 @onready var allegiance: Allegiance = %Allegiance
+@onready var _damage_numbers: PopUpNumbers = %DamageNumbers
+
 
 
 @export var target: CombatActor:  ## TODO: remove once proper targeting is in
@@ -29,7 +31,7 @@ func _ready() -> void:
 	update_collisions()
 
 	if _health is ResourceComponent:
-		_health.value_decreased.connect(_on_hit_flash.activate)  # activate flash on hit
+		_health.value_decreased.connect(_on_hit_flash.activate.unbind(1))  # activate flash on hit
 		_health.emptied.connect(func(): died.emit())  # inform of death when empty
 
 	# connect target_changed to all CombatActive children
@@ -39,6 +41,7 @@ func _ready() -> void:
 				target_changed.connect(child.set_target_actor)
 
 	target_changed.emit(target)
+	_health.value_decreased.connect(_damage_numbers.display_number)
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	# stop sprite spinning

@@ -5,7 +5,7 @@ extends Node
 
 
 signal value_changed() ## the resource value has changed
-signal value_decreased() ## the resource value has decreased
+signal value_decreased(amount: float) ## the resource value has decreased
 signal emptied() ##  there is none of the resource left
 signal max_value_changed() ## the resource's max value has changed
 
@@ -39,14 +39,10 @@ func _ready() -> void:
 	_regen_timer.wait_time = 1
 	_regen_timer.timeout.connect(increase.bind(regeneration_per_second))
 
-	print("Resource init value ", value)
-
 ## decrease the resource by an amount
 func decrease(amount: int) -> void:
-	print("Resource value decreased by ", amount)
 	_value -= amount
-	value_decreased.emit()
-	print("Resource value now ", value)
+	value_decreased.emit(amount)
 
 ## increase the resource by an amount
 func increase(amount: int) -> void:

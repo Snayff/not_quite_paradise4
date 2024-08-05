@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cgd54nt0un6ix"]
+[gd_scene load_steps=12 format=3 uid="uid://cgd54nt0un6ix"]
 
 [ext_resource type="Script" path="res://scenes/abcs/combat_actor.gd" id="1_7c8xu"]
 [ext_resource type="Script" path="res://scripts/components/functionals/hurtbox.gd" id="2_24d4q"]
@@ -8,6 +8,8 @@
 [ext_resource type="Script" path="res://scripts/components/visuals/flash.gd" id="6_uyev7"]
 [ext_resource type="Script" path="res://scripts/components/functionals/resource.gd" id="7_1jndp"]
 [ext_resource type="Script" path="res://scripts/components/functionals/tags.gd" id="8_5531i"]
+[ext_resource type="Script" path="res://scenes/components/pop_up_numbers.gd" id="9_xcpun"]
+[ext_resource type="FontFile" uid="uid://xfatb788yq6e" path="res://assets/fonts/SinsGold.ttf" id="10_nqnyt"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vxvtc"]
 resource_local_to_scene = true
@@ -87,3 +89,9 @@ _tags = Array[int]([3])
 [node name="ReusableSpawner" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("5_wut4g")
+
+[node name="DamageNumbers" type="Marker2D" parent="." node_paths=PackedStringArray("_root")]
+unique_name_in_owner = true
+script = ExtResource("9_xcpun")
+_root = NodePath("..")
+_font = ExtResource("10_nqnyt")

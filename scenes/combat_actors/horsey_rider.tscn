@@ -68,3 +68,6 @@ max_value = 10
 
 [node name="ProjectilePosition" parent="." index="9"]
 position = Vector2(13, 0)
+
+[node name="DamageNumbers" parent="." index="12"]
+position = Vector2(0, -8)

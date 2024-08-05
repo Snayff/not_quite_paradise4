@@ -7,7 +7,7 @@
 
 [node name="Fireblast" instance=ExtResource("1_34rtn")]
 _valid_targets = 5
-_travel_range = 5
+_travel_range = 500
 
 [node name="ProjectileSpawner" parent="." index="1"]
 scene = ExtResource("2_wxakp")

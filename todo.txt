@@ -1,22 +1,23 @@
-review:
--  https://github.com/don-tnowe/godot-wyvernshield-triggers
-- https://github.com/lampe-games/godot-open-rts/tree/main/source/match/units/actions
-- https://github.com/OctoD/godot-gameplay-systems
-- RTS Composition: https://www.youtube.com/watch?v=MRwM3LOal5o&list=PLUzx1-8efVAqKvR9F-PAcUpF8aCHaRcte&index=4
-
 ## TODO ##
-- physical projectile
-	travel range is handled by resource that drains on distance travelled
-		?projectile needs max travel distance and if 0, minimum duration (to allow hit registers)?
+-  projectile
 	knockback
-	physics modifiers
 	delivery method; create projectile or just instantly affect target
-- create visual projectile
-	? do we need to differentiate between visual and physical projectiles?
+	non-direct paths, like curves and such
+		https://www.youtube.com/watch?v=4SHqHFWYg-s&list=PLUpZYfr0B25kliLbLmz9NnYKkFeHOEOpZ&index=164
+		orbiting projectiles: https://forum.godotengine.org/t/controlling-orbiting-projectiles/68378
+	juice, e.g. projectiles
+		https://www.youtube.com/watch?v=_qxl7CalhDM&list=PLUpZYfr0B25kliLbLmz9NnYKkFeHOEOpZ&index=6&t=11s
 - effects
 	apply status effects
+		https://github.com/Chillu1/ModifierLibrary?tab=readme-ov-file
+		https://github.com/Chillu1/ModiBuff/tree/78e12f6ee8c8098d2f4ebb4fc0c5237f0cb18054
+		https://github.com/don-tnowe/godot-wyvernshield-triggers
+		https://forum.godotengine.org/t/status-ailment-implementation/40289/4
+		https://github.com/Relintai/entity_spell_system
+		https://www.reddit.com/r/godot/comments/17ne0zc/how_do_you_implement_status_effects_using_the/
 		? on_trigger and connect to a relevant signal?
-
+- damage numbers <- NEXT
+		https://www.youtube.com/watch?v=F0DQLSiLkjg&list=PLUpZYfr0B25kliLbLmz9NnYKkFeHOEOpZ&index=124
 
 
 ## THOUGHTS ##

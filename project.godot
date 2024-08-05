@@ -30,6 +30,10 @@ window/size/viewport_height=480
 
 enabled=PackedStringArray("res://addons/SignalVisualizer/plugin.cfg")
 
+[filesystem]
+
+import/blender/enabled=false
+
 [layer_names]
 
 2d_physics/layer_1="team1_hurtbox"
