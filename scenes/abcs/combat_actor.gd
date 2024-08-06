@@ -13,6 +13,7 @@ signal died  ## actor has died
 @onready var reusable_spawner: SpawnerComponent = %ReusableSpawner  ## component for spawning runtime-defined Nodes on the actor
 @onready var allegiance: Allegiance = %Allegiance
 @onready var _damage_numbers: PopUpNumbers = %DamageNumbers
+@onready var _death_trigger: DeathTrigger = $DeathTrigger
 
 
 
@@ -42,6 +43,7 @@ func _ready() -> void:
 
 	target_changed.emit(target)
 	_health.value_decreased.connect(_damage_numbers.display_number)
+	_death_trigger.died.connect(func(): died.emit())
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	# stop sprite spinning

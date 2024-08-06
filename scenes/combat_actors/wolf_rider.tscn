@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cta4xur1b7ano"]
+[gd_scene load_steps=11 format=3 uid="uid://cta4xur1b7ano"]
 
 [ext_resource type="PackedScene" uid="uid://cgd54nt0un6ix" path="res://scenes/abcs/combat_actor.tscn" id="1_m432m"]
 [ext_resource type="Texture2D" uid="uid://dopseo1w5jxrl" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame1).png" id="2_2j4ap"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dcdgt417cspcb" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame3).png" id="4_qq01u"]
 [ext_resource type="Texture2D" uid="uid://bwamwonvpg20u" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame4).png" id="5_2jq15"]
 [ext_resource type="PackedScene" uid="uid://lsbutqx8scoq" path="res://scenes/combat_actives/fireblast.tscn" id="6_jm2bo"]
+[ext_resource type="PackedScene" uid="uid://lbhta0mrhs1b" path="res://scenes/combat_actives/circling_stars.tscn" id="7_47lvt"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nvgpk"]
 radius = 6.0
@@ -42,6 +43,8 @@ animations = [{
 radius = 7.0
 
 [node name="WolfRider" instance=ExtResource("1_m432m")]
+_linear_damp = null
+_mass = null
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource("CircleShape2D_nvgpk")
@@ -62,8 +65,14 @@ max_value = 10
 [node name="ProjectilePosition" parent="." index="9"]
 position = Vector2(12, 0)
 
-[node name="Fireblast" parent="." index="12" node_paths=PackedStringArray("_creator", "_allegiance", "_projectile_position") instance=ExtResource("6_jm2bo")]
+[node name="Fireblast" parent="." index="13" node_paths=PackedStringArray("_creator", "_allegiance", "_projectile_position") instance=ExtResource("6_jm2bo")]
 _creator = NodePath("..")
 _allegiance = NodePath("../Allegiance")
 _projectile_position = NodePath("../ProjectilePosition")
-_delivery_method = "projectile"
+_delivery_method = 1
+is_active = false
+
+[node name="CirclingStars" parent="." index="14" node_paths=PackedStringArray("_creator", "_allegiance") instance=ExtResource("7_47lvt")]
+_creator = NodePath("..")
+_allegiance = NodePath("../Allegiance")
+_delivery_method = 2

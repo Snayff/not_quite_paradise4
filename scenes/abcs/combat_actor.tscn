@@ -32,6 +32,8 @@ gravity_scale = 0.0
 can_sleep = false
 lock_rotation = true
 script = ExtResource("1_7c8xu")
+_linear_damp = null
+_mass = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 

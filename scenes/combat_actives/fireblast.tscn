@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cn8jpy03lpd4m" path="res://scenes/abcs/combat_active.tscn" id="1_34rtn"]
 [ext_resource type="PackedScene" uid="uid://cgsflwjesyi8j" path="res://scenes/projectiles/visual/visual_fireball.tscn" id="2_wxakp"]
-[ext_resource type="Script" path="res://scripts/effect_chains/fireblast_effect_chain.gd" id="3_2b3ux"]
+[ext_resource type="Script" path="res://scenes/combat_actives/fireblast_effect_chain.gd" id="3_2b3ux"]
 [ext_resource type="PackedScene" uid="uid://dy4cr4ku2spty" path="res://scenes/effects/fire.tscn" id="4_0h3fc"]
 
 [node name="Fireblast" instance=ExtResource("1_34rtn")]
@@ -13,6 +13,5 @@ _travel_range = 500
 scene = ExtResource("2_wxakp")
 
 [node name="EffectChain" type="Node" parent="." index="2"]
-unique_name_in_owner = true
 script = ExtResource("3_2b3ux")
 _repeat_damage_animation = ExtResource("4_0h3fc")

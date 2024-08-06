@@ -7,6 +7,8 @@
 		orbiting projectiles: https://forum.godotengine.org/t/controlling-orbiting-projectiles/68378
 	juice, e.g. projectiles
 		https://www.youtube.com/watch?v=_qxl7CalhDM&list=PLUpZYfr0B25kliLbLmz9NnYKkFeHOEOpZ&index=6&t=11s
+	spread when using multiple
+		https://www.youtube.com/watch?v=oKF_DvARvWc
 - effects
 	apply status effects
 		https://github.com/Chillu1/ModifierLibrary?tab=readme-ov-file
@@ -16,9 +18,16 @@
 		https://github.com/Relintai/entity_spell_system
 		https://www.reddit.com/r/godot/comments/17ne0zc/how_do_you_implement_status_effects_using_the/
 		? on_trigger and connect to a relevant signal?
-- damage numbers <- NEXT
-		https://www.youtube.com/watch?v=F0DQLSiLkjg&list=PLUpZYfr0B25kliLbLmz9NnYKkFeHOEOpZ&index=124
-
+- confirm LOS before firing
+	https://kidscancode.org/godot_recipes/4.x/3d/shooting_raycasts/
+- player movement and attacks
+- action bar
+	https://kidscancode.org/godot_recipes/4.x/ui/cooldown_button/index.html
+- fix physical projectile
+	https://kidscancode.org/godot_recipes/4.x/physics/smooth_rigid_move/index.html
+	https://kidscancode.org/godot_recipes/4.x/2d/car_steering/
+- resource container node
+	we might end up with quite a few resources, so may be eaiser to have an interface for them
 
 ## THOUGHTS ##
 

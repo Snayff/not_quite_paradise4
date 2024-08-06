@@ -8,6 +8,7 @@ extends AnimatedSprite2D
 
 #region SIGNALS
 signal hit_valid_target(hurtbox: HurtboxComponent)
+signal died
 #endregion
 
 
@@ -46,7 +47,7 @@ var effect_chain: EffectChain  ## effect chain to be called when hitting valid t
 func _ready() -> void:
 	hitbox.hit_hurtbox.connect(_on_hit)
 	hit_valid_target.connect(death_trigger.activate.unbind(1))
-
+	death_trigger.died.connect(func(): died.emit())
 
 ## trigger on hit effects, if target is valid
 func _on_hit(hurtbox: HurtboxComponent) -> void:

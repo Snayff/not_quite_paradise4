@@ -1,5 +1,5 @@
 ## pop up numbers over _root entity, a la damage numbers.
-#@icon("")
+@icon("res://assets/node_icons/number.png")
 class_name PopUpNumbers
 extends Marker2D
 

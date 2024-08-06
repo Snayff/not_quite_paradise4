@@ -1,4 +1,4 @@
-## the series of effects for the fireblast skill, when it hits
+## the series of effects for the fireblast skill
 class_name FireblastEffectChain
 extends EffectChain
 

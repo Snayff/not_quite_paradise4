@@ -42,9 +42,15 @@ enum COMBAT_TAG {
 	actor,
 }
 
-
 ## how an entity moves in the world
 enum MOVEMENT_UPDATE_TYPE {
 	physics,
 	transform,
+}
+
+## how a set of effects in a [CombatActive] are delivered
+enum EFFECT_DELIVERY_METHOD {
+	direct_to_target,
+	projectile,
+	orbital,
 }

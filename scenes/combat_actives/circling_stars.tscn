@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://lbhta0mrhs1b"]
+
+[ext_resource type="PackedScene" uid="uid://cn8jpy03lpd4m" path="res://scenes/abcs/combat_active.tscn" id="1_bejtl"]
+[ext_resource type="Script" path="res://scripts/components/functionals/orbiter.gd" id="2_lj7jl"]
+[ext_resource type="PackedScene" uid="uid://cgsflwjesyi8j" path="res://scenes/projectiles/visual/visual_fireball.tscn" id="2_n4c11"]
+[ext_resource type="Script" path="res://scenes/combat_actives/circling_stars_effect_chain.gd" id="4_nd7yx"]
+
+[node name="CirclingStars" node_paths=PackedStringArray("_orbiter") instance=ExtResource("1_bejtl")]
+_orbiter = NodePath("ProjectileOrbiterComponent")
+_valid_targets = 2
+_travel_range = 1000
+
+[node name="ProjectileSpawner" parent="." index="1"]
+scene = ExtResource("2_n4c11")
+
+[node name="ProjectileOrbiterComponent" type="Node2D" parent="." index="2"]
+script = ExtResource("2_lj7jl")
+
+[node name="EffectChain" type="Node" parent="." index="3"]
+script = ExtResource("4_nd7yx")
