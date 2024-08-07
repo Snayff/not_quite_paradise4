@@ -1,14 +1,22 @@
 ## TODO ##
+- player movement and attacks
+	https://youtu.be/FYF6a-rCpgI?si=A9FCv_ZZ3nba8zmx
+- player target nearest
+	highlight targeted actor
 -  projectile
 	knockback
-	delivery method; create projectile or just instantly affect target
+		https://youtu.be/PZTRfzASLi4?si=V1dPZDARsV6A-xrG
+	delivery method
+		instantly affect target
 	non-direct paths, like curves and such
 		https://www.youtube.com/watch?v=4SHqHFWYg-s&list=PLUpZYfr0B25kliLbLmz9NnYKkFeHOEOpZ&index=164
-		orbiting projectiles: https://forum.godotengine.org/t/controlling-orbiting-projectiles/68378
+	boomerang path
+		https://www.youtube.com/watch?v=8b9zF1ejESM
 	juice, e.g. projectiles
 		https://www.youtube.com/watch?v=_qxl7CalhDM&list=PLUpZYfr0B25kliLbLmz9NnYKkFeHOEOpZ&index=6&t=11s
-	spread when using multiple
+	spread when using multiple projectiles
 		https://www.youtube.com/watch?v=oKF_DvARvWc
+	AoE
 - effects
 	apply status effects
 		https://github.com/Chillu1/ModifierLibrary?tab=readme-ov-file
@@ -17,17 +25,30 @@
 		https://forum.godotengine.org/t/status-ailment-implementation/40289/4
 		https://github.com/Relintai/entity_spell_system
 		https://www.reddit.com/r/godot/comments/17ne0zc/how_do_you_implement_status_effects_using_the/
+		https://www.youtube.com/watch?v=VaeDYC0vX74
+		https://youtu.be/KK20-zx6MjI?si=JNpZRCwbcrwT2NjG
 		? on_trigger and connect to a relevant signal?
+	teleport
+		https://youtu.be/uN5JDNPxiaE?si=cfjw5J09YARjHQr2
+	chain lightening
+		https://youtu.be/KldlRNQZ8U8?si=kXMxznjBqWZbLDYg
+- passives
+	https://youtu.be/1hsqnLt7kw4?si=CMpp2xnhUB_ypY3j
+	https://youtu.be/sZDJJeDNe_M?si=Ki2oz4VJlTjD5pLM
 - confirm LOS before firing
 	https://kidscancode.org/godot_recipes/4.x/3d/shooting_raycasts/
-- player movement and attacks
 - action bar
 	https://kidscancode.org/godot_recipes/4.x/ui/cooldown_button/index.html
+	https://youtu.be/XzqcWKQ_mz0?si=dF4kDYxKZ2qFAOy-
 - fix physical projectile
 	https://kidscancode.org/godot_recipes/4.x/physics/smooth_rigid_move/index.html
 	https://kidscancode.org/godot_recipes/4.x/2d/car_steering/
+	https://youtu.be/t2JFK0SlksI?si=YcwecKN45hZtesFX
+	https://youtu.be/FYF6a-rCpgI?si=A9FCv_ZZ3nba8zmx
 - resource container node
 	we might end up with quite a few resources, so may be eaiser to have an interface for them
+- camera following player - add phantom camera
+	https://github.com/ramokz/phantom-camera
 
 ## THOUGHTS ##
 

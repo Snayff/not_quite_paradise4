@@ -177,7 +177,6 @@ func set_interaction_info(team_: Constants.TEAM, effect_chain_target: Constants.
 func update_collisions() -> void:
 	Utility.update_hitbox_hurtbox_collision(hitbox, team, valid_effect_chain_target, _target_actor)
 	Utility.update_body_collisions(self, team, valid_collision_target, _target_actor)
-	pass
 
 func enable() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE

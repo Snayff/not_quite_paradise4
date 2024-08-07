@@ -43,8 +43,6 @@ animations = [{
 radius = 7.0
 
 [node name="WolfRider" instance=ExtResource("1_m432m")]
-_linear_damp = null
-_mass = null
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource("CircleShape2D_nvgpk")
@@ -76,3 +74,6 @@ is_active = false
 _creator = NodePath("..")
 _allegiance = NodePath("../Allegiance")
 _delivery_method = 2
+
+[node name="MovementComponent" parent="." index="15" node_paths=PackedStringArray("root")]
+root = NodePath("..")

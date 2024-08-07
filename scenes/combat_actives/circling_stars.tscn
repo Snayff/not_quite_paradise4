@@ -8,13 +8,17 @@
 [node name="CirclingStars" node_paths=PackedStringArray("_orbiter") instance=ExtResource("1_bejtl")]
 _orbiter = NodePath("ProjectileOrbiterComponent")
 _valid_targets = 2
-_travel_range = 1000
+_travel_range = 200
+
+[node name="CooldownTimer" parent="." index="0"]
+wait_time = 0.3
 
 [node name="ProjectileSpawner" parent="." index="1"]
 scene = ExtResource("2_n4c11")
 
 [node name="ProjectileOrbiterComponent" type="Node2D" parent="." index="2"]
 script = ExtResource("2_lj7jl")
+_orbit_scale = 60.0
 
 [node name="EffectChain" type="Node" parent="." index="3"]
 script = ExtResource("4_nd7yx")

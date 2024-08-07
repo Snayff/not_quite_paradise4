@@ -1,6 +1,6 @@
 extends Node
 
-const  COMBAT_INIT_TIME: float = 0.5  # num seconds to allow everything to load in combat. some components trigger before others have setup properly, so use this delay.
+const FRICTION: float = 10.3 ## the reduction in force applied to a physics object when new force not being applied
 
 ## the team the entity is on
 enum TEAM {

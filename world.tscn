@@ -66,6 +66,9 @@ collision_layer = 1
 collision_mask = 1
 linear_damp = 999999.0
 target = NodePath("../HorseyRider")
+_linear_damp = 3.0
+_mass = 5.0
+_is_player = true
 
 [node name="HorseyRider" parent="." instance=ExtResource("6_d7rtk")]
 position = Vector2(165, 85)
@@ -78,3 +81,5 @@ position = Vector2(101, 67)
 collision_layer = 1
 collision_mask = 1
 linear_damp = 999999.0
+
+[editable path="WolfRider"]

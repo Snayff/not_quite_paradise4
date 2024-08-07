@@ -23,7 +23,7 @@ autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
-[node name="MovementComponent" type="Node" parent="." node_paths=PackedStringArray("root")]
+[node name="MovementComponent" type="Node2D" parent="." node_paths=PackedStringArray("root")]
 unique_name_in_owner = true
 script = ExtResource("3_r7m4a")
 root = NodePath("..")

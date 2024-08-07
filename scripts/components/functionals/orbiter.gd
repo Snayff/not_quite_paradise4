@@ -33,6 +33,11 @@ var _num_projectiles:
 	get:
 		return _projectiles.size()
 var _points: Array = []
+var has_max_projectiles: bool:
+	set(value):
+		push_error("ProjectileOrbiterComponent: Can't set `has_max_projectiles` directly.")
+	get:
+		return _num_projectiles == _max_projectiles
 
 #endregion
 

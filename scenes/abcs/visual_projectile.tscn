@@ -35,6 +35,6 @@ script = ExtResource("3_0na4o")
 unique_name_in_owner = true
 script = ExtResource("4_nwywe")
 
-[node name="MovementComponent" type="Node" parent="."]
+[node name="MovementComponent" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("6_a0r7r")

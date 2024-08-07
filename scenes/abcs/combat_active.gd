@@ -28,7 +28,7 @@ extends Node2D
 
 @export_category("Travel")
 @export var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
-@export var _travel_range: int
+@export var _travel_range: int  #FIXME: this isnt helpful for designing orbitals
 
 @export_category("Misc")
 @export var is_active: bool = true  ## whether the CombatActive is functioning or not
@@ -76,8 +76,9 @@ func cast()-> void:  # NOTE: should this be in an activation node?
 	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.orbital:
 		if _orbiter is ProjectileOrbiterComponent:
 			var projectile = _create_orbital()
-			projectile.died.connect(_orbiter.remove_projectile.bind(projectile))
-			_orbiter.add_projectile(projectile)
+			if projectile != null:
+				projectile.died.connect(_orbiter.remove_projectile.bind(projectile))
+				_orbiter.add_projectile(projectile)
 
 		else:
 			push_error("CombatActive: `_projectile_position` not defined.")
@@ -94,15 +95,21 @@ func _create_projectile() -> VisualProjectile:
 
 	return projectile
 
+## creates an orbital projectile in the _orbiter component.
+##
+## returns null if could not create, e.g. if already at max orbitals
 func _create_orbital()  -> VisualProjectile:
-	var projectile: VisualProjectile = _projectile_spawner.spawn_scene(_creator.global_position, _orbiter)
-	projectile.set_travel_range(_travel_range)
-	#projectile.set_target(target_actor, target_position)  # give both, blank one will be ignored
-	projectile.set_interaction_info(_allegiance.team, _valid_targets)
-	projectile.hit_valid_target.connect(_effect_chain.on_hit)
-	projectile.update_collisions()
+	if not _orbiter.has_max_projectiles:
+		# FIXME: collisions caused by orbitals seem to happen a shortwhile after they actually hit
+		var projectile: VisualProjectile = _projectile_spawner.spawn_scene(_creator.global_position, _orbiter)
+		projectile.set_travel_range(_travel_range)
+		projectile.set_interaction_info(_allegiance.team, _valid_targets)
+		projectile.hit_valid_target.connect(_effect_chain.on_hit)
+		projectile.update_collisions()
 
-	return projectile
+		return projectile
+	else:
+		return null
 
 
 func set_target_actor(actor: CombatActor) -> void:
@@ -111,6 +118,7 @@ func set_target_actor(actor: CombatActor) -> void:
 		_cooldown_timer.timeout.connect(cast)
 		target_actor.died.connect(set_target_actor.bind(null))
 	else:
-		# if no target then keep cooldown going but dont connect to the cast
-		_cooldown_timer.timeout.disconnect(cast)
+		if _cooldown_timer.is_connected("timeout", cast):
+			# if no target then keep cooldown going but dont connect to the cast
+			_cooldown_timer.timeout.disconnect(cast)
 #endregion
