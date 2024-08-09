@@ -64,22 +64,35 @@ zoom = Vector2(4, 4)
 position = Vector2(37, 51)
 collision_layer = 1
 collision_mask = 1
+physics_material_override = null
+can_sleep = false
+custom_integrator = false
+max_contacts_reported = 0
+contact_monitor = false
 linear_damp = 999999.0
+_is_player = true
 target = NodePath("../HorseyRider")
 _linear_damp = 3.0
 _mass = 5.0
-_is_player = true
 
 [node name="HorseyRider" parent="." instance=ExtResource("6_d7rtk")]
 position = Vector2(165, 85)
 collision_layer = 1
 collision_mask = 1
+physics_material_override = null
+can_sleep = false
+custom_integrator = false
+max_contacts_reported = 0
+contact_monitor = false
 linear_damp = 999999.0
 
 [node name="HorseyRider2" parent="." instance=ExtResource("6_d7rtk")]
 position = Vector2(101, 67)
 collision_layer = 1
 collision_mask = 1
+physics_material_override = null
+can_sleep = false
+custom_integrator = false
+max_contacts_reported = 0
+contact_monitor = false
 linear_damp = 999999.0
-
-[editable path="WolfRider"]

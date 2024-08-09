@@ -41,6 +41,7 @@
 	https://kidscancode.org/godot_recipes/4.x/ui/cooldown_button/index.html
 	https://youtu.be/XzqcWKQ_mz0?si=dF4kDYxKZ2qFAOy-
 - fix physical projectile
+	check the physics-based platformer demo, as that has physics bullet code. and the shoot time section, too.
 	https://kidscancode.org/godot_recipes/4.x/physics/smooth_rigid_move/index.html
 	https://kidscancode.org/godot_recipes/4.x/2d/car_steering/
 	https://youtu.be/t2JFK0SlksI?si=YcwecKN45hZtesFX

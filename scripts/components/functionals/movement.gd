@@ -1,4 +1,4 @@
-## apply movement to the attached node
+## apply movement to the attached node via transformation of the position
 @icon("res://assets/node_icons/move.png")
 class_name MovementComponent
 extends Node2D
@@ -43,8 +43,6 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	_handle_input()
-
 	# update travel resource; if empty it may auto self-destruct, based on [DeathTrigger] settings.
 	if _travel_resource is ResourceComponent:
 		if _previous_position == Vector2.ZERO:
@@ -90,14 +88,6 @@ func _physics_process(delta: float) -> void:
 				new_x = clampf(root.force.x - gravity.x, root.force.x, 0)
 				new_y = clampf(root.force.y - gravity.y, root.force.y, 0)
 			root.force = Vector2(new_x, new_y)
-
-
-
-func _handle_input() -> void:
-	if is_attached_to_player:
-		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-			target_actor = null
-			target_position = get_global_mouse_position()
 
 ## update the values regarding the roots position relative to the target, such as [direction] and [distance_to_target].
 func _update_relation_to_target() -> void:
