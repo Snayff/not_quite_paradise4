@@ -54,3 +54,15 @@ enum EFFECT_DELIVERY_METHOD {
 	projectile,
 	orbital,
 }
+
+## stats
+enum STAT {
+	strength,
+	defence
+}
+
+
+enum STAT_MOD {
+	add,
+	multiply
+}

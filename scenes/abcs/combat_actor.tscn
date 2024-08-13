@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cgd54nt0un6ix"]
+[gd_scene load_steps=18 format=3 uid="uid://cgd54nt0un6ix"]
 
 [ext_resource type="Script" path="res://scenes/abcs/combat_actor.gd" id="1_7c8xu"]
 [ext_resource type="Script" path="res://scripts/components/functionals/hurtbox.gd" id="2_24d4q"]
@@ -11,6 +11,8 @@
 [ext_resource type="Script" path="res://scenes/components/pop_up_numbers.gd" id="9_xcpun"]
 [ext_resource type="FontFile" uid="uid://xfatb788yq6e" path="res://assets/fonts/SinsGold.ttf" id="10_nqnyt"]
 [ext_resource type="Script" path="res://scripts/components/functionals/physics_movement.gd" id="12_73flk"]
+[ext_resource type="Script" path="res://scripts/components/functionals/stat_sheet.gd" id="12_dnaiq"]
+[ext_resource type="Script" path="res://scripts/dataclasses/stat.gd" id="13_hojhi"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8wo5g"]
 
@@ -27,6 +29,16 @@ animations = [{
 "name": &"move",
 "speed": 5.0
 }]
+
+[sub_resource type="Resource" id="Resource_7qvdv"]
+script = ExtResource("13_hojhi")
+type = 0
+base_value = 2.0
+
+[sub_resource type="Resource" id="Resource_nm8ul"]
+script = ExtResource("13_hojhi")
+type = 1
+base_value = 1.0
 
 [node name="CombatActor" type="RigidBody2D"]
 collision_layer = 10
@@ -63,6 +75,7 @@ hurtbox = NodePath("../HurtboxComponent")
 root_actor = NodePath("..")
 
 [node name="DeathTrigger" type="Node" parent="." node_paths=PackedStringArray("_root", "_resource", "_destroy_effect_spawner")]
+unique_name_in_owner = true
 script = ExtResource("4_4tuqr")
 _root = NodePath("..")
 _resource = NodePath("../Health")
@@ -102,6 +115,12 @@ script = ExtResource("9_xcpun")
 _root = NodePath("..")
 _font = ExtResource("10_nqnyt")
 
-[node name="PhysicsMovementComponent" type="Node" parent="." node_paths=PackedStringArray("_nodes_affected_by_facing")]
+[node name="PhysicsMovement" type="Node" parent="." node_paths=PackedStringArray("_nodes_affected_by_facing")]
+unique_name_in_owner = true
 script = ExtResource("12_73flk")
 _nodes_affected_by_facing = [NodePath("../AnimatedSprite2D"), NodePath("../ProjectilePosition")]
+
+[node name="StatSheet" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("12_dnaiq")
+_stats = Array[ExtResource("13_hojhi")]([SubResource("Resource_7qvdv"), SubResource("Resource_nm8ul")])

@@ -71,6 +71,3 @@ position = Vector2(13, 0)
 
 [node name="DamageNumbers" parent="." index="12"]
 position = Vector2(0, -8)
-
-[node name="MovementComponent" parent="." index="13" node_paths=PackedStringArray("root")]
-root = NodePath("..")

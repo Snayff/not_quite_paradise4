@@ -1,5 +1,5 @@
 ## TODO ##
-- player movement and attacks
+- player attacks
 	https://youtu.be/FYF6a-rCpgI?si=A9FCv_ZZ3nba8zmx
 - player target nearest
 	highlight targeted actor
@@ -50,6 +50,17 @@
 	we might end up with quite a few resources, so may be eaiser to have an interface for them
 - camera following player - add phantom camera
 	https://github.com/ramokz/phantom-camera
+- combat active plugin editor
+	docs:
+		https://docs.godotengine.org/en/stable/tutorials/plugins/editor/making_main_screen_plugins.html
+		https://docs.godotengine.org/en/stable/tutorials/plugins/editor/making_plugins.html#doc-making-plugins
+	example:
+		https://github.com/godotengine/godot-demo-projects/tree/master/misc/2.5d
+		https://www.reddit.com/r/godot/comments/101o2zc/im_working_on_a_plugin_to_make_content_production/
+- stat sheet
+	example:
+		using custom  resource: https://github.com/TheSecondReal0/asaio-party/tree/main/src
+
 
 ## THOUGHTS ##
 

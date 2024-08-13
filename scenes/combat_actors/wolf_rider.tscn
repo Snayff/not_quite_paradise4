@@ -74,6 +74,3 @@ is_active = false
 _creator = NodePath("..")
 _allegiance = NodePath("../Allegiance")
 _delivery_method = 2
-
-[node name="MovementComponent" parent="." index="15" node_paths=PackedStringArray("root")]
-root = NodePath("..")

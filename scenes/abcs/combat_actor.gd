@@ -15,8 +15,8 @@ signal died  ## actor has died
 @onready var reusable_spawner: SpawnerComponent = %ReusableSpawner  ## component for spawning runtime-defined Nodes on the actor
 @onready var allegiance: Allegiance = %Allegiance
 @onready var _damage_numbers: PopUpNumbers = %DamageNumbers
-@onready var _death_trigger: DeathTrigger = $DeathTrigger
-@onready var _physics_movement: PhysicsMovementComponent = $PhysicsMovementComponent
+@onready var _death_trigger: DeathTrigger = %DeathTrigger
+@onready var _physics_movement: PhysicsMovementComponent = %PhysicsMovement
 #endregion
 
 
