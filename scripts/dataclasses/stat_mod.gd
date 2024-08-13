@@ -30,7 +30,7 @@ extends Resource
 
 
 #region FUNCS
-func _init(type_: Constants.STAT_MOD, amount_: float) -> void:
+func _init(type_: Constants.STAT_MOD = Constants.STAT_MOD.add, amount_: float = 0) -> void:
 	resource_local_to_scene = true
 	type = type_
 	amount = amount_

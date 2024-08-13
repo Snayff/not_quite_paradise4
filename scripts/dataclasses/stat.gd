@@ -39,7 +39,7 @@ var value: float:
 
 
 #region FUNCS
-func _init(type_: Constants.STAT, base_value_: float) -> void:
+func _init(type_: Constants.STAT = Constants.STAT.strength, base_value_: float = 0) -> void:
 	resource_local_to_scene = true
 	type = type_
 	base_value = base_value_
