@@ -24,12 +24,14 @@ signal terminated(effect: Effect)
 
 #region VARS
 var _parent: EffectChain
+var _source: Node  ## which entity created the effect, e.g. a [CombatActor]
 #endregion
 
 
 #region FUNCS
-func _init(parent: EffectChain) -> void:
+func _init(parent: EffectChain, source: Node) -> void:
 	_parent = parent
+	_source = source
 
 ## apply the effect to the target
 func apply(target: CombatActor) -> void:

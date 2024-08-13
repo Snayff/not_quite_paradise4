@@ -62,7 +62,7 @@ enum STAT {
 }
 
 
-enum STAT_MOD {
+enum MATH_MOD_TYPE {
 	add,
 	multiply
 }

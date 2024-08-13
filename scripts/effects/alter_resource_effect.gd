@@ -1,6 +1,7 @@
 ## amend a resource by adding, subtracting or multiplying the value
 ##
 ## these are direct manipulations, no resistances are taken into consideration.
+## @deprecate
 #@icon("")
 class_name AlterResourceEffect
 extends Effect

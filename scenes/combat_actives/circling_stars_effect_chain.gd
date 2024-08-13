@@ -19,6 +19,7 @@ extends EffectChain
 #
 @export_category("On Hit")
 @export var _damage: int = 1
+@export var _damage_scalers: Array[EffectStatScalerData] = []
 #endregion
 
 
@@ -32,9 +33,10 @@ func on_hit(hurtbox: HurtboxComponent) -> void:
 	var actor_hit: CombatActor = hurtbox.root
 
 	# initial damage
-	var effect = DealDamageEffect.new(self)
+	var effect = DealDamageEffect.new(self, _caster)
 	_register_effect(effect)
-	effect.damage = _damage
+	effect.base_damage = _damage
+	effect.scalers = _damage_scalers
 	effect.apply(actor_hit)
 
 

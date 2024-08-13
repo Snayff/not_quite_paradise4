@@ -37,21 +37,21 @@ func on_hit(hurtbox: HurtboxComponent) -> void:
 	var actor_hit: CombatActor = hurtbox.root
 
 	# initial damage
-	var effect = DealDamageEffect.new(self)
+	var effect = DealDamageEffect.new(self, _caster)
 	_register_effect(effect)
-	effect.damage = _damage
+	effect.base_damage = _damage
 	effect.apply(actor_hit)
 
 	# repeating damage
-	effect = RepeatApplicationEffect.new(self)
+	effect = RepeatApplicationEffect.new(self, _caster)
 	_register_effect(effect)
 	effect.interval = _interval
 	effect.num_iterations = _num_iterations
-	var interval_effect = DealDamageEffect.new(self)
-	interval_effect.damage = _repeat_damage
+	var interval_effect = DealDamageEffect.new(self, _caster)
+	interval_effect.base_damage = _repeat_damage
 	interval_effect.is_one_shot = false
 	effect.add_repeating_effect(interval_effect)
-	var interval_animation = SpawnSceneEffect.new(self)
+	var interval_animation = SpawnSceneEffect.new(self, _caster)
 	interval_animation.scene = _repeat_damage_animation
 	effect.add_repeating_effect(interval_animation)
 	effect.apply(actor_hit)

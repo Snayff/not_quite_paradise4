@@ -1,4 +1,4 @@
-## a numerical statistic, with helper functionality for handling modification
+## a numerical statistic, with helper functionality for handling modifications
 ##
 ## for modifiers, additions are handled before multiplications
 @icon("res://assets/node_icons/stat.png")
@@ -7,7 +7,9 @@ extends Resource
 
 
 #region SIGNALS
-
+signal base_value_changed
+signal modifier_added
+signal modifier_removed
 #endregion
 
 
@@ -22,7 +24,10 @@ extends Resource
 #
 @export_category("Details")
 @export var type: Constants.STAT
-@export var base_value: float
+@export var base_value: float:
+	set(value):
+		base_value = value
+		base_value_changed.emit()
 #endregion
 
 
@@ -33,8 +38,10 @@ var value: float:
 	set(value_):
 		push_error("StatData: Can't set directly.")
 	get:
-		_recalculate()
+		if _is_dirty:
+			_recalculate()
 		return _modified_value
+var _is_dirty: bool = true  ## if the value has changed since last recalculated
 #endregion
 
 
@@ -49,15 +56,33 @@ func _recalculate() -> void:
 	_modified_value = base_value
 	var multiplier: float = 1
 	for mod in _modifiers:
-		if mod.type == Constants.STAT_MOD.add:
+		if mod.type == Constants.MATH_MOD_TYPE.add:
 			_modified_value += mod.amount
 
-		elif  mod.type == Constants.STAT_MOD.multiply:
+		elif  mod.type == Constants.MATH_MOD_TYPE.multiply:
 			multiplier += mod.amount
 
 		else:
 			push_warning("StatData: unable to handle mod type of ", mod.type, ".")
 
 	_modified_value *= multiplier
+	_is_dirty = false
+
+## add a new modifier to the stat
+func add_modifier(mod: StatModData) -> void:
+	_modifiers.append(mod)
+	modifier_added.emit()
+	_is_dirty = true
+
+## remove an existing modifier from the stat
+func remove_modifier(mod: StatModData) -> void:
+	_modifiers.erase(mod)
+	modifier_removed.emit()
+	_is_dirty = true
+
+## remove all modifiers from the stat
+func remove_all_modifiers() -> void:
+	_modifiers = []
+	_is_dirty = true
 
 #endregion
