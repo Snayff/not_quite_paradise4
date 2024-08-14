@@ -14,10 +14,10 @@ extends EffectChain
 
 
 #region EXPORTS
-# @export_category("Component Links")
+# @export_group("Component Links")
 # @export var
 #
-@export_category("On Hit")
+@export_group("On Hit")
 @export var _damage: int = 1
 @export var _damage_scalers: Array[EffectStatScalerData] = []
 #endregion

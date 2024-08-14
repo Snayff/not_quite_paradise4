@@ -19,10 +19,10 @@ signal modifier_removed
 
 
 #region EXPORTS
-# @export_category("Component Links")
+# @export_group("Component Links")
 # @export var
 #
-@export_category("Details")
+@export_group("Details")
 @export var type: Constants.STAT_TYPE
 @export var base_value: float:
 	set(value):

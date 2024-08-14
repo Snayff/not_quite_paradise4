@@ -17,20 +17,20 @@ extends Node2D
 
 
 #region EXPORTS
-@export_category("Component Links")
+@export_group("Component Links")
 @export var _creator: CombatActor  ## who created this active
 @export var _allegiance: Allegiance  ## creator's allegiance component
 @export var _projectile_position: Marker2D  ##  projectile spawn location. Must have to be able to use `projectile` delivery method.
 @export var _orbiter: ProjectileOrbiterComponent  ## handler for orbitals. Must have to be able to use `orbital` delivery method.
 
-@export_category("Targeting")
+@export_group("Targeting")
 @export var _valid_targets: Constants.TARGET_OPTION  ## who the active can affect
 
-@export_category("Travel")
+@export_group("Travel")
 @export var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
 @export var _travel_range: int  #FIXME: this isnt helpful for designing orbitals
 
-@export_category("Misc")
+@export_group("Misc")
 @export var is_active: bool = true  ## whether the CombatActive is functioning or not
 #endregion
 

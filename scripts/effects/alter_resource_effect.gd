@@ -18,10 +18,10 @@ extends Effect
 
 
 #region EXPORTS
-# @export_category("Component Links")
+# @export_group("Component Links")
 # @export var
 #
-@export_category("Details")
+@export_group("Details")
 @export var resource_name: String
 @export var alteration_amount: int  ## the amount to add or subtract from the resource
 @export var multiplier: float  ## the amount to multiply the resource by

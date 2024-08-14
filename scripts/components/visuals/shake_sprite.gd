@@ -6,10 +6,10 @@ extends Node
 
 
 
-@export_category("Component Links")
+@export_group("Component Links")
 @export var sprite: CanvasItem  ## the sprite to apply the shake to
 
-@export_category("Details")
+@export_group("Details")
 @export var amount: int = 2.0  ## the max position offset in the shake
 @export var duration: float = 0.4  ## how long to shake for
 

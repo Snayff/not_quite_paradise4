@@ -15,18 +15,18 @@ extends Marker2D
 
 
 #region EXPORTS
-@export_category("Component Links")
+@export_group("Component Links")
 @export var _root: Node2D
-@export_category("Colours")
+@export_group("Colours")
 @export var _font_colour: Color = Color.WHITE
 @export var _font_alt_colour: Color = Color.FIREBRICK
-@export_category("Font")
+@export_group("Font")
 @export var _font_size: int = 16
 @export var _font: FontFile = FontFile.new()
-@export_category("Outline")
+@export_group("Outline")
 @export var _outline_colour: Color = Color.BLACK
 @export var _outline_size: int = 1
-@export_category("Other")
+@export_group("Other")
 @export var _duration: float = 0.25
 #endregion
 

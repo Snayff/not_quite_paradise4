@@ -4,10 +4,10 @@ class_name ScaleComponent
 extends Node
 
 
-@export_category("Component Links")
+@export_group("Component Links")
 @export var sprite: CanvasItem  ## the sprite that this component will be scaling
 
-@export_category("Details")
+@export_group("Details")
 @export var scale_amount = Vector2(1.5, 1.5)  ## the scale amount (as a vector)
 @export var scale_duration: = 0.4  ## the scale duration
 

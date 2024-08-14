@@ -15,10 +15,10 @@ extends Node
 
 
 #region EXPORTS
-# @export_category("Component Links")
+# @export_group("Component Links")
 # @export var
 #
-@export_category("Details")
+@export_group("Details")
 @export var _stats: Array[StatData]  ## a unique list of all the stats
 #endregion
 

@@ -20,9 +20,9 @@ const WALK_MAX_VELOCITY = 200.0
 
 
 #region EXPORTS
-@export_category("Component Links")
+@export_group("Component Links")
 @export var _nodes_affected_by_facing: Array[Node2D] = []
-@export_category("Details")
+@export_group("Details")
 @export var is_attached_to_player: bool = false
 #endregion
 

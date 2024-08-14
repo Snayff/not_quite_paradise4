@@ -15,10 +15,10 @@ extends Node
 
 
 #region EXPORTS
-@export_category("Component Links")
+@export_group("Component Links")
 @export var death_trigger: DeathTrigger
 #
-# @export_category("Details")  # feel free to rename category
+# @export_group("Details")  # feel free to rename category
 #endregion
 
 
@@ -34,10 +34,20 @@ func _ready() -> void:
 		_boons_banes[trigger] = []
 
 func add_boon_bane(boon_bane: BoonBane, trigger: Constants.TRIGGER) -> void:
+	# if unique, check for any existing of same class
+	if boon_bane.is_unique:
+		for boon_bane_ in _boons_banes:
+			if boon_bane_.get_script().resource_path == boon_bane.get_script().resource_path:
+				return
+
 	_boons_banes[trigger].append(boon_bane)
 	_link_signals_to_triggers(boon_bane)
 
-func remove_boon_bane(boon_bane: BoonBane, trigger: Constants.TRIGGER) -> void:
+func remove_boon_bane(boon_bane: BoonBane, trigger: Constants.TRIGGER, ignore_permanent: bool = false) -> void:
+	if boon_bane.duration_type == Constants.DURATION_TYPE.permanent and not ignore_permanent:
+		push_warning("BoonsBanesContainerComponent: can't remove a permanent boon_bane unless ignore_permanent is set to true.")
+		return
+
 	_boons_banes[trigger].erase(boon_bane)
 	boon_bane.queue_free()
 

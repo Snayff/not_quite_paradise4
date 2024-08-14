@@ -14,12 +14,12 @@ extends EffectChain
 
 
 #region EXPORTS
-# @export_category("Component Links")
+# @export_group("Component Links")
 # @export var
 #
-@export_category("On Hit")
+@export_group("On Hit")
 @export var _damage: int = 1
-@export_category("Interval")
+@export_group("Interval")
 @export var _repeat_damage: int = 1
 @export var _num_iterations: int = 10
 @export var _interval: float = 1

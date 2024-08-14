@@ -4,10 +4,10 @@ class_name FlashComponent
 extends Node
 
 
-@export_category("Component Links")
+@export_group("Component Links")
 @export var sprite: CanvasItem  ## the sprite this compononet will be flashing
 
-@export_category("Details")
+@export_group("Details")
 @export var material = preload("res://assets/effects/white_flash/white_flash_material.tres")  ## the material to alter the sprite
 @export var flash_duration: = 0.2  ## duration of the flash
 

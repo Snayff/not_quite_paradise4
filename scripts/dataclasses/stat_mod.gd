@@ -14,10 +14,10 @@ extends Resource
 
 
 #region EXPORTS
-# @export_category("Component Links")
+# @export_group("Component Links")
 # @export var
 #
-@export_category("Details")
+@export_group("Details")
 @export var type: Constants.MATH_MOD_TYPE
 @export var amount: float
 # TODO: duration and duration type, e.g. num applications or time

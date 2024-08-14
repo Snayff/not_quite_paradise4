@@ -21,14 +21,14 @@ signal died  ## actor has died
 
 
 #region EXPORTS
-@export_category("Details")
+@export_group("Details")
 @export var _is_player: bool = false  ## if the actor is player controlled
-@export_category("Targeting")
+@export_group("Targeting")
 @export var target: CombatActor:  ## TODO: remove once proper targeting is in
 	set(value):
 		target = value
 		target_changed.emit(target)
-@export_category("Physics")
+@export_group("Physics")
 @export var _linear_damp: float = 5
 @export var _mass: float = 100
 #endregion

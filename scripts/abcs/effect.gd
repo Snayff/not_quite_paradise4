@@ -15,21 +15,22 @@ signal terminated(effect: Effect)
 
 
 #region EXPORTS
-# @export_category("Component Links")
+# @export_group("Component Links")
 # @export var
 #
-# @export_category("Details")  # feel free to rename category
+# @export_group("Details")  # feel free to rename category
 #endregion
 
 
 #region VARS
-var _parent: EffectChain
+var _parent: Node  ## either [EffectChain] or [BoonBane]
 var _source: Node  ## which entity created the effect, e.g. a [CombatActor]
 #endregion
 
 
 #region FUNCS
-func _init(parent: EffectChain, source: Node) -> void:
+func _init(parent: Node, source: Node) -> void:
+	assert(parent is EffectChain or parent is BoonBane, "Effect: parent isnt of expected type.")
 	_parent = parent
 	_source = source
 

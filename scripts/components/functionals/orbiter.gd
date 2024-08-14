@@ -15,10 +15,10 @@ extends Node2D
 
 
 #region EXPORTS
-# @export_category("Component Links")
+# @export_group("Component Links")
 # @export var
 #
-@export_category("Details")
+@export_group("Details")
 @export var _max_projectiles: int = 10
 @export var _orbit_scale: float = 30
 @export var _rotation_speed: float = PI

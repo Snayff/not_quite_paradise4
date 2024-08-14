@@ -23,8 +23,8 @@ signal died
 
 
 #region EXPORTS
-#@export_category("Component Links")
-#@export_category("Config")
+#@export_group("Component Links")
+#@export_group("Config")
 
 #endregion
 

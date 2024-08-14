@@ -7,7 +7,7 @@ extends Area2D
 ## this hurtbox is hit by a hitbox
 signal hurt(hitbox)
 
-@export_category("Component Links")
+@export_group("Component Links")
 @export var root: CombatActor  ## the actor that created the thing that used this hitbox
 
 

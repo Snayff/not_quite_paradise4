@@ -4,11 +4,11 @@
 class_name Allegiance
 extends Node
 
-@export_category("Component Links")
+@export_group("Component Links")
 @export var hurtbox: HurtboxComponent
 @export var root_actor: CombatActor
 
-@export_category("Details")
+@export_group("Details")
 @export var team: Constants.TEAM
 
 

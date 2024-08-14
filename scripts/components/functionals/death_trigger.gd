@@ -6,11 +6,11 @@ extends Node
 
 signal died
 
-@export_category("Component Links")
+@export_group("Component Links")
 @export var _root: Node  ## the node this component will operate on#
-@export_category("Automatic Triggers")
+@export_group("Automatic Triggers")
 @export var _resource: ResourceComponent  ## the resource that triggers death on empty. @OPTIONAL.
-@export_category("Results")
+@export_group("Results")
 @export var _destroy_effect_spawner: SpawnerComponent  ## a spawner component for creating an effect on death. @OPTIONAL.
 
 

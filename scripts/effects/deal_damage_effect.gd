@@ -15,9 +15,9 @@ extends Effect
 
 
 #region EXPORTS
-# @export_category("Component Links")
+# @export_group("Component Links")
 # @export var
-#@export_category("Details")
+#@export_group("Details")
 
 #endregion
 
