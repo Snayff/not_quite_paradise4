@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cxtaa45joyw40"]
-
-[ext_resource type="Script" path="res://scripts/boon_banes/burn.gd" id="1_jg42e"]
-
-[node name="Burn" type="Node"]
-script = ExtResource("1_jg42e")
-_damage_per_tick = 50.0
-_duration_type = 2

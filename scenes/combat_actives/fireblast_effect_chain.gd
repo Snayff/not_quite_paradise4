@@ -42,21 +42,11 @@ func on_hit(hurtbox: HurtboxComponent) -> void:
 	effect.base_damage = _damage
 	effect.apply(actor_hit)
 
-	# repeating damage
-	effect = RepeatApplicationEffect.new(self, _caster)
-	_register_effect(effect)
-	effect.interval = _interval
-	effect.num_iterations = _num_iterations
-	var interval_effect = DealDamageEffect.new(self, _caster)
-	interval_effect.base_damage = _repeat_damage
-	interval_effect.is_one_shot = false
-	effect.add_repeating_effect(interval_effect)
-	var interval_animation = SpawnSceneEffect.new(self, _caster)
-	interval_animation.scene = _repeat_damage_animation
-	effect.add_repeating_effect(interval_animation)
-	effect.apply(actor_hit)
-
-
-
+	# apply boon_bane
+	if not actor_hit.boons_banes is BoonsBanesContainerComponent:
+		# no boon bane container to apply a boon bane to
+		return
+	var burn = Burn.new(_caster)
+	actor_hit.boons_banes.add_boon_bane(burn)
 
 #endregion

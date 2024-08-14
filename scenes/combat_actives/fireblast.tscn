@@ -9,6 +9,9 @@
 _valid_targets = 5
 _travel_range = 500
 
+[node name="CooldownTimer" parent="." index="0"]
+wait_time = 5.0
+
 [node name="ProjectileSpawner" parent="." index="1"]
 scene = ExtResource("2_wxakp")
 

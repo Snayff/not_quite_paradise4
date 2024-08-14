@@ -126,5 +126,7 @@ unique_name_in_owner = true
 script = ExtResource("12_dnaiq")
 _stats = Array[ExtResource("13_hojhi")]([SubResource("Resource_7qvdv"), SubResource("Resource_nm8ul")])
 
-[node name="BoonsBanesContainer" type="Node" parent="."]
+[node name="BoonsBanesContainer" type="Node" parent="." node_paths=PackedStringArray("_root", "_death_trigger")]
 script = ExtResource("14_wly6u")
+_root = NodePath("..")
+_death_trigger = NodePath("../DeathTrigger")

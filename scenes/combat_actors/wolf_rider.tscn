@@ -68,9 +68,9 @@ _creator = NodePath("..")
 _allegiance = NodePath("../Allegiance")
 _projectile_position = NodePath("../ProjectilePosition")
 _delivery_method = 1
-is_active = false
 
 [node name="CirclingStars" parent="." index="14" node_paths=PackedStringArray("_creator", "_allegiance") instance=ExtResource("7_47lvt")]
 _creator = NodePath("..")
 _allegiance = NodePath("../Allegiance")
 _delivery_method = 2
+is_active = false
