@@ -52,7 +52,7 @@ func _calculate_damage(target: CombatActor) -> int:
 ## base damage modified by scalers
 func _apply_scalers() -> int:
 	var damage = base_damage
-	var stats: StatSheetComponent = _source.get_node_or_null("StatSheet")
+	var stats: StatsContainerComponent = _source.get_node_or_null("StatSheet")
 	if stats == null:
 		return base_damage
 
@@ -65,7 +65,7 @@ func _apply_scalers() -> int:
 ##
 ## NOTE: will need to amend when we add more stats, to account for different resistances and damage types
 func _apply_resistances(target: CombatActor, damage: int) -> int:
-	var stats: StatSheetComponent = target.get_node_or_null("StatSheet")
+	var stats: StatsContainerComponent = target.get_node_or_null("StatSheet")
 	if stats == null:
 		return damage
 

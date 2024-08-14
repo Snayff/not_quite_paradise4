@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cgd54nt0un6ix"]
+[gd_scene load_steps=19 format=3 uid="uid://cgd54nt0un6ix"]
 
 [ext_resource type="Script" path="res://scenes/abcs/combat_actor.gd" id="1_7c8xu"]
 [ext_resource type="Script" path="res://scripts/components/functionals/hurtbox.gd" id="2_24d4q"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://scripts/components/functionals/physics_movement.gd" id="12_73flk"]
 [ext_resource type="Script" path="res://scripts/components/functionals/stat_sheet.gd" id="12_dnaiq"]
 [ext_resource type="Script" path="res://scripts/dataclasses/stat.gd" id="13_hojhi"]
+[ext_resource type="Script" path="res://scripts/components/functionals/boons_banes_container.gd" id="14_wly6u"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8wo5g"]
 
@@ -120,7 +121,10 @@ unique_name_in_owner = true
 script = ExtResource("12_73flk")
 _nodes_affected_by_facing = [NodePath("../AnimatedSprite2D"), NodePath("../ProjectilePosition")]
 
-[node name="StatSheet" type="Node" parent="."]
+[node name="StatsContainer" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("12_dnaiq")
 _stats = Array[ExtResource("13_hojhi")]([SubResource("Resource_7qvdv"), SubResource("Resource_nm8ul")])
+
+[node name="BoonsBanesContainer" type="Node" parent="."]
+script = ExtResource("14_wly6u")

@@ -58,7 +58,7 @@ enum EFFECT_DELIVERY_METHOD {
 	orbital,
 }
 
-## stats
+## statistical breakdown of an entities physical properties
 enum STAT_TYPE {
 	strength,
 	defence
@@ -70,6 +70,18 @@ enum MATH_MOD_TYPE {
 	multiply
 }
 
-enum REACTION_TYPE {
-	x
+## the things that can cause a reaction.
+##
+## usually used for [BoonBane]s.
+enum TRIGGER {
+	on_hit_received,
+	on_death,
+	on_interval,
+}
+
+enum DURATION_TYPE {
+	time,
+	applications,
+	until_removed,
+	permanent
 }

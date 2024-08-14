@@ -1,4 +1,4 @@
-## an active skill used in combat
+## ABC for an active skill used in combat
 @icon("res://assets/node_icons/combat_active.png")
 class_name CombatActive
 extends Node2D

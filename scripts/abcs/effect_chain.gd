@@ -1,4 +1,4 @@
-## abc for a series of effects
+## ABC for a series of effects
 ##
 ## an EffectChain usually remains active as a child of a [CombatActive], meaning it isnt freed and reinstatiated.
 @icon("res://assets/node_icons/effect_chain.png")

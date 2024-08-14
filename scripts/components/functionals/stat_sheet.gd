@@ -1,6 +1,6 @@
 ## interface for multiple [StatData]s.
 @icon("res://assets/node_icons/stat_sheet.png")
-class_name StatSheetComponent
+class_name StatsContainerComponent
 extends Node
 
 
@@ -42,7 +42,7 @@ func _check_for_duplicates() -> void:
 		check_array.clear()
 		check_array = _stats.filter(func(i): return i.type == stat.type)
 		if check_array.size() > 1:
-			push_warning("StatSheetComponent: Multiple instances of ", stat.type, " found. Must be unique.")
+			push_warning("StatsContainerComponent: Multiple instances of ", stat.type, " found. Must be unique.")
 
 ## get a stat from the stat sheet. nullable.
 func get_stat(stat: Constants.STAT_TYPE) -> StatData:

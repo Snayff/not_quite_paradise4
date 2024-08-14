@@ -1,4 +1,4 @@
-## class desc
+## ABC for Effect
 #@icon("")
 class_name Effect
 extends Node
@@ -33,7 +33,7 @@ func _init(parent: EffectChain, source: Node) -> void:
 	_parent = parent
 	_source = source
 
-## apply the effect to the target
+## @virtual. apply the effect to the target
 func apply(target: CombatActor) -> void:
 	pass
 
@@ -46,3 +46,4 @@ func terminate() -> void:
 
 
 #endregion
+
