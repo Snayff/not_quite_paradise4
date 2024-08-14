@@ -21,7 +21,7 @@ extends Resource
 # @export var
 #
 @export_category("Details")
-@export var stat: Constants.STAT  ## stat to scale by the given amount
+@export var stat: Constants.STAT_TYPE  ## stat to scale by the given amount
 @export var scale_value: float  ## 0.5 is half of the stat, 1 is the same amount as the stat, 2 is double the stat.
 #endregion
 

@@ -26,6 +26,7 @@ extends Effect
 var is_one_shot: bool = true  ## if true, terminates after 1 application. if false, needs to be terminated manually.
 var base_damage: int
 var scalers: Array[EffectStatScalerData] = []
+var target_resource: String = "Health"  ## name of resource component. must match resource nodes name.
 #endregion
 
 
@@ -33,11 +34,10 @@ var scalers: Array[EffectStatScalerData] = []
 
 ## reduce health of target
 func apply(target: CombatActor) -> void:
-	# TODO: enable targeting any resource
-	var health = target.get_node_or_null("Health")
-	if health is ResourceComponent:
+	var resource = target.get_node_or_null(target_resource)
+	if resource is ResourceComponent:
 		var damage = _calculate_damage(target)
-		health.decrease(damage)
+		resource.decrease(damage)
 
 	if is_one_shot:
 		terminate()
@@ -69,7 +69,7 @@ func _apply_resistances(target: CombatActor, damage: int) -> int:
 	if stats == null:
 		return damage
 
-	damage -= stats.get_stat(Constants.STAT.defence).value
+	damage -= stats.get_stat(Constants.STAT_TYPE.defence).value
 	return damage
 
 #endregion

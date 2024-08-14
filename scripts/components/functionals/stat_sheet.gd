@@ -45,7 +45,7 @@ func _check_for_duplicates() -> void:
 			push_warning("StatSheetComponent: Multiple instances of ", stat.type, " found. Must be unique.")
 
 ## get a stat from the stat sheet. nullable.
-func get_stat(stat: Constants.STAT) -> StatData:
+func get_stat(stat: Constants.STAT_TYPE) -> StatData:
 	for stat_data in _stats:
 		if stat_data.type == stat:
 			return stat_data

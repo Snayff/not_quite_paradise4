@@ -1,3 +1,6 @@
+## constants used across the project.
+##
+## where an instance may exist with a similar name, e.g. STAT, we append "_TYPE" or similar to the constant's name, to help differentiation.
 extends Node
 
 const FRICTION: float = 10.3 ## the reduction in force applied to a physics object when new force not being applied
@@ -56,13 +59,17 @@ enum EFFECT_DELIVERY_METHOD {
 }
 
 ## stats
-enum STAT {
+enum STAT_TYPE {
 	strength,
 	defence
 }
 
-
+## how to mathematically apply a modifier
 enum MATH_MOD_TYPE {
 	add,
 	multiply
+}
+
+enum REACTION_TYPE {
+	x
 }

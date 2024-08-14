@@ -23,7 +23,7 @@ signal modifier_removed
 # @export var
 #
 @export_category("Details")
-@export var type: Constants.STAT
+@export var type: Constants.STAT_TYPE
 @export var base_value: float:
 	set(value):
 		base_value = value
@@ -46,7 +46,7 @@ var _is_dirty: bool = true  ## if the value has changed since last recalculated
 
 
 #region FUNCS
-func _init(type_: Constants.STAT = Constants.STAT.strength, base_value_: float = 0) -> void:
+func _init(type_: Constants.STAT_TYPE = Constants.STAT_TYPE.strength, base_value_: float = 0) -> void:
 	resource_local_to_scene = true
 	type = type_
 	base_value = base_value_
