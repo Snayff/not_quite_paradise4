@@ -21,7 +21,7 @@ var travel_range: int
 var valid_effect_chain_target: Constants.TARGET_OPTION  ## who the effect chain can apply to
 var valid_collision_target: Constants.TARGET_OPTION  ## who the physics collides with
 var team: Constants.TEAM
-var target_resource: ResourceComponent  ## the resource damaged when the attached Hurtbox is hit
+var target_resource: SupplyComponent  ## the resource damaged when the attached Hurtbox is hit
 var force_magnitude: float = 50.0
 var force_application: String = "initial"
 var _force_applied = false

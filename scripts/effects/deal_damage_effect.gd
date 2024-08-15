@@ -35,7 +35,7 @@ var target_resource: String = "Health"  ## name of resource component. must matc
 ## reduce health of target
 func apply(target: CombatActor) -> void:
 	var resource = target.get_node_or_null(target_resource)
-	if resource is ResourceComponent:
+	if resource is SupplyComponent:
 		var damage = _calculate_damage(target)
 		resource.decrease(damage)
 

@@ -10,14 +10,17 @@ signal died  ## actor has died
 
 
 #region ON READY
-@onready var _health: ResourceComponent = %Health
+#FIXME: can we get rid of some of these? shouldnt we only need them for things we use in this script, rather than as an interface for other nodes, who
+#  could use get_node()?
+@onready var _health: SupplyComponent = %Health
 @onready var _on_hit_flash: FlashComponent = %OnHitFlash
 @onready var reusable_spawner: SpawnerComponent = %ReusableSpawner  ## component for spawning runtime-defined Nodes on the actor
 @onready var allegiance: Allegiance = %Allegiance
 @onready var _damage_numbers: PopUpNumbers = %DamageNumbers
 @onready var _death_trigger: DeathTrigger = %DeathTrigger
 @onready var _physics_movement: PhysicsMovementComponent = %PhysicsMovement
-@onready var boons_banes: BoonsBanesContainerComponent = $BoonsBanesContainer
+@onready var boons_banes: BoonsBanesContainerComponent = %BoonsBanesContainer
+@onready var supply_container: SupplyContainerComponent = %SupplyContainer
 
 #endregion
 
@@ -51,7 +54,7 @@ func _ready() -> void:
 	update_collisions()
 
 	# UPDATE CHILDREN
-	if _health is ResourceComponent:
+	if _health is SupplyComponent:
 		_health.value_decreased.connect(_on_hit_flash.activate.unbind(1))  # activate flash on hit
 		_health.emptied.connect(func(): died.emit())  # inform of death when empty
 

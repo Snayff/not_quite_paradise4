@@ -62,10 +62,6 @@ team = 1
 [node name="DeathEffectSpawner" parent="." index="5"]
 scene = ExtResource("6_utgjv")
 
-[node name="Health" parent="." index="7"]
-_value = 10
-max_value = 10
-
 [node name="ProjectilePosition" parent="." index="9"]
 position = Vector2(13, 0)
 

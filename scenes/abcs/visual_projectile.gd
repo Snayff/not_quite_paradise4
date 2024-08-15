@@ -17,7 +17,7 @@ signal died
 @onready var hitbox: HitboxComponent = %HitboxComponent
 @onready var movement_component: MovementComponent = %MovementComponent
 @onready var death_trigger: DeathTrigger = %DeathTrigger
-@onready var travel_range_resource: ResourceComponent = %TravelRange
+@onready var travel_range_resource: SupplyComponent = %TravelRange
 
 #endregion
 
@@ -37,7 +37,7 @@ var creator: CombatActor  ## who created the projectile
 var team: Constants.TEAM
 # config - these are all set by the combat active
 var valid_effect_chain_target: Constants.TARGET_OPTION  ## who the effect chain can apply to
-var target_resource: ResourceComponent  ## the resource damaged when a valid Hurtbox is hit
+var target_resource: SupplyComponent  ## the resource damaged when a valid Hurtbox is hit
 var effect_chain: EffectChain  ## effect chain to be called when hitting valid target
 
 #endregion

@@ -6,7 +6,7 @@ extends Node2D
 #region EXPORTS
 @export_group("Component Links")
 @export var root: Node2D  ## physical or non physical node. Rigidbody2D is the only physical node handled.
-@export var _travel_resource: ResourceComponent  ## the resource drained when the parent is moved
+@export var _travel_resource: SupplyComponent  ## the resource drained when the parent is moved
 @export_group("Config")
 @export_range(0, 0, 1, "or_greater") var _amount_drained_on_move: float = 0  ## how much of the resource is drained per pixel moved
 #endregion
@@ -44,7 +44,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	# update travel resource; if empty it may auto self-destruct, based on [DeathTrigger] settings.
-	if _travel_resource is ResourceComponent:
+	if _travel_resource is SupplyComponent:
 		if _previous_position == Vector2.ZERO:
 			_previous_position = root.global_position
 		else:

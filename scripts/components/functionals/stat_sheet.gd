@@ -44,7 +44,9 @@ func _check_for_duplicates() -> void:
 		if check_array.size() > 1:
 			push_warning("StatsContainerComponent: Multiple instances of ", stat.type, " found. Must be unique.")
 
-## get a stat from the stat sheet. nullable.
+## get a stat from the stat sheet.
+##
+## returns null if no matching stat found.
 func get_stat(stat: Constants.STAT_TYPE) -> StatData:
 	for stat_data in _stats:
 		if stat_data.type == stat:

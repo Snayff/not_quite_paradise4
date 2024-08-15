@@ -1,5 +1,5 @@
 ## interface for all boons and banes, aka status effects. handles linking the boonbane to the relevant signals.
-@icon("res://assets/node_icons/status_effects.png")
+@icon("res://assets/node_icons/boon_bane_container.png")
 class_name BoonsBanesContainerComponent
 extends Node
 

@@ -38,7 +38,7 @@ extends Effect
 
 func apply(target: CombatActor) -> void:
 	var resource = target.get_node_or_null(resource_name.capitalize())
-	if resource is ResourceComponent:
+	if resource is SupplyComponent:
 
 		# apply addition/subtraction first
 		if alteration_amount > 0:

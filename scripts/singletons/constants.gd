@@ -58,10 +58,20 @@ enum EFFECT_DELIVERY_METHOD {
 	orbital,
 }
 
-## statistical breakdown of an entities physical properties
+## the type of statistical breakdown of an entities physical properties.
+##
+## relates to [StatData].
 enum STAT_TYPE {
 	strength,
 	defence
+}
+
+## similar to a stat, but one that can have a fluctuating value between 0 and max.
+##
+## relates to [SupplyComponent].
+enum SUPPLY_TYPE {
+	health,
+	stamina
 }
 
 ## how to mathematically apply a modifier
@@ -79,6 +89,7 @@ enum TRIGGER {
 	on_interval,
 }
 
+## how a lifetime or duration is determined
 enum DURATION_TYPE {
 	time,
 	applications,

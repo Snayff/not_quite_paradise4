@@ -56,10 +56,6 @@ collision_layer = 2
 [node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
 shape = SubResource("CircleShape2D_3e800")
 
-[node name="Health" parent="." index="7"]
-_value = 10
-max_value = 10
-
 [node name="ProjectilePosition" parent="." index="9"]
 position = Vector2(12, 0)
 

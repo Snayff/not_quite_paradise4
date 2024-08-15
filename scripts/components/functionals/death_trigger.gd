@@ -9,7 +9,7 @@ signal died
 @export_group("Component Links")
 @export var _root: Node  ## the node this component will operate on#
 @export_group("Automatic Triggers")
-@export var _resource: ResourceComponent  ## the resource that triggers death on empty. @OPTIONAL.
+@export var _resource: SupplyComponent  ## the resource that triggers death on empty. @OPTIONAL.
 @export_group("Results")
 @export var _destroy_effect_spawner: SpawnerComponent  ## a spawner component for creating an effect on death. @OPTIONAL.
 
@@ -19,7 +19,7 @@ func _ready() -> void:
 	assert(_root is Node, "Misssing `root`. ")
 
 	# Connect the the no health signal on our stats to the activate function, if we have a resource.
-	if _resource is ResourceComponent:
+	if _resource is SupplyComponent:
 		_resource.emptied.connect(activate)
 
 func activate() -> void:

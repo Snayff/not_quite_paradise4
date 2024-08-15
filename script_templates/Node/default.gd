@@ -17,10 +17,10 @@ extends _BASE_
 
 
 #region EXPORTS
-# @export_category("Component Links")
+# @export_group("Component Links")
 # @export var 
 #
-# @export_category("Details")  # feel free to rename category
+# @export_group("Details")
 #endregion
 
 

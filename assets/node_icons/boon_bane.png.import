@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cle3t842ah64w"
-path="res://.godot/imported/status_effects.png-2bb76efe65e6e513ba05ae7bb2dc9955.ctex"
+uid="uid://7vxsqj6wf335"
+path="res://.godot/imported/boon_bane.png-ee9c529075be538983954aa6dbe34c83.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/node_icons/status_effects.png"
-dest_files=["res://.godot/imported/status_effects.png-2bb76efe65e6e513ba05ae7bb2dc9955.ctex"]
+source_file="res://assets/node_icons/boon_bane.png"
+dest_files=["res://.godot/imported/boon_bane.png-ee9c529075be538983954aa6dbe34c83.ctex"]
 
 [params]
 
