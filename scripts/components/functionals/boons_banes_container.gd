@@ -16,8 +16,8 @@ extends Node
 
 #region EXPORTS
 @export_group("Component Links")
-@export var _root: CombatActor
-@export var _death_trigger: DeathTrigger
+@export var _root: CombatActor  ## REQUIRED.
+@export var _death_trigger: DeathTrigger  ## needed to connect signals to death triggers
 #
 # @export_group("Details")  # feel free to rename category
 #endregion

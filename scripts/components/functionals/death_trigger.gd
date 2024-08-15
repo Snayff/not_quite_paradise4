@@ -7,20 +7,22 @@ extends Node
 signal died
 
 @export_group("Component Links")
-@export var _root: Node  ## the node this component will operate on#
+@export var _root: Node  ## the node this component will operate on. @REQUIRED.
+@export var _supply_container: SupplyContainerComponent  ## the supply container to refer to for the automatic trigger
 @export_group("Automatic Triggers")
-@export var _resource: SupplyComponent  ## the resource that triggers death on empty. @OPTIONAL.
+@export var _supply_type: Constants.SUPPLY_TYPE  ## the supply_type that triggers death on empty. Ignored if  _supply_container is empty.
 @export_group("Results")
-@export var _destroy_effect_spawner: SpawnerComponent  ## a spawner component for creating an effect on death. @OPTIONAL.
+@export var _destroy_effect_spawner: SpawnerComponent  ## a spawner component for creating an effect on death.
 
 
 func _ready() -> void:
 	# check for mandatory properties set in editor
 	assert(_root is Node, "Misssing `root`. ")
 
-	# Connect the the no health signal on our stats to the activate function, if we have a resource.
-	if _resource is SupplyComponent:
-		_resource.emptied.connect(activate)
+	# Connect the emptied signal on our supply to the activate function, if we have a resource.
+	if _supply_container is SupplyContainerComponent:
+		var supply = _supply_container.get_supply(_supply_type)
+		supply.emptied.connect(activate)
 
 func activate() -> void:
 	# create an effect (from the spawner component) and free the actor

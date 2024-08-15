@@ -15,8 +15,7 @@ extends Node
 
 
 #region EXPORTS
-@export_group("Component Links")
-@export var _root: CombatActor
+#@export_group("Component Links")
 @export_group("Details")
 @export var _supplies: Array[SupplyComponent] = []  #TODO: should probs be a dict[SUPPLY_TYPE: SupplyComponent], but need typed dicts to make using editor feasible
 #endregion

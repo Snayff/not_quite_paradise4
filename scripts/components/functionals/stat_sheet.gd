@@ -1,5 +1,5 @@
 ## interface for multiple [StatData]s.
-@icon("res://assets/node_icons/stat_sheet.png")
+@icon("res://assets/node_icons/stat_container.png")
 class_name StatsContainerComponent
 extends Node
 

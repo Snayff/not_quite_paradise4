@@ -11,7 +11,7 @@ extends _BASE_
 #endregion
 
 
-#region ON READY
+#region ON READY (for direct children only)
 
 #endregion
 

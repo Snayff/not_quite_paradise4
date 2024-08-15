@@ -26,7 +26,7 @@ extends Effect
 var is_one_shot: bool = true  ## if true, terminates after 1 application. if false, needs to be terminated manually.
 var base_damage: int
 var scalers: Array[EffectStatScalerData] = []
-var target_resource: String = "Health"  ## name of resource component. must match resource nodes name.
+var target_supply: Constants.SUPPLY_TYPE = Constants.SUPPLY_TYPE.health ## the supply_type to  reduce
 #endregion
 
 
@@ -34,10 +34,11 @@ var target_resource: String = "Health"  ## name of resource component. must matc
 
 ## reduce health of target
 func apply(target: CombatActor) -> void:
-	var resource = target.get_node_or_null(target_resource)
-	if resource is SupplyComponent:
+	var supplies: SupplyContainerComponent = target.get_node_or_null("SupplyContainer")
+	if supplies is SupplyContainerComponent:
+		var supply = supplies.get_supply(target_supply)
 		var damage = _calculate_damage(target)
-		resource.decrease(damage)
+		supply.decrease(damage)
 
 	if is_one_shot:
 		terminate()
@@ -52,7 +53,7 @@ func _calculate_damage(target: CombatActor) -> int:
 ## base damage modified by scalers
 func _apply_scalers() -> int:
 	var damage = base_damage
-	var stats: StatsContainerComponent = _source.get_node_or_null("StatSheet")
+	var stats: StatsContainerComponent = _source.get_node_or_null("StatsContainer")
 	if stats == null:
 		return base_damage
 

@@ -1,10 +1,10 @@
-@icon("res://assets/node_icons/spawner.png")
 ## spawn a scene at Spawner position
+@icon("res://assets/node_icons/spawner.png")
 class_name SpawnerComponent
 extends Node2D
 
 
-@export var scene: PackedScene  ## The scene we want to spawn
+@export var scene: PackedScene  ## The scene we want to spawn. If this is empty, nothing happens.
 
 
 

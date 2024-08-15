@@ -16,9 +16,8 @@ signal died
 @onready var on_hit_effect_spawner: SpawnerComponent = %OnHitEffectSpawner
 @onready var hitbox: HitboxComponent = %HitboxComponent
 @onready var movement_component: MovementComponent = %MovementComponent
-@onready var death_trigger: DeathTrigger = %DeathTrigger
-@onready var travel_range_resource: SupplyComponent = %TravelRange
-
+@onready var _death_trigger: DeathTrigger = %DeathTrigger  ## to propogate died signal and to allow triggering manually
+@onready var _travel_range_supply: SupplyComponent = %SupplyContainer.get_supply(Constants.SUPPLY_TYPE.health)
 #endregion
 
 
@@ -46,15 +45,15 @@ var effect_chain: EffectChain  ## effect chain to be called when hitting valid t
 #region FUNCS
 func _ready() -> void:
 	hitbox.hit_hurtbox.connect(_on_hit)
-	hit_valid_target.connect(death_trigger.activate.unbind(1))
-	death_trigger.died.connect(func(): died.emit())
+	hit_valid_target.connect(_death_trigger.activate.unbind(1))
+	_death_trigger.died.connect(func(): died.emit())
 
 ## trigger on hit effects, if target is valid
 func _on_hit(hurtbox: HurtboxComponent) -> void:
 	if Utility.target_is_valid(valid_effect_chain_target, hitbox.originator, hurtbox.root, _target_actor):
 		hurtbox.hurt.emit(self)
 		on_hit_effect_spawner.spawn_scene(global_position)
-		death_trigger.activate()
+		_death_trigger.activate()
 		hit_valid_target.emit(hurtbox)
 
 ## wrapper for setting movement component's target.
@@ -84,9 +83,9 @@ func set_interaction_info(team_: Constants.TEAM, effect_chain_target: Constants.
 	team = team_
 	valid_effect_chain_target = effect_chain_target
 
-func set_travel_range(travel_range_: float) -> void:
-	travel_range_resource.set_value(travel_range_)
-	travel_range_resource.max_value = travel_range_
+func set_travel_range(travel_range: float) -> void:
+	_travel_range_supply.set_value(travel_range)
+	_travel_range_supply.max_value = travel_range
 
 ## updates all collisions to reflect current target, team etc.
 func update_collisions() -> void:

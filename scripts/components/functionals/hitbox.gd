@@ -1,5 +1,5 @@
-@icon("res://assets/node_icons/hit.png")
 ## area that deals damage to a Hurtbox.
+@icon("res://assets/node_icons/hit.png")
 class_name HitboxComponent
 extends Area2D
 

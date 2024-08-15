@@ -13,8 +13,8 @@ signal max_value_changed() ## the resource's max value has changed
 
 #region EXPORTS
 @export_group("Details")
-@export var type: Constants.SUPPLY_TYPE
-@export var max_value: int = 999:
+@export var type: Constants.SUPPLY_TYPE  ## @REQUIRED.
+@export var max_value: int = 999:  ## @REQUIRED.
 	set(value):
 		max_value = clamp(value, 1, INF)
 		value_changed.emit()
@@ -34,6 +34,7 @@ var _value: int = 999:
 		value_changed.emit()
 		# Signal out when health is at 0
 		if value <= 0: emptied.emit()
+
 #endregion
 
 

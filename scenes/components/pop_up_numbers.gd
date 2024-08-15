@@ -16,7 +16,7 @@ extends Marker2D
 
 #region EXPORTS
 @export_group("Component Links")
-@export var _root: Node2D
+@export var _root: Node2D  ## @REQUIRED.
 @export_group("Colours")
 @export var _font_colour: Color = Color.WHITE
 @export var _font_alt_colour: Color = Color.FIREBRICK
@@ -38,9 +38,7 @@ extends Marker2D
 
 
 #region FUNCS
-func _ready() -> void:
-	pass
-
+## show the pop up number and related effects
 func display_number(value: float, use_alt_settings: bool = false) -> void:
 	var _label: Label = Label.new()
 	add_child(_label)

@@ -19,11 +19,7 @@ extends EffectChain
 #
 @export_group("On Hit")
 @export var _damage: int = 1
-@export_group("Interval")
-@export var _repeat_damage: int = 1
-@export var _num_iterations: int = 10
-@export var _interval: float = 1
-@export var _repeat_damage_animation: PackedScene  ## the animation to apply on interval
+
 #endregion
 
 

@@ -23,8 +23,8 @@ signal modifier_removed
 # @export var
 #
 @export_group("Details")
-@export var type: Constants.STAT_TYPE
-@export var base_value: float:
+@export var type: Constants.STAT_TYPE  ## @REQUIRED.
+@export var base_value: float:  ## @REQUIRED.
 	set(value):
 		base_value = value
 		base_value_changed.emit()

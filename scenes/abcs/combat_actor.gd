@@ -12,7 +12,6 @@ signal died  ## actor has died
 #region ON READY
 #FIXME: can we get rid of some of these? shouldnt we only need them for things we use in this script, rather than as an interface for other nodes, who
 #  could use get_node()?
-@onready var _health: SupplyComponent = %Health
 @onready var _on_hit_flash: FlashComponent = %OnHitFlash
 @onready var reusable_spawner: SpawnerComponent = %ReusableSpawner  ## component for spawning runtime-defined Nodes on the actor
 @onready var allegiance: Allegiance = %Allegiance
@@ -20,7 +19,7 @@ signal died  ## actor has died
 @onready var _death_trigger: DeathTrigger = %DeathTrigger
 @onready var _physics_movement: PhysicsMovementComponent = %PhysicsMovement
 @onready var boons_banes: BoonsBanesContainerComponent = %BoonsBanesContainer
-@onready var supply_container: SupplyContainerComponent = %SupplyContainer
+@onready var _supply_container: SupplyContainerComponent = %SupplyContainer
 
 #endregion
 
@@ -54,9 +53,11 @@ func _ready() -> void:
 	update_collisions()
 
 	# UPDATE CHILDREN
-	if _health is SupplyComponent:
-		_health.value_decreased.connect(_on_hit_flash.activate.unbind(1))  # activate flash on hit
-		_health.emptied.connect(func(): died.emit())  # inform of death when empty
+	if _supply_container is SupplyContainerComponent:
+		var health = _supply_container.get_supply(Constants.SUPPLY_TYPE.health)
+		health.value_decreased.connect(_on_hit_flash.activate.unbind(1))  # activate flash on hit
+		health.emptied.connect(func(): died.emit())  # inform of death when empty
+		health.value_decreased.connect(_damage_numbers.display_number)
 
 	if _physics_movement is PhysicsMovementComponent:
 		_physics_movement.is_attached_to_player = _is_player
@@ -68,7 +69,7 @@ func _ready() -> void:
 			if not target_changed.is_connected(child.set_target_actor):
 				target_changed.connect(child.set_target_actor)
 	target_changed.emit(target)
-	_health.value_decreased.connect(_damage_numbers.display_number)
+
 	_death_trigger.died.connect(func(): died.emit())
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:

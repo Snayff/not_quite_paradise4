@@ -8,7 +8,7 @@ extends Area2D
 signal hurt(hitbox)
 
 @export_group("Component Links")
-@export var root: CombatActor  ## the actor that created the thing that used this hitbox
+@export var root: CombatActor  ## the actor that created the thing that used this hitbox. @REQUIRED.
 
 
 var is_invincible = false:  # NOTE: probs needs moving to some central status effects

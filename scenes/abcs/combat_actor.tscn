@@ -32,27 +32,35 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Resource" id="Resource_7qvdv"]
-script = ExtResource("13_hojhi")
-type = null
-base_value = 2.0
-
-[sub_resource type="Resource" id="Resource_nm8ul"]
-script = ExtResource("13_hojhi")
-type = 1
-base_value = 1.0
-
-[sub_resource type="Resource" id="Resource_3bw5h"]
+[sub_resource type="Resource" id="Resource_u3j14"]
+resource_local_to_scene = true
+resource_name = "Health"
 script = ExtResource("15_l6yt4")
 type = 0
 max_value = 10
 regeneration_per_second = 1.0
 
-[sub_resource type="Resource" id="Resource_6t3i2"]
+[sub_resource type="Resource" id="Resource_8k3dp"]
+resource_local_to_scene = true
+resource_name = "Stamina"
 script = ExtResource("15_l6yt4")
 type = 1
 max_value = 50
 regeneration_per_second = 0.0
+
+[sub_resource type="Resource" id="Resource_dcaqw"]
+resource_local_to_scene = true
+resource_name = "Strength"
+script = ExtResource("13_hojhi")
+type = 0
+base_value = 2.0
+
+[sub_resource type="Resource" id="Resource_4j112"]
+resource_local_to_scene = true
+resource_name = "Defence"
+script = ExtResource("13_hojhi")
+type = 1
+base_value = 1.0
 
 [node name="CombatActor" type="RigidBody2D"]
 collision_layer = 10
@@ -61,8 +69,8 @@ physics_material_override = SubResource("PhysicsMaterial_8wo5g")
 gravity_scale = 0.0
 lock_rotation = true
 custom_integrator = true
-max_contacts_reported = 4
 contact_monitor = true
+max_contacts_reported = 4
 script = ExtResource("1_7c8xu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -82,31 +90,26 @@ root = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
 
-[node name="Allegiance" type="Node" parent="." node_paths=PackedStringArray("hurtbox", "root_actor")]
+[node name="Allegiance" type="Node" parent="." node_paths=PackedStringArray("_root", "hurtbox")]
 unique_name_in_owner = true
 script = ExtResource("3_y0mah")
+_root = NodePath("..")
 hurtbox = NodePath("../HurtboxComponent")
-root_actor = NodePath("..")
 
-[node name="DeathTrigger" type="Node" parent="." node_paths=PackedStringArray("_root", "_resource", "_destroy_effect_spawner")]
+[node name="DeathTrigger" type="Node" parent="." node_paths=PackedStringArray("_root", "_supply_container", "_destroy_effect_spawner")]
 unique_name_in_owner = true
 script = ExtResource("4_4tuqr")
 _root = NodePath("..")
-_resource = NodePath("../Health")
+_supply_container = NodePath("../SupplyContainer")
 _destroy_effect_spawner = NodePath("../DeathEffectSpawner")
 
 [node name="DeathEffectSpawner" type="Node2D" parent="."]
 script = ExtResource("5_wut4g")
 
-[node name="OnHitFlash" type="Node" parent="." node_paths=PackedStringArray("sprite")]
+[node name="OnHitFlash" type="Node" parent="." node_paths=PackedStringArray("_sprite")]
 unique_name_in_owner = true
 script = ExtResource("6_uyev7")
-sprite = NodePath("../AnimatedSprite2D")
-
-[node name="Health" type="Node" parent="."]
-unique_name_in_owner = true
-
-[node name="Stamina" type="Node" parent="."]
+_sprite = NodePath("../AnimatedSprite2D")
 
 [node name="ProjectilePosition" type="Marker2D" parent="."]
 
@@ -129,19 +132,18 @@ unique_name_in_owner = true
 script = ExtResource("12_73flk")
 _nodes_affected_by_facing = [NodePath("../AnimatedSprite2D"), NodePath("../ProjectilePosition")]
 
+[node name="SupplyContainer" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("14_6hvgr")
+_supplies = Array[ExtResource("15_l6yt4")]([SubResource("Resource_u3j14"), SubResource("Resource_8k3dp")])
+
 [node name="StatsContainer" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("12_dnaiq")
-_stats = Array[ExtResource("13_hojhi")]([SubResource("Resource_7qvdv"), SubResource("Resource_nm8ul")])
+_stats = Array[ExtResource("13_hojhi")]([SubResource("Resource_dcaqw"), SubResource("Resource_4j112")])
 
 [node name="BoonsBanesContainer" type="Node" parent="." node_paths=PackedStringArray("_root", "_death_trigger")]
 unique_name_in_owner = true
 script = ExtResource("14_wly6u")
 _root = NodePath("..")
 _death_trigger = NodePath("../DeathTrigger")
-
-[node name="SupplyContainer" type="Node" parent="." node_paths=PackedStringArray("_root")]
-unique_name_in_owner = true
-script = ExtResource("14_6hvgr")
-_root = NodePath("..")
-_supplies = Array[ExtResource("15_l6yt4")]([SubResource("Resource_3bw5h"), SubResource("Resource_6t3i2")])

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cta4xur1b7ano"]
+[gd_scene load_steps=17 format=3 uid="uid://cta4xur1b7ano"]
 
 [ext_resource type="PackedScene" uid="uid://cgd54nt0un6ix" path="res://scenes/abcs/combat_actor.tscn" id="1_m432m"]
 [ext_resource type="Texture2D" uid="uid://dopseo1w5jxrl" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame1).png" id="2_2j4ap"]
@@ -6,7 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://dcdgt417cspcb" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame3).png" id="4_qq01u"]
 [ext_resource type="Texture2D" uid="uid://bwamwonvpg20u" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame4).png" id="5_2jq15"]
 [ext_resource type="PackedScene" uid="uid://lsbutqx8scoq" path="res://scenes/combat_actives/fireblast.tscn" id="6_jm2bo"]
+[ext_resource type="Script" path="res://scripts/components/functionals/supply.gd" id="6_psx3u"]
 [ext_resource type="PackedScene" uid="uid://lbhta0mrhs1b" path="res://scenes/combat_actives/circling_stars.tscn" id="7_47lvt"]
+[ext_resource type="Script" path="res://scripts/dataclasses/stat.gd" id="9_nf076"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nvgpk"]
 radius = 6.0
@@ -42,6 +44,36 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_3e800"]
 radius = 7.0
 
+[sub_resource type="Resource" id="Resource_u3j14"]
+resource_local_to_scene = true
+resource_name = "Health"
+script = ExtResource("6_psx3u")
+type = 0
+max_value = 10
+regeneration_per_second = 1.0
+
+[sub_resource type="Resource" id="Resource_8k3dp"]
+resource_local_to_scene = true
+resource_name = "Stamina"
+script = ExtResource("6_psx3u")
+type = 1
+max_value = 50
+regeneration_per_second = 0.0
+
+[sub_resource type="Resource" id="Resource_dcaqw"]
+resource_local_to_scene = true
+resource_name = "Strength"
+script = ExtResource("9_nf076")
+type = 0
+base_value = 2.0
+
+[sub_resource type="Resource" id="Resource_4j112"]
+resource_local_to_scene = true
+resource_name = "Defence"
+script = ExtResource("9_nf076")
+type = 1
+base_value = 1.0
+
 [node name="WolfRider" instance=ExtResource("1_m432m")]
 
 [node name="CollisionShape2D" parent="." index="0"]
@@ -56,8 +88,11 @@ collision_layer = 2
 [node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
 shape = SubResource("CircleShape2D_3e800")
 
-[node name="ProjectilePosition" parent="." index="9"]
+[node name="ProjectilePosition" parent="." index="7"]
 position = Vector2(12, 0)
+
+[node name="SupplyContainer" parent="." index="12"]
+_supplies = Array[ExtResource("6_psx3u")]([SubResource("Resource_u3j14"), SubResource("Resource_8k3dp")])
 
 [node name="Fireblast" parent="." index="13" node_paths=PackedStringArray("_creator", "_allegiance", "_projectile_position") instance=ExtResource("6_jm2bo")]
 _creator = NodePath("..")
@@ -70,3 +105,6 @@ _creator = NodePath("..")
 _allegiance = NodePath("../Allegiance")
 _delivery_method = 2
 is_active = false
+
+[node name="StatsContainer" parent="." index="15"]
+_stats = Array[ExtResource("9_nf076")]([SubResource("Resource_dcaqw"), SubResource("Resource_4j112")])

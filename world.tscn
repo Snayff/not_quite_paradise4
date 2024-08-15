@@ -63,8 +63,8 @@ collision_mask = 1
 physics_material_override = null
 can_sleep = false
 custom_integrator = false
-max_contacts_reported = 0
 contact_monitor = false
+max_contacts_reported = 0
 linear_damp = 999999.0
 _is_player = true
 target = NodePath("../HorseyRider")
@@ -78,8 +78,8 @@ collision_mask = 1
 physics_material_override = null
 can_sleep = false
 custom_integrator = false
-max_contacts_reported = 0
 contact_monitor = false
+max_contacts_reported = 0
 linear_damp = 999999.0
 
 [node name="HorseyRider2" parent="." instance=ExtResource("6_d7rtk")]
@@ -89,8 +89,8 @@ collision_mask = 1
 physics_material_override = null
 can_sleep = false
 custom_integrator = false
-max_contacts_reported = 0
 contact_monitor = false
+max_contacts_reported = 0
 linear_damp = 999999.0
 
 [node name="Camera2D" type="Camera2D" parent="."]

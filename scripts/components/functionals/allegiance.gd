@@ -5,8 +5,8 @@ class_name Allegiance
 extends Node
 
 @export_group("Component Links")
-@export var hurtbox: HurtboxComponent
-@export var root_actor: CombatActor
+@export var _root: CombatActor ## @REQUIRED.
+@export var hurtbox: HurtboxComponent  ## if set, updates the collision layers based on team.
 
 @export_group("Details")
 @export var team: Constants.TEAM
@@ -14,9 +14,9 @@ extends Node
 
 func _ready() -> void:
 	# check for mandatory properties set in editor
-	assert(root_actor is CombatActor, "Misssing `root_actor`.")
+	assert(_root is CombatActor, "Misssing `_root`.")
 
-	root_actor.add_to_group(str("team_", team), true)
+	_root.add_to_group(str("team_", team), true)
 
 	if hurtbox is HurtboxComponent:
 		_update_hurtbox_collisions()
