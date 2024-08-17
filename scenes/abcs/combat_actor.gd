@@ -55,6 +55,7 @@ func _ready() -> void:
 	# UPDATE CHILDREN
 	if _supply_container is SupplyContainerComponent:
 		var health = _supply_container.get_supply(Constants.SUPPLY_TYPE.health)
+		print("CombatActor._ready:", self, " has this health component: ", health)
 		health.value_decreased.connect(_on_hit_flash.activate.unbind(1))  # activate flash on hit
 		health.emptied.connect(func(): died.emit())  # inform of death when empty
 		health.value_decreased.connect(_damage_numbers.display_number)

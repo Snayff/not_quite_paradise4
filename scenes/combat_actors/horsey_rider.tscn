@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bkqc7x4yp0pn2"]
+[gd_scene load_steps=13 format=3 uid="uid://bkqc7x4yp0pn2"]
 
 [ext_resource type="PackedScene" uid="uid://cgd54nt0un6ix" path="res://scenes/abcs/combat_actor.tscn" id="1_2tlmc"]
 [ext_resource type="Texture2D" uid="uid://dldmflst28sas" path="res://assets/actors/horse_rider/RampartSpriteFemale-Right(Frame1).png" id="2_legq8"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://ffba1pgjsx4n" path="res://assets/actors/horse_rider/RampartSpriteFemale-Right(Frame3).png" id="4_evaqq"]
 [ext_resource type="Texture2D" uid="uid://dwxusomrgbenr" path="res://assets/actors/horse_rider/RampartSpriteFemale-Right(Frame4).png" id="5_dgnbb"]
 [ext_resource type="PackedScene" uid="uid://kupnh58vddx7" path="res://scenes/effects/death.tscn" id="6_utgjv"]
-[ext_resource type="Script" path="res://scripts/components/functionals/supply.gd" id="7_sksks"]
 [ext_resource type="Script" path="res://scripts/dataclasses/stat.gd" id="8_xjwvb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yg56m"]
@@ -43,30 +42,14 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_346nu"]
 radius = 7.0
 
-[sub_resource type="Resource" id="Resource_u3j14"]
-resource_local_to_scene = true
-resource_name = "Health"
-script = ExtResource("7_sksks")
-type = 0
-max_value = 10
-regeneration_per_second = 1.0
-
-[sub_resource type="Resource" id="Resource_8k3dp"]
-resource_local_to_scene = true
-resource_name = "Stamina"
-script = ExtResource("7_sksks")
-type = 1
-max_value = 50
-regeneration_per_second = 0.0
-
-[sub_resource type="Resource" id="Resource_dcaqw"]
+[sub_resource type="Resource" id="Resource_iv1xi"]
 resource_local_to_scene = true
 resource_name = "Strength"
 script = ExtResource("8_xjwvb")
 type = 0
 base_value = 2.0
 
-[sub_resource type="Resource" id="Resource_4j112"]
+[sub_resource type="Resource" id="Resource_87b7y"]
 resource_local_to_scene = true
 resource_name = "Defence"
 script = ExtResource("8_xjwvb")
@@ -100,8 +83,5 @@ position = Vector2(13, 0)
 [node name="DamageNumbers" parent="." index="10"]
 position = Vector2(0, -8)
 
-[node name="SupplyContainer" parent="." index="12"]
-_supplies = Array[ExtResource("7_sksks")]([SubResource("Resource_u3j14"), SubResource("Resource_8k3dp")])
-
-[node name="StatsContainer" parent="." index="13"]
-_stats = Array[ExtResource("8_xjwvb")]([SubResource("Resource_dcaqw"), SubResource("Resource_4j112")])
+[node name="StatsContainer" parent="." index="12"]
+_stats = Array[ExtResource("8_xjwvb")]([SubResource("Resource_iv1xi"), SubResource("Resource_87b7y")])

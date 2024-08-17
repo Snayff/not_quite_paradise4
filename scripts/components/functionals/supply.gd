@@ -17,8 +17,10 @@ signal max_value_changed() ## the resource's max value has changed
 @export var max_value: int = 999:  ## @REQUIRED.
 	set(value):
 		max_value = clamp(value, 1, INF)
+		if max_value < value:
+			set_value(max_value)
 		value_changed.emit()
-@export var regeneration_per_second: float
+@export var regeneration_per_second: float = 0
 #endregion
 
 
@@ -30,18 +32,19 @@ var value: int:
 		return _value
 var _value: int = 999:
 	set(value):
-		_value = value
+		if value > max_value:
+			_value = max_value
+		else:
+			_value = value
 		value_changed.emit()
 		# Signal out when health is at 0
-		if value <= 0: emptied.emit()
+		if value <= 0:
+			emptied.emit()
 
 #endregion
 
 
 #region FUNCS
-func _init() -> void:
-	resource_local_to_scene = true
-
 ## decrease the resource by an amount
 func decrease(amount: int) -> void:
 	_value -= amount

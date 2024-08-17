@@ -31,7 +31,9 @@ var _all_boon_banes: Array[BoonBane]:
 	get:
 		var all: Array[BoonBane] = []
 		for boon_bane_array in _boons_banes.values():
-			all.append_array(boon_bane_array)
+			for boon_bane in boon_bane_array:
+				if is_instance_valid(boon_bane):
+					all.append(boon_bane)
 		return all
 #endregion
 

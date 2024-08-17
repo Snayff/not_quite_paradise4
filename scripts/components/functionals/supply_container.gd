@@ -17,23 +17,32 @@ extends Node
 #region EXPORTS
 #@export_group("Component Links")
 @export_group("Details")
-@export var _supplies: Array[SupplyComponent] = []  #TODO: should probs be a dict[SUPPLY_TYPE: SupplyComponent], but need typed dicts to make using editor feasible
+#TODO: should probs be a dict[SUPPLY_TYPE: SupplyComponent], but need typed dicts to make using editor feasible
+@export var _editor_supplies: Array[SupplyComponent] = []  ## this is a wrapper for _supplies, due to godot's issue with arrays always sharing resources.
 #endregion
 
 
 #region VARS
 var _regen_timer: Timer = Timer.new()
+var _supplies: Array[SupplyComponent]  ## all supplies. copied from _editor_supplies on _ready.
 #endregion
 
 
 #region FUNCS
 func _ready() -> void:
+	_duplicate_supplies_array()
+
 	_check_all_unique()
 
 	add_child(_regen_timer)
 	_regen_timer.autostart = true
 	_regen_timer.wait_time = 1
 	_regen_timer.timeout.connect(_apply_regen_to_all_supplies)
+
+## duplicate all supplies in _editor_supplies to _supplies
+func _duplicate_supplies_array() -> void:
+	for supply in _editor_supplies:
+		_supplies.append(supply.duplicate(true))
 
 func _check_all_unique() -> void:
 	var types: Array[Constants.SUPPLY_TYPE] = []
