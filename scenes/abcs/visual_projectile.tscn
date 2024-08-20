@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://id57j61u33cs"]
+[gd_scene load_steps=8 format=3 uid="uid://id57j61u33cs"]
 
 [ext_resource type="Script" path="res://scenes/abcs/visual_projectile.gd" id="1_6ihfu"]
 [ext_resource type="Script" path="res://scripts/components/functionals/hitbox.gd" id="1_w6l00"]
@@ -6,18 +6,9 @@
 [ext_resource type="Script" path="res://scripts/components/functionals/death_trigger.gd" id="3_0na4o"]
 [ext_resource type="Script" path="res://scripts/components/functionals/movement.gd" id="6_a0r7r"]
 [ext_resource type="Script" path="res://scripts/components/functionals/supply_container.gd" id="6_iwqmp"]
-[ext_resource type="Script" path="res://scripts/components/functionals/supply.gd" id="7_3a3ti"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7jh8p"]
 resource_local_to_scene = true
-
-[sub_resource type="Resource" id="Resource_3xqrp"]
-resource_local_to_scene = true
-resource_name = "Health"
-script = ExtResource("7_3a3ti")
-type = 0
-max_value = 50
-regeneration_per_second = 0.0
 
 [node name="VisualProjectile" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_7jh8p")
@@ -48,4 +39,3 @@ script = ExtResource("6_a0r7r")
 [node name="SupplyContainer" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("6_iwqmp")
-_supplies = Array[ExtResource("7_3a3ti")]([SubResource("Resource_3xqrp")])

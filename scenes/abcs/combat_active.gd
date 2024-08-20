@@ -13,6 +13,7 @@ extends Node2D
 @onready var _cooldown_timer: Timer = %CooldownTimer
 @onready var _projectile_spawner: SpawnerComponent = %ProjectileSpawner
 @onready var _effect_chain: EffectChain = $EffectChain
+@onready var _target_finder: TargetFinder = %TargetFinder
 #endregion
 
 
@@ -49,6 +50,7 @@ func _ready() -> void:
 	assert(_allegiance is Allegiance, "Misssing `allegiance`.")
 	assert(_projectile_spawner is SpawnerComponent, "Misssing `_projectile_spawner`.")
 	assert(_effect_chain is EffectChain, "Missing `_effect_chain`.")
+	assert(_target_finder is TargetFinder, "Missing `_target_finder`.")
 
 	_creator.target_changed.connect(set_target_actor)
 
@@ -111,7 +113,6 @@ func _create_orbital()  -> VisualProjectile:
 	else:
 		return null
 
-
 func set_target_actor(actor: CombatActor) -> void:
 	if actor is CombatActor:
 		target_actor = actor
@@ -121,4 +122,6 @@ func set_target_actor(actor: CombatActor) -> void:
 		if _cooldown_timer.is_connected("timeout", cast):
 			# if no target then keep cooldown going but dont connect to the cast
 			_cooldown_timer.timeout.disconnect(cast)
+
+
 #endregion

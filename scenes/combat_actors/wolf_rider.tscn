@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cta4xur1b7ano"]
+[gd_scene load_steps=16 format=3 uid="uid://cta4xur1b7ano"]
 
 [ext_resource type="PackedScene" uid="uid://cgd54nt0un6ix" path="res://scenes/abcs/combat_actor.tscn" id="1_m432m"]
 [ext_resource type="Texture2D" uid="uid://dopseo1w5jxrl" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame1).png" id="2_2j4ap"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://lsbutqx8scoq" path="res://scenes/combat_actives/fireblast.tscn" id="6_jm2bo"]
 [ext_resource type="PackedScene" uid="uid://lbhta0mrhs1b" path="res://scenes/combat_actives/circling_stars.tscn" id="7_47lvt"]
 [ext_resource type="Script" path="res://scripts/dataclasses/stat.gd" id="9_nf076"]
+[ext_resource type="Script" path="res://scripts/components/functionals/supply.gd" id="9_r5a4j"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nvgpk"]
 radius = 6.0
@@ -57,6 +58,14 @@ script = ExtResource("9_nf076")
 type = 1
 base_value = 1.0
 
+[sub_resource type="Resource" id="Resource_rqumc"]
+resource_local_to_scene = true
+resource_name = "Health"
+script = ExtResource("9_r5a4j")
+type = 0
+max_value = 999
+regeneration_per_second = 0.0
+
 [node name="WolfRider" instance=ExtResource("1_m432m")]
 
 [node name="CollisionShape2D" parent="." index="0"]
@@ -88,3 +97,6 @@ _creator = NodePath("..")
 _allegiance = NodePath("../Allegiance")
 _delivery_method = 2
 is_active = false
+
+[node name="SupplyContainer" parent="." index="16"]
+_editor_supplies = Array[ExtResource("9_r5a4j")]([SubResource("Resource_rqumc")])

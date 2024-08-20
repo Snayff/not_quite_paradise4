@@ -8,7 +8,7 @@ extends Node
 
 
 #region FUNCS
-
+## set the collision masks, based on team and targeting, to the relevant "_collision" collision layers.
 func update_body_collisions(node: CollisionObject2D, team: Constants.TEAM, target_option: Constants.TARGET_OPTION, target_actor: CombatActor = null) -> void:
 		# check we have necessary info
 	if node is CollisionObject2D and team is Constants.TEAM and target_option is Constants.TARGET_OPTION:
@@ -39,6 +39,7 @@ func update_body_collisions(node: CollisionObject2D, team: Constants.TEAM, targe
 					node.set_collision_layer_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_collision], target_team == Constants.TEAM.team1)
 					node.set_collision_layer_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_collision], target_team == Constants.TEAM.team2)
 
+## set the collision masks, based on team and targeting, to the relevant "hurtbox" collision layers.
 func update_hitbox_hurtbox_collision(node: CollisionObject2D, team: Constants.TEAM, target_option: Constants.TARGET_OPTION, target_actor: CombatActor = null) -> void:
 	# check we have necessary info
 	if node is CollisionObject2D and team is Constants.TEAM and target_option is Constants.TARGET_OPTION:
