@@ -1,5 +1,5 @@
-@icon("res://assets/node_icons/actor.png")
 ## entity that can move and fight in combat
+@icon("res://assets/node_icons/actor.png")
 class_name CombatActor
 extends RigidBody2D
 
@@ -20,6 +20,7 @@ signal died  ## actor has died
 @onready var _physics_movement: PhysicsMovementComponent = %PhysicsMovement
 @onready var boons_banes: BoonsBanesContainerComponent = %BoonsBanesContainer
 @onready var _supply_container: SupplyContainerComponent = %SupplyContainer
+@onready var _combat_active_container: CombatActiveContainerComponent = %CombatActiveContainer
 
 #endregion
 
@@ -72,6 +73,11 @@ func _ready() -> void:
 	target_changed.emit(target)
 
 	_death_trigger.died.connect(func(): died.emit())
+
+func _process(delta: float) -> void:
+	# TODO: we need a combat actives interface
+	# TODO: if not player, add checks for ready combat active and for target in range, then use
+	pass
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if _physics_movement is PhysicsMovementComponent:

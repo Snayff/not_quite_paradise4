@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cgd54nt0un6ix"]
+[gd_scene load_steps=22 format=3 uid="uid://cgd54nt0un6ix"]
 
 [ext_resource type="Script" path="res://scenes/abcs/combat_actor.gd" id="1_7c8xu"]
 [ext_resource type="Script" path="res://scripts/components/functionals/hurtbox.gd" id="2_24d4q"]
@@ -10,11 +10,12 @@
 [ext_resource type="Script" path="res://scenes/components/pop_up_numbers.gd" id="9_xcpun"]
 [ext_resource type="FontFile" uid="uid://xfatb788yq6e" path="res://assets/fonts/SinsGold.ttf" id="10_nqnyt"]
 [ext_resource type="Script" path="res://scripts/components/functionals/physics_movement.gd" id="12_73flk"]
-[ext_resource type="Script" path="res://scripts/components/functionals/stat_sheet.gd" id="12_dnaiq"]
+[ext_resource type="Script" path="res://scripts/components/functionals/stat_container.gd" id="12_dnaiq"]
 [ext_resource type="Script" path="res://scripts/dataclasses/stat.gd" id="13_hojhi"]
 [ext_resource type="Script" path="res://scripts/components/functionals/supply_container.gd" id="14_rlc1x"]
 [ext_resource type="Script" path="res://scripts/components/functionals/boons_banes_container.gd" id="14_wly6u"]
 [ext_resource type="Script" path="res://scripts/components/functionals/supply.gd" id="15_suttt"]
+[ext_resource type="Script" path="res://scripts/components/functionals/combat_active_container.gd" id="16_von4t"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8wo5g"]
 
@@ -32,21 +33,21 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Resource" id="Resource_pqql1"]
+[sub_resource type="Resource" id="Resource_s61nk"]
 resource_local_to_scene = true
 resource_name = "Strength"
 script = ExtResource("13_hojhi")
 type = 0
 base_value = 2.0
 
-[sub_resource type="Resource" id="Resource_ckf4n"]
+[sub_resource type="Resource" id="Resource_71btm"]
 resource_local_to_scene = true
 resource_name = "Defence"
 script = ExtResource("13_hojhi")
 type = 1
 base_value = 1.0
 
-[sub_resource type="Resource" id="Resource_0mrgo"]
+[sub_resource type="Resource" id="Resource_q0qcl"]
 resource_local_to_scene = true
 resource_name = "Health"
 script = ExtResource("15_suttt")
@@ -103,8 +104,10 @@ script = ExtResource("6_uyev7")
 _sprite = NodePath("../AnimatedSprite2D")
 
 [node name="ProjectilePosition" type="Marker2D" parent="."]
+unique_name_in_owner = true
 
 [node name="Tags" type="Node" parent="."]
+unique_name_in_owner = true
 script = ExtResource("8_5531i")
 _tags = Array[int]([3])
 
@@ -126,7 +129,7 @@ _nodes_affected_by_facing = [NodePath("../AnimatedSprite2D"), NodePath("../Proje
 [node name="StatsContainer" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("12_dnaiq")
-_stats = Array[ExtResource("13_hojhi")]([SubResource("Resource_pqql1"), SubResource("Resource_ckf4n")])
+_stats = Array[ExtResource("13_hojhi")]([SubResource("Resource_s61nk"), SubResource("Resource_71btm")])
 
 [node name="BoonsBanesContainer" type="Node" parent="." node_paths=PackedStringArray("_root", "_death_trigger")]
 unique_name_in_owner = true
@@ -137,4 +140,8 @@ _death_trigger = NodePath("../DeathTrigger")
 [node name="SupplyContainer" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("14_rlc1x")
-_editor_supplies = Array[ExtResource("15_suttt")]([SubResource("Resource_0mrgo")])
+_editor_supplies = Array[ExtResource("15_suttt")]([SubResource("Resource_q0qcl")])
+
+[node name="CombatActiveContainer" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("16_von4t")

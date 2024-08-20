@@ -17,7 +17,7 @@ extends Node
 #region EXPORTS
 #@export_group("Component Links")
 @export_group("Details")
-#TODO: should probs be a dict[SUPPLY_TYPE: SupplyComponent], but need typed dicts to make using editor feasible
+#NOTE: should probs be a dict[SUPPLY_TYPE: SupplyComponent], but need typed dicts to make using editor feasible
 @export var _editor_supplies: Array[SupplyComponent] = []  ## this is a wrapper for _supplies, due to godot's issue with arrays always sharing resources.
 #endregion
 
