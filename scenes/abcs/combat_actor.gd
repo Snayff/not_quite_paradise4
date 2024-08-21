@@ -20,7 +20,7 @@ signal died  ## actor has died
 @onready var _physics_movement: PhysicsMovementComponent = %PhysicsMovement
 @onready var boons_banes: BoonsBanesContainerComponent = %BoonsBanesContainer
 @onready var _supply_container: SupplyContainerComponent = %SupplyContainer
-@onready var _combat_active_container: CombatActiveContainerComponent = %CombatActiveContainer
+@onready var combat_active_container: CombatActiveContainerComponent = %CombatActiveContainer
 
 #endregion
 
@@ -65,8 +65,8 @@ func _ready() -> void:
 
 	_death_trigger.died.connect(func(): died.emit())
 
-	_combat_active_container.has_ready_active.connect(func(): _num_ready_actives += 1)
-	_combat_active_container.new_active_selected.connect(func(): _target = _combat_active_container.selected_active.target_actor)
+	combat_active_container.has_ready_active.connect(func(): _num_ready_actives += 1)  # support knowing when to auto cast
+	combat_active_container.new_active_selected.connect(func(active): _target = active.target_actor) # update target to match that of selected active
 
 func _process(delta: float) -> void:
 	_global_cast_cd_counter -= delta
@@ -79,7 +79,7 @@ func _update_non_player_auto_casting() -> void:
 	if not _is_player:
 		if _num_ready_actives > 0:
 			if _global_cast_cd_counter <= 0:
-				if _combat_active_container.cast_random_ready_active():
+				if combat_active_container.cast_random_ready_active():
 					_num_ready_actives -= 1
 					_global_cast_cd_counter = _global_cast_cd
 

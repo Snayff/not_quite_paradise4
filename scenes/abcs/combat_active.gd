@@ -49,7 +49,16 @@ var is_ready: bool = false:  ## if is off cooldown. set by cooldown timer timeou
 var _actor: CombatActor  ## who owns this active
 var _allegiance: Allegiance  ## creator's allegiance component
 var _projectile_position: Marker2D  ##  projectile spawn location. Must have to be able to use `projectile` delivery method.
-
+var time_until_ready: float:
+	set(value):
+		push_error("CombatActive: Can't set time_until_ready directly.")
+	get():
+		return _cooldown_timer.time_left
+var percent_ready: float:
+	set(value):
+		push_error("CombatActive: Can't set percent_ready directly.")
+	get():
+		return _cooldown_timer.time_left / _cooldown_timer.wait_time
 #endregion
 
 

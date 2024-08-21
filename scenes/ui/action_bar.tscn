@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://dakrcm4hmx6jt"]
+
+[ext_resource type="Script" path="res://scenes/ui/action_bar.gd" id="1_jn6fm"]
+[ext_resource type="PackedScene" uid="uid://dgw4fqh6afdsu" path="res://scenes/ui/combat_active_button.tscn" id="2_5v3ir"]
+
+[node name="ActionBar" type="HBoxContainer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -52.0
+offset_top = -40.0
+offset_right = 52.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_jn6fm")
+
+[node name="ActiveSkillButton" parent="." instance=ExtResource("2_5v3ir")]
+layout_mode = 2
+
+[node name="ActiveSkillButton2" parent="." instance=ExtResource("2_5v3ir")]
+layout_mode = 2
+
+[node name="ActiveSkillButton3" parent="." instance=ExtResource("2_5v3ir")]
+layout_mode = 2

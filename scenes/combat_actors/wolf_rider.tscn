@@ -44,21 +44,21 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_3e800"]
 radius = 7.0
 
-[sub_resource type="Resource" id="Resource_dcaqw"]
+[sub_resource type="Resource" id="Resource_sjojb"]
 resource_local_to_scene = true
 resource_name = "Strength"
 script = ExtResource("9_nf076")
 type = 0
 base_value = 2.0
 
-[sub_resource type="Resource" id="Resource_4j112"]
+[sub_resource type="Resource" id="Resource_72v2c"]
 resource_local_to_scene = true
 resource_name = "Defence"
 script = ExtResource("9_nf076")
 type = 1
 base_value = 1.0
 
-[sub_resource type="Resource" id="Resource_rqumc"]
+[sub_resource type="Resource" id="Resource_hjlbr"]
 resource_local_to_scene = true
 resource_name = "Health"
 script = ExtResource("9_r5a4j")
@@ -84,10 +84,10 @@ shape = SubResource("CircleShape2D_3e800")
 position = Vector2(12, 0)
 
 [node name="StatsContainer" parent="." index="12"]
-_stats = Array[ExtResource("9_nf076")]([SubResource("Resource_dcaqw"), SubResource("Resource_4j112")])
+_stats = Array[ExtResource("9_nf076")]([SubResource("Resource_sjojb"), SubResource("Resource_72v2c")])
 
 [node name="SupplyContainer" parent="." index="14"]
-_editor_supplies = Array[ExtResource("9_r5a4j")]([SubResource("Resource_rqumc")])
+_editor_supplies = Array[ExtResource("9_r5a4j")]([SubResource("Resource_hjlbr")])
 
 [node name="CirclingStars" parent="CombatActiveContainer" index="0" instance=ExtResource("7_47lvt")]
 

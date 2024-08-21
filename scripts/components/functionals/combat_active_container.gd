@@ -8,7 +8,7 @@ extends Node2D
 
 #region SIGNALS
 signal has_ready_active
-signal new_active_selected
+signal new_active_selected(active: CombatActive)
 #endregion
 
 
@@ -57,10 +57,11 @@ func _ready() -> void:
 	_connect_to_actives_signals()
 
 func _process(delta: float) -> void:
-	var next_active: bool = Input.is_action_pressed(&"next_active")
+	var next_active: bool = Input.is_action_just_pressed(&"next_active")
 	if next_active and not _actives.is_empty():
 		_selection_index = (_selection_index + 1) % _actives.size()  # wrap around
-	var cast_active: bool = Input.is_action_pressed(&"use_active")
+		new_active_selected.emit(selected_active)
+	var cast_active: bool = Input.is_action_just_pressed(&"use_active")
 	if cast_active and selected_active != null:
 		cast_ready_active(selected_active.name)
 
@@ -89,6 +90,10 @@ func get_active(active_name: String) -> CombatActive:
 			return active
 
 	return null
+
+## get all actives
+func get_all_actives() -> Array[CombatActive]:
+	return _actives
 
 ## picks a random, ready active and casts it, if there is a target. If no target, nothing happens. returns true if successfully cast.
 func cast_random_ready_active() -> bool:

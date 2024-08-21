@@ -18,7 +18,6 @@ config/icon="res://icon.svg"
 [autoload]
 
 Constants="*res://scripts/singletons/constants.gd"
-Signal_Debugger="*res://addons/SignalVisualizer/Debugger/SignalDebugger.gd"
 Utility="*res://scripts/singletons/utility.gd"
 
 [display]

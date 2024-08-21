@@ -1,6 +1,8 @@
 ## TODO ##
 - player target nearest
 	highlight targeted actor
+	show targeted actors info
+- action bar
 
 
 -  projectile
@@ -14,6 +16,9 @@
 		add acceleration, so we dont start at a constant speed
 		ballistic targeting:
 				https://youtu.be/qkefNtAPjUE?si=Tv8p5239p0oLhv-3&t=605
+	new init approach:
+		init with varied number of projectiles
+		offset direction of various of projectiles
 	knockback
 		https://youtu.be/PZTRfzASLi4?si=V1dPZDARsV6A-xrG
 	delivery method
@@ -47,11 +52,6 @@
 	https://youtu.be/sZDJJeDNe_M?si=Ki2oz4VJlTjD5pLM
 - confirm LOS before firing
 	https://kidscancode.org/godot_recipes/4.x/3d/shooting_raycasts/
-- action bar
-	https://kidscancode.org/godot_recipes/4.x/ui/cooldown_button/index.html
-	https://youtu.be/XzqcWKQ_mz0?si=dF4kDYxKZ2qFAOy-
-- resource container node
-	we might end up with quite a few resources, so may be eaiser to have an interface for them
 - camera following player - add phantom camera
 	https://github.com/ramokz/phantom-camera
 - build a plugin combat active editor
