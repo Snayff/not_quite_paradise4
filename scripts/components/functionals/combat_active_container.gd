@@ -63,22 +63,29 @@ func _connect_to_actives_signals() -> void:
 ## get an active by its class_name. returns null if nothing matching found.
 func get_active(active_name: String) -> CombatActive:
 	for active in _actives:
-		if active.get_global_name() == active_name:
+		var n = active.name
+		if active.name == active_name:
 			return active
 
 	return null
 
-## picks a random, ready active and casts it, if there is a target. If no target, nothing happens.
-func cast_random_ready_active() -> void:
-	var random_active: CombatActive = _ready_actives.pick_random()
-	cast_ready_active(random_active.get_global_name())
+## picks a random, ready active and casts it, if there is a target. If no target, nothing happens. returns true if successfully cast.
+func cast_random_ready_active() -> bool:
+	if _ready_actives.size() > 0:
+		var random_active: CombatActive = _ready_actives.pick_random()
+		return cast_ready_active(random_active.name)
+	else:
+		push_warning("CombatActiveContainerComponent: No ready combat active.")
+		return false
 
-## casts the specified active, if it is ready and there is a target. If not, nothing happens.
-func cast_ready_active(active_name: String) -> void:
+## casts the specified active, if it is ready and there is a target. If not, nothing happens.returns true if successfully cast.
+func cast_ready_active(active_name: String) -> bool:
 	var active: CombatActive = get_active(active_name)
 	if active.is_ready and active.target_actor:
 		active.cast()
 		_ready_actives.erase(active)
+		return true
+	return false
 
 
 

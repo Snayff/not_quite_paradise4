@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cn8jpy03lpd4m"]
+[gd_scene load_steps=6 format=3 uid="uid://cn8jpy03lpd4m"]
 
 [ext_resource type="Script" path="res://scenes/abcs/combat_active.gd" id="1_lm2qw"]
 [ext_resource type="Script" path="res://scripts/components/functionals/spawner.gd" id="2_unp6u"]
 [ext_resource type="Script" path="res://scripts/components/functionals/target_finder.gd" id="3_1h7p6"]
+[ext_resource type="Script" path="res://scripts/components/functionals/orbiter.gd" id="4_a87pb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xqymi"]
 resource_local_to_scene = true
@@ -19,6 +20,7 @@ unique_name_in_owner = true
 script = ExtResource("2_unp6u")
 
 [node name="TargetFinder" type="Area2D" parent="."]
+unique_name_in_owner = true
 collision_layer = 0
 collision_mask = 0
 input_pickable = false
@@ -27,3 +29,7 @@ script = ExtResource("3_1h7p6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TargetFinder"]
 shape = SubResource("CircleShape2D_xqymi")
+
+[node name="ProjectileOrbiter" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_a87pb")

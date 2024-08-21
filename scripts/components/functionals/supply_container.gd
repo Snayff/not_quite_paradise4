@@ -52,9 +52,7 @@ func _check_all_unique() -> void:
 		else:
 			push_error("SupplyContainerComponent: Contains duplicate supply type (", Constants.SUPPLY_TYPE.find_key(supply.type), ").")
 
-## get a supply from its type.
-##
-## returns null if no matching supply found.
+## get a supply from its type. returns null if no matching supply found.
 func get_supply(supply_type: Constants.SUPPLY_TYPE) -> SupplyComponent:
 	for supply in _supplies:
 		if supply.type == supply_type:

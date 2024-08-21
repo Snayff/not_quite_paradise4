@@ -42,6 +42,8 @@ func _ready() -> void:
 	_shape = get_node_or_null("CollisionShape2D")
 	assert(_shape is CollisionShape2D, "Missing _shape")
 
+	update_collisions()
+
 func _process(delta: float) -> void:
 	_refresh_counter -= delta
 	if _refresh_counter <= 0:

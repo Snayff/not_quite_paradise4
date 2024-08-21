@@ -14,7 +14,7 @@ signal now_ready
 @onready var _projectile_spawner: SpawnerComponent = %ProjectileSpawner
 @onready var _effect_chain: EffectChain = $EffectChain
 @onready var _target_finder: TargetFinder = %TargetFinder
-@onready var _orbiter: ProjectileOrbiterComponent = %ProjectileOrbiterComponent  ## handler for orbitals. Must have to be able to use `orbital` delivery method.
+@onready var _orbiter: ProjectileOrbiterComponent = %ProjectileOrbiter  ## handler for orbitals. Must have to be able to use `orbital` delivery method.
 
 #endregion
 
@@ -39,7 +39,10 @@ var is_ready: bool = false:  ## if is off cooldown. set by cooldown timer timeou
 		if is_ready:
 			now_ready.emit()
 # set by parent container
-var creator: CombatActor  ## who created this active
+var creator: CombatActor:  ## who created this active. when updated, also updates children.
+	set(value):
+		creator = value
+		_effect_chain.set_caster(creator)
 var allegiance: Allegiance  ## creator's allegiance component
 var projectile_position: Marker2D  ##  projectile spawn location. Must have to be able to use `projectile` delivery method.
 
@@ -61,7 +64,8 @@ func _ready() -> void:
 	# config effect chain
 	_effect_chain.set_caster(creator)
 
-	# listen for new targets
+	# config target finder
+	_target_finder.max_range = _travel_range
 	_target_finder.new_target.connect(set_target_actor)
 
 ## casts the active

@@ -22,7 +22,8 @@ func _ready() -> void:
 	# Connect the emptied signal on our supply to the activate function, if we have a resource.
 	if _supply_container is SupplyContainerComponent:
 		var supply = _supply_container.get_supply(_supply_type)
-		supply.emptied.connect(activate)
+		if supply:
+			supply.emptied.connect(activate)
 
 func activate() -> void:
 	# create an effect (from the spawner component) and free the actor

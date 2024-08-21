@@ -40,7 +40,9 @@ signal died  ## actor has died
 
 
 #region VARS
-
+var _num_ready_actives: int = 0
+var _global_cast_cd: float = 0.5  ## min time to wait between combat active casts
+var _global_cast_cd_counter: float = 0  ## counter to track time since last cast
 #endregion
 
 
@@ -56,7 +58,6 @@ func _ready() -> void:
 	# UPDATE CHILDREN
 	if _supply_container is SupplyContainerComponent:
 		var health = _supply_container.get_supply(Constants.SUPPLY_TYPE.health)
-		print("CombatActor._ready:", self, " has this health component: ", health)
 		health.value_decreased.connect(_on_hit_flash.activate.unbind(1))  # activate flash on hit
 		health.emptied.connect(func(): died.emit())  # inform of death when empty
 		health.value_decreased.connect(_damage_numbers.display_number)
@@ -74,10 +75,18 @@ func _ready() -> void:
 
 	_death_trigger.died.connect(func(): died.emit())
 
+	_combat_active_container.has_ready_active.connect(func(): _num_ready_actives += 1)
+
 func _process(delta: float) -> void:
-	# TODO: we need a combat actives interface
-	# TODO: if not player, add checks for ready combat active and for target in range, then use
-	pass
+	# handle auto casting for non-player combat actors
+	if not _is_player:
+		if _num_ready_actives > 0:
+			if _global_cast_cd_counter <= 0:
+				if _combat_active_container.cast_random_ready_active():
+					_num_ready_actives -= 1
+					_global_cast_cd_counter = _global_cast_cd
+
+	_global_cast_cd_counter -= delta
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if _physics_movement is PhysicsMovementComponent:

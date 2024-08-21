@@ -31,6 +31,7 @@ var _source: Node  ## which entity created the effect, e.g. a [CombatActor]
 #region FUNCS
 func _init(parent: Node, source: Node) -> void:
 	assert(parent is EffectChain or parent is BoonBane, "Effect: parent isnt of expected type.")
+	assert(source != null, "Effect: source is empty.")
 	_parent = parent
 	_source = source
 
@@ -47,4 +48,3 @@ func terminate() -> void:
 
 
 #endregion
-

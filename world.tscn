@@ -65,7 +65,6 @@ custom_integrator = false
 contact_monitor = false
 max_contacts_reported = 0
 linear_damp = 999999.0
-_is_player = true
 target = NodePath("../HorseyRider")
 _linear_damp = 3.0
 _mass = 5.0
