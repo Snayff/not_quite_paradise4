@@ -35,24 +35,24 @@ func _update_collisions(
 		node.set_collision_mask_value(i, false)
 
 	# LAYERS
-	node.set_collision_layer_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_body], team == Constants.TEAM.team1)
-	node.set_collision_layer_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_body], team == Constants.TEAM.team2)
+	node.set_collision_layer_value(Constants.COLLISION_LAYER_MAP[team1], team == Constants.TEAM.team1)
+	node.set_collision_layer_value(Constants.COLLISION_LAYER_MAP[team2], team == Constants.TEAM.team2)
 
 	# MASKS
 	# only same team
 	if target_option in [Constants.TARGET_OPTION.self_, Constants.TARGET_OPTION.ally]:
-		node.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_body], team == Constants.TEAM.team1)
-		node.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_body], team == Constants.TEAM.team2)
+		node.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[team1], team == Constants.TEAM.team1)
+		node.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[team2], team == Constants.TEAM.team2)
 
 	# only other team
 	elif target_option in [Constants.TARGET_OPTION.enemy]:
-		node.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_body], team != Constants.TEAM.team1)
-		node.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_body], team != Constants.TEAM.team2)
+		node.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[team1], team != Constants.TEAM.team1)
+		node.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[team2], team != Constants.TEAM.team2)
 
 	# any team
 	elif target_option in [Constants.TARGET_OPTION.anyone, Constants.TARGET_OPTION.other]:
-		node.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_body], true)
-		node.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_body], true)
+		node.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[team1], true)
+		node.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[team2], true)
 
 	# only team of target
 	elif target_option in [Constants.TARGET_OPTION.target]:
@@ -60,10 +60,10 @@ func _update_collisions(
 			var target_allegiance: Allegiance = target_actor.get_node_or_null("Allegiance")
 			if target_allegiance is Allegiance:
 				var target_team: Constants.TEAM = target_allegiance.team
-				node.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_body], target_team == Constants.TEAM.team1)
-				node.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_body], target_team == Constants.TEAM.team2)
-				node.set_collision_layer_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_body], target_team == Constants.TEAM.team1)
-				node.set_collision_layer_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_body], target_team == Constants.TEAM.team2)
+				node.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[team1], target_team == Constants.TEAM.team1)
+				node.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[team2], target_team == Constants.TEAM.team2)
+				node.set_collision_layer_value(Constants.COLLISION_LAYER_MAP[team1], target_team == Constants.TEAM.team1)
+				node.set_collision_layer_value(Constants.COLLISION_LAYER_MAP[team2], target_team == Constants.TEAM.team2)
 
 ## check target is of type expected, as per [TARGET_OPTION]
 ##
