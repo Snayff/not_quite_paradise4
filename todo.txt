@@ -1,5 +1,4 @@
 ## TODO ##
-- player attacks
 - player target nearest
 	highlight targeted actor
 

@@ -6,6 +6,7 @@ extends Node2D
 
 #region SIGNALS
 signal now_ready
+signal new_target(target: CombatActor)
 #endregion
 
 
@@ -69,7 +70,8 @@ func _ready() -> void:
 
 	# config target finder - need to set target info once allegiance is init'd
 	_target_finder.set_root(_actor)
-	_target_finder.new_target.connect(set_target_actor)
+	_target_finder.new_target.connect(set_target_actor)  # ensure we're in sync with range finders new target
+	_target_finder.new_target.connect(func(target): new_target.emit.bind(target))  # bubble up signal
 
 ## casts the active
 func cast()-> void:
@@ -81,6 +83,7 @@ func cast()-> void:
 		if _projectile_position is Marker2D:
 			_create_projectile()
 			_cooldown_timer.start()
+			is_ready = false
 		else:
 			push_error("CombatActive: `_projectile_position` not defined.")
 
@@ -91,6 +94,7 @@ func cast()-> void:
 				projectile.died.connect(_orbiter.remove_projectile.bind(projectile))
 				_orbiter.add_projectile(projectile)
 				_cooldown_timer.start()
+				is_ready = false
 
 		else:
 			push_error("CombatActive: `_projectile_position` not defined.")
@@ -127,7 +131,8 @@ func _create_orbital()  -> VisualProjectile:
 func set_target_actor(actor: CombatActor) -> void:
 	if actor is CombatActor:
 		target_actor = actor
-		target_actor.died.connect(set_target_actor.bind(null))  # to clear target
+		if not target_actor.is_connected("died", set_target_actor):
+			target_actor.died.connect(set_target_actor.bind(null))  # to clear target
 	else:
 		if _cooldown_timer.is_connected("timeout", cast):
 			# if no target then keep cooldown going but dont connect to the cast

@@ -8,6 +8,7 @@ extends Node2D
 
 #region SIGNALS
 signal has_ready_active
+signal new_active_selected
 #endregion
 
 
@@ -26,8 +27,21 @@ signal has_ready_active
 
 
 #region VARS
-var _actives: Array[CombatActive]  ## all combat actives.
+var _actives: Array[CombatActive]:  ## all combat actives.
+	set(value):
+		breakpoint
+		_actives = value
 var _ready_actives: Array[CombatActive]  ## actives that are ready to cast - may not have a target.
+# NOTE: the selection things might be better elsewhere, in a control node
+var _selection_index: int = 0  ## the currently selected index in _active.
+var selected_active: CombatActive:
+	set(_x):
+		push_error("CombatActiveContainerComponent: Cannot set selected_active directly.")
+	get():
+		if not _actives.is_empty():
+			return _actives[_selection_index]
+		else:
+			return null
 #endregion
 
 
@@ -41,6 +55,14 @@ func _ready() -> void:
 	_update_actives_array()
 	_update_actives_with_component_links()
 	_connect_to_actives_signals()
+
+func _process(delta: float) -> void:
+	var next_active: bool = Input.is_action_pressed(&"next_active")
+	if next_active and not _actives.is_empty():
+		_selection_index = (_selection_index + 1) % _actives.size()  # wrap around
+	var cast_active: bool = Input.is_action_pressed(&"use_active")
+	if cast_active and selected_active != null:
+		cast_ready_active(selected_active.name)
 
 ## get all children that are [CombatActive]s and put into _active
 func _update_actives_array() -> void:

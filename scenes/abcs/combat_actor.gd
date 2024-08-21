@@ -28,11 +28,6 @@ signal died  ## actor has died
 #region EXPORTS
 @export_group("Details")
 @export var _is_player: bool = false  ## if the actor is player controlled
-@export_group("Targeting")
-@export var target: CombatActor:  ## TODO: remove once proper targeting is in
-	set(value):
-		target = value
-		target_changed.emit(target)
 @export_group("Physics")
 @export var _linear_damp: float = 5  ## set here, rather than built-in, due to editor issue
 @export var _mass: float = 100  ## set here, rather than built-in, due to editor issue
@@ -43,6 +38,10 @@ signal died  ## actor has died
 var _num_ready_actives: int = 0
 var _global_cast_cd: float = 0.5  ## min time to wait between combat active casts
 var _global_cast_cd_counter: float = 0  ## counter to track time since last cast
+var _target: CombatActor:
+	set(value):
+		_target = value
+		target_changed.emit(_target)
 #endregion
 
 
@@ -55,7 +54,6 @@ func _ready() -> void:
 
 	update_collisions()
 
-	# UPDATE CHILDREN
 	if _supply_container is SupplyContainerComponent:
 		var health = _supply_container.get_supply(Constants.SUPPLY_TYPE.health)
 		health.value_decreased.connect(_on_hit_flash.activate.unbind(1))  # activate flash on hit
@@ -65,20 +63,19 @@ func _ready() -> void:
 	if _physics_movement is PhysicsMovementComponent:
 		_physics_movement.is_attached_to_player = _is_player
 
-	# CONNECT ALL SIGNALS
-	# connect target_changed to all CombatActive children
-	for child in get_children():
-		if child is CombatActive:
-			if not target_changed.is_connected(child.set_target_actor):
-				target_changed.connect(child.set_target_actor)
-	target_changed.emit(target)
-
 	_death_trigger.died.connect(func(): died.emit())
 
 	_combat_active_container.has_ready_active.connect(func(): _num_ready_actives += 1)
+	_combat_active_container.new_active_selected.connect(func(): _target = _combat_active_container.selected_active.target_actor)
 
 func _process(delta: float) -> void:
-	# handle auto casting for non-player combat actors
+	_global_cast_cd_counter -= delta
+
+	_update_non_player_auto_casting()
+
+## handle auto casting for non-player combat actors
+func _update_non_player_auto_casting() -> void:
+	# NOTE: should this be in an AI node?
 	if not _is_player:
 		if _num_ready_actives > 0:
 			if _global_cast_cd_counter <= 0:
@@ -86,13 +83,11 @@ func _process(delta: float) -> void:
 					_num_ready_actives -= 1
 					_global_cast_cd_counter = _global_cast_cd
 
-	_global_cast_cd_counter -= delta
-
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if _physics_movement is PhysicsMovementComponent:
 		_physics_movement.calc_movement(state)
 
-## updates all collisions to reflect current target, team etc.
+## updates all collisions to reflect current _target, team etc.
 func update_collisions() -> void:
-	Utility.update_body_collisions(self, allegiance.team, Constants.TARGET_OPTION.other, target)
+	Utility.update_body_collisions(self, allegiance.team, Constants.TARGET_OPTION.other, _target)
 #endregion
