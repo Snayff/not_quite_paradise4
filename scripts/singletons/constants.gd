@@ -13,18 +13,18 @@ enum TEAM {
 
 ## the used collision layers
 enum COLLISION_LAYER {
-	team1_hurtbox,
-	team1_collision,
-	team2_hurtbox,
-	team2_collision,
+	team1_hitbox_hurtbox,
+	team1_body,
+	team2_hitbox_hurtbox,
+	team2_body,
 }
 
 ## collision layers mapped to their layer number (not bit value)
 const COLLISION_LAYER_MAP: Dictionary = {
-	COLLISION_LAYER.team1_hurtbox: 1,
-	COLLISION_LAYER.team1_collision: 2,
-	COLLISION_LAYER.team2_hurtbox: 3,
-	COLLISION_LAYER.team2_collision: 4,
+	COLLISION_LAYER.team1_hitbox_hurtbox: 1,
+	COLLISION_LAYER.team1_body: 2,
+	COLLISION_LAYER.team2_hitbox_hurtbox: 3,
+	COLLISION_LAYER.team2_body: 4,
 }
 
 ## target options

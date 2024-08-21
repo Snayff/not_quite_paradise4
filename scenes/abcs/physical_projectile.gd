@@ -91,18 +91,18 @@ func _update_body_collisions() -> void:
 
 		# only same team
 		if valid_collision_target in [Constants.TARGET_OPTION.self_, Constants.TARGET_OPTION.ally]:
-			set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_collision], team == Constants.TEAM.team1)
-			set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_collision], team == Constants.TEAM.team2)
+			set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_body], team == Constants.TEAM.team1)
+			set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_body], team == Constants.TEAM.team2)
 
 		# only other team
 		elif valid_collision_target in [Constants.TARGET_OPTION.enemy]:
-			set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_collision], team != Constants.TEAM.team1)
-			set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_collision], team != Constants.TEAM.team2)
+			set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_body], team != Constants.TEAM.team1)
+			set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_body], team != Constants.TEAM.team2)
 
 		# any team
 		elif valid_collision_target in [Constants.TARGET_OPTION.anyone, Constants.TARGET_OPTION.other]:
-			set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_collision], true)
-			set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_collision], true)
+			set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_body], true)
+			set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_body], true)
 
 		# only team of target
 		elif valid_collision_target in [Constants.TARGET_OPTION.target]:
@@ -110,10 +110,10 @@ func _update_body_collisions() -> void:
 				var target_allegiance: Allegiance = _target_actor.get_node_or_null("Allegiance")
 				if target_allegiance is Allegiance:
 					var target_team: Constants.TEAM = target_allegiance.team
-					set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_collision], target_team == Constants.TEAM.team1)
-					set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_collision], target_team == Constants.TEAM.team2)
-					set_collision_layer_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_collision], target_team == Constants.TEAM.team1)
-					set_collision_layer_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_collision], target_team == Constants.TEAM.team2)
+					set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_body], target_team == Constants.TEAM.team1)
+					set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_body], target_team == Constants.TEAM.team2)
+					set_collision_layer_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_body], target_team == Constants.TEAM.team1)
+					set_collision_layer_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_body], target_team == Constants.TEAM.team2)
 
 		breakpoint
 
@@ -123,18 +123,18 @@ func _update_hitbox_collision() -> void:
 
 		# only same team
 		if valid_effect_chain_target in [Constants.TARGET_OPTION.self_, Constants.TARGET_OPTION.ally]:
-			hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_hurtbox], team == Constants.TEAM.team1)
-			hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_hurtbox], team == Constants.TEAM.team2)
+			hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_hitbox_hurtbox], team == Constants.TEAM.team1)
+			hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_hitbox_hurtbox], team == Constants.TEAM.team2)
 
 		# only other team
 		elif valid_effect_chain_target in [Constants.TARGET_OPTION.enemy]:
-			hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_hurtbox], team != Constants.TEAM.team1)
-			hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_hurtbox], team != Constants.TEAM.team2)
+			hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_hitbox_hurtbox], team != Constants.TEAM.team1)
+			hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_hitbox_hurtbox], team != Constants.TEAM.team2)
 
 		# any team
 		elif valid_effect_chain_target in [Constants.TARGET_OPTION.anyone, Constants.TARGET_OPTION.other]:
-			hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_hurtbox], true)
-			hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_hurtbox], true)
+			hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_hitbox_hurtbox], true)
+			hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_hitbox_hurtbox], true)
 
 		# only team of target
 		elif valid_effect_chain_target in [Constants.TARGET_OPTION.target]:
@@ -142,8 +142,8 @@ func _update_hitbox_collision() -> void:
 				var target_allegiance: Allegiance = _target_actor.get_node_or_null("Allegiance")
 				if target_allegiance is Allegiance:
 					var target_team: Constants.TEAM = target_allegiance.team
-					hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_hurtbox], target_team == Constants.TEAM.team1)
-					hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_hurtbox], target_team == Constants.TEAM.team2)
+					hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team1_hitbox_hurtbox], target_team == Constants.TEAM.team1)
+					hitbox.set_collision_mask_value(Constants.COLLISION_LAYER_MAP[Constants.COLLISION_LAYER.team2_hitbox_hurtbox], target_team == Constants.TEAM.team2)
 
 
 ## wrapper for setting movement component's target.

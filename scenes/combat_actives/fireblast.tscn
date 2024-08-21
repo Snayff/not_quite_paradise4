@@ -8,7 +8,8 @@
 resource_local_to_scene = true
 
 [node name="Fireblast" instance=ExtResource("1_34rtn")]
-_valid_targets = 5
+_target_option = 2
+_delivery_method = 1
 _travel_range = 500
 
 [node name="ProjectileSpawner" parent="." index="1"]

@@ -63,10 +63,10 @@ move_down={
 
 [layer_names]
 
-2d_physics/layer_1="team1_hurtbox"
-2d_physics/layer_2="team1_collision"
-2d_physics/layer_3="team2_hurtbox"
-2d_physics/layer_4="team2_collision"
+2d_physics/layer_1="team1_hitbox_hurtbox"
+2d_physics/layer_2="team1_body"
+2d_physics/layer_3="team2_hitbox_hurtbox"
+2d_physics/layer_4="team2_body"
 
 [physics]
 

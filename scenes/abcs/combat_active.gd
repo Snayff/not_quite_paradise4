@@ -20,11 +20,17 @@ signal now_ready
 
 
 #region EXPORTS
+# TODO: move these to a config node, so designing a combat active is abstracted and only available within scene
 @export_group("Targeting")
-@export var _valid_targets: Constants.TARGET_OPTION  ## who the active can affect
+@export var _target_option: Constants.TARGET_OPTION  ## who the active can affect
 @export_group("Travel")
 @export var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
-@export var _travel_range: int  #FIXME: this isnt helpful for designing orbitals, how many rotations is it?!
+#FIXME: this isnt helpful for designing orbitals, how many rotations is it?! also no good for range finding
+@export var _travel_range: int:  ## how far the projectile can travel. when set, updates target finder.
+	set(value):
+		_travel_range = value
+		if _target_finder is TargetFinder:
+			_target_finder.set_max_range(_travel_range)
 @export_group("Misc")
 @export var is_active: bool = true  ## whether the CombatActive is functioning or not
 #endregion
@@ -39,12 +45,9 @@ var is_ready: bool = false:  ## if is off cooldown. set by cooldown timer timeou
 		if is_ready:
 			now_ready.emit()
 # set by parent container
-var creator: CombatActor:  ## who created this active. when updated, also updates children.
-	set(value):
-		creator = value
-		_effect_chain.set_caster(creator)
-var allegiance: Allegiance  ## creator's allegiance component
-var projectile_position: Marker2D  ##  projectile spawn location. Must have to be able to use `projectile` delivery method.
+var _actor: CombatActor  ## who owns this active
+var _allegiance: Allegiance  ## creator's allegiance component
+var _projectile_position: Marker2D  ##  projectile spawn location. Must have to be able to use `projectile` delivery method.
 
 #endregion
 
@@ -62,10 +65,10 @@ func _ready() -> void:
 	_cooldown_timer.timeout.connect(func(): is_ready = true )
 
 	# config effect chain
-	_effect_chain.set_caster(creator)
+	_effect_chain.set_caster(_actor)
 
-	# config target finder
-	_target_finder.max_range = _travel_range
+	# config target finder - need to set target info once allegiance is init'd
+	_target_finder.set_root(_actor)
 	_target_finder.new_target.connect(set_target_actor)
 
 ## casts the active
@@ -75,7 +78,7 @@ func cast()-> void:
 		return
 
 	if _delivery_method == Constants.EFFECT_DELIVERY_METHOD.projectile:
-		if projectile_position is Marker2D:
+		if _projectile_position is Marker2D:
 			_create_projectile()
 			_cooldown_timer.start()
 		else:
@@ -95,10 +98,10 @@ func cast()-> void:
 		push_error("CombatActive: `_delivery_method` (", _delivery_method, ") not defined.")
 
 func _create_projectile() -> VisualProjectile:
-	var projectile: VisualProjectile = _projectile_spawner.spawn_scene(projectile_position.global_position)
+	var projectile: VisualProjectile = _projectile_spawner.spawn_scene(_projectile_position.global_position)
 	projectile.set_travel_range(_travel_range)
 	projectile.set_target(target_actor, target_position)  # give both, blank one will be ignored
-	projectile.set_interaction_info(allegiance.team, _valid_targets)
+	projectile.set_interaction_info(_allegiance.team, _target_option)
 	projectile.hit_valid_target.connect(_effect_chain.on_hit)
 	projectile.update_collisions()
 
@@ -110,9 +113,9 @@ func _create_projectile() -> VisualProjectile:
 func _create_orbital()  -> VisualProjectile:
 	if not _orbiter.has_max_projectiles:
 		# FIXME: collisions caused by orbitals seem to happen a shortwhile after they actually hit
-		var projectile: VisualProjectile = _projectile_spawner.spawn_scene(creator.global_position, _orbiter)
+		var projectile: VisualProjectile = _projectile_spawner.spawn_scene(_actor.global_position, _orbiter)
 		projectile.set_travel_range(_travel_range)
-		projectile.set_interaction_info(allegiance.team, _valid_targets)
+		projectile.set_interaction_info(_allegiance.team, _target_option)
 		projectile.hit_valid_target.connect(_effect_chain.on_hit)
 		projectile.update_collisions()
 
@@ -120,6 +123,7 @@ func _create_orbital()  -> VisualProjectile:
 	else:
 		return null
 
+## set the target actor. can accept null.
 func set_target_actor(actor: CombatActor) -> void:
 	if actor is CombatActor:
 		target_actor = actor
@@ -129,5 +133,17 @@ func set_target_actor(actor: CombatActor) -> void:
 			# if no target then keep cooldown going but dont connect to the cast
 			_cooldown_timer.timeout.disconnect(cast)
 
+## sets allegiance and updates child target finder's targeting info (as this is contingent on allegiance).
+func set_allegiance(allegiance: Allegiance) -> void:
+	_allegiance = allegiance
+	_target_finder.set_targeting_info(_travel_range, _target_option, _allegiance)
 
+func set_projectile_position(marker: Marker2D) -> void:
+	_projectile_position = marker
+
+## sets owner and updates children with same.
+func set_owning_actor(actor: CombatActor) -> void:
+		_actor = actor
+		_effect_chain.set_caster(actor)
+		_target_finder.set_root(actor)
 #endregion

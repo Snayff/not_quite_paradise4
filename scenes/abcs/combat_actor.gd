@@ -34,8 +34,8 @@ signal died  ## actor has died
 		target = value
 		target_changed.emit(target)
 @export_group("Physics")
-@export var _linear_damp: float = 5
-@export var _mass: float = 100
+@export var _linear_damp: float = 5  ## set here, rather than built-in, due to editor issue
+@export var _mass: float = 100  ## set here, rather than built-in, due to editor issue
 #endregion
 
 

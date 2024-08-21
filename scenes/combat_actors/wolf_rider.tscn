@@ -89,9 +89,6 @@ _stats = Array[ExtResource("9_nf076")]([SubResource("Resource_dcaqw"), SubResour
 [node name="SupplyContainer" parent="." index="14"]
 _editor_supplies = Array[ExtResource("9_r5a4j")]([SubResource("Resource_rqumc")])
 
-[node name="Fireblast" parent="CombatActiveContainer" index="0" instance=ExtResource("6_jm2bo")]
-_delivery_method = 1
+[node name="CirclingStars" parent="CombatActiveContainer" index="0" instance=ExtResource("7_47lvt")]
 
-[node name="CirclingStars" parent="CombatActiveContainer" index="1" instance=ExtResource("7_47lvt")]
-_delivery_method = 2
-is_active = false
+[node name="Fireblast" parent="CombatActiveContainer" index="1" instance=ExtResource("6_jm2bo")]

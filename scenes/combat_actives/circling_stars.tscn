@@ -14,7 +14,8 @@ scale_value = 1.0
 resource_local_to_scene = true
 
 [node name="CirclingStars" instance=ExtResource("1_bejtl")]
-_valid_targets = 2
+_target_option = 4
+_delivery_method = 2
 _travel_range = 200
 
 [node name="CooldownTimer" parent="." index="0"]
