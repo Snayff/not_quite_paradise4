@@ -37,7 +37,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 step = 0.01
-value = 50.0
 fill_mode = 5
 nine_patch_stretch = true
 texture_progress = ExtResource("2_of3q4")

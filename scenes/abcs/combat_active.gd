@@ -32,8 +32,6 @@ signal new_target(target: CombatActor)
 		_travel_range = value
 		if _target_finder is TargetFinder:
 			_target_finder.set_max_range(_travel_range)
-@export_group("Misc")
-@export var is_active: bool = true  ## whether the CombatActive is functioning or not
 #endregion
 
 
@@ -45,6 +43,7 @@ var is_ready: bool = false:  ## if is off cooldown. set by cooldown timer timeou
 		is_ready = _value
 		if is_ready:
 			now_ready.emit()
+var _is_debug: bool = true  ## whether to show debug stuff
 # set by parent container
 var _actor: CombatActor  ## who owns this active
 var _allegiance: Allegiance  ## creator's allegiance component
@@ -59,6 +58,7 @@ var percent_ready: float:
 		push_error("CombatActive: Can't set percent_ready directly.")
 	get():
 		return _cooldown_timer.time_left / _cooldown_timer.wait_time
+var is_selected: bool = false  ## whether this active is selected by the parent container
 #endregion
 
 
@@ -80,7 +80,18 @@ func _ready() -> void:
 	# config target finder - need to set target info once allegiance is init'd
 	_target_finder.set_root(_actor)
 	_target_finder.new_target.connect(set_target_actor)  # ensure we're in sync with range finders new target
-	_target_finder.new_target.connect(func(target): new_target.emit.bind(target))  # bubble up signal
+
+func _process(delta: float) -> void:
+	queue_redraw()
+
+func _draw() -> void:
+	## draw circle, or remove circle by redrawing without one
+	if _is_debug and is_selected:
+		if target_actor is CombatActor:
+			# get the offset and mulitply by distance
+			# FIXME: circle wobbles when player moves
+			var draw_pos: Vector2 =  global_position.direction_to(target_actor.global_position) * global_position.distance_to(target_actor.global_position)
+			draw_circle(draw_pos, 10, Color.ALICE_BLUE, false, 1)
 
 ## casts the active
 func cast()-> void:
@@ -142,6 +153,7 @@ func set_target_actor(actor: CombatActor) -> void:
 		target_actor = actor
 		if not target_actor.is_connected("died", set_target_actor):
 			target_actor.died.connect(set_target_actor.bind(null))  # to clear target
+		new_target.emit.bind(actor)
 	else:
 		if _cooldown_timer.is_connected("timeout", cast):
 			# if no target then keep cooldown going but dont connect to the cast

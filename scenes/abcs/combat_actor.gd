@@ -4,7 +4,7 @@ class_name CombatActor
 extends RigidBody2D
 
 #region SIGNALS
-signal target_changed(actor: CombatActor)  ## changed target to new combat_actor
+signal new_target(actor: CombatActor)  ## changed target to new combat_actor
 signal died  ## actor has died
 #endregion
 
@@ -43,7 +43,7 @@ var _global_cast_cd_counter: float = 0  ## counter to track time since last cast
 var _target: CombatActor:
 	set(value):
 		_target = value
-		target_changed.emit(_target)
+		new_target.emit(_target)
 #endregion
 
 
@@ -69,6 +69,7 @@ func _ready() -> void:
 
 	combat_active_container.has_ready_active.connect(func(): _num_ready_actives += 1)  # support knowing when to auto cast
 	combat_active_container.new_active_selected.connect(func(active): _target = active.target_actor) # update target to match that of selected active
+	combat_active_container.new_target.connect(func(target): _target = target)
 
 func _process(delta: float) -> void:
 	_global_cast_cd_counter -= delta
@@ -92,4 +93,5 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 ## updates all collisions to reflect current _target, team etc.
 func update_collisions() -> void:
 	Utility.update_body_collisions(self, allegiance.team, Constants.TARGET_OPTION.other, _target)
+
 #endregion

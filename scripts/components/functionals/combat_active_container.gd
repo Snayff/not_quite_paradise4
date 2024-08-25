@@ -9,6 +9,7 @@ extends Node2D
 #region SIGNALS
 signal has_ready_active
 signal new_active_selected(active: CombatActive)
+signal new_target(target: CombatActor)
 #endregion
 
 
@@ -61,11 +62,21 @@ func _process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	var next_active: bool = Input.is_action_just_pressed(&"next_active")
+	var cast_active: bool = Input.is_action_just_pressed(&"use_active")
+
 	if next_active and not _actives.is_empty():
+		# toggle off and reset
+		if selected_active.is_connected("new_target", _emit_new_target):
+			selected_active.new_target.disconnect(_emit_new_target)
+		selected_active.is_selected = false
+
+		# update index and toggle on
 		_selection_index = (_selection_index + 1) % _actives.size()  # wrap around
 		new_active_selected.emit(selected_active)
-	var cast_active: bool = Input.is_action_just_pressed(&"use_active")
-	if cast_active and selected_active != null:
+		selected_active.new_target.connect(_emit_new_target)
+		selected_active.is_selected = true
+
+	elif cast_active and selected_active != null:
 		cast_ready_active(selected_active.name)
 
 ## get all children that are [CombatActive]s and put into _active
@@ -84,7 +95,13 @@ func _update_actives_with_component_links() -> void:
 func _connect_to_actives_signals() -> void:
 	for active in _actives:
 		active.now_ready.connect(func(): _ready_actives.append(active))
-		active.now_ready.connect(has_ready_active.emit)
+		active.now_ready.connect(has_ready_active.emit)#
+
+## emit the new_target signal
+##
+## N.B. using func over lambda so we can disconnect when swapping selected active
+func _emit_new_target(target: CombatActor) -> void:
+	new_target.emit(target)
 
 ## get an active by its class_name. returns null if nothing matching found.
 func get_active(active_name: String) -> CombatActive:

@@ -1,6 +1,7 @@
-## class desc
+## a set of data pulled from the actors [StatsContainerComponent].
+## WARNING: Hacky as fuck.
 #@icon("")
-#class_name XXX
+class_name StatPanel
 extends VBoxContainer
 
 
@@ -11,6 +12,7 @@ extends VBoxContainer
 
 #region ON READY (for direct children only)
 @onready var label: Label = $Label
+@onready var header: Label = $Header
 
 #endregion
 
@@ -29,16 +31,25 @@ var _labels: Array[Label] = []  ## hold all labels
 
 #region FUNCS
 func _ready() -> void:
-	_root.ready.connect(_update_labels)
+	# link to player#s target
+	if name == "TargetStatPanel":
+		_root.new_target.connect(_update_labels)
+	# or link to player
+	else:
+		header.text = "Player Stats"
+		_root.ready.connect(_update_labels.bind(_root))
 
 	_labels.append(label)
 
-func _update_labels() -> void:
-	if _root.stats_container is not StatsContainerComponent:
+func _update_labels(actor: CombatActor) -> void:
+	if actor.stats_container is not StatsContainerComponent:
 		return
 
+	if name == "TargetStatPanel":
+		header.text = str(actor.name, " Stats")
+
 	# loop all stats
-	var stats: Array[StatData] = _root.stats_container.get_all_stats()
+	var stats: Array[StatData] = actor.stats_container.get_all_stats()
 	for i in range(stats.size()):
 		var stat = stats[i]
 
