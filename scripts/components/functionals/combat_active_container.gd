@@ -57,6 +57,9 @@ func _ready() -> void:
 	_connect_to_actives_signals()
 
 func _process(delta: float) -> void:
+	pass
+
+func _unhandled_input(event: InputEvent) -> void:
 	var next_active: bool = Input.is_action_just_pressed(&"next_active")
 	if next_active and not _actives.is_empty():
 		_selection_index = (_selection_index + 1) % _actives.size()  # wrap around

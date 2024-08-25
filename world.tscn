@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=4 uid="uid://rf7q3r0jhupi"]
+[gd_scene load_steps=9 format=4 uid="uid://rf7q3r0jhupi"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_e5ypc"]
 [ext_resource type="Texture2D" uid="uid://csx5xkiiijtyh" path="res://assets/tiles/lava_caves/LB-Lava-Lake-Main.png" id="1_ml8d5"]
 [ext_resource type="PackedScene" uid="uid://dakrcm4hmx6jt" path="res://scenes/ui/action_bar.tscn" id="4_gaq2h"]
 [ext_resource type="PackedScene" uid="uid://cta4xur1b7ano" path="res://scenes/combat_actors/wolf_rider.tscn" id="5_gequ5"]
 [ext_resource type="PackedScene" uid="uid://bkqc7x4yp0pn2" path="res://scenes/combat_actors/horsey_rider.tscn" id="6_d7rtk"]
+[ext_resource type="PackedScene" uid="uid://bl26wjavwal5j" path="res://scenes/ui/stat_panel.tscn" id="6_pp6hl"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8pgda"]
 texture = ExtResource("1_ml8d5")
@@ -70,14 +71,18 @@ _is_player = true
 _linear_damp = 3.0
 _mass = 5.0
 
-[node name="CanvasLayer" type="CanvasLayer" parent="WolfRider"]
+[node name="UI" type="CanvasLayer" parent="WolfRider"]
 
-[node name="ActionBar" parent="WolfRider/CanvasLayer" node_paths=PackedStringArray("_root") instance=ExtResource("4_gaq2h")]
+[node name="ActionBar" parent="WolfRider/UI" node_paths=PackedStringArray("_root") instance=ExtResource("4_gaq2h")]
+offset_left = -246.0
+offset_top = -133.0
+offset_right = 262.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 _root = NodePath("../..")
 
-[node name="Camera2D" type="Camera2D" parent="WolfRider"]
-position = Vector2(-37, -51)
-zoom = Vector2(4, 4)
+[node name="StatPanel" parent="WolfRider/UI" node_paths=PackedStringArray("_root") instance=ExtResource("6_pp6hl")]
+_root = NodePath("../..")
 
 [node name="HorseyRider" parent="." instance=ExtResource("6_d7rtk")]
 position = Vector2(120, 26)
@@ -100,3 +105,7 @@ custom_integrator = false
 contact_monitor = false
 max_contacts_reported = 0
 linear_damp = 999999.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
+position_smoothing_enabled = true

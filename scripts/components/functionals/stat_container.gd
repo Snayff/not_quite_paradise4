@@ -53,4 +53,7 @@ func get_stat(stat: Constants.STAT_TYPE) -> StatData:
 			return stat_data
 	return null
 
+func get_all_stats() -> Array[StatData]:
+	return _stats
+
 #endregion

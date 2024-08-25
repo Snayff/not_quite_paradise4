@@ -15,12 +15,14 @@ signal died  ## actor has died
 @onready var _on_hit_flash: FlashComponent = %OnHitFlash
 @onready var reusable_spawner: SpawnerComponent = %ReusableSpawner  ## component for spawning runtime-defined Nodes on the actor
 @onready var allegiance: Allegiance = %Allegiance
+@onready var combat_active_container: CombatActiveContainerComponent = %CombatActiveContainer
+@onready var stats_container: StatsContainerComponent = %StatsContainer
+@onready var boons_banes: BoonsBanesContainerComponent = %BoonsBanesContainer
 @onready var _damage_numbers: PopUpNumbers = %DamageNumbers
 @onready var _death_trigger: DeathTrigger = %DeathTrigger
 @onready var _physics_movement: PhysicsMovementComponent = %PhysicsMovement
-@onready var boons_banes: BoonsBanesContainerComponent = %BoonsBanesContainer
 @onready var _supply_container: SupplyContainerComponent = %SupplyContainer
-@onready var combat_active_container: CombatActiveContainerComponent = %CombatActiveContainer
+
 
 #endregion
 

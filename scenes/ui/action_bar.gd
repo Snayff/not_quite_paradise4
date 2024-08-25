@@ -29,7 +29,8 @@ var _currently_selected_index: int = 0
 
 #region FUNCS
 func _ready() -> void:
-	_root.ready.connect(_post_ready)
+	if _root is CombatActor:
+		_root.ready.connect(_post_ready)
 
 func _post_ready() -> void:
 	_load_buttons()

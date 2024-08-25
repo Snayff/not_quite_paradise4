@@ -90,6 +90,10 @@ func target_is_valid(target_option: Constants.TARGET_OPTION, originator: Node2D,
 	## ignore other target checks as already filtered by collision layers
 	return true
 
-
+## get the enum name from its value.
+##
+## get_enum_name(TEAM, TEAM.team1) -> "team1"
+func get_enum_name(enum_: Variant, value: Variant) -> String:
+	return enum_.keys()[value]
 
 #endregion
