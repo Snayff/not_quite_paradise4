@@ -57,9 +57,6 @@ func _ready() -> void:
 	_update_actives_with_component_links()
 	_connect_to_actives_signals()
 
-func _process(delta: float) -> void:
-	pass
-
 func _unhandled_input(event: InputEvent) -> void:
 	var next_active: bool = Input.is_action_just_pressed(&"next_active")
 	var cast_active: bool = Input.is_action_just_pressed(&"use_active")
@@ -95,7 +92,9 @@ func _update_actives_with_component_links() -> void:
 func _connect_to_actives_signals() -> void:
 	for active in _actives:
 		active.now_ready.connect(func(): _ready_actives.append(active))
-		active.now_ready.connect(has_ready_active.emit)#
+		active.now_ready.connect(has_ready_active.emit)
+	if selected_active:
+		selected_active.new_target.connect(_emit_new_target)
 
 ## emit the new_target signal
 ##

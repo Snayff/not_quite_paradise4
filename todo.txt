@@ -2,7 +2,8 @@
 - player target nearest
 	highlight targeted actor
 	show targeted actors info
-- action bar
+	NEXT: target is updating, but stats panel isnt
+
 
 
 -  projectile
@@ -64,5 +65,14 @@
 - improved design interface/workflow
 	make exportable vars conditional, to simplify designing new nodes
 		https://forum.godotengine.org/t/conditionally-show-exported-variables/43678/5?u=snayff
+- add ai state
+	state charts:
+		https://godotengine.org/asset-library/asset/1778
+	OR behaviour tree:
+		https://github.com/limbonaut/limboai
+- review addon for nodes we want to imitate:
+	https://github.com/NodotProject/nodot-rts/tree/main/addons/nodot
+- movement methods; flying, ground
+- add static shadow to actor sprite
 
 ## THOUGHTS ##

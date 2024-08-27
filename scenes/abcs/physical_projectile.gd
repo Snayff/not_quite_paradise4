@@ -50,7 +50,7 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 
 func _process(delta: float) -> void:
 	if movement_component.distance_travelled >= travel_range:
-		print_debug("Projectile hit max range before hitting anything. ")
+		# print_debug("PhysicalProjectile: hit max range before hitting anything. ")
 		death_trigger.activate()
 
 ## trigger on hit effects, if target is valid

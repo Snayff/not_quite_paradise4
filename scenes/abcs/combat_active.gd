@@ -153,7 +153,7 @@ func set_target_actor(actor: CombatActor) -> void:
 		target_actor = actor
 		if not target_actor.is_connected("died", set_target_actor):
 			target_actor.died.connect(set_target_actor.bind(null))  # to clear target
-		new_target.emit.bind(actor)
+		new_target.emit(actor)
 	else:
 		if _cooldown_timer.is_connected("timeout", cast):
 			# if no target then keep cooldown going but dont connect to the cast
