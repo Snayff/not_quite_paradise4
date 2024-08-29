@@ -5,7 +5,7 @@ extends HBoxContainer
 
 
 #region SIGNALS
-
+signal root_is_ready  ## tell children that root is ready, so can run post_ready()
 #endregion
 
 
@@ -37,6 +37,8 @@ func _post_ready() -> void:
 	_assign_actives_to_buttons()
 
 	_root.combat_active_container.new_active_selected.connect(_select_new_button)
+
+	root_is_ready.emit()
 
 ## load appropriate child buttons. selects first in array.
 func _load_buttons() -> void:

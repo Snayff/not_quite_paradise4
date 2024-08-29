@@ -17,8 +17,8 @@ extends TextureButton
 
 
 #region EXPORTS
-# @export_group("Component Links")
-# @export var
+@export_group("Component Links")
+@export var _action_bar: ActionBar
 #
 # @export_group("Details")
 #endregion
@@ -31,6 +31,11 @@ var combat_active: CombatActive
 
 #region FUNCS
 func _ready() -> void:
+	assert(_action_bar is ActionBar, "CombatActiveButton: No `action_bar` linked.")
+
+	_action_bar.root_is_ready.connect(_post_ready)
+
+func _post_ready() -> void:
 	if combat_active is CombatActive:
 		texture_normal = combat_active.icon
 
