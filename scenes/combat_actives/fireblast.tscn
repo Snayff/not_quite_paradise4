@@ -10,7 +10,8 @@ resource_local_to_scene = true
 
 [node name="Fireblast" instance=ExtResource("1_34rtn")]
 icon = ExtResource("2_nulgg")
-_target_option = 2
+_valid_target_option = 2
+_valid_effect_option = 2
 _delivery_method = 1
 _travel_range = 500
 

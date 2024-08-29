@@ -27,7 +27,8 @@ signal new_target(target: CombatActor)
 @export_group("Casting")
 @export var _cast_type: Constants.CAST_TYPE  ## how the active is cast
 @export_group("Targeting")
-@export var _target_option: Constants.TARGET_OPTION  ## who the active can affect  # TODO: need to split who we target and who we effect
+@export var _valid_target_option: Constants.TARGET_OPTION  ## who the active can target
+@export var _valid_effect_option: Constants.TARGET_OPTION  ## who the active's effects can affect
 @export_group("Travel")
 @export var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
 #FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?! also no good for range finding
@@ -100,7 +101,6 @@ func _process(delta: float) -> void:
 		if can_cast:
 			cast()
 
-
 func _draw() -> void:
 	## draw circle, or remove circle by redrawing without one
 	if _is_debug and is_selected:
@@ -142,7 +142,7 @@ func _create_projectile() -> VisualProjectile:
 	var projectile: VisualProjectile = _projectile_spawner.spawn_scene(_projectile_position.global_position)
 	projectile.set_travel_range(_travel_range)
 	projectile.set_target(target_actor, target_position)  # give both, blank one will be ignored
-	projectile.set_interaction_info(_allegiance.team, _target_option)
+	projectile.set_interaction_info(_allegiance.team, _valid_effect_option)
 	projectile.hit_valid_target.connect(_effect_chain.on_hit)
 	projectile.update_collisions()
 
@@ -155,7 +155,7 @@ func _create_orbital()  -> VisualProjectile:
 	if not _orbiter.has_max_projectiles:
 		var projectile: VisualProjectile = _projectile_spawner.spawn_scene(_actor.global_position, _orbiter)
 		projectile.set_travel_range(_travel_range)
-		projectile.set_interaction_info(_allegiance.team, _target_option)
+		projectile.set_interaction_info(_allegiance.team, _valid_effect_option)
 		projectile.hit_valid_target.connect(_effect_chain.on_hit)
 		projectile.update_collisions()
 
@@ -178,7 +178,7 @@ func set_target_actor(actor: CombatActor) -> void:
 ## sets allegiance and updates child target finder's targeting info (as this is contingent on allegiance).
 func set_allegiance(allegiance: Allegiance) -> void:
 	_allegiance = allegiance
-	_target_finder.set_targeting_info(_travel_range, _target_option, _allegiance)
+	_target_finder.set_targeting_info(_travel_range, _valid_target_option, _allegiance)
 
 func set_projectile_position(marker: Marker2D) -> void:
 	_projectile_position = marker
