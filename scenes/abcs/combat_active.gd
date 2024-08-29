@@ -22,11 +22,15 @@ signal new_target(target: CombatActor)
 
 #region EXPORTS
 # TODO: move these to a config node, so designing a combat active is abstracted and only available within scene
+@export_group("Aesthetics")
+@export var icon: CompressedTexture2D  ## the icon used to identify the active
+@export_group("Casting")
+@export var _cast_type: Constants.CAST_TYPE  ## how the active is cast
 @export_group("Targeting")
-@export var _target_option: Constants.TARGET_OPTION  ## who the active can affect
+@export var _target_option: Constants.TARGET_OPTION  ## who the active can affect  # TODO: need to split who we target and who we effect
 @export_group("Travel")
 @export var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
-#FIXME: this isnt helpful for designing orbitals, how many rotations is it?! also no good for range finding
+#FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?! also no good for range finding
 @export var _travel_range: int:  ## how far the projectile can travel. when set, updates target finder.
 	set(value):
 		_travel_range = value
@@ -50,15 +54,22 @@ var _allegiance: Allegiance  ## creator's allegiance component
 var _projectile_position: Marker2D  ##  projectile spawn location. Must have to be able to use `projectile` delivery method.
 var time_until_ready: float:
 	set(value):
-		push_error("CombatActive: Can't set time_until_ready directly.")
+		push_error("CombatActive: Can't set `time_until_ready` directly.")
 	get():
 		return _cooldown_timer.time_left
 var percent_ready: float:
 	set(value):
-		push_error("CombatActive: Can't set percent_ready directly.")
+		push_error("CombatActive: Can't set `percent_ready` directly.")
 	get():
 		return _cooldown_timer.time_left / _cooldown_timer.wait_time
 var is_selected: bool = false  ## whether this active is selected by the parent container
+var can_cast: bool:
+	set(_value):
+		push_error("CombatActive: Can't set `can_cast` directly.")
+	get:
+		if is_ready and target_actor is CombatActor:
+			return true
+		return false
 #endregion
 
 
@@ -83,6 +94,12 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	queue_redraw()
+
+	# handle auto casting
+	if _cast_type == Constants.CAST_TYPE.auto:
+		if can_cast:
+			cast()
+
 
 func _draw() -> void:
 	## draw circle, or remove circle by redrawing without one
@@ -136,7 +153,6 @@ func _create_projectile() -> VisualProjectile:
 ## returns null if could not create, e.g. if already at max orbitals
 func _create_orbital()  -> VisualProjectile:
 	if not _orbiter.has_max_projectiles:
-		# FIXME: collisions caused by orbitals seem to happen a shortwhile after they actually hit
 		var projectile: VisualProjectile = _projectile_spawner.spawn_scene(_actor.global_position, _orbiter)
 		projectile.set_travel_range(_travel_range)
 		projectile.set_interaction_info(_allegiance.team, _target_option)

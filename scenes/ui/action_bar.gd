@@ -1,4 +1,4 @@
-## class desc
+## UI container to hold and align [CombatActiveButton]s.
 #@icon("")
 class_name ActionBar
 extends HBoxContainer

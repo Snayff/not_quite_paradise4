@@ -33,6 +33,11 @@ var _target_option: Constants.TARGET_OPTION  ## the type of target we're looking
 var _root: CombatActor  ## the combat actor who owns this combat active this is attached to
 var _allegiance: Allegiance  ## we take this, and not team directly, as Allegiance isnt init in parent before this is
 var _is_debug: bool = true  ## whether to show debug stuff
+var has_target: bool:  ## if target finder has a valid target
+	set(_value):
+		push_error("TargetFinder: Can't set has_target directly.")
+	get:
+		return current_target is CombatActor
 #endregion
 
 

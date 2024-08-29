@@ -93,6 +93,11 @@ offset_right = 0.0
 grow_horizontal = 0
 _root = NodePath("../..")
 
+[node name="Camera2D" type="Camera2D" parent="WolfRider"]
+position = Vector2(-37, -51)
+zoom = Vector2(4, 4)
+position_smoothing_enabled = true
+
 [node name="HorseyRider" parent="." instance=ExtResource("6_d7rtk")]
 position = Vector2(120, 26)
 collision_layer = 1
@@ -114,7 +119,3 @@ custom_integrator = false
 contact_monitor = false
 max_contacts_reported = 0
 linear_damp = 999999.0
-
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(4, 4)
-position_smoothing_enabled = true

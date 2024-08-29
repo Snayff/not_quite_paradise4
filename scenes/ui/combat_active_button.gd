@@ -1,4 +1,4 @@
-## class desc
+## UI element displaying info about a [CombatActive]
 #@icon("")
 class_name CombatActiveButton
 extends TextureButton
@@ -11,7 +11,7 @@ extends TextureButton
 
 #region ON READY (for direct children only)
 @onready var _time_label: Label = $TimeLabel
-@onready var _cooldown_progress_bar1: TextureProgressBar = $CooldownProgressBar
+@onready var _cooldown_progress_bar: TextureProgressBar = $CooldownProgressBar
 @onready var _selected_border: PanelContainer = $SelectedBorder
 #endregion
 
@@ -31,12 +31,13 @@ var combat_active: CombatActive
 
 #region FUNCS
 func _ready() -> void:
-	pass
+	if combat_active is CombatActive:
+		texture_normal = combat_active.icon
 
 func _process(delta: float) -> void:
 	if combat_active is CombatActive:
 		_time_label.text = "%3.1f" % combat_active.time_until_ready
-		_cooldown_progress_bar1.value = 100 * combat_active.percent_ready  # countdown from 100, so goes from filled to empty
+		_cooldown_progress_bar.value = 100 * combat_active.percent_ready  # countdown from 100, so goes from filled to empty
 
 
 func select() -> void:
