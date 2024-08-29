@@ -30,7 +30,6 @@ signal new_target(target: CombatActor)
 #region VARS
 var _actives: Array[CombatActive]:  ## all combat actives.
 	set(value):
-		breakpoint
 		_actives = value
 var _ready_actives: Array[CombatActive]  ## actives that are ready to cast - may not have a target.
 # NOTE: the selection things might be better elsewhere, in a control node
@@ -56,6 +55,10 @@ func _ready() -> void:
 	_update_actives_array()
 	_update_actives_with_component_links()
 	_connect_to_actives_signals()
+
+	# select first active
+	if _actives.size() > 0:
+		_actives[0].is_selected = true
 
 func _unhandled_input(event: InputEvent) -> void:
 	var next_active: bool = Input.is_action_just_pressed(&"next_active")
@@ -119,6 +122,7 @@ func cast_random_ready_active() -> bool:
 	if _ready_actives.size() > 0:
 		var random_active: CombatActive = _ready_actives.pick_random()
 		return cast_ready_active(random_active.name)
+
 	else:
 		push_warning("CombatActiveContainerComponent: No ready combat active.")
 		return false
@@ -126,7 +130,7 @@ func cast_random_ready_active() -> bool:
 ## casts the specified active, if it is ready and there is a target. If not, nothing happens.returns true if successfully cast.
 func cast_ready_active(active_name: String) -> bool:
 	var active: CombatActive = get_active(active_name)
-	if active.is_ready and active.target_actor:
+	if active.can_cast:
 		active.cast()
 		_ready_actives.erase(active)
 		return true
