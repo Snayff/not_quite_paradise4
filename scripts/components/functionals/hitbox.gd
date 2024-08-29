@@ -25,3 +25,9 @@ func _on_hurtbox_entered(hurtbox: HurtboxComponent):
 
 	# Signal out that we hit a hurtbox (this is useful for destroying projectiles when they hit something)
 	hit_hurtbox.emit(hurtbox)
+
+## sets the collisions shape's disabled property to the value of is_disabled. This is a deferred call, so takes place on the next frame.
+func set_disabled_status(is_disabled: bool) -> void:
+	var shape: CollisionShape2D = get_node_or_null("CollisionShape2D")
+	if shape is CollisionShape2D:
+		shape.set_deferred("disabled", is_disabled)

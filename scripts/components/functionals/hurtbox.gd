@@ -25,4 +25,3 @@ var is_invincible = false:  # NOTE: probs needs moving to some central status ef
 
 func _ready() -> void:
 	assert(root is CombatActor, "Missing `root`.")
-

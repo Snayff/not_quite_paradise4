@@ -6,14 +6,14 @@
 [ext_resource type="Script" path="res://scripts/components/functionals/death_trigger.gd" id="3_0na4o"]
 [ext_resource type="Script" path="res://scripts/components/functionals/movement.gd" id="6_a0r7r"]
 [ext_resource type="Script" path="res://scripts/components/functionals/supply_container.gd" id="6_iwqmp"]
-[ext_resource type="Script" path="res://scripts/components/functionals/supply.gd" id="7_iajjo"]
+[ext_resource type="Script" path="res://scripts/components/functionals/supply.gd" id="7_urtyh"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7jh8p"]
 resource_local_to_scene = true
 
-[sub_resource type="Resource" id="Resource_6ncsq"]
+[sub_resource type="Resource" id="Resource_vavxu"]
 resource_local_to_scene = true
-script = ExtResource("7_iajjo")
+script = ExtResource("7_urtyh")
 type = 0
 max_value = 999
 regeneration_per_second = 0.0
@@ -47,4 +47,4 @@ script = ExtResource("6_a0r7r")
 [node name="SupplyContainer" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("6_iwqmp")
-_editor_supplies = Array[ExtResource("7_iajjo")]([SubResource("Resource_6ncsq")])
+_editor_supplies = Array[ExtResource("7_urtyh")]([SubResource("Resource_vavxu")])

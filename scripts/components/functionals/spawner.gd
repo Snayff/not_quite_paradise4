@@ -7,8 +7,6 @@ extends Node2D
 @export var scene: PackedScene  ## The scene we want to spawn. If this is empty, nothing happens.
 
 
-
-
 ## Spawn an instance of the scene at a specific global position on a parent
 ##
 ## By default, the parent is the current "main" scene , but can pass in an alternative parent if you so choose.

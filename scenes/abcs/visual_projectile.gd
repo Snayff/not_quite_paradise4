@@ -34,10 +34,8 @@ var _target_actor: CombatActor
 var _target_position: Vector2
 var creator: CombatActor  ## who created the projectile
 var team: Constants.TEAM
-# config - these are all set by the combat active
-var valid_effect_chain_target: Constants.TARGET_OPTION  ## who the effect chain can apply to
-var target_resource: SupplyComponent  ## the resource damaged when a valid Hurtbox is hit
-var effect_chain: EffectChain  ## effect chain to be called when hitting valid target
+# config - these are set by the combat active
+var valid_effect_option: Constants.TARGET_OPTION  ## who the effect chain can apply to
 
 #endregion
 
@@ -48,9 +46,9 @@ func _ready() -> void:
 	hit_valid_target.connect(_death_trigger.activate.unbind(1))
 	_death_trigger.died.connect(func(): died.emit())
 
-## trigger on hit effects, if target is valid
+## if target is valid, signal out hit_valid_target
 func _on_hit(hurtbox: HurtboxComponent) -> void:
-	if Utility.target_is_valid(valid_effect_chain_target, hitbox.originator, hurtbox.root, _target_actor):
+	if Utility.target_is_valid(valid_effect_option, hitbox.originator, hurtbox.root, _target_actor):
 		hurtbox.hurt.emit(self)
 		on_hit_effect_spawner.spawn_scene(global_position)
 		_death_trigger.activate()
@@ -81,7 +79,7 @@ func _set_target_position(position_: Vector2) -> void:
 ## collisions may need updating after this.
 func set_interaction_info(team_: Constants.TEAM, effect_chain_target: Constants.TARGET_OPTION) -> void:
 	team = team_
-	valid_effect_chain_target = effect_chain_target
+	valid_effect_option = effect_chain_target
 
 func set_travel_range(travel_range: float) -> void:
 	_travel_range_supply.set_value(travel_range)
@@ -89,7 +87,7 @@ func set_travel_range(travel_range: float) -> void:
 
 ## updates all collisions to reflect current target, team etc.
 func update_collisions() -> void:
-	Utility.update_hitbox_hurtbox_collision(hitbox, team, valid_effect_chain_target, _target_actor)
+	Utility.update_hitbox_hurtbox_collision(hitbox, team, valid_effect_option, _target_actor)
 
 
 #endregion

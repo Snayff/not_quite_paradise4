@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://dew2aq5sbi56y"]
+
+[ext_resource type="Script" path="res://scenes/abcs/area_of_effect.gd" id="1_qvexf"]
+[ext_resource type="Script" path="res://scripts/components/functionals/hitbox.gd" id="2_gqxar"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e8vup"]
+resource_local_to_scene = true
+
+[node name="AreaOfEffect" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_e8vup")
+script = ExtResource("1_qvexf")
+
+[node name="HitboxComponent" type="Area2D" parent="."]
+unique_name_in_owner = true
+monitorable = false
+script = ExtResource("2_gqxar")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+disabled = true
