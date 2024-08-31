@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b71tjsbg3f1e4" path="res://scenes/abcs/physical_projectile.tscn" id="1_5tc44"]
 [ext_resource type="Texture2D" uid="uid://sndx4f18hm41" path="res://assets/projectiles/fireball.png" id="2_vpd1s"]
-[ext_resource type="PackedScene" uid="uid://drhecv7pq5ypa" path="res://scenes/effects/explosion.tscn" id="3_g88to"]
+[ext_resource type="PackedScene" uid="uid://drhecv7pq5ypa" path="res://scenes/visual_effects/explosion.tscn" id="3_g88to"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_k8rb1"]
 animations = [{

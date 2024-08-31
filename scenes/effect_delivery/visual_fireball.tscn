@@ -1,16 +1,16 @@
 [gd_scene load_steps=8 format=3 uid="uid://cgsflwjesyi8j"]
 
-[ext_resource type="PackedScene" uid="uid://id57j61u33cs" path="res://scenes/abcs/visual_projectile.tscn" id="1_cgpcb"]
-[ext_resource type="Texture2D" uid="uid://sndx4f18hm41" path="res://assets/projectiles/fireball.png" id="2_d2lah"]
-[ext_resource type="PackedScene" uid="uid://drhecv7pq5ypa" path="res://scenes/effects/explosion.tscn" id="3_g5tgo"]
-[ext_resource type="Script" path="res://scripts/components/functionals/supply.gd" id="4_hftom"]
+[ext_resource type="PackedScene" uid="uid://id57j61u33cs" path="res://scenes/abcs/visual_projectile.tscn" id="1_y144x"]
+[ext_resource type="Texture2D" uid="uid://sndx4f18hm41" path="res://assets/projectiles/fireball.png" id="2_o2q2d"]
+[ext_resource type="PackedScene" uid="uid://drhecv7pq5ypa" path="res://scenes/visual_effects/explosion.tscn" id="3_hhk8w"]
+[ext_resource type="Script" path="res://scripts/components/functionals/supply.gd" id="4_audav"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_megj2"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_d2lah")
+"texture": ExtResource("2_o2q2d")
 }],
 "loop": true,
 "name": &"default",
@@ -22,19 +22,19 @@ radius = 2.0
 
 [sub_resource type="Resource" id="Resource_vavxu"]
 resource_local_to_scene = true
-script = ExtResource("4_hftom")
+script = ExtResource("4_audav")
 type = 0
 max_value = 999
 regeneration_per_second = 0.0
 
-[node name="VisualFireball" instance=ExtResource("1_cgpcb")]
+[node name="VisualFireball" instance=ExtResource("1_y144x")]
 sprite_frames = SubResource("SpriteFrames_megj2")
 
 [node name="CollisionShape2D" parent="HitboxComponent" index="0"]
 shape = SubResource("CircleShape2D_m832j")
 
 [node name="OnDeathEffectSpawner" parent="." index="2"]
-scene = ExtResource("3_g5tgo")
+scene = ExtResource("3_hhk8w")
 
 [node name="DeathTrigger" parent="." index="3" node_paths=PackedStringArray("_root", "_destroy_effect_spawner")]
 _root = NodePath("..")
@@ -44,4 +44,4 @@ _destroy_effect_spawner = NodePath("../OnDeathEffectSpawner")
 root = NodePath("..")
 
 [node name="SupplyContainer" parent="." index="5"]
-_editor_supplies = Array[ExtResource("4_hftom")]([SubResource("Resource_vavxu")])
+_editor_supplies = Array[ExtResource("4_audav")]([SubResource("Resource_vavxu")])

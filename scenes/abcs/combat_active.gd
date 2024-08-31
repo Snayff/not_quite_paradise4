@@ -50,9 +50,9 @@ var is_ready: bool = false:  ## if is off cooldown. set by cooldown timer timeou
 			now_ready.emit()
 var _is_debug: bool = true  ## whether to show debug stuff
 # set by parent container
-var _actor: CombatActor  ## who owns this active
+var _caster: CombatActor  ## who owns this active
 var _allegiance: Allegiance  ## creator's allegiance component
-var _projectile_position: Marker2D  ##  projectile spawn location. Must have to be able to use `projectile` delivery method.
+var _cast_position: Marker2D  ##  projectile spawn location. Must have to be able to use `projectile` delivery method.
 var time_until_ready: float:
 	set(value):
 		push_error("CombatActive: Can't set `time_until_ready` directly.")
@@ -86,12 +86,20 @@ func _ready() -> void:
 	_cooldown_timer.one_shot = true
 	_cooldown_timer.timeout.connect(func(): is_ready = true )
 
-	# config effect chain
-	_effect_chain.set_caster(_actor)
-
-	# config target finder - need to set target info once allegiance is init'd
-	_target_finder.set_root(_actor)
+	# config target finder
 	_target_finder.new_target.connect(set_target_actor)  # ensure we're in sync with range finders new target
+
+## run setup process and repeat on all direct children.
+##
+## N.B. not recursive, so children are responsible for calling setup() on their own children
+func setup(caster: CombatActor, allegiance: Allegiance, cast_position: Marker2D) -> void:
+	_caster = caster
+	_allegiance = allegiance
+	_cast_position = cast_position
+
+	_effect_chain.setup(_caster, _allegiance, _valid_effect_option)
+
+	_target_finder.setup(_caster, _travel_range, _valid_target_option, _allegiance)
 
 func _process(delta: float) -> void:
 	queue_redraw()
@@ -117,12 +125,12 @@ func cast()-> void:
 		return
 
 	if _delivery_method == Constants.EFFECT_DELIVERY_METHOD.projectile:
-		if _projectile_position is Marker2D:
+		if _cast_position is Marker2D:
 			_create_projectile()
 			_cooldown_timer.start()
 			is_ready = false
 		else:
-			push_error("CombatActive: `_projectile_position` not defined.")
+			push_error("CombatActive: `_cast_position` not defined.")
 
 	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.orbital:
 		if _orbiter is ProjectileOrbiterComponent:
@@ -134,12 +142,12 @@ func cast()-> void:
 				is_ready = false
 
 		else:
-			push_error("CombatActive: `_projectile_position` not defined.")
+			push_error("CombatActive: `_cast_position` not defined.")
 	else:
 		push_error("CombatActive: `_delivery_method` (", _delivery_method, ") not defined.")
 
 func _create_projectile() -> VisualProjectile:
-	var projectile: VisualProjectile = _projectile_spawner.spawn_scene(_projectile_position.global_position)
+	var projectile: VisualProjectile = _projectile_spawner.spawn_scene(_cast_position.global_position)
 	projectile.set_travel_range(_travel_range)
 	projectile.set_target(target_actor, target_position)  # give both, blank one will be ignored
 	projectile.set_interaction_info(_allegiance.team, _valid_effect_option)
@@ -153,7 +161,7 @@ func _create_projectile() -> VisualProjectile:
 ## returns null if could not create, e.g. if already at max orbitals
 func _create_orbital()  -> VisualProjectile:
 	if not _orbiter.has_max_projectiles:
-		var projectile: VisualProjectile = _projectile_spawner.spawn_scene(_actor.global_position, _orbiter)
+		var projectile: VisualProjectile = _projectile_spawner.spawn_scene(_caster.global_position, _orbiter)
 		projectile.set_travel_range(_travel_range)
 		projectile.set_interaction_info(_allegiance.team, _valid_effect_option)
 		projectile.hit_valid_target.connect(_effect_chain.on_hit)
@@ -181,11 +189,11 @@ func set_allegiance(allegiance: Allegiance) -> void:
 	_target_finder.set_targeting_info(_travel_range, _valid_target_option, _allegiance)
 
 func set_projectile_position(marker: Marker2D) -> void:
-	_projectile_position = marker
+	_cast_position = marker
 
 ## sets owner and updates children with same.
-func set_owning_actor(actor: CombatActor) -> void:
-		_actor = actor
-		_effect_chain.set_caster(actor)
-		_target_finder.set_root(actor)
-#endregion
+#func set_owning_actor(actor: CombatActor) -> void:
+		#_caster = actor
+		#_effect_chain.set_caster(actor)
+		#_target_finder.set_root(actor)
+##endregion

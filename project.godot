@@ -27,7 +27,7 @@ window/size/viewport_height=480
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/SignalVisualizer/plugin.cfg")
+enabled=PackedStringArray()
 
 [filesystem]
 

@@ -22,8 +22,6 @@ signal died  ## actor has died
 @onready var _death_trigger: DeathTrigger = %DeathTrigger
 @onready var _physics_movement: PhysicsMovementComponent = %PhysicsMovement
 @onready var _supply_container: SupplyContainerComponent = %SupplyContainer
-
-
 #endregion
 
 
@@ -31,8 +29,8 @@ signal died  ## actor has died
 @export_group("Details")
 @export var _is_player: bool = false  ## if the actor is player controlled
 @export_group("Physics")
-@export var _linear_damp: float = 5  ## set here, rather than built-in, due to editor issue
-@export var _mass: float = 100  ## set here, rather than built-in, due to editor issue
+@export var _linear_damp: float = 5  ## set here, rather than built-in prop, due to editor issue
+@export var _mass: float = 100  ## set here, rather than built-in prop, due to editor issue
 #endregion
 
 

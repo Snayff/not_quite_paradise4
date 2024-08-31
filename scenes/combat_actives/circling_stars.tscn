@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cn8jpy03lpd4m" path="res://scenes/abcs/combat_active.tscn" id="1_bejtl"]
 [ext_resource type="Texture2D" uid="uid://bdriwng0shu7t" path="res://assets/active_icons/circiling_stars.png" id="2_e43xh"]
-[ext_resource type="PackedScene" uid="uid://cgsflwjesyi8j" path="res://scenes/projectiles/visual/visual_fireball.tscn" id="2_n4c11"]
+[ext_resource type="PackedScene" uid="uid://cgsflwjesyi8j" path="res://scenes/effect_delivery/visual_fireball.tscn" id="2_n4c11"]
 [ext_resource type="Script" path="res://scenes/combat_actives/circling_stars_effect_chain.gd" id="4_nd7yx"]
 [ext_resource type="Script" path="res://scripts/dataclasses/effect_stat_scaler.gd" id="5_33pwh"]
 

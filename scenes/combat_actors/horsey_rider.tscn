@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://b0ioe50hirnxg" path="res://assets/actors/horse_rider/RampartSpriteFemale-Right(Frame2).png" id="3_ityd4"]
 [ext_resource type="Texture2D" uid="uid://ffba1pgjsx4n" path="res://assets/actors/horse_rider/RampartSpriteFemale-Right(Frame3).png" id="4_evaqq"]
 [ext_resource type="Texture2D" uid="uid://dwxusomrgbenr" path="res://assets/actors/horse_rider/RampartSpriteFemale-Right(Frame4).png" id="5_dgnbb"]
-[ext_resource type="PackedScene" uid="uid://kupnh58vddx7" path="res://scenes/effects/death.tscn" id="6_utgjv"]
+[ext_resource type="PackedScene" uid="uid://kupnh58vddx7" path="res://scenes/visual_effects/death.tscn" id="6_utgjv"]
 [ext_resource type="Script" path="res://scripts/dataclasses/stat.gd" id="8_xjwvb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yg56m"]

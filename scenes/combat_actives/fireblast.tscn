@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cn8jpy03lpd4m" path="res://scenes/abcs/combat_active.tscn" id="1_34rtn"]
 [ext_resource type="Texture2D" uid="uid://nku1hhhygua2" path="res://assets/active_icons/fire_blast.png" id="2_nulgg"]
-[ext_resource type="PackedScene" uid="uid://cgsflwjesyi8j" path="res://scenes/projectiles/visual/visual_fireball.tscn" id="2_wxakp"]
+[ext_resource type="PackedScene" uid="uid://cgsflwjesyi8j" path="res://scenes/effect_delivery/visual_fireball.tscn" id="2_wxakp"]
 [ext_resource type="Script" path="res://scenes/combat_actives/fireblast_effect_chain.gd" id="3_2b3ux"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_blex3"]
@@ -16,7 +16,7 @@ _delivery_method = 1
 _travel_range = 500
 
 [node name="CooldownTimer" parent="." index="0"]
-wait_time = 5.0
+wait_time = 0.001
 
 [node name="ProjectileSpawner" parent="." index="1"]
 scene = ExtResource("2_wxakp")

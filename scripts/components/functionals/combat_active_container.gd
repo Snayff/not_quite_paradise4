@@ -53,8 +53,8 @@ func _ready() -> void:
 	assert(_projectile_position is Marker2D, "Misssing `_projectile_position`.")
 
 	_update_actives_array()
-	_update_actives_with_component_links()
 	_connect_to_actives_signals()
+	_setup_actives()
 
 	# select first active
 	if _actives.size() > 0:
@@ -85,14 +85,13 @@ func _update_actives_array() -> void:
 		if child is CombatActive:
 			_actives.append(child)
 
-## pass through the required component links to all actives
-func _update_actives_with_component_links() -> void:
+## run setup() on all child actives
+func _setup_actives() -> void:
 	for active in _actives:
-		active.set_owning_actor(_root)
-		active.set_allegiance(_allegiance)
-		active.set_projectile_position(_projectile_position)
+		active.setup(_root, _allegiance, _projectile_position)
 
 func _connect_to_actives_signals() -> void:
+	# NOTE: looping active again is inefficient, but accepting the performance for ability to separate concerns / keep singular purpose
 	for active in _actives:
 		active.now_ready.connect(func(): _ready_actives.append(active))
 		active.now_ready.connect(has_ready_active.emit)

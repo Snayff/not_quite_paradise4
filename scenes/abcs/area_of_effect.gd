@@ -5,7 +5,7 @@ extends AnimatedSprite2D
 
 
 #region SIGNALS
-signal hit_valid_target(hurtbox: HurtboxComponent)
+signal hit_valid_targets(bodies: Array[PhysicsBody2D])
 #endregion
 
 
@@ -26,39 +26,46 @@ signal hit_valid_target(hurtbox: HurtboxComponent)
 
 #region VARS
 var _bodies_hit: Array[PhysicsBody2D] = []  ## everyone hit by this. used to prevent hitting same target twice
-# config - these are set by the combat active
-var valid_effect_option: Constants.TARGET_OPTION  ## who the effect chain can apply to
-
+var _valid_effect_option: Constants.TARGET_OPTION  ## who the effect chain can apply to. expected to be set by the combat active
+var _team: Constants.TEAM  ## the team that caused this aoe to be created. expected to be set by the combat active
 #endregion
 
 
 #region FUNCS
 func _ready() -> void:
-	frame_changed.connect(_attempt_enable)
-	animation_looped.connect(func(): queue_free())
-	animation_finished.connect(func(): queue_free())
+	frame_changed.connect(_conditionally_enable)
+
+	animation_looped.connect(_cleanup)
+	animation_finished.connect(_cleanup)
 
 	_hitbox.set_disabled_status(true)
 	_hitbox.hit_hurtbox.connect(_on_hit)
 
+## run setup process
+func setup(new_position: Vector2, team: Constants.TEAM, valid_effect_option: Constants.TARGET_OPTION) -> void:
+	global_position = new_position
+	_team = team
+	_valid_effect_option = valid_effect_option
+
 ## if current sprite frame is at the _application_frame then trigger _enable()
-func _attempt_enable() -> void:
+func _conditionally_enable() -> void:
 	if frame == _application_frame:
 		_enable()
 
 ## enable the hitbox
 func _enable() -> void:
+	Utility.update_hitbox_hurtbox_collision(_hitbox, _team, _valid_effect_option)
 	_hitbox.set_disabled_status(false)
 
-## if target is valid and not already hit, signal out hit_valid_target
+## if target is valid and not already hit, log the target for later signaling (when animation ends)
 func _on_hit(hurtbox: HurtboxComponent) -> void:
-	if Utility.target_is_valid(valid_effect_option, _hitbox.originator, hurtbox.root):
+	if Utility.target_is_valid(_valid_effect_option, _hitbox.originator, hurtbox.root):
 		if hurtbox in _bodies_hit:
 			return
-		_bodies_hit.append(hurtbox)
+		_bodies_hit.append(hurtbox.root)
 
-		hurtbox.hurt.emit(self)
-		hit_valid_target.emit(hurtbox)
-
+## signal out hit_valid_targets and queue_free
+func _cleanup() -> void:
+	hit_valid_targets.emit(_bodies_hit)
 
 #endregion

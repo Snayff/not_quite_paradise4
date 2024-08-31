@@ -43,10 +43,17 @@ var has_target: bool:  ## if target finder has a valid target
 
 #region FUNCS
 func _ready() -> void:
+	# check a shape has been added to scene
 	_shape = get_node_or_null("CollisionShape2D")
 	assert(_shape is CollisionShape2D, "Missing _shape")
 
+## run setup process
+func setup(root: CombatActor, max_range: float, target_option: Constants.TARGET_OPTION, allegiance: Allegiance) -> void:
+	_root = root
+	_target_option = target_option
+	_allegiance = allegiance
 	update_collisions()
+	set_max_range(max_range)
 
 func _process(delta: float) -> void:
 	_refresh_counter -= delta
@@ -75,7 +82,6 @@ func get_nearest_target() -> CombatActor:
 	var nearest_body: CollisionObject2D = null
 	var closest_distance: float = 0
 	var new_distance: float = 0
-	var bodies = get_overlapping_bodies()
 	for body in get_overlapping_bodies():
 		# check target is one we care about
 		if not Utility.target_is_valid(_target_option, _root, body):
@@ -92,9 +98,6 @@ func get_nearest_target() -> CombatActor:
 			closest_distance = new_distance
 
 	return nearest_body
-
-func set_root(root: CombatActor) -> void:
-	_root = root
 
 ## sets the required targeting info. also updates the collision's radius.
 func set_targeting_info(max_range: float, target_option: Constants.TARGET_OPTION, allegiance: Allegiance) -> void:

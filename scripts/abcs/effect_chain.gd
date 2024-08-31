@@ -19,7 +19,6 @@ extends Node
 #region EXPORTS
 # @export_group("Component Links")
 # @export var
-#
 @export_group("Details")
 @export var _caster_required_tags: Array[Constants.COMBAT_TAG] = []  ## tags the caster must have to be able to activate
 @export var target_required_tags: Array[Constants.COMBAT_TAG] = []  ## tags the target must have to be able to effect  # NOTE: not currently used. Should maybe be on the effect.
@@ -29,14 +28,23 @@ extends Node
 #region VARS
 var _caster: CombatActor
 var _active_effects: Array[Effect] = []  ## an array of all active effects. Each effect needs to be removed when terminated.
+var _valid_effect_option: Constants.TARGET_OPTION  ## who the active's effects can affect. expedted from parent.
+var _aoe_scene: PackedScene = preload("res://scenes/effect_delivery/aoe_explosion.tscn")  ## the scene for creating AOE
+var _allegiance: Allegiance  ## the caster's allegiance. We take this rather than the team as the team can change, but this ref wont.
 #endregion
 
 
 #region FUNCS
-func set_caster(caster: CombatActor) -> void:
-	_caster = caster
+## run setup process
+func setup(caster: CombatActor, allegiance: Allegiance, valid_effect_option: Constants.TARGET_OPTION) -> void:
+	assert(_caster is CombatActor, "EffectChain: _caster is missing. " )
+	assert(_valid_effect_option is Constants.TARGET_OPTION, "EffectChain: _valid_effect_option is missing. " )
+	assert(_allegiance is Allegiance, "EffectChain: _allegiance is missing. " )
 
-########### ACTIVATIONS ############
+	_caster = caster
+	_valid_effect_option = valid_effect_option
+	_allegiance = allegiance
+
 ## check the conditions to activate are met
 ##
 ## this is usually casting, but can be activated by other means.
@@ -49,9 +57,11 @@ func can_activate() -> bool:
 ## activate the chain of effects.
 ##
 ## this is usually casting, but can be activated by other means.
+## NOTE: not yet used
 func activate() -> void:
 	pass
 
+## NOTE: not yet used
 func on_activate() -> void:
 	pass
 
