@@ -28,6 +28,7 @@ signal hit_valid_targets(bodies: Array[PhysicsBody2D])
 var _bodies_hit: Array[PhysicsBody2D] = []  ## everyone hit by this. used to prevent hitting same target twice
 var _valid_effect_option: Constants.TARGET_OPTION  ## who the effect chain can apply to. expected to be set by the combat active
 var _team: Constants.TEAM  ## the team that caused this aoe to be created. expected to be set by the combat active
+var _has_run_ready: bool = false
 #endregion
 
 
@@ -40,15 +41,33 @@ func _ready() -> void:
 
 	_hitbox.set_disabled_status(true)
 	_hitbox.hit_hurtbox.connect(_on_hit)
-	print("AOE is ready.")
+
+	_has_run_ready = true
 
 ## run setup process
-func setup(new_position: Vector2, team: Constants.TEAM, valid_effect_option: Constants.TARGET_OPTION) -> void:
+func setup(new_position: Vector2, team: Constants.TEAM, valid_effect_option: Constants.TARGET_OPTION, radius: float = -1) -> void:
+	if not _has_run_ready:
+		push_error("AreaOfEffect: setup() called before _ready. ")
+
+	assert(new_position is Vector2, "AreaOfEffect: new_position is missing." )
+	assert(team is Constants.TEAM, "AreaOfEffect: team is missing." )
+	assert(valid_effect_option is Constants.TARGET_OPTION, "AreaOfEffect: valid_effect_option is missing." )
+
 	global_position = new_position
 	_team = team
 	_valid_effect_option = valid_effect_option
 
 	Utility.update_hitbox_hurtbox_collision(_hitbox, _team, _valid_effect_option)
+
+	if radius != -1:
+		# get current shape radius
+		var shape_radius: float = _hitbox.get_node("CollisionShape2D").shape.radius
+
+		# compare to desired radius
+		var ratio: float = shape_radius / radius
+
+		# scale the aoe scene, which will then affect all children, inc. the collision shape
+		scale = Vector2(ratio, ratio)
 
 ## enable hitbox if current frame is the application frame, otherwise disable
 func _check_frame_and_conditionally_enable() -> void:

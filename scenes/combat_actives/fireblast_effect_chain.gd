@@ -69,6 +69,7 @@ func _aoe_hit(bodies: Array[PhysicsBody2D]) -> void:
 		var burn = Burn.new(_caster)
 		body.boons_banes.add_boon_bane(burn)
 
+	# clean down damage effect
 	effect.terminate()
 
 #endregion

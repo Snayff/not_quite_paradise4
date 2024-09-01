@@ -71,15 +71,16 @@ var can_cast: bool:
 		if is_ready and target_actor is CombatActor:
 			return true
 		return false
+var _has_run_ready: bool = false  ## if _ready() has finished
 #endregion
 
 
 #region FUNCS
 func _ready() -> void:
 	# check for mandatory properties set in editor
-	assert(_projectile_spawner is SpawnerComponent, "Misssing `_projectile_spawner`.")
-	assert(_effect_chain is EffectChain, "Missing `_effect_chain`.")
-	assert(_target_finder is TargetFinder, "Missing `_target_finder`.")
+	assert(_projectile_spawner is SpawnerComponent, "CombatActive: Misssing `_projectile_spawner`.")
+	assert(_effect_chain is EffectChain, "CombatActive: Missing `_effect_chain`.")
+	assert(_target_finder is TargetFinder, "CombatActive: Missing `_target_finder`.")
 
 	# config cooldown timer
 	_cooldown_timer.start()
@@ -89,10 +90,19 @@ func _ready() -> void:
 	# config target finder
 	_target_finder.new_target.connect(set_target_actor)  # ensure we're in sync with range finders new target
 
+	_has_run_ready = true
+
 ## run setup process and repeat on all direct children.
 ##
 ## N.B. not recursive, so children are responsible for calling setup() on their own children
 func setup(caster: CombatActor, allegiance: Allegiance, cast_position: Marker2D) -> void:
+	if not _has_run_ready:
+		push_error("CombatActive: setup() called before _ready. ")
+
+	assert(caster is CombatActor, "CombatActive: Missing `caster`.")
+	assert(allegiance is Allegiance, "CombatActive: Missing `allegiance`.")
+	assert(cast_position is Marker2D, "CombatActive: Missing `cast_position`.")
+
 	_caster = caster
 	_allegiance = allegiance
 	_cast_position = cast_position

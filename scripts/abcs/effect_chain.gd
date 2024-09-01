@@ -31,15 +31,22 @@ var _active_effects: Array[Effect] = []  ## an array of all active effects. Each
 var _valid_effect_option: Constants.TARGET_OPTION  ## who the active's effects can affect. expedted from parent.
 var _aoe_scene: PackedScene = preload("res://scenes/effect_delivery/aoe_explosion.tscn")  ## the scene for creating AOE
 var _allegiance: Allegiance  ## the caster's allegiance. We take this rather than the team as the team can change, but this ref wont.
+var _has_run_ready: bool = false  ## if _ready() has finished
 #endregion
 
 
 #region FUNCS
+func _ready() -> void:
+	_has_run_ready = true
+
 ## run setup process
 func setup(caster: CombatActor, allegiance: Allegiance, valid_effect_option: Constants.TARGET_OPTION) -> void:
-	assert(caster is CombatActor, "EffectChain: _caster is missing. " )
-	assert(allegiance is Allegiance, "EffectChain: _allegiance is missing. " )
-	assert(valid_effect_option is Constants.TARGET_OPTION, "EffectChain: _valid_effect_option is missing. " )
+	if not _has_run_ready:
+		push_error("EffectChain: setup() called before _ready. ")
+
+	assert(caster is CombatActor, "EffectChain: `_caster` is missing. " )
+	assert(allegiance is Allegiance, "EffectChain: `_allegiance` is missing. " )
+	assert(valid_effect_option is Constants.TARGET_OPTION, "EffectChain: `_valid_effect_option` is missing. " )
 
 	_caster = caster
 	_valid_effect_option = valid_effect_option

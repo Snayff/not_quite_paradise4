@@ -38,6 +38,7 @@ var has_target: bool:  ## if target finder has a valid target
 		push_error("TargetFinder: Can't set has_target directly.")
 	get:
 		return current_target is CombatActor
+var _has_run_ready: bool = false  ## if _ready() has finished
 #endregion
 
 
@@ -45,13 +46,24 @@ var has_target: bool:  ## if target finder has a valid target
 func _ready() -> void:
 	# check a shape has been added to scene
 	_shape = get_node_or_null("CollisionShape2D")
-	assert(_shape is CollisionShape2D, "Missing _shape")
+	assert(_shape is CollisionShape2D, "TargetFinder: Missing `_shape`")
+
+	_has_run_ready = true
 
 ## run setup process
 func setup(root: CombatActor, max_range: float, target_option: Constants.TARGET_OPTION, allegiance: Allegiance) -> void:
+	if not _has_run_ready:
+		push_error("TargetFinder: setup() called before _ready. ")
+
+	assert(root is CombatActor, "TargetFinder: Missing `root`")
+	assert(max_range is float, "TargetFinder: Missing `max_range`")
+	assert(target_option is Constants.TARGET_OPTION, "TargetFinder: Missing `target_option`")
+	assert(allegiance is Allegiance, "TargetFinder: Missing `allegiance`")
+
 	_root = root
 	_target_option = target_option
 	_allegiance = allegiance
+
 	update_collisions()
 	set_max_range(max_range)
 
