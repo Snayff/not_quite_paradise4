@@ -33,13 +33,14 @@ var _team: Constants.TEAM  ## the team that caused this aoe to be created. expec
 
 #region FUNCS
 func _ready() -> void:
-	frame_changed.connect(_conditionally_enable)
+	frame_changed.connect(_check_frame_and_conditionally_enable)
 
 	animation_looped.connect(_cleanup)
 	animation_finished.connect(_cleanup)
 
 	_hitbox.set_disabled_status(true)
 	_hitbox.hit_hurtbox.connect(_on_hit)
+	print("AOE is ready.")
 
 ## run setup process
 func setup(new_position: Vector2, team: Constants.TEAM, valid_effect_option: Constants.TARGET_OPTION) -> void:
@@ -47,25 +48,33 @@ func setup(new_position: Vector2, team: Constants.TEAM, valid_effect_option: Con
 	_team = team
 	_valid_effect_option = valid_effect_option
 
-## if current sprite frame is at the _application_frame then trigger _enable()
-func _conditionally_enable() -> void:
-	if frame == _application_frame:
-		_enable()
-
-## enable the hitbox
-func _enable() -> void:
 	Utility.update_hitbox_hurtbox_collision(_hitbox, _team, _valid_effect_option)
-	_hitbox.set_disabled_status(false)
+
+## enable hitbox if current frame is the application frame, otherwise disable
+func _check_frame_and_conditionally_enable() -> void:
+	if frame == _application_frame:
+		_set_hitbox_disabled_status(false)
+	else:
+		_set_hitbox_disabled_status(true)
+
+
+## enable or diasble the hitbox.
+##
+## true disables the hitbox.
+func _set_hitbox_disabled_status(is_disabled: bool) -> void:
+	_hitbox.set_disabled_status(is_disabled)
+
 
 ## if target is valid and not already hit, log the target for later signaling (when animation ends)
 func _on_hit(hurtbox: HurtboxComponent) -> void:
 	if Utility.target_is_valid(_valid_effect_option, _hitbox.originator, hurtbox.root):
-		if hurtbox in _bodies_hit:
+		if hurtbox.root in _bodies_hit:
 			return
 		_bodies_hit.append(hurtbox.root)
 
 ## signal out hit_valid_targets and queue_free
 func _cleanup() -> void:
 	hit_valid_targets.emit(_bodies_hit)
+	queue_free()
 
 #endregion

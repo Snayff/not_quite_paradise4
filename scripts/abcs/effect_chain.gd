@@ -37,9 +37,9 @@ var _allegiance: Allegiance  ## the caster's allegiance. We take this rather tha
 #region FUNCS
 ## run setup process
 func setup(caster: CombatActor, allegiance: Allegiance, valid_effect_option: Constants.TARGET_OPTION) -> void:
-	assert(_caster is CombatActor, "EffectChain: _caster is missing. " )
-	assert(_valid_effect_option is Constants.TARGET_OPTION, "EffectChain: _valid_effect_option is missing. " )
-	assert(_allegiance is Allegiance, "EffectChain: _allegiance is missing. " )
+	assert(caster is CombatActor, "EffectChain: _caster is missing. " )
+	assert(allegiance is Allegiance, "EffectChain: _allegiance is missing. " )
+	assert(valid_effect_option is Constants.TARGET_OPTION, "EffectChain: _valid_effect_option is missing. " )
 
 	_caster = caster
 	_valid_effect_option = valid_effect_option

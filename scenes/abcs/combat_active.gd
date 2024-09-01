@@ -191,9 +191,4 @@ func set_allegiance(allegiance: Allegiance) -> void:
 func set_projectile_position(marker: Marker2D) -> void:
 	_cast_position = marker
 
-## sets owner and updates children with same.
-#func set_owning_actor(actor: CombatActor) -> void:
-		#_caster = actor
-		#_effect_chain.set_caster(actor)
-		#_target_finder.set_root(actor)
-##endregion
+#endregion

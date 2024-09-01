@@ -41,10 +41,12 @@ func on_hit(hurtbox: HurtboxComponent) -> void:
 	effect.apply(actor_hit)
 
 	# aoe
+	# FIXME: this is a horrible interface/way of creating an AOE. can we do better?
 	var _aoe: AreaOfEffect = _aoe_scene.instantiate()
 	# need to defer adding the _aoe as a child
 	# as cannot add new Area2Ds to a scene during a call of another Area2D's on_area_entered()
-	await call_deferred("add_child", _aoe)
+	call_deferred("add_child", _aoe)
+	await _aoe.ready
 	_aoe.setup(hurtbox.global_position, _allegiance.team, _valid_effect_option)
 	_aoe.hit_valid_targets.connect(_aoe_hit)
 
@@ -54,13 +56,6 @@ func _aoe_hit(bodies: Array[PhysicsBody2D]) -> void:
 	_register_effect(effect)
 	effect.base_damage = _aoe_damage
 	effect.is_one_shot = false
-
-# TODO:
-#  need to debug this, as:
-#	 firing loads of damage, not just once,
-#	 not sure if hitting multiple people
-#	there is a delay after hitting before applying (which might jsut be settings)
-# add asserts to setup funcs
 
 	for body in bodies:
 

@@ -11,7 +11,7 @@
 [sub_resource type="SpriteFrames" id="SpriteFrames_7jh8p"]
 resource_local_to_scene = true
 
-[sub_resource type="Resource" id="Resource_mob2w"]
+[sub_resource type="Resource" id="Resource_wiang"]
 resource_local_to_scene = true
 script = ExtResource("7_urtyh")
 type = 0
@@ -47,4 +47,4 @@ script = ExtResource("6_a0r7r")
 [node name="SupplyContainer" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("6_iwqmp")
-_editor_supplies = Array[ExtResource("7_urtyh")]([SubResource("Resource_mob2w")])
+_editor_supplies = Array[ExtResource("7_urtyh")]([SubResource("Resource_wiang")])
