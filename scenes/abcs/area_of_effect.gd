@@ -51,9 +51,9 @@ func setup(new_position: Vector2, team: Constants.TEAM, valid_effect_option: Con
 	if not _has_run_ready:
 		push_error("AreaOfEffect: setup() called before _ready. ")
 
-	assert(new_position is Vector2, "AreaOfEffect: new_position is missing." )
-	assert(team is Constants.TEAM, "AreaOfEffect: team is missing." )
-	assert(valid_effect_option is Constants.TARGET_OPTION, "AreaOfEffect: valid_effect_option is missing." )
+	assert(new_position is Vector2, "AreaOfEffect: `new_position` is missing." )
+	assert(team is Constants.TEAM, "AreaOfEffect: `team` is missing." )
+	assert(valid_effect_option is Constants.TARGET_OPTION, "AreaOfEffect: `valid_effect_option` is missing." )
 
 	global_position = new_position
 	_team = team

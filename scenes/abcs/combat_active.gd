@@ -12,7 +12,7 @@ signal new_target(target: CombatActor)
 
 #region ON READY
 @onready var _cooldown_timer: Timer = %CooldownTimer
-@onready var _projectile_spawner: SpawnerComponent = %ProjectileSpawner
+@onready var _scene_spawner: SpawnerComponent = %SceneSpawner
 @onready var _effect_chain: EffectChain = $EffectChain
 @onready var _target_finder: TargetFinder = %TargetFinder
 @onready var _orbiter: ProjectileOrbiterComponent = %ProjectileOrbiter  ## handler for orbitals. Must have to be able to use `orbital` delivery method.
@@ -78,7 +78,7 @@ var _has_run_ready: bool = false  ## if _ready() has finished
 #region FUNCS
 func _ready() -> void:
 	# check for mandatory properties set in editor
-	assert(_projectile_spawner is SpawnerComponent, "CombatActive: Misssing `_projectile_spawner`.")
+	assert(_scene_spawner is SpawnerComponent, "CombatActive: Misssing `_scene_spawner`.")
 	assert(_effect_chain is EffectChain, "CombatActive: Missing `_effect_chain`.")
 	assert(_target_finder is TargetFinder, "CombatActive: Missing `_target_finder`.")
 
@@ -137,8 +137,7 @@ func cast()-> void:
 	if _delivery_method == Constants.EFFECT_DELIVERY_METHOD.projectile:
 		if _cast_position is Marker2D:
 			_create_projectile()
-			_cooldown_timer.start()
-			is_ready = false
+			_restart_cooldown()
 		else:
 			push_error("CombatActive: `_cast_position` not defined.")
 
@@ -148,19 +147,24 @@ func cast()-> void:
 			if projectile != null:
 				projectile.died.connect(_orbiter.remove_projectile.bind(projectile))
 				_orbiter.add_projectile(projectile)
-				_cooldown_timer.start()
-				is_ready = false
+				_restart_cooldown()
 
 		else:
+			push_error("CombatActive: `_orbiter` not defined.")
+
+	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.melee:
+		if _cast_position is Marker2D:
+			_create_melee()
+			_restart_cooldown()
+		else:
 			push_error("CombatActive: `_cast_position` not defined.")
+
 	else:
 		push_error("CombatActive: `_delivery_method` (", _delivery_method, ") not defined.")
 
 func _create_projectile() -> VisualProjectile:
-	var projectile: VisualProjectile = _projectile_spawner.spawn_scene(_cast_position.global_position)
-	projectile.set_travel_range(_travel_range)
-	projectile.set_target(target_actor, target_position)  # give both, blank one will be ignored
-	projectile.set_interaction_info(_allegiance.team, _valid_effect_option)
+	var projectile: VisualProjectile = _scene_spawner.spawn_scene(_cast_position.global_position)
+	projectile.setup(_travel_range, _allegiance.team, _valid_effect_option, target_actor, target_position)
 	projectile.hit_valid_target.connect(_effect_chain.on_hit)
 	projectile.update_collisions()
 
@@ -171,15 +175,19 @@ func _create_projectile() -> VisualProjectile:
 ## returns null if could not create, e.g. if already at max orbitals
 func _create_orbital()  -> VisualProjectile:
 	if not _orbiter.has_max_projectiles:
-		var projectile: VisualProjectile = _projectile_spawner.spawn_scene(_caster.global_position, _orbiter)
-		projectile.set_travel_range(_travel_range)
-		projectile.set_interaction_info(_allegiance.team, _valid_effect_option)
+		var projectile: VisualProjectile = _scene_spawner.spawn_scene(_caster.global_position, _orbiter)
+		projectile.setup(_travel_range, _allegiance.team, _valid_effect_option)
 		projectile.hit_valid_target.connect(_effect_chain.on_hit)
-		projectile.update_collisions()
-
 		return projectile
+
 	else:
 		return null
+
+func _create_melee() -> AreaOfEffect:
+	var aoe: AreaOfEffect = _scene_spawner.spawn_scene(_cast_position.global_position)
+	aoe.setup(aoe.global_position, _allegiance.team, _valid_effect_option)
+	aoe.hit_valid_targets.connect(_effect_chain.on_hit)  # TODO:this isnt going to work as it will send an array of bodies, not a singler hurtbox
+	return aoe
 
 ## set the target actor. can accept null.
 func set_target_actor(actor: CombatActor) -> void:
@@ -200,5 +208,10 @@ func set_allegiance(allegiance: Allegiance) -> void:
 
 func set_projectile_position(marker: Marker2D) -> void:
 	_cast_position = marker
+
+## start cooldown timer and update is_ready to false
+func _restart_cooldown() -> void:
+	_cooldown_timer.start()
+	is_ready = false
 
 #endregion

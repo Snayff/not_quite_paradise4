@@ -15,10 +15,7 @@ _valid_effect_option = 2
 _delivery_method = 1
 _travel_range = 500
 
-[node name="CooldownTimer" parent="." index="0"]
-wait_time = 0.001
-
-[node name="ProjectileSpawner" parent="." index="1"]
+[node name="SceneSpawner" parent="." index="1"]
 scene = ExtResource("2_wxakp")
 
 [node name="EffectChain" type="Node" parent="." index="2"]

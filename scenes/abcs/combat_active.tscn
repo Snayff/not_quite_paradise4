@@ -15,7 +15,7 @@ script = ExtResource("1_lm2qw")
 unique_name_in_owner = true
 autostart = true
 
-[node name="ProjectileSpawner" type="Node2D" parent="."]
+[node name="SceneSpawner" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_unp6u")
 

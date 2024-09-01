@@ -24,7 +24,7 @@ _travel_range = 200
 [node name="CooldownTimer" parent="." index="0"]
 wait_time = 0.3
 
-[node name="ProjectileSpawner" parent="." index="1"]
+[node name="SceneSpawner" parent="." index="1"]
 scene = ExtResource("2_n4c11")
 
 [node name="EffectChain" type="Node" parent="." index="2"]
@@ -33,3 +33,6 @@ _damage_scalers = Array[ExtResource("5_33pwh")]([SubResource("Resource_qxiwj")])
 
 [node name="CollisionShape2D" parent="TargetFinder" index="0"]
 shape = SubResource("CircleShape2D_gns30")
+
+[node name="ProjectileOrbiter" parent="." index="4"]
+_max_projectiles = 1
