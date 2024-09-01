@@ -69,11 +69,12 @@ func setup(new_position: Vector2, team: Constants.TEAM, valid_effect_option: Con
 		# scale the aoe scene, which will then affect all children, inc. the collision shape
 		scale = Vector2(ratio, ratio)
 
-## enable hitbox if current frame is the application frame, otherwise disable
+## enable hitbox if current frame is the application frame, otherwise disable. When disabling we signal out hit_valid_targets to inform of hit targets
 func _check_frame_and_conditionally_enable() -> void:
 	if frame == _application_frame:
 		_set_hitbox_disabled_status(false)
 	else:
+		hit_valid_targets.emit(_bodies_hit)
 		_set_hitbox_disabled_status(true)
 
 
@@ -91,9 +92,8 @@ func _on_hit(hurtbox: HurtboxComponent) -> void:
 			return
 		_bodies_hit.append(hurtbox.root)
 
-## signal out hit_valid_targets and queue_free
+## queue_free
 func _cleanup() -> void:
-	hit_valid_targets.emit(_bodies_hit)
 	queue_free()
 
 #endregion

@@ -74,9 +74,10 @@ _mass = 5.0
 [node name="UI" type="CanvasLayer" parent="WolfRider"]
 
 [node name="ActionBar" parent="WolfRider/UI" node_paths=PackedStringArray("_root") instance=ExtResource("4_gaq2h")]
-offset_left = -246.0
-offset_top = -133.0
-offset_right = 262.0
+offset_left = -87.0
+offset_top = -61.0
+offset_right = 88.0
+offset_bottom = -2.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 _root = NodePath("../..")
@@ -95,7 +96,7 @@ _root = NodePath("../..")
 
 [node name="Camera2D" type="Camera2D" parent="WolfRider"]
 position = Vector2(-37, -51)
-zoom = Vector2(4, 4)
+zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 
 [node name="HorseyRider" parent="." instance=ExtResource("6_d7rtk")]
