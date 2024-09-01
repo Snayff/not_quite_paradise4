@@ -43,15 +43,16 @@ var has_max_projectiles: bool:
 
 
 #region FUNCS
+func _ready() -> void:
+	_generate_points_in_circle()
+
 func _process(delta):
-	#for projectile in _projectiles:
-		#projectile.rotation += _rotation_speed * delta
 	rotation += _rotation_speed * delta
 
 ## calculate evenly spaced points around a circle based on number of projectiles
 func _generate_points_in_circle():
-	if _num_projectiles != 0:
-		var increment = float(360) / float(_num_projectiles)
+	if _max_projectiles != 0:
+		var increment = float(360) / float(_max_projectiles)
 		var angle = 0
 
 		_points.clear()
@@ -62,23 +63,23 @@ func _generate_points_in_circle():
 
 			var point = Vector2(x * _orbit_scale, y * _orbit_scale)
 			_points.append(point)
-			_projectiles[i].position = point
 
 			i += 1
 			angle += increment
 
 ## adds a projectile to the orbit. Recalculates position of all projectiles in orbit.
 func add_projectile(projectile: VisualProjectile) -> void:
-	if _num_projectiles + 1 <= _max_projectiles:
+	if _num_projectiles + 1 <= _max_projectiles:  # +1 as we're about to add 1 and dont want to go over the limit
 		_projectiles.append(projectile)
-		_generate_points_in_circle()
+		# NOTE: it might look better if we assign to a random position in the circle
+		#	or the furthest from the currently filled position
+		projectile.position = _points[_projectiles.size() - 1]  # -1 to account for starting from 0
+
 	else:
 		push_warning("ProjectileOrbiterComponent: Tried to add more projectiles than the max allowed, so ignored.")
 
 ## removes a projectile to the orbit. Recalculates position of all projectiles in orbit.
 func remove_projectile(projectile: VisualProjectile) -> void:
 	_projectiles.erase(projectile)
-	_generate_points_in_circle()
-
 
 #endregion

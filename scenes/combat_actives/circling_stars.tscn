@@ -33,6 +33,3 @@ _damage_scalers = Array[ExtResource("5_33pwh")]([SubResource("Resource_qxiwj")])
 
 [node name="CollisionShape2D" parent="TargetFinder" index="0"]
 shape = SubResource("CircleShape2D_gns30")
-
-[node name="ProjectileOrbiter" parent="." index="4"]
-_max_projectiles = 1
