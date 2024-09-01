@@ -28,7 +28,9 @@ signal hit_valid_targets(bodies: Array[PhysicsBody2D])
 var _bodies_hit: Array[PhysicsBody2D] = []  ## everyone hit by this. used to prevent hitting same target twice
 var _valid_effect_option: Constants.TARGET_OPTION  ## who the effect chain can apply to. expected to be set by the combat active
 var _team: Constants.TEAM  ## the team that caused this aoe to be created. expected to be set by the combat active
-var _has_run_ready: bool = false
+var _has_run_ready: bool = false  ## has completed _ready()
+var _has_signalled_out_hit_valid_targets: bool = false  ## has signalled out the named signal. we only want to share it once.
+var _has_been_enabled: bool = false  ## if we have been enabled once already.
 #endregion
 
 
@@ -73,9 +75,12 @@ func setup(new_position: Vector2, team: Constants.TEAM, valid_effect_option: Con
 func _check_frame_and_conditionally_enable() -> void:
 	if frame == _application_frame:
 		_set_hitbox_disabled_status(false)
-	else:
+		_has_been_enabled = true
+
+	elif _has_been_enabled and not _has_signalled_out_hit_valid_targets:
 		hit_valid_targets.emit(_bodies_hit)
 		_set_hitbox_disabled_status(true)
+		_has_signalled_out_hit_valid_targets = true
 
 
 ## enable or diasble the hitbox.

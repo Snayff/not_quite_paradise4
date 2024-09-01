@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://cgsflwjesyi8j"]
+[gd_scene load_steps=7 format=3 uid="uid://cgsflwjesyi8j"]
 
 [ext_resource type="PackedScene" uid="uid://id57j61u33cs" path="res://scenes/abcs/visual_projectile.tscn" id="1_y144x"]
 [ext_resource type="Texture2D" uid="uid://sndx4f18hm41" path="res://assets/projectiles/fireball.png" id="2_o2q2d"]
-[ext_resource type="PackedScene" uid="uid://drhecv7pq5ypa" path="res://scenes/visual_effects/explosion.tscn" id="3_hhk8w"]
 [ext_resource type="Script" path="res://scripts/components/functionals/supply.gd" id="4_audav"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_megj2"]
@@ -32,9 +31,6 @@ sprite_frames = SubResource("SpriteFrames_megj2")
 
 [node name="CollisionShape2D" parent="HitboxComponent" index="0"]
 shape = SubResource("CircleShape2D_m832j")
-
-[node name="OnDeathEffectSpawner" parent="." index="2"]
-scene = ExtResource("3_hhk8w")
 
 [node name="DeathTrigger" parent="." index="3" node_paths=PackedStringArray("_root", "_destroy_effect_spawner")]
 _root = NodePath("..")

@@ -17,8 +17,6 @@ extends EffectChain
 # @export_group("Component Links")
 # @export var
 #
-@export_group("On Hit")
-@export var _hit_damage: int = 1
 @export_group("AoE")
 @export var _aoe_damage: int = 1
 
@@ -32,14 +30,6 @@ extends EffectChain
 
 #region FUNCS
 func on_hit(hurtbox: HurtboxComponent) -> void:
-	var actor_hit: CombatActor = hurtbox.root
-
-	# initial damage
-	var effect = DealDamageEffect.new(self, _caster)
-	_register_effect(effect)
-	effect.base_damage = _hit_damage
-	effect.apply(actor_hit)
-
 	# aoe
 	# FIXME: this is a horrible interface/way of creating an AOE. can we do better?
 	var _aoe: AreaOfEffect = _aoe_scene.instantiate()
