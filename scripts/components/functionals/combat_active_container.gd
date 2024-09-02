@@ -135,6 +135,13 @@ func cast_ready_active(active_name: String) -> bool:
 	if active.can_cast:
 		# pay the toll
 		var supply: SupplyComponent = _supplies.get_supply(active.cast_supply)
+		# only health supply MUST have enough to use
+		if active.cast_supply == Constants.SUPPLY_TYPE.health:
+			if active.cast_cost > supply.value:
+				# not enough health to afford casting. actor would die
+				return false
+
+		# for any supply other than health, just drain the amount
 		supply.decrease(active.cast_cost)
 
 		# cast the active
