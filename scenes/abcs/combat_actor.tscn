@@ -33,21 +33,21 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Resource" id="Resource_3bkay"]
+[sub_resource type="Resource" id="Resource_353f1"]
 resource_local_to_scene = true
 resource_name = "Strength"
 script = ExtResource("13_hojhi")
 type = 0
 base_value = 2.0
 
-[sub_resource type="Resource" id="Resource_2458e"]
+[sub_resource type="Resource" id="Resource_8naga"]
 resource_local_to_scene = true
 resource_name = "Defence"
 script = ExtResource("13_hojhi")
 type = 1
 base_value = 1.0
 
-[sub_resource type="Resource" id="Resource_yd8lb"]
+[sub_resource type="Resource" id="Resource_7g2hc"]
 resource_local_to_scene = true
 resource_name = "Health"
 script = ExtResource("15_suttt")
@@ -126,7 +126,7 @@ _root = NodePath("..")
 [node name="StatsContainer" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("12_dnaiq")
-_stats = Array[ExtResource("13_hojhi")]([SubResource("Resource_3bkay"), SubResource("Resource_2458e")])
+_stats = Array[ExtResource("13_hojhi")]([SubResource("Resource_353f1"), SubResource("Resource_8naga")])
 
 [node name="BoonsBanesContainer" type="Node" parent="." node_paths=PackedStringArray("_root", "_death_trigger")]
 unique_name_in_owner = true
@@ -137,7 +137,7 @@ _death_trigger = NodePath("../DeathTrigger")
 [node name="SupplyContainer" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("14_rlc1x")
-_editor_supplies = Array[ExtResource("15_suttt")]([SubResource("Resource_yd8lb")])
+_editor_supplies = Array[ExtResource("15_suttt")]([SubResource("Resource_7g2hc")])
 
 [node name="CombatActiveContainer" type="Node2D" parent="." node_paths=PackedStringArray("_root", "_allegiance", "_cast_position")]
 unique_name_in_owner = true

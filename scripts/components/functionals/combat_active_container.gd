@@ -23,6 +23,7 @@ signal new_target(target: CombatActor)
 @export var _root: CombatActor  ## who created this active
 @export var _allegiance: Allegiance  ## creator's allegiance component
 @export var _cast_position: Marker2D  ##  delivery method's spawn location. Ignored by Orbital.
+@export var _supplies: SupplyContainerComponent  ## the supplies to be used to cast actives
 #@export_group("Details")
 #endregion
 
@@ -130,9 +131,19 @@ func cast_random_ready_active() -> bool:
 func cast_ready_active(active_name: String) -> bool:
 	var active: CombatActive = get_active(active_name)
 	if active.can_cast:
+		# pay the toll
+		var supply: SupplyComponent = _supplies.get_supply(active.cast_supply)
+		supply.decrease(active.cast_cost)
+
+		# cast the active
 		active.cast()
+
+		# remove from list of actives
 		_ready_actives.erase(active)
+
+		# confirm positive result
 		return true
+
 	return false
 
 

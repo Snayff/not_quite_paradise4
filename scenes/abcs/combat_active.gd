@@ -25,7 +25,9 @@ signal new_target(target: CombatActor)
 @export_group("Aesthetics")
 @export var icon: CompressedTexture2D  ## the icon used to identify the active
 @export_group("Casting")
-@export var _cast_type: Constants.CAST_TYPE  ## how the active is cast
+@export var cast_type: Constants.CAST_TYPE = Constants.CAST_TYPE.manual ## how the active is cast
+@export var cast_supply: Constants.SUPPLY_TYPE = Constants.SUPPLY_TYPE.stamina  ## what supply to pay the cast cost from
+@export var cast_cost: int = 0
 @export_group("Targeting")
 @export var _valid_target_option: Constants.TARGET_OPTION  ## who the active can target
 @export var _valid_effect_option: Constants.TARGET_OPTION  ## who the active's effects can affect
@@ -118,7 +120,7 @@ func _process(_delta: float) -> void:
 	queue_redraw()
 
 	# handle auto casting
-	if _cast_type == Constants.CAST_TYPE.auto:
+	if cast_type == Constants.CAST_TYPE.auto:
 		if can_cast:
 			cast()
 
