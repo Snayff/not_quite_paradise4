@@ -21,7 +21,7 @@ const WALK_MAX_VELOCITY = 200.0
 
 #region EXPORTS
 @export_group("Component Links")
-@export var _root: PhysicsBody2D  ## object we're attached to
+@export var _main_sprite: Node2D  ## the sprite we're going to flip the facing of, based on direction
 @export_group("Details")
 @export var is_attached_to_player: bool = false
 #endregion
@@ -100,16 +100,16 @@ func _amend_facing(velocity: Vector2, move_left: bool, move_right: bool) -> void
 	if new_facing_left != _facing_left:
 		if new_facing_left:
 			# some nodes just need the x axis flipping
-			_root.scale.x = -1
+			_main_sprite.scale.x = -1
 
 			# but some nodes need their relative position flipping, too
-			if _root.position.x != 0:
-				_root.position.x = _root.position.x * -1
+			if _main_sprite.position.x != 0:
+				_main_sprite.position.x = _main_sprite.position.x * -1
 		else:
-			_root.scale.x = 1
+			_main_sprite.scale.x = 1
 
-			if _root.position.x != 0:
-				_root.position.x = _root.position.x * -1
+			if _main_sprite.position.x != 0:
+				_main_sprite.position.x = _main_sprite.position.x * -1
 
 	_facing_left = new_facing_left
 

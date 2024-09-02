@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cgd54nt0un6ix"]
+[gd_scene load_steps=23 format=3 uid="uid://cgd54nt0un6ix"]
 
 [ext_resource type="Script" path="res://scenes/abcs/combat_actor.gd" id="1_7c8xu"]
 [ext_resource type="Script" path="res://scripts/components/functionals/hurtbox.gd" id="2_24d4q"]
@@ -33,26 +33,34 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Resource" id="Resource_353f1"]
+[sub_resource type="Resource" id="Resource_udcyc"]
 resource_local_to_scene = true
 resource_name = "Strength"
 script = ExtResource("13_hojhi")
 type = 0
 base_value = 2.0
 
-[sub_resource type="Resource" id="Resource_8naga"]
+[sub_resource type="Resource" id="Resource_h6t5y"]
 resource_local_to_scene = true
 resource_name = "Defence"
 script = ExtResource("13_hojhi")
 type = 1
 base_value = 1.0
 
-[sub_resource type="Resource" id="Resource_7g2hc"]
+[sub_resource type="Resource" id="Resource_xvehv"]
 resource_local_to_scene = true
 resource_name = "Health"
 script = ExtResource("15_suttt")
 type = 0
 max_value = 999
+regeneration_per_second = 0.0
+
+[sub_resource type="Resource" id="Resource_5hg0c"]
+resource_local_to_scene = true
+resource_name = "Stamina"
+script = ExtResource("15_suttt")
+type = 1
+max_value = 50
 regeneration_per_second = 0.0
 
 [node name="CombatActor" type="RigidBody2D"]
@@ -118,15 +126,15 @@ script = ExtResource("9_xcpun")
 _root = NodePath("..")
 _font = ExtResource("10_nqnyt")
 
-[node name="PhysicsMovement" type="Node" parent="." node_paths=PackedStringArray("_root")]
+[node name="PhysicsMovement" type="Node" parent="." node_paths=PackedStringArray("_main_sprite")]
 unique_name_in_owner = true
 script = ExtResource("12_73flk")
-_root = NodePath("..")
+_main_sprite = NodePath("../AnimatedSprite2D")
 
 [node name="StatsContainer" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("12_dnaiq")
-_stats = Array[ExtResource("13_hojhi")]([SubResource("Resource_353f1"), SubResource("Resource_8naga")])
+_stats = Array[ExtResource("13_hojhi")]([SubResource("Resource_udcyc"), SubResource("Resource_h6t5y")])
 
 [node name="BoonsBanesContainer" type="Node" parent="." node_paths=PackedStringArray("_root", "_death_trigger")]
 unique_name_in_owner = true
@@ -137,14 +145,15 @@ _death_trigger = NodePath("../DeathTrigger")
 [node name="SupplyContainer" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("14_rlc1x")
-_editor_supplies = Array[ExtResource("15_suttt")]([SubResource("Resource_7g2hc")])
+_editor_supplies = Array[ExtResource("15_suttt")]([SubResource("Resource_xvehv"), SubResource("Resource_5hg0c")])
 
-[node name="CombatActiveContainer" type="Node2D" parent="." node_paths=PackedStringArray("_root", "_allegiance", "_cast_position")]
+[node name="CombatActiveContainer" type="Node2D" parent="." node_paths=PackedStringArray("_root", "_allegiance", "_cast_position", "_supplies")]
 unique_name_in_owner = true
 script = ExtResource("16_von4t")
 _root = NodePath("..")
 _allegiance = NodePath("../Allegiance")
 _cast_position = NodePath("../CentrePivot/CastPosition")
+_supplies = NodePath("../SupplyContainer")
 
 [node name="CentrePivot" type="Marker2D" parent="."]
 unique_name_in_owner = true

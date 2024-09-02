@@ -52,6 +52,8 @@ func _ready() -> void:
 	assert(_root is CombatActor, "Misssing `_root`.")
 	assert(_allegiance is Allegiance, "Misssing `_allegiance`.")
 	assert(_cast_position is Marker2D, "Misssing `_cast_position`.")
+	assert(_supplies is SupplyContainerComponent, "Misssing `_supplies`.")
+
 
 	_update_actives_array()
 	_connect_to_actives_signals()

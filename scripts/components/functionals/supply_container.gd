@@ -60,6 +60,9 @@ func get_supply(supply_type: Constants.SUPPLY_TYPE) -> SupplyComponent:
 
 	return null
 
+func get_all_supplies() -> Array[SupplyComponent]:
+	return _supplies
+
 func _apply_regen_to_all_supplies() -> void:
 	for supply in _supplies:
 		supply.apply_regen()
