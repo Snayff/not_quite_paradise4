@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cta4xur1b7ano"]
+[gd_scene load_steps=17 format=3 uid="uid://cta4xur1b7ano"]
 
 [ext_resource type="PackedScene" uid="uid://cgd54nt0un6ix" path="res://scenes/abcs/combat_actor.tscn" id="1_m432m"]
 [ext_resource type="Texture2D" uid="uid://dopseo1w5jxrl" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame1).png" id="2_2j4ap"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://lbhta0mrhs1b" path="res://scenes/combat_actives/circling_stars.tscn" id="7_47lvt"]
 [ext_resource type="Script" path="res://scripts/dataclasses/stat.gd" id="9_nf076"]
 [ext_resource type="Script" path="res://scripts/components/functionals/supply.gd" id="9_r5a4j"]
+[ext_resource type="PackedScene" uid="uid://dskbsash4djh5" path="res://scenes/combat_actives/slash.tscn" id="10_qtelr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nvgpk"]
 radius = 6.0
@@ -90,5 +91,8 @@ _stats = Array[ExtResource("9_nf076")]([SubResource("Resource_uul7b"), SubResour
 _editor_supplies = Array[ExtResource("9_r5a4j")]([SubResource("Resource_235dy")])
 
 [node name="CirclingStars" parent="CombatActiveContainer" index="0" instance=ExtResource("7_47lvt")]
+_cast_type = 0
 
 [node name="Fireblast" parent="CombatActiveContainer" index="1" instance=ExtResource("6_jm2bo")]
+
+[node name="Slash" parent="CombatActiveContainer" index="2" instance=ExtResource("10_qtelr")]

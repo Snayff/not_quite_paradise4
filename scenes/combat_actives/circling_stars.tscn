@@ -6,13 +6,13 @@
 [ext_resource type="Script" path="res://scenes/combat_actives/circling_stars_effect_chain.gd" id="4_nd7yx"]
 [ext_resource type="Script" path="res://scripts/dataclasses/effect_stat_scaler.gd" id="5_33pwh"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_gns30"]
+resource_local_to_scene = true
+
 [sub_resource type="Resource" id="Resource_qxiwj"]
 script = ExtResource("5_33pwh")
 stat = 0
 scale_value = 1.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_gns30"]
-resource_local_to_scene = true
 
 [node name="CirclingStars" instance=ExtResource("1_bejtl")]
 icon = ExtResource("2_e43xh")
@@ -27,9 +27,9 @@ wait_time = 0.3
 [node name="SceneSpawner" parent="." index="1"]
 scene = ExtResource("2_n4c11")
 
-[node name="EffectChain" type="Node" parent="." index="2"]
-script = ExtResource("4_nd7yx")
-_damage_scalers = Array[ExtResource("5_33pwh")]([SubResource("Resource_qxiwj")])
-
 [node name="CollisionShape2D" parent="TargetFinder" index="0"]
 shape = SubResource("CircleShape2D_gns30")
+
+[node name="EffectChain" type="Node" parent="." index="4"]
+script = ExtResource("4_nd7yx")
+_damage_scalers = Array[ExtResource("5_33pwh")]([SubResource("Resource_qxiwj")])

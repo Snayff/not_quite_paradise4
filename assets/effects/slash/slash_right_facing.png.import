@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7cpj3x1030t2"
-path="res://.godot/imported/FireWall(Frame1).png-e92fb8b498ec9ebec1562e8e4e3a7b17.ctex"
+uid="uid://b24h6lwcnupeo"
+path="res://.godot/imported/slash_right_facing.png-19e1dbdf59a5e053b16464cd34c08395.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/effects/fire/FireWall(Frame1).png"
-dest_files=["res://.godot/imported/FireWall(Frame1).png-e92fb8b498ec9ebec1562e8e4e3a7b17.ctex"]
+source_file="res://assets/effects/slash/slash_right_facing.png"
+dest_files=["res://.godot/imported/slash_right_facing.png-19e1dbdf59a5e053b16464cd34c08395.ctex"]
 
 [params]
 

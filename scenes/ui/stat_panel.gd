@@ -42,6 +42,9 @@ func _ready() -> void:
 	_labels.append(label)
 
 func _update_labels(actor: CombatActor) -> void:
+	if actor is not CombatActor:
+		return
+
 	if actor.stats_container is not StatsContainerComponent:
 		return
 

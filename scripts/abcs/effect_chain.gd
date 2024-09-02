@@ -72,8 +72,16 @@ func activate() -> void:
 func on_activate() -> void:
 	pass
 
+## @virtual. process effects triggered by on_hit.
 func on_hit(hurtbox: HurtboxComponent) -> void:
 	pass
+
+## acts as a wrapper for processing multiple `on_hit` calls at once.
+##
+## often used with [AreaOfEffect].
+func on_hit_multiple(hurtboxes: Array[HurtboxComponent]) -> void:
+	for hurtbox in hurtboxes:
+		on_hit(hurtbox)
 
 ## register an effect with the internals, for automated cleanup
 func _register_effect(effect: Effect) -> void:

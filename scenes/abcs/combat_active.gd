@@ -32,6 +32,7 @@ signal new_target(target: CombatActor)
 @export_group("Travel")
 @export var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
 #FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?! also no good for range finding
+# TODO: rename to range. hide if delivery_method is melee and set to 15.
 @export var _travel_range: int:  ## how far the projectile can travel. when set, updates target finder.
 	set(value):
 		_travel_range = value
@@ -162,11 +163,11 @@ func cast()-> void:
 	else:
 		push_error("CombatActive: `_delivery_method` (", _delivery_method, ") not defined.")
 
+## create a projectile at the _cast_position
 func _create_projectile() -> VisualProjectile:
 	var projectile: VisualProjectile = _scene_spawner.spawn_scene(_cast_position.global_position)
 	projectile.setup(_travel_range, _allegiance.team, _valid_effect_option, target_actor, target_position)
 	projectile.hit_valid_target.connect(_effect_chain.on_hit)
-	projectile.update_collisions()
 
 	return projectile
 
@@ -178,15 +179,21 @@ func _create_orbital()  -> VisualProjectile:
 		var projectile: VisualProjectile = _scene_spawner.spawn_scene(_caster.global_position, _orbiter)
 		projectile.setup(_travel_range, _allegiance.team, _valid_effect_option)
 		projectile.hit_valid_target.connect(_effect_chain.on_hit)
+
 		return projectile
 
 	else:
 		return null
 
+## create an [AreaOfEffect] at the _target_position
 func _create_melee() -> AreaOfEffect:
 	var aoe: AreaOfEffect = _scene_spawner.spawn_scene(_cast_position.global_position)
 	aoe.setup(aoe.global_position, _allegiance.team, _valid_effect_option)
-	aoe.hit_valid_targets.connect(_effect_chain.on_hit)  # TODO:this isnt going to work as it will send an array of bodies, not a singler hurtbox
+	aoe.hit_valid_targets.connect(_effect_chain.on_hit_multiple)
+	var angle = _caster.get_angle_to(target_actor.global_position)
+	aoe.rotation = angle
+
+
 	return aoe
 
 ## set the target actor. can accept null.
