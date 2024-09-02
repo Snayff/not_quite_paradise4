@@ -29,7 +29,6 @@ extends Node
 var _caster: CombatActor
 var _active_effects: Array[Effect] = []  ## an array of all active effects. Each effect needs to be removed when terminated.
 var _valid_effect_option: Constants.TARGET_OPTION  ## who the active's effects can affect. expedted from parent.
-var _aoe_scene: PackedScene = preload("res://scenes/effect_delivery/aoe_explosion.tscn")  ## the scene for creating AOE
 var _allegiance: Allegiance  ## the caster's allegiance. We take this rather than the team as the team can change, but this ref wont.
 var _has_run_ready: bool = false  ## if _ready() has finished
 #endregion

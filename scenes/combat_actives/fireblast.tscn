@@ -23,3 +23,4 @@ shape = SubResource("CircleShape2D_blex3")
 
 [node name="EffectChain" type="Node" parent="." index="4"]
 script = ExtResource("3_2b3ux")
+_aoe_size = 24.0

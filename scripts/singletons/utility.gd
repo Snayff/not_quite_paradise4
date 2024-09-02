@@ -96,4 +96,38 @@ func target_is_valid(target_option: Constants.TARGET_OPTION, originator: Node2D,
 func get_enum_name(enum_: Variant, value: Variant) -> String:
 	return enum_.keys()[value]
 
+## get the % difference between the current shape "size" and the desired size.
+##
+## uses different properties based on the shape type.
+func get_ratio_desired_vs_current(desired_size: float, shape: Shape2D) -> float:
+	var ratio: float = 1
+	if shape is CircleShape2D:
+		ratio = get_percentage_change(desired_size, shape.radius * 2)
+
+	elif shape is SegmentShape2D:
+		var size: float = shape.a.distance_to(shape.b)
+		ratio = get_percentage_change(desired_size, size)
+
+	elif shape is CapsuleShape2D:
+		ratio = get_percentage_change(desired_size, shape.height)
+
+	return ratio
+
+# the change in value, expressed as variance from 1. e.g. reduction by 13 points is 0.87.
+func get_percentage_change(new_value: float, old_value: float) -> float:
+	var ratio: float = 1
+	if new_value > old_value:
+		ratio = _get_percentage_increase(new_value, old_value)
+	else:
+		ratio = _get_percentage_decrease(new_value, old_value)
+
+	return ratio
+
+
+func _get_percentage_increase(new_value: float, old_value: float) -> float:
+	return 1.0 + (new_value - old_value) / old_value
+
+func _get_percentage_decrease(new_value: float, old_value: float) -> float:
+	return 1 - ((old_value - new_value) / old_value)
+
 #endregion

@@ -29,8 +29,9 @@ signal new_target(target: CombatActor)
 @export_group("Targeting")
 @export var _valid_target_option: Constants.TARGET_OPTION  ## who the active can target
 @export var _valid_effect_option: Constants.TARGET_OPTION  ## who the active's effects can affect
-@export_group("Travel")
+@export_group("Delivery")
 @export var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
+@export var _delivery_radius: float = 1  ## how big the delivery method is, e.g. size of melee aoe
 #FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?! also no good for range finding
 # TODO: rename to range. hide if delivery_method is melee and set to 15.
 @export var _travel_range: int:  ## how far the projectile can travel. when set, updates target finder.
@@ -38,6 +39,7 @@ signal new_target(target: CombatActor)
 		_travel_range = value
 		if _target_finder is TargetFinder:
 			_target_finder.set_max_range(_travel_range)
+
 #endregion
 
 
@@ -188,7 +190,7 @@ func _create_orbital()  -> VisualProjectile:
 ## create an [AreaOfEffect] at the _target_position
 func _create_melee() -> AreaOfEffect:
 	var aoe: AreaOfEffect = _scene_spawner.spawn_scene(_cast_position.global_position)
-	aoe.setup(aoe.global_position, _allegiance.team, _valid_effect_option)
+	aoe.setup(aoe.global_position, _allegiance.team, _valid_effect_option, _delivery_radius)
 	aoe.hit_valid_targets.connect(_effect_chain.on_hit_multiple)
 	var angle = _caster.get_angle_to(target_actor.global_position)
 	aoe.rotation = angle

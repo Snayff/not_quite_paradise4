@@ -20,6 +20,8 @@ extends EffectChain
 @export_group("Details")
 @export var _aoe_damage: int = 1
 @export var _damage_scalers: Array[EffectStatScalerData] = []
+@export var _aoe_size: float = 32
+@export var _aoe_scene: PackedScene = preload("res://scenes/effect_delivery/aoe_explosion.tscn")  ## the scene for creating the AOE
 
 #endregion
 
@@ -37,7 +39,7 @@ func on_hit(hurtbox: HurtboxComponent) -> void:
 	# as cannot add new Area2Ds to a scene during a call of another Area2D's on_area_entered()
 	call_deferred("add_child", _aoe)
 	await _aoe.ready
-	_aoe.setup(hurtbox.global_position, _allegiance.team, _valid_effect_option)
+	_aoe.setup(hurtbox.global_position, _allegiance.team, _valid_effect_option, _aoe_size)
 	_aoe.hit_valid_targets.connect(_aoe_hit)
 
 func _aoe_hit(hurtboxes: Array[HurtboxComponent]) -> void:

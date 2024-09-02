@@ -13,8 +13,8 @@ signal died
 
 
 #region ON READY
-@onready var on_hit_effect_spawner: SpawnerComponent = %OnHitEffectSpawner
-@onready var hitbox: HitboxComponent = %HitboxComponent
+@onready var _on_hit_effect_spawner: SpawnerComponent = %OnHitEffectSpawner
+@onready var _hitbox: HitboxComponent = %HitboxComponent
 @onready var _movement_component: MovementComponent = %MovementComponent
 @onready var _death_trigger: DeathTrigger = %DeathTrigger  ## to propogate died signal and to allow triggering manually
 @onready var _travel_range_supply: SupplyComponent = %SupplyContainer.get_supply(Constants.SUPPLY_TYPE.health)
@@ -40,7 +40,7 @@ var _has_run_ready: bool = false  ## has completed _ready()
 
 #region FUNCS
 func _ready() -> void:
-	hitbox.hit_hurtbox.connect(_on_hit)
+	_hitbox.hit_hurtbox.connect(_on_hit)
 	hit_valid_target.connect(_death_trigger.activate.unbind(1))
 	_death_trigger.died.connect(func(): died.emit())
 
@@ -52,7 +52,8 @@ func setup(
 	team: Constants.TEAM,
 	effect_chain_target: Constants.TARGET_OPTION,
 	target_actor: CombatActor = null,
-	target_position: Vector2 = Vector2.ZERO
+	target_position: Vector2 = Vector2.ZERO,
+	size: float = -1
 	) -> void:
 
 	if not _has_run_ready:
@@ -67,13 +68,19 @@ func setup(
 	_valid_effect_option = effect_chain_target
 	set_target(target_actor, target_position)
 
+	if size != -1:
+		# scale the aoe scene, which will then affect all children, inc. the collision shape
+		var shape: Shape2D = _hitbox.get_node("CollisionShape2D").shape
+		var ratio: float = Utility.get_ratio_desired_vs_current(size, shape)
+		scale = Vector2(ratio, ratio)
+
 	_update_collisions()
 
 ## if target is valid, signal out hit_valid_target
 func _on_hit(hurtbox: HurtboxComponent) -> void:
-	if Utility.target_is_valid(_valid_effect_option, hitbox.originator, hurtbox.root, _target_actor):
+	if Utility.target_is_valid(_valid_effect_option, _hitbox.originator, hurtbox.root, _target_actor):
 		hurtbox.hurt.emit(self)
-		on_hit_effect_spawner.spawn_scene(global_position)
+		_on_hit_effect_spawner.spawn_scene(global_position)
 		_death_trigger.activate()
 		hit_valid_target.emit(hurtbox)
 
@@ -103,6 +110,6 @@ func set_travel_range(travel_range: float) -> void:
 
 ## updates all collisions to reflect current target, team etc.
 func _update_collisions() -> void:
-	Utility.update_hitbox_hurtbox_collision(hitbox, _team, _valid_effect_option, _target_actor)
+	Utility.update_hitbox_hurtbox_collision(_hitbox, _team, _valid_effect_option, _target_actor)
 
 #endregion

@@ -53,7 +53,7 @@ func _ready() -> void:
 	_has_run_ready = true
 
 ## run setup process and trigger animation to start
-func setup(new_position: Vector2, team: Constants.TEAM, valid_effect_option: Constants.TARGET_OPTION, radius: float = -1) -> void:
+func setup(new_position: Vector2, team: Constants.TEAM, valid_effect_option: Constants.TARGET_OPTION, size: float = -1) -> void:
 	if not _has_run_ready:
 		push_error("AreaOfEffect: setup() called before _ready. ")
 
@@ -67,20 +67,10 @@ func setup(new_position: Vector2, team: Constants.TEAM, valid_effect_option: Con
 
 	Utility.update_hitbox_hurtbox_collision(_hitbox, _team, _valid_effect_option)
 
-	if radius != -1:
-		var shape: Shape2D = _hitbox.get_node("CollisionShape2D").shape
-		var ratio: float = 1
-		if shape is CircleShape2D:
-			ratio = shape.radius / radius
-
-		elif shape is SegmentShape2D:
-			var size: float = shape.a.distance_to(shape.b)
-			ratio = size / radius
-
-		elif shape is CapsuleShape2D:
-			ratio = shape.height / radius
-
+	if size != -1:
 		# scale the aoe scene, which will then affect all children, inc. the collision shape
+		var shape: Shape2D = _hitbox.get_node("CollisionShape2D").shape
+		var ratio: float = Utility.get_ratio_desired_vs_current(size, shape)
 		scale = Vector2(ratio, ratio)
 
 	play("default")
