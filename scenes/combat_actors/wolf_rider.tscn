@@ -70,6 +70,7 @@ regeneration_per_second = 0.0
 [node name="WolfRider" instance=ExtResource("1_m432m")]
 
 [node name="CollisionShape2D" parent="." index="0"]
+visible = false
 shape = SubResource("CircleShape2D_nvgpk")
 
 [node name="AnimatedSprite2D" parent="." index="1"]
@@ -79,15 +80,13 @@ sprite_frames = SubResource("SpriteFrames_s36p7")
 collision_layer = 2
 
 [node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
+visible = false
 shape = SubResource("CircleShape2D_3e800")
 
-[node name="ProjectilePosition" parent="." index="7"]
-position = Vector2(12, 0)
-
-[node name="StatsContainer" parent="." index="12"]
+[node name="StatsContainer" parent="." index="11"]
 _stats = Array[ExtResource("9_nf076")]([SubResource("Resource_uul7b"), SubResource("Resource_26qwx")])
 
-[node name="SupplyContainer" parent="." index="14"]
+[node name="SupplyContainer" parent="." index="13"]
 _editor_supplies = Array[ExtResource("9_r5a4j")]([SubResource("Resource_235dy")])
 
 [node name="CirclingStars" parent="CombatActiveContainer" index="0" instance=ExtResource("7_47lvt")]
@@ -95,3 +94,6 @@ _editor_supplies = Array[ExtResource("9_r5a4j")]([SubResource("Resource_235dy")]
 [node name="Fireblast" parent="CombatActiveContainer" index="1" instance=ExtResource("6_jm2bo")]
 
 [node name="Slash" parent="CombatActiveContainer" index="2" instance=ExtResource("10_qtelr")]
+
+[node name="CastPosition" parent="CentrePivot" index="0"]
+position = Vector2(10, -1)

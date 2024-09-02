@@ -72,6 +72,7 @@ func on_activate() -> void:
 	pass
 
 ## @virtual. process effects triggered by on_hit.
+@warning_ignore("unused_parameter")  # virtual, so wont be used
 func on_hit(hurtbox: HurtboxComponent) -> void:
 	pass
 

@@ -50,6 +50,7 @@ func _configure_behaviour() -> void:
 
 	# create effects
 	var damage_effect: DealDamageEffect = DealDamageEffect.new(self, _source)
+	@warning_ignore("narrowing_conversion")  # happy with reduced precision
 	damage_effect.base_damage = _damage_per_tick
 	damage_effect.is_one_shot = false
 	damage_effect.scalers = _damage_scalers

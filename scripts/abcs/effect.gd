@@ -36,6 +36,7 @@ func _init(parent: Node, source: Node) -> void:
 	_source = source
 
 ## @virtual. apply the effect to the target
+@warning_ignore("unused_parameter")  # virtual, so wont be used
 func apply(target: CombatActor) -> void:
 	pass
 

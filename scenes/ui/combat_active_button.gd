@@ -39,7 +39,7 @@ func _post_ready() -> void:
 	if combat_active is CombatActive:
 		texture_normal = combat_active.icon
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if combat_active is CombatActive:
 		_time_label.text = "%3.1f" % combat_active.time_until_ready
 		_cooldown_progress_bar.value = 100 * combat_active.percent_ready  # countdown from 100, so goes from filled to empty

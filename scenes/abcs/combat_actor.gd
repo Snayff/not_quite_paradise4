@@ -22,6 +22,8 @@ signal died  ## actor has died
 @onready var _death_trigger: DeathTrigger = %DeathTrigger
 @onready var _physics_movement: PhysicsMovementComponent = %PhysicsMovement
 @onready var _supply_container: SupplyContainerComponent = %SupplyContainer
+@onready var _centre_pivot: Marker2D = %CentrePivot
+
 #endregion
 
 
@@ -69,10 +71,16 @@ func _ready() -> void:
 	combat_active_container.new_active_selected.connect(func(active): _target = active.target_actor) # update target to match that of selected active
 	combat_active_container.new_target.connect(func(target): _target = target)
 
+
 func _process(delta: float) -> void:
 	_global_cast_cd_counter -= delta
 
 	_update_non_player_auto_casting()
+
+	# rotate cast position towards current target
+	if combat_active_container.selected_active is CombatActive:
+		if combat_active_container.selected_active.target_actor is CombatActor:
+			_centre_pivot.look_at(combat_active_container.selected_active.target_actor.global_position)
 
 ## handle auto casting for non-player combat actors
 func _update_non_player_auto_casting() -> void:

@@ -105,7 +105,9 @@ func _set_target_position(target_position: Vector2) -> void:
 	_movement_component.target_position = target_position
 
 func set_travel_range(travel_range: float) -> void:
+	@warning_ignore("narrowing_conversion")  # happy with reduced precision
 	_travel_range_supply.set_value(travel_range)
+	@warning_ignore("narrowing_conversion")  # happy with reduced precision
 	_travel_range_supply.max_value = travel_range
 
 ## updates all collisions to reflect current target, team etc.

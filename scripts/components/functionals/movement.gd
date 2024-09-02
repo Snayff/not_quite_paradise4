@@ -49,6 +49,7 @@ func _process(delta: float) -> void:
 			_previous_position = root.global_position
 		else:
 			var travelled: float = _previous_position.distance_to(root.global_position)
+			@warning_ignore("narrowing_conversion")  # happy with reduced precision
 			_travel_resource.decrease(travelled * _amount_drained_on_move)
 			_previous_position = root.global_position
 
@@ -58,7 +59,7 @@ func _process(delta: float) -> void:
 		var movement: Vector2 = direction * move_speed
 		root.global_position = root.global_position.lerp(root.global_position + movement, delta * acceleration)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	# give the new force to the root. due to needing the physics node at top level it must handle its own movement
 	# meaning we just send it the info it needs.
 	# NOTE: should this be a signal, as signal up?

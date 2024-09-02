@@ -22,7 +22,7 @@ signal new_target(target: CombatActor)
 @export_group("Component Links")
 @export var _root: CombatActor  ## who created this active
 @export var _allegiance: Allegiance  ## creator's allegiance component
-@export var _projectile_position: Marker2D  ##  projectile spawn location. Must have in order for a [CombatActive] to be able to use `projectile` delivery method.
+@export var _cast_position: Marker2D  ##  delivery method's spawn location. Ignored by Orbital.
 #@export_group("Details")
 #endregion
 
@@ -50,7 +50,7 @@ func _ready() -> void:
 	# check for mandatory properties set in editor
 	assert(_root is CombatActor, "Misssing `_root`.")
 	assert(_allegiance is Allegiance, "Misssing `_allegiance`.")
-	assert(_projectile_position is Marker2D, "Misssing `_projectile_position`.")
+	assert(_cast_position is Marker2D, "Misssing `_cast_position`.")
 
 	_update_actives_array()
 	_connect_to_actives_signals()
@@ -60,7 +60,7 @@ func _ready() -> void:
 	if _actives.size() > 0:
 		_actives[0].is_selected = true
 
-func _unhandled_input(event: InputEvent) -> void:
+func _unhandled_input(_event: InputEvent) -> void:
 	var next_active: bool = Input.is_action_just_pressed(&"next_active")
 	var cast_active: bool = Input.is_action_just_pressed(&"use_active")
 
@@ -88,7 +88,7 @@ func _update_actives_array() -> void:
 ## run setup() on all child actives
 func _setup_actives() -> void:
 	for active in _actives:
-		active.setup(_root, _allegiance, _projectile_position)
+		active.setup(_root, _allegiance, _cast_position)
 
 func _connect_to_actives_signals() -> void:
 	# NOTE: looping active again is inefficient, but accepting the performance for ability to separate concerns / keep singular purpose

@@ -32,7 +32,7 @@ signal new_target(target: CombatActor)
 @export_group("Delivery")
 @export var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
 @export var _delivery_radius: float = 1  ## how big the delivery method is, e.g. size of melee aoe
-#FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?! also no good for range finding
+# FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?! also no good for range finding
 # TODO: rename to range. hide if delivery_method is melee and set to 15.
 @export var _travel_range: int:  ## how far the projectile can travel. when set, updates target finder.
 	set(value):
@@ -114,7 +114,7 @@ func setup(caster: CombatActor, allegiance: Allegiance, cast_position: Marker2D)
 
 	_target_finder.setup(_caster, _travel_range, _valid_target_option, _allegiance)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	queue_redraw()
 
 	# handle auto casting

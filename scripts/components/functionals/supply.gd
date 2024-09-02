@@ -59,5 +59,6 @@ func set_value(value_: int) -> void:
 
 ## wrapper for increase using regeneration_per_second
 func apply_regen() -> void:
+	@warning_ignore("narrowing_conversion")  # happy with reduced precision
 	increase(regeneration_per_second)
 #endregion

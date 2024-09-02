@@ -56,7 +56,8 @@ func _generate_points_in_circle():
 		var angle = 0
 
 		_points.clear()
-		var i = 0
+		@warning_ignore("unused_variable")  # godot thinks i is unused for some reason
+		var i: int = 0
 		while angle < float(360):
 			var x = cos(deg_to_rad(angle))
 			var y = sin(deg_to_rad(angle))

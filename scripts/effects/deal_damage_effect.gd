@@ -70,6 +70,7 @@ func _apply_resistances(target: CombatActor, damage: int) -> int:
 	if stats == null:
 		return damage
 
+	@warning_ignore("narrowing_conversion")  # happy with reduced precision
 	damage -= stats.get_stat(Constants.STAT_TYPE.defence).value
 	return damage
 
