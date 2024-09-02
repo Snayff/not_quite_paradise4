@@ -21,7 +21,7 @@ const WALK_MAX_VELOCITY = 200.0
 
 #region EXPORTS
 @export_group("Component Links")
-@export var _nodes_affected_by_facing: Array[Node2D] = []
+@export var _root: PhysicsBody2D  ## object we're attached to
 @export_group("Details")
 @export var is_attached_to_player: bool = false
 #endregion
@@ -88,10 +88,6 @@ func _apply_input_movement_velocity(velocity: Vector2, delta: float) -> Vector2:
 
 ## amend the attached sprites facing based on movement and velocity
 func _amend_facing(velocity: Vector2, move_left: bool, move_right: bool) -> void:
-	# check there is something to amend
-	if _nodes_affected_by_facing.size() == 0:
-		return
-
 	var new_facing_left := _facing_left
 
 	# Check facing
@@ -102,21 +98,20 @@ func _amend_facing(velocity: Vector2, move_left: bool, move_right: bool) -> void
 
 	# Update facings
 	if new_facing_left != _facing_left:
-		for node in _nodes_affected_by_facing:
-			if new_facing_left:
-				# some nodes just need the x axis flipping
-				node.scale.x = -1
+		if new_facing_left:
+			# some nodes just need the x axis flipping
+			_root.scale.x = -1
 
-				# but some nodes need their relative position flipping, too
-				if node.position.x != 0:
-					node.position.x = node.position.x * -1
-			else:
-				node.scale.x = 1
+			# but some nodes need their relative position flipping, too
+			if _root.position.x != 0:
+				_root.position.x = _root.position.x * -1
+		else:
+			_root.scale.x = 1
 
-				if node.position.x != 0:
-					node.position.x = node.position.x * -1
+			if _root.position.x != 0:
+				_root.position.x = _root.position.x * -1
 
-		_facing_left = new_facing_left
+	_facing_left = new_facing_left
 
 
 
