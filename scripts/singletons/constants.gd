@@ -94,6 +94,7 @@ enum TRIGGER {
 	on_hit_received,
 	on_death,
 	on_interval,
+	passive,
 }
 
 ## how a lifetime or duration is determined

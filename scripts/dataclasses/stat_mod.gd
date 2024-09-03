@@ -20,7 +20,7 @@ extends Resource
 @export_group("Details")
 @export var type: Constants.MATH_MOD_TYPE
 @export var amount: float
-# TODO: duration and duration type, e.g. num applications or time
+
 #endregion
 
 
@@ -30,13 +30,9 @@ extends Resource
 
 
 #region FUNCS
-
-
-
-
-
-
-
+func setup(amount_: float, type_: Constants.MATH_MOD_TYPE) -> void:
+	type = type_
+	amount = amount_
 
 
 

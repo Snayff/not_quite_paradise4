@@ -71,6 +71,10 @@ func _ready() -> void:
 	combat_active_container.new_active_selected.connect(func(active): _target = active.target_actor) # update target to match that of selected active
 	combat_active_container.new_target.connect(func(target): _target = target)
 
+	await get_tree().process_frame
+	var t = Exhaustion.new(self)
+	boons_banes.add_boon_bane(t)
+
 
 func _process(delta: float) -> void:
 	_global_cast_cd_counter -= delta

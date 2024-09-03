@@ -40,6 +40,11 @@ func _init(parent: Node, source: Node) -> void:
 func apply(target: CombatActor) -> void:
 	pass
 
+## @virtual. clean up any lingering traces of the effect, such as removing stat mods
+@warning_ignore("unused_parameter")  # virtual, so wont be used
+func reverse_application(target: CombatActor) -> void:
+	pass
+
 ## finish and clean up
 func terminate() -> void:
 	terminated.emit(self)

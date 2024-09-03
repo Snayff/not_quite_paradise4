@@ -47,13 +47,23 @@ func _check_for_duplicates() -> void:
 ## get a stat from the stat sheet.
 ##
 ## returns null if no matching stat found.
-func get_stat(stat: Constants.STAT_TYPE) -> StatData:
+func get_stat(stat_type: Constants.STAT_TYPE) -> StatData:
 	for stat_data in _stats:
-		if stat_data.type == stat:
+		if stat_data.type == stat_type:
 			return stat_data
 	return null
 
 func get_all_stats() -> Array[StatData]:
 	return _stats
+
+func add_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:
+	var stat = get_stat(stat_type)
+	print(Utility.get_enum_name(Constants.STAT_TYPE, stat_type), " modified from ", stat.value)
+	stat.add_mod(mod)
+	print("-> to ", stat.value)
+
+func remove_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:
+	var stat = get_stat(stat_type)
+	stat.remove_mod(mod)
 
 #endregion

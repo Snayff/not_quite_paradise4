@@ -73,7 +73,9 @@ func add_projectile(projectile: VisualProjectile) -> void:
 	if _num_projectiles + 1 <= _max_projectiles:  # +1 as we're about to add 1 and dont want to go over the limit
 		_projectiles.append(projectile)
 		# NOTE: it might look better if we assign to a random position in the circle
-		#	or the furthest from the currently filled position
+		#	or the furthest from the currently filled position.
+		#	also, this means currently a projectile can spawn where one has just expired,
+		# 	essentially double hitting.
 		projectile.position = _points[_projectiles.size() - 1]  # -1 to account for starting from 0
 
 	else:

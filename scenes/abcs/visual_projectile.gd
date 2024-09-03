@@ -80,7 +80,6 @@ func setup(
 func _on_hit(hurtbox: HurtboxComponent) -> void:
 	if Utility.target_is_valid(_valid_effect_option, _hitbox.originator, hurtbox.root, _target_actor):
 		# turn off hitbox
-		print(self, " hit valid target and turned off hitbox.")
 		_hitbox.set_disabled_status(true)
 
 		# emit signals

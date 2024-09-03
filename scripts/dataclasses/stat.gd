@@ -21,7 +21,6 @@ signal modifier_removed
 #region EXPORTS
 # @export_group("Component Links")
 # @export var
-#
 @export_group("Details")
 @export var type: Constants.STAT_TYPE  ## @REQUIRED.
 @export var base_value: float:  ## @REQUIRED.
@@ -60,7 +59,7 @@ func _recalculate() -> void:
 			_modified_value += mod.amount
 
 		elif  mod.type == Constants.MATH_MOD_TYPE.multiply:
-			multiplier += mod.amount
+			multiplier *= mod.amount
 
 		else:
 			push_warning("StatData: unable to handle mod type of ", mod.type, ".")
@@ -69,19 +68,19 @@ func _recalculate() -> void:
 	_is_dirty = false
 
 ## add a new modifier to the stat
-func add_modifier(mod: StatModData) -> void:
+func add_mod(mod: StatModData) -> void:
 	_modifiers.append(mod)
 	modifier_added.emit()
 	_is_dirty = true
 
 ## remove an existing modifier from the stat
-func remove_modifier(mod: StatModData) -> void:
+func remove_mod(mod: StatModData) -> void:
 	_modifiers.erase(mod)
 	modifier_removed.emit()
 	_is_dirty = true
 
 ## remove all modifiers from the stat
-func remove_all_modifiers() -> void:
+func remove_all_mods() -> void:
 	_modifiers = []
 	_is_dirty = true
 

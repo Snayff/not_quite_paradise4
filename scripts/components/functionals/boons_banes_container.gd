@@ -16,7 +16,7 @@ extends Node
 
 #region EXPORTS
 @export_group("Component Links")
-@export var _root: CombatActor  ## REQUIRED.
+@export var _root: CombatActor
 @export var _death_trigger: DeathTrigger  ## needed to connect signals to death triggers
 #
 # @export_group("Details")  # feel free to rename category
@@ -53,6 +53,7 @@ func add_boon_bane(boon_bane: BoonBane) -> void:
 		for boon_bane_ in _all_boon_banes:
 			if boon_bane_.get_script().resource_path == boon_bane.get_script().resource_path:
 				return
+
 	add_child(boon_bane)
 	_boons_banes[boon_bane.trigger].append(boon_bane)
 	_link_signals_to_triggers(boon_bane)
@@ -64,7 +65,7 @@ func remove_boon_bane(boon_bane: BoonBane, ignore_permanent: bool = false) -> vo
 		return
 
 	_boons_banes[boon_bane.trigger].erase(boon_bane)
-	boon_bane.queue_free()
+	boon_bane.terminate()
 
 ## link the relevant signals, from linked components, to the boonbane, based on its trigger
 ##
@@ -76,6 +77,14 @@ func _link_signals_to_triggers(boon_bane: BoonBane) -> void:
 
 		Constants.TRIGGER.on_hit_received:
 			# TODO: add
+			pass
+
+		Constants.TRIGGER.passive:
+			# activated immediately in boon_bane
+			pass
+
+		Constants.TRIGGER.on_interval:
+			# handled within boon_bane by timer
 			pass
 
 

@@ -46,12 +46,8 @@ func apply(target: CombatActor) -> void:
 
 		has_applied_damage = true
 
-		#print("Applied damage.")
-
 	if is_one_shot:
 		terminate()
-
-
 
 ## wrapper for all damage calculations
 func _calculate_damage(target: CombatActor) -> int:

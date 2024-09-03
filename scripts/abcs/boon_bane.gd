@@ -18,8 +18,7 @@ signal activated
 #region EXPORTS
 # @export_group("Component Links")
 # @export var
-#
-@export_group("Application")  # feel free to rename category
+@export_group("Application")
 @export var trigger: Constants.TRIGGER  ## the thing that causes the boonbane to apply
 @export var _duration_type: Constants.DURATION_TYPE  ## how the lifetime of the boonbane is determined
 @export var _duration: float  ## how long before being removed. only relevant if duration_type == time or applications, in which case it is seconds or num applications, respectively.
@@ -48,18 +47,24 @@ func _init(source: CombatActor) -> void:
 func _ready() -> void:
 	_configure_behaviour()  # must call first, before validity checks
 
-	 # check required values are set
+	# check required values are set
+	# NOTE: can't check the enums as they default to a meaningful value
 	assert(not _effects.is_empty(), "BoonBane: no effects set.")
-	if trigger == Constants.TRIGGER.on_interval and _interval_length == 0:
-		push_error("BoonBane: trigger is interval, but no interval_length set. Will never activate.")
-	if (_duration_type == Constants.DURATION_TYPE.time or _duration_type == Constants.DURATION_TYPE.applications) and _duration == 0:
-		push_error("BoonBane: duration_type is time or application, but no duration set. Will immediately terminate.")
-	## NOTE: can't check the enums as they default to a meaningful value
-#
-	## check logic errors
-	assert(_duration > _interval_length, "BoonBane: duration is less than interval_length. Will never activate.")
+	if trigger == Constants.TRIGGER.on_interval:
+		assert(_interval_length == 0, "BoonBane: trigger is interval, but no interval_length set. Will never activate.")
+		assert(_duration > _interval_length, "BoonBane: duration is less than interval_length. Will never activate.")
 
-	_setup_timers()
+	if (_duration_type == Constants.DURATION_TYPE.time or _duration_type == Constants.DURATION_TYPE.applications) and _duration == 0:
+		assert(_duration == 0, "BoonBane: duration_type is time or application, but no duration set. Will immediately terminate.")
+
+	# if we need to apply immediately, wait a frame then do so
+	if trigger == Constants.TRIGGER.passive:
+		await get_tree().process_frame
+		activate()
+
+	# we apply later, so setup timers
+	else:
+		_setup_timers()
 
 ## init and configure required timers
 func _setup_timers() -> void:
@@ -68,6 +73,7 @@ func _setup_timers() -> void:
 		add_child(_duration_timer)
 		_duration_timer.timeout.connect(terminate)
 		_duration_timer.start(_duration)
+
 	if trigger == Constants.TRIGGER.on_interval:
 		_interval_timer = Timer.new()
 		add_child(_interval_timer)
@@ -95,11 +101,12 @@ func activate(target: CombatActor = host) -> void:
 		if _activations >= _duration:
 			terminate()
 
-## finish and clean up
+## finish and clean up. reverse application of any lingering affects.
 func terminate() -> void:
 	terminated.emit(self)
 
 	for effect in _effects:
+		effect.reverse_application(host)
 		effect.terminate()
 
 	queue_free()
