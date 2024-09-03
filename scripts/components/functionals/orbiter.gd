@@ -19,7 +19,7 @@ extends Node2D
 # @export var
 #
 @export_group("Details")
-@export var _max_projectiles: int = 10
+@export var _max_projectiles: int = 1
 @export var _orbit_scale: float = 30
 @export var _rotation_speed: float = PI
 #endregion

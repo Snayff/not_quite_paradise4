@@ -27,6 +27,7 @@ var is_one_shot: bool = true  ## if true, terminates after 1 application. if fal
 var base_damage: int
 var scalers: Array[EffectStatScalerData] = []
 var target_supply: Constants.SUPPLY_TYPE = Constants.SUPPLY_TYPE.health ## the supply_type to  reduce
+var has_applied_damage: bool = false  ## if we have applied damage. used in conjunction with `is_one_shot` to prevent multiple applications due to fast movement
 #endregion
 
 
@@ -34,14 +35,23 @@ var target_supply: Constants.SUPPLY_TYPE = Constants.SUPPLY_TYPE.health ## the s
 
 ## reduce health of target
 func apply(target: CombatActor) -> void:
+	if is_one_shot and has_applied_damage:
+		return
+
 	var supplies: SupplyContainerComponent = target.get_node_or_null("SupplyContainer")
 	if supplies is SupplyContainerComponent:
 		var supply = supplies.get_supply(target_supply)
 		var damage = _calculate_damage(target)
 		supply.decrease(damage)
 
+		has_applied_damage = true
+
+		#print("Applied damage.")
+
 	if is_one_shot:
 		terminate()
+
+
 
 ## wrapper for all damage calculations
 func _calculate_damage(target: CombatActor) -> int:

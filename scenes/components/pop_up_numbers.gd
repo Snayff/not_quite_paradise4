@@ -27,7 +27,7 @@ extends Marker2D
 @export var _outline_colour: Color = Color.BLACK
 @export var _outline_size: int = 1
 @export_group("Other")
-@export var _duration: float = 0.25
+@export var _duration: float = 0.3
 #endregion
 
 
@@ -65,11 +65,22 @@ func display_number(value: float, use_alt_settings: bool = false) -> void:
 	var tween = get_tree().create_tween()
 	tween.set_parallel(true)
 	# TODO: tween in a random direction, up and away
-	tween.tween_property(_label, "position:y", _label.position.y - 24, _duration / 2).set_ease(Tween.EASE_OUT)
-	tween.tween_property(_label, "position:y", _label.position.y, _duration / 2).set_ease(Tween.EASE_IN).set_delay(_duration / 2)
+	var rand_offset_x: float = randf_range(-15, 15)
 
-	# tween scale to zero
-	tween.tween_property(_label, "scale", Vector2.ZERO, _duration / 2).set_ease(Tween.EASE_OUT).set_delay(_duration)
+	# move left or right
+	tween.tween_property(_label, "position:x", _label.position.x - rand_offset_x, _duration / 2).set_ease(Tween.EASE_OUT)
+
+	# move up then back down
+	var rand_offset_y: float = randf_range(-3, 3)
+	tween.tween_property(_label, "position:y", _label.position.y - (18 + rand_offset_y), _duration / 2).set_ease(Tween.EASE_OUT)
+	tween.tween_property(
+		_label,
+		"position:y",
+		_label.position.y, _duration / 2
+		).set_ease(Tween.EASE_IN).set_delay(_duration / 2)
+
+	# shrink when falling
+	tween.tween_property(_label, "scale", Vector2.ZERO, _duration / 2).set_ease(Tween.EASE_OUT).set_delay(_duration / 2)
 
 	# clear when tween finished
 	await  tween.finished

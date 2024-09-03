@@ -79,10 +79,19 @@ func setup(
 ## if target is valid, signal out hit_valid_target
 func _on_hit(hurtbox: HurtboxComponent) -> void:
 	if Utility.target_is_valid(_valid_effect_option, _hitbox.originator, hurtbox.root, _target_actor):
+		# turn off hitbox
+		print(self, " hit valid target and turned off hitbox.")
+		_hitbox.set_disabled_status(true)
+
+		# emit signals
 		hurtbox.hurt.emit(self)
-		_on_hit_effect_spawner.spawn_scene(global_position)
-		_death_trigger.activate()
 		hit_valid_target.emit(hurtbox)
+
+		# spawn on hit effect
+		_on_hit_effect_spawner.spawn_scene(global_position)
+
+		# trigger death trigger
+		_death_trigger.activate()
 
 ## wrapper for setting movement component's target.
 ##

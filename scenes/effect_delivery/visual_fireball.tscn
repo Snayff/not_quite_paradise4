@@ -21,6 +21,7 @@ radius = 2.0
 
 [sub_resource type="Resource" id="Resource_vavxu"]
 resource_local_to_scene = true
+resource_name = "Health"
 script = ExtResource("4_audav")
 type = 0
 max_value = 999

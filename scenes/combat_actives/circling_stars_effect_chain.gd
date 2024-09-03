@@ -31,6 +31,7 @@ extends EffectChain
 #region FUNCS
 func on_hit(hurtbox: HurtboxComponent) -> void:
 	var actor_hit: CombatActor = hurtbox.root
+	print("Circling Stars hit: ", actor_hit.name)
 
 	# initial damage
 	# FIXME: this is triggering multiple times on a single hit
