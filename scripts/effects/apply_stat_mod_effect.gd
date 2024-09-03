@@ -1,6 +1,5 @@
 ## apply one or more [StatModData]s to a target.
 #@icon("")
-#class_name XXX
 class_name ApplyStatModEffect
 extends Effect
 

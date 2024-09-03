@@ -37,7 +37,6 @@ func _configure_behaviour() -> void:
 	# config behaviour
 	# NOTE: until can come up with a good way to edit in the editor just hardcode it
 	trigger = Constants.TRIGGER.passive
-	_duration_type = Constants.DURATION_TYPE.until_removed
 	is_unique = true
 
 	# create the effect

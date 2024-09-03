@@ -57,10 +57,17 @@ func _ready() -> void:
 	update_collisions()
 
 	if _supply_container is SupplyContainerComponent:
+		# setup triggers and process for death on health empty
 		var health = _supply_container.get_supply(Constants.SUPPLY_TYPE.health)
-		health.value_decreased.connect(_on_hit_flash.activate.unbind(1))  # activate flash on hit
 		health.emptied.connect(func(): died.emit())  # inform of death when empty
+
+		# and hit effects
+		health.value_decreased.connect(_on_hit_flash.activate.unbind(1))  # activate flash on hit
 		health.value_decreased.connect(_damage_numbers.display_number)
+
+		# setup triggers and process for exhaustion on stamina empty
+		var stamina = _supply_container.get_supply(Constants.SUPPLY_TYPE.stamina)
+		stamina.emptied.connect(_apply_exhaustion)
 
 	if _physics_movement is PhysicsMovementComponent:
 		_physics_movement.is_attached_to_player = _is_player
@@ -70,11 +77,6 @@ func _ready() -> void:
 	combat_active_container.has_ready_active.connect(func(): _num_ready_actives += 1)  # support knowing when to auto cast
 	combat_active_container.new_active_selected.connect(func(active): _target = active.target_actor) # update target to match that of selected active
 	combat_active_container.new_target.connect(func(target): _target = target)
-
-	await get_tree().process_frame
-	var t = Exhaustion.new(self)
-	boons_banes.add_boon_bane(t)
-
 
 func _process(delta: float) -> void:
 	_global_cast_cd_counter -= delta
@@ -103,5 +105,10 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 ## updates all collisions to reflect current _target, team etc.
 func update_collisions() -> void:
 	Utility.update_body_collisions(self, allegiance.team, Constants.TARGET_OPTION.other, _target)
+
+## add the [Exhaustion] [BoonBane]. assumed to trigger after stamina is emptied.
+func _apply_exhaustion() -> void:
+	var exhaustion: Exhaustion = Exhaustion.new(self)
+	boons_banes.add_boon_bane(exhaustion)
 
 #endregion

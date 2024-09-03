@@ -34,8 +34,6 @@ func _ready() -> void:
 	_check_for_duplicates()
 
 ## check the _stats for multiple of the same stat and generate an error if there is a duplicate
-##
-## TODO: this should be an editor warning, too
 func _check_for_duplicates() -> void:
 	var check_array = []
 	for stat in _stats:
@@ -58,9 +56,7 @@ func get_all_stats() -> Array[StatData]:
 
 func add_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:
 	var stat = get_stat(stat_type)
-	print(Utility.get_enum_name(Constants.STAT_TYPE, stat_type), " modified from ", stat.value)
 	stat.add_mod(mod)
-	print("-> to ", stat.value)
 
 func remove_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:
 	var stat = get_stat(stat_type)

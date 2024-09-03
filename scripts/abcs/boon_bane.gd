@@ -62,9 +62,7 @@ func _ready() -> void:
 		await get_tree().process_frame
 		activate()
 
-	# we apply later, so setup timers
-	else:
-		_setup_timers()
+	_setup_timers()
 
 ## init and configure required timers
 func _setup_timers() -> void:
