@@ -87,7 +87,16 @@ func update_collisions() -> void:
 ## returns nearest target that is within range. If no valid targets in range, returns null.
 func get_nearest_target() -> CombatActor:
 	if _max_range == 0:
-		# will never find anyone
+		# check if we can use self
+		if Utility.target_is_valid(_target_option, _root, _root):
+			return _root
+
+		# can't use self, so with range == 0 will never find anyone
+		push_warning(
+			"TargetFinder: `_max_range` == 0, will never find anyone other than self, and we're looking for ",
+			Utility.get_enum_name(Constants.TARGET_OPTION, _target_option)
+		)
+
 		return
 
 	var nearest_body: CollisionObject2D = null

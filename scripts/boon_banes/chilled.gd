@@ -1,8 +1,7 @@
 ## class desc
 #@icon("")
-class_name Exhaustion
+class_name Chilled
 extends BoonBane
-
 
 #region SIGNALS
 
@@ -33,18 +32,24 @@ func _configure_behaviour() -> void:
 	# NOTE: until can come up with a good way to edit in the editor just hardcode it
 	trigger = Constants.TRIGGER.passive
 	is_unique = true
+	_duration = 3
+	_duration_type = Constants.DURATION_TYPE.time
+	_application_animation_scene = load("res://scenes/visual_effects/chilled.tscn")
 
-	# create the effect
+	# create statmod effect
 	var effect: ApplyStatModEffect = ApplyStatModEffect.new(self, _source)
 	var statmod: StatModData = StatModData.new()
-	statmod.setup(0.5, Constants.MATH_MOD_TYPE.multiply)
-
-	# apply to all stats
-	var affected_stat_types: Array[Constants.STAT_TYPE] = [Constants.STAT_TYPE.strength, Constants.STAT_TYPE.defence]
-	for stat_type in affected_stat_types:
-		effect.add_mod(stat_type, statmod)
-
+	statmod.setup(0.7, Constants.MATH_MOD_TYPE.multiply)
+	effect.add_mod(Constants.STAT_TYPE.move_speed, statmod)
 	_add_effect(effect)
+
+	# create visual
+	var visual_effect: SpawnSceneEffect = SpawnSceneEffect.new(self, _source)
+	visual_effect.scene = _application_animation_scene
+	_add_effect(visual_effect)
+
+
+
 
 
 

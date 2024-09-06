@@ -41,6 +41,8 @@ signal new_target(target: CombatActor)
 		_travel_range = value
 		if _target_finder is TargetFinder:
 			_target_finder.set_max_range(_travel_range)
+@export_group("Aura")
+@export var _aura_lifetime: float = -1  ## how long the aura should last. only applies if delivery method == aura.
 
 #endregion
 
@@ -164,6 +166,10 @@ func cast()-> void:
 		else:
 			push_error("CombatActive: `_cast_position` not defined.")
 
+	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.aura:
+		_create_aura()
+		_restart_cooldown()
+
 	else:
 		push_error("CombatActive: `_delivery_method` (", _delivery_method, ") not defined.")
 
@@ -197,8 +203,28 @@ func _create_melee() -> AreaOfEffect:
 	var angle = _caster.get_angle_to(target_actor.global_position)
 	aoe.rotation = angle
 
-
 	return aoe
+
+## create an [Aura] at the either the caster's or target's position, based on [_valid_target_option], with the Aura targeting the same.
+##
+## if _valid_target_option == TARGET_OPTION.self then targets self, otherwise targets [target_actor]
+func _create_aura() -> Aura:
+	# NOTE: because we dont keep track of auras created we cant clear them on demand.
+	var target_: CombatActor
+	if _valid_target_option == Constants.TARGET_OPTION.self_:
+		target_ = _caster
+	else:
+		target_ = target_actor
+
+	var aura: Aura = _scene_spawner.spawn_scene(target_.global_position)
+	print("aura created")
+	aura.setup(aura.global_position, _allegiance.team, _valid_effect_option, _delivery_radius, _aura_lifetime)
+	print("aura setup")
+	aura.hit_valid_targets.connect(_effect_chain.on_hit_multiple)
+	aura.attach_to_target(target_)
+	print("aura attached to target: ", target_.name)
+
+	return aura
 
 ## set the target actor. can accept null.
 func set_target_actor(actor: CombatActor) -> void:

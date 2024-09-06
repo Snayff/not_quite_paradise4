@@ -38,8 +38,7 @@ signal died  ## actor has died
 
 #region VARS
 var _num_ready_actives: int = 0
-var _global_cast_cd: float = 0.5  ## min time to wait between combat active casts
-var _global_cast_cd_counter: float = 0  ## counter to track time since last cast
+var _global_cast_cd_counter: float = 0  ## counter to track time since last cast. # TODO: this needs implementing for player
 var _target: CombatActor:
 	set(value):
 		_target = value
@@ -96,7 +95,7 @@ func _update_non_player_auto_casting() -> void:
 			if _global_cast_cd_counter <= 0:
 				if combat_active_container.cast_random_ready_active():
 					_num_ready_actives -= 1
-					_global_cast_cd_counter = _global_cast_cd
+					_global_cast_cd_counter = Constants.GLOBAL_CAST_DELAY
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if _physics_movement is PhysicsMovementComponent:

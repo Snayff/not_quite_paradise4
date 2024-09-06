@@ -23,6 +23,8 @@ signal activated
 @export var _duration_type: Constants.DURATION_TYPE  ## how the lifetime of the boonbane is determined
 @export var _duration: float  ## how long before being removed. only relevant if duration_type == time or applications, in which case it is seconds or num applications, respectively.
 @export var _interval_length: float  ## if trigger == on_interval then this dictates how long between each interval.
+@warning_ignore("unused_private_class_variable")  # used in children
+@export var _application_animation_scene: PackedScene
 @export var is_unique: bool = true  ## whether multiple of the same boonbanes can be applied
 #endregion
 
@@ -51,7 +53,7 @@ func _ready() -> void:
 	# NOTE: can't check the enums as they default to a meaningful value
 	assert(not _effects.is_empty(), "BoonBane: no effects set.")
 	if trigger == Constants.TRIGGER.on_interval:
-		assert(_interval_length == 0, "BoonBane: trigger is interval, but no interval_length set. Will never activate.")
+		assert(_interval_length != 0, "BoonBane: trigger is interval, but no interval_length set. Will never activate.")
 		assert(_duration > _interval_length, "BoonBane: duration is less than interval_length. Will never activate.")
 
 	if (_duration_type == Constants.DURATION_TYPE.time or _duration_type == Constants.DURATION_TYPE.applications) and _duration == 0:

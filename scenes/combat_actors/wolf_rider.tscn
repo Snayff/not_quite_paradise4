@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://lbhta0mrhs1b" path="res://scenes/combat_actives/circling_stars.tscn" id="7_47lvt"]
 [ext_resource type="Script" path="res://scripts/dataclasses/stat.gd" id="9_nf076"]
 [ext_resource type="Script" path="res://scripts/components/functionals/supply.gd" id="9_r5a4j"]
-[ext_resource type="PackedScene" uid="uid://dskbsash4djh5" path="res://scenes/combat_actives/slash.tscn" id="10_qtelr"]
+[ext_resource type="PackedScene" uid="uid://ctgejtyeyphms" path="res://scenes/combat_actives/icy_aura.tscn" id="10_sm50s"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nvgpk"]
 radius = 6.0
@@ -98,10 +98,11 @@ _stats = Array[ExtResource("9_nf076")]([SubResource("Resource_uul7b"), SubResour
 _editor_supplies = Array[ExtResource("9_r5a4j")]([SubResource("Resource_cbp4c"), SubResource("Resource_e7uei")])
 
 [node name="CirclingStars" parent="CombatActiveContainer" index="0" instance=ExtResource("7_47lvt")]
+cast_type = 0
 
 [node name="Fireblast" parent="CombatActiveContainer" index="1" instance=ExtResource("6_jm2bo")]
 
-[node name="Slash" parent="CombatActiveContainer" index="2" instance=ExtResource("10_qtelr")]
+[node name="IcyAura" parent="CombatActiveContainer" index="2" instance=ExtResource("10_sm50s")]
 
 [node name="CastPosition" parent="CentrePivot" index="0"]
 position = Vector2(10, -1)

@@ -1,4 +1,4 @@
-## class desc
+## plays an animation, collects an array of bodies that are overlapping on a given frame of that animation
 @icon("res://assets/node_icons/area_of_effect.png")
 class_name AreaOfEffect
 extends AnimatedSprite2D
@@ -18,7 +18,6 @@ signal hit_valid_targets(hurtboxes: Array[HurtboxComponent])
 #region EXPORTS
 # @export_group("Component Links")
 # @export var
-#
 @export_group("Details")
 @export var _application_frame: int = 0  ## the animation frame on which to apply the effects
 #endregion
@@ -53,7 +52,12 @@ func _ready() -> void:
 	_has_run_ready = true
 
 ## run setup process and trigger animation to start
-func setup(new_position: Vector2, team: Constants.TEAM, valid_effect_option: Constants.TARGET_OPTION, size: float = -1) -> void:
+func setup(
+	new_position: Vector2,
+	team: Constants.TEAM,
+	valid_effect_option: Constants.TARGET_OPTION,
+	size: float = -1,
+	) -> void:
 	if not _has_run_ready:
 		push_error("AreaOfEffect: setup() called before _ready. ")
 
@@ -73,6 +77,11 @@ func setup(new_position: Vector2, team: Constants.TEAM, valid_effect_option: Con
 		var ratio: float = Utility.get_ratio_desired_vs_current(size, shape)
 		scale = Vector2(ratio, ratio)
 
+	_start()
+
+## begin animation and check initial frame for application
+func _start() -> void:
+	print("aura started")
 	play("default")
 	_check_frame_and_conditionally_enable()  # call now to account for application frame being 0
 
@@ -96,7 +105,6 @@ func _check_frame_and_conditionally_enable() -> void:
 func _set_hitbox_disabled_status(is_disabled: bool) -> void:
 	_hitbox.set_disabled_status(is_disabled)
 
-
 ## if target is valid and not already hit, log the target for later signaling (when animation ends)
 func _on_hit(hurtbox: HurtboxComponent) -> void:
 	if Utility.target_is_valid(_valid_effect_option, _hitbox.originator, hurtbox.root):
@@ -106,6 +114,8 @@ func _on_hit(hurtbox: HurtboxComponent) -> void:
 
 ## queue_free
 func _cleanup() -> void:
+	print("aura cleanup")
 	queue_free()
+
 
 #endregion
