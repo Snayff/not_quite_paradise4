@@ -29,20 +29,17 @@ extends EffectChain
 
 #region FUNCS
 
-func _aoe_hit(hurtboxes: Array[HurtboxComponent]) -> void:
-	var names = []
-	for box in hurtboxes:
-		names.append(box.root.name)
-	print("aura hit: ", names)
-	for hurtbox in hurtboxes:
+func on_hit(hurtbox: HurtboxComponent) -> void:
 
-		# apply boon_bane
-		if not hurtbox.root.boons_banes is BoonsBanesContainerComponent:
-			# no boon bane container to apply a boon bane to
-			continue
-		var chilled = Chilled.new(_caster)
-		print("aura applied chilled")
-		hurtbox.root.boons_banes.add_boon_bane(chilled)
+	print("aura hit: ", hurtbox.root.name)
+
+
+	# apply boon_bane
+	if not hurtbox.root.boons_banes is BoonsBanesContainerComponent:
+		return
+	var chilled = Chilled.new(_caster)
+	print("aura applied chilled")
+	hurtbox.root.boons_banes.add_boon_bane(chilled)
 
 
 

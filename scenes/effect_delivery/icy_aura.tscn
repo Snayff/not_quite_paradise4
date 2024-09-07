@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://emj3hqywkf3u"]
+[gd_scene load_steps=8 format=3 uid="uid://emj3hqywkf3u"]
 
 [ext_resource type="Texture2D" uid="uid://cwl2hnyyawgw4" path="res://assets/effects/frost_ring/FrostRing(Frame1).png" id="1_0xwyd"]
 [ext_resource type="PackedScene" uid="uid://cn52hgkon4ww" path="res://scenes/abcs/aura.tscn" id="1_x62kg"]
@@ -27,5 +27,11 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_pkrjs"]
+radius = 13.0
+
 [node name="IcyAura" instance=ExtResource("1_x62kg")]
 sprite_frames = SubResource("SpriteFrames_mdwds")
+
+[node name="CollisionShape2D" parent="HitboxComponent" index="0"]
+shape = SubResource("CircleShape2D_pkrjs")

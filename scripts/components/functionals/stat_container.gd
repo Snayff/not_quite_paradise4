@@ -56,6 +56,8 @@ func get_all_stats() -> Array[StatData]:
 
 func add_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:
 	var stat = get_stat(stat_type)
+	if stat == null:
+		push_error("StatsContainerComponent: stat_type (", Utility.get_enum_name(Constants.STAT_TYPE, stat_type), ") not recognised.")
 	stat.add_mod(mod)
 
 func remove_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:

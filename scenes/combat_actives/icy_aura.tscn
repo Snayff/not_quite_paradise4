@@ -13,7 +13,7 @@ icon = ExtResource("2_wgqb6")
 cast_cost = 10
 _valid_effect_option = 2
 _delivery_method = 4
-_delivery_radius = 30.0
+_delivery_radius = 100.0
 _aura_lifetime = 5.0
 
 [node name="SceneSpawner" parent="." index="1"]
