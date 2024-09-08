@@ -33,5 +33,6 @@ animations = [{
 
 [node name="OneShotAnimation" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_qw108")
+autoplay = "default"
 frame_progress = 0.0513217
 script = ExtResource("6_gmjry")

@@ -22,8 +22,8 @@ signal modifier_removed
 # @export_group("Component Links")
 # @export var
 @export_group("Details")
-@export var type: Constants.STAT_TYPE  ## @REQUIRED.
-@export var base_value: float:  ## @REQUIRED.
+@export var type: Constants.STAT_TYPE
+@export var base_value: float:
 	set(value):
 		base_value = value
 		base_value_changed.emit()
@@ -69,9 +69,11 @@ func _recalculate() -> void:
 
 ## add a new modifier to the stat
 func add_mod(mod: StatModData) -> void:
+	print(Utility.get_enum_name(Constants.STAT_TYPE, type), "'s pre mod value: ", value)
 	_modifiers.append(mod)
 	modifier_added.emit()
 	_is_dirty = true
+	print(Utility.get_enum_name(Constants.STAT_TYPE, type), "'s post mod value: ", value)
 
 ## remove an existing modifier from the stat
 func remove_mod(mod: StatModData) -> void:

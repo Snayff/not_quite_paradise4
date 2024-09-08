@@ -82,6 +82,7 @@ func setup(
 ## begin animation and check initial frame for application
 func _start() -> void:
 	print("aura started")
+	visible = true
 	play("default")
 	_check_frame_and_conditionally_enable()  # call now to account for application frame being 0
 

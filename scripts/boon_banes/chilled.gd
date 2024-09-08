@@ -30,6 +30,7 @@ extends BoonBane
 func _configure_behaviour() -> void:
 	# config behaviour
 	# NOTE: until can come up with a good way to edit in the editor just hardcode it
+	f_name = "chilled"
 	trigger = Constants.TRIGGER.passive
 	is_unique = true
 	_duration = 3

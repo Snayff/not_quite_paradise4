@@ -18,6 +18,9 @@ signal activated
 #region EXPORTS
 # @export_group("Component Links")
 # @export var
+@export_group("Definition")
+@export var f_name: String = "placeholder name"  ## the friendly name
+@export var _icon: Texture2D  ## icon to show identify the boon_bane
 @export_group("Application")
 @export var trigger: Constants.TRIGGER  ## the thing that causes the boonbane to apply
 @export var _duration_type: Constants.DURATION_TYPE  ## how the lifetime of the boonbane is determined

@@ -33,28 +33,28 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Resource" id="Resource_hkk0t"]
+[sub_resource type="Resource" id="Resource_kjvk0"]
 resource_local_to_scene = true
 resource_name = "Strength"
 script = ExtResource("13_hojhi")
 type = 0
 base_value = 2.0
 
-[sub_resource type="Resource" id="Resource_er32g"]
+[sub_resource type="Resource" id="Resource_bkv5u"]
 resource_local_to_scene = true
 resource_name = "Defence"
 script = ExtResource("13_hojhi")
 type = 1
 base_value = 1.0
 
-[sub_resource type="Resource" id="Resource_hcupx"]
+[sub_resource type="Resource" id="Resource_yudnl"]
 resource_local_to_scene = true
 resource_name = "Move Speed"
 script = ExtResource("13_hojhi")
 type = 2
 base_value = 50.0
 
-[sub_resource type="Resource" id="Resource_8sonu"]
+[sub_resource type="Resource" id="Resource_qcel0"]
 resource_local_to_scene = true
 resource_name = "Health"
 script = ExtResource("15_suttt")
@@ -62,7 +62,7 @@ type = 0
 max_value = 999
 regeneration_per_second = 0.0
 
-[sub_resource type="Resource" id="Resource_tv478"]
+[sub_resource type="Resource" id="Resource_438eg"]
 resource_local_to_scene = true
 resource_name = "Stamina"
 script = ExtResource("15_suttt")
@@ -141,7 +141,7 @@ _main_sprite = NodePath("../AnimatedSprite2D")
 [node name="StatsContainer" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("12_dnaiq")
-_stats = Array[ExtResource("13_hojhi")]([SubResource("Resource_hkk0t"), SubResource("Resource_er32g"), SubResource("Resource_hcupx")])
+_stats = Array[ExtResource("13_hojhi")]([SubResource("Resource_kjvk0"), SubResource("Resource_bkv5u"), SubResource("Resource_yudnl")])
 
 [node name="BoonsBanesContainer" type="Node" parent="." node_paths=PackedStringArray("_root", "_death_trigger")]
 unique_name_in_owner = true
@@ -152,7 +152,7 @@ _death_trigger = NodePath("../DeathTrigger")
 [node name="SupplyContainer" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("14_rlc1x")
-_editor_supplies = Array[ExtResource("15_suttt")]([SubResource("Resource_8sonu"), SubResource("Resource_tv478")])
+_editor_supplies = Array[ExtResource("15_suttt")]([SubResource("Resource_qcel0"), SubResource("Resource_438eg")])
 
 [node name="CombatActiveContainer" type="Node2D" parent="." node_paths=PackedStringArray("_root", "_allegiance", "_cast_position", "_supplies")]
 unique_name_in_owner = true

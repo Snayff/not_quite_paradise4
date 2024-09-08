@@ -81,6 +81,7 @@ func attach_to_target(actor: CombatActor) -> void:
 func _restart() -> void:
 	print("aura restarted")
 	stop()
+	visible = false
 
 	# trigger timer, which will trigger restart when done
 	_tick_rate_timer.start(Constants.AURA_TICK_RATE)

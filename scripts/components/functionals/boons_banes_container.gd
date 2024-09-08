@@ -87,7 +87,8 @@ func _link_signals_to_triggers(boon_bane: BoonBane) -> void:
 			# handled within boon_bane by timer
 			pass
 
-
+func get_all_boon_banes() -> Array[BoonBane]:
+	return _all_boon_banes
 
 
 

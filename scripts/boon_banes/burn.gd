@@ -34,6 +34,7 @@ extends BoonBane
 func _configure_behaviour() -> void:
 	# config behaviour
 	# NOTE: until can come up with a good way to edit in the editor just hardcode it
+	f_name = "burn"
 	_damage_per_tick = 1
 	var scaler = EffectStatScalerData.new()
 	scaler.stat = Constants.STAT_TYPE.strength
