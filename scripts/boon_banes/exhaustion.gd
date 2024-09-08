@@ -31,7 +31,7 @@ extends BoonBane
 func _configure_behaviour() -> void:
 	# config behaviour
 	# NOTE: until can come up with a good way to edit in the editor just hardcode it
-	trigger = Constants.TRIGGER.passive
+	trigger = Constants.TRIGGER.on_application
 	is_unique = true
 
 	# create the effect

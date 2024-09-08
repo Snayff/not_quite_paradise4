@@ -31,9 +31,10 @@ func _configure_behaviour() -> void:
 	# config behaviour
 	# NOTE: until can come up with a good way to edit in the editor just hardcode it
 	f_name = "chilled"
-	trigger = Constants.TRIGGER.passive
+	trigger = Constants.TRIGGER.on_application
 	is_unique = true
-	_duration = 3
+	_duration = 10
+
 	_duration_type = Constants.DURATION_TYPE.time
 	_application_animation_scene = load("res://scenes/visual_effects/chilled.tscn")
 

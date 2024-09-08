@@ -63,7 +63,7 @@ func _ready() -> void:
 		assert(_duration == 0, "BoonBane: duration_type is time or application, but no duration set. Will immediately terminate.")
 
 	# if we need to apply immediately, wait a frame then do so
-	if trigger == Constants.TRIGGER.passive:
+	if trigger == Constants.TRIGGER.on_application:
 		await get_tree().process_frame
 		activate()
 

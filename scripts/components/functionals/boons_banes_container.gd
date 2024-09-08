@@ -79,7 +79,7 @@ func _link_signals_to_triggers(boon_bane: BoonBane) -> void:
 			# TODO: add
 			pass
 
-		Constants.TRIGGER.passive:
+		Constants.TRIGGER.on_application:
 			# activated immediately in boon_bane
 			pass
 
