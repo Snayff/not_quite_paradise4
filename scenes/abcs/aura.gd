@@ -31,20 +31,6 @@ var _lifetime: float  ## how long the aura lasts before expiring.
 
 
 #region FUNCS
-func _ready() -> void:
-	super._ready()
-
-	# correct the signal calls we want to be different for aura
-	# disconnect and connect to restart instead
-	#if animation_looped.is_connected(_cleanup):
-		#animation_looped.disconnect(_cleanup)
-	#if animation_finished.is_connected(_cleanup):
-		#animation_finished.disconnect(_cleanup)
-	#animation_looped.connect(_restart)
-	#animation_finished.connect(_restart)
-#
-	#_lifetime_timer.timeout.connect(_cleanup)
-
 func setup(
 	new_position: Vector2,
 	team: Constants.TEAM,
@@ -67,7 +53,6 @@ func setup(
 	_lifetime = lifetime
 	super.setup(new_position, team, valid_effect_option, size)
 	_lifetime_timer.start(_lifetime)
-	print("aura started lifetime countdown at ", lifetime)
 
 func _process(_delta: float) -> void:
 	if _target is CombatActor:
@@ -79,7 +64,6 @@ func attach_to_target(actor: CombatActor) -> void:
 
 ## restart the process, i.e. loop, after the delay
 func _restart() -> void:
-	print("aura restarted")
 	stop()
 	visible = false
 

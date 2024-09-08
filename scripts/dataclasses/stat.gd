@@ -69,11 +69,15 @@ func _recalculate() -> void:
 
 ## add a new modifier to the stat
 func add_mod(mod: StatModData) -> void:
-	print(Utility.get_enum_name(Constants.STAT_TYPE, type), "'s pre mod value: ", value)
+	# keep for debugging
+	# print(Utility.get_enum_name(Constants.STAT_TYPE, type), "'s pre mod value: ", value)
+
 	_modifiers.append(mod)
 	modifier_added.emit()
 	_is_dirty = true
-	print(Utility.get_enum_name(Constants.STAT_TYPE, type), "'s post mod value: ", value)
+
+	# keep for debugging
+	#print(Utility.get_enum_name(Constants.STAT_TYPE, type), "'s post mod value: ", value)
 
 ## remove an existing modifier from the stat
 func remove_mod(mod: StatModData) -> void:

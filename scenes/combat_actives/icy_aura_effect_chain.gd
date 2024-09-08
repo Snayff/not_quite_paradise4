@@ -30,15 +30,10 @@ extends EffectChain
 #region FUNCS
 
 func on_hit(hurtbox: HurtboxComponent) -> void:
-
-	print("aura hit: ", hurtbox.root.name)
-
-
 	# apply boon_bane
 	if not hurtbox.root.boons_banes is BoonsBanesContainerComponent:
 		return
 	var chilled = Chilled.new(_caster)
-	print("aura applied chilled")
 	hurtbox.root.boons_banes.add_boon_bane(chilled)
 
 

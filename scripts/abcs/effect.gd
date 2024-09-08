@@ -38,12 +38,12 @@ func _init(parent: Node, source: Node) -> void:
 ## @virtual. apply the effect to the target
 @warning_ignore("unused_parameter")  # virtual, so wont be used
 func apply(target: CombatActor) -> void:
-	pass
+	push_error("Effect: `apply` called directly, but is virtual. Must be overriden by child." )
 
 ## @virtual. clean up any lingering traces of the effect, such as removing stat mods
 @warning_ignore("unused_parameter")  # virtual, so wont be used
 func reverse_application(target: CombatActor) -> void:
-	pass
+	push_error("Effect: `reverse_application` called directly, but is virtual. Must be overriden by child." )
 
 ## finish and clean up
 func terminate() -> void:

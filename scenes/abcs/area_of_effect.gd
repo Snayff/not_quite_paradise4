@@ -81,7 +81,6 @@ func setup(
 
 ## begin animation and check initial frame for application
 func _start() -> void:
-	print("aura started")
 	visible = true
 	play("default")
 	_check_frame_and_conditionally_enable()  # call now to account for application frame being 0
@@ -115,7 +114,6 @@ func _on_hit(hurtbox: HurtboxComponent) -> void:
 
 ## queue_free
 func _cleanup() -> void:
-	print("aura cleanup")
 	queue_free()
 
 

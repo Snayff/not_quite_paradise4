@@ -43,26 +43,26 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_346nu"]
 radius = 7.0
 
-[sub_resource type="Resource" id="Resource_hkk0t"]
+[sub_resource type="Resource" id="Resource_c051k"]
 resource_local_to_scene = true
 resource_name = "Strength"
 script = ExtResource("8_xjwvb")
 type = 0
-base_value = 2.0
+base_value = 10.0
 
-[sub_resource type="Resource" id="Resource_er32g"]
+[sub_resource type="Resource" id="Resource_bo738"]
 resource_local_to_scene = true
 resource_name = "Defence"
 script = ExtResource("8_xjwvb")
 type = 1
-base_value = 1.0
+base_value = 5.0
 
-[sub_resource type="Resource" id="Resource_hcupx"]
+[sub_resource type="Resource" id="Resource_77y4s"]
 resource_local_to_scene = true
 resource_name = "Move Speed"
 script = ExtResource("8_xjwvb")
 type = 2
-base_value = 50.0
+base_value = 5.0
 
 [sub_resource type="Resource" id="Resource_8sonu"]
 resource_local_to_scene = true
@@ -105,7 +105,7 @@ scene = ExtResource("6_utgjv")
 position = Vector2(0, -8)
 
 [node name="StatsContainer" parent="." index="11"]
-_stats = Array[ExtResource("8_xjwvb")]([SubResource("Resource_hkk0t"), SubResource("Resource_er32g"), SubResource("Resource_hcupx")])
+_editor_stats = Array[ExtResource("8_xjwvb")]([SubResource("Resource_c051k"), SubResource("Resource_bo738"), SubResource("Resource_77y4s")])
 
 [node name="SupplyContainer" parent="." index="13"]
 _editor_supplies = Array[ExtResource("8_iiiq1")]([SubResource("Resource_8sonu"), SubResource("Resource_tv478")])

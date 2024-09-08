@@ -74,7 +74,7 @@ func on_activate() -> void:
 ## @virtual. process effects triggered by on_hit.
 @warning_ignore("unused_parameter")  # virtual, so wont be used
 func on_hit(hurtbox: HurtboxComponent) -> void:
-	pass
+	push_error("EffectChain: `on_hit` called directly, but is virtual. Must be overriden by child." )
 
 ## acts as a wrapper for processing multiple `on_hit` calls at once.
 ##

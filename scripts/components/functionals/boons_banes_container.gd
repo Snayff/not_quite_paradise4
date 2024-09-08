@@ -29,6 +29,7 @@ var _all_boon_banes: Array[BoonBane]:
 	set(value):
 		push_warning("BoonsBanesContainerComponent: Can't set _all_boon_banes directly.")
 	get:
+		# TODO: use a dirty flag to prevent rebuilding unnecessarily
 		var all: Array[BoonBane] = []
 		for boon_bane_array in _boons_banes.values():
 			for boon_bane in boon_bane_array:
@@ -76,7 +77,7 @@ func _link_signals_to_triggers(boon_bane: BoonBane) -> void:
 			_death_trigger.died.connect(boon_bane.activate)
 
 		Constants.TRIGGER.on_hit_received:
-			# TODO: add
+			# TODO: implement
 			pass
 
 		Constants.TRIGGER.on_application:
@@ -86,6 +87,13 @@ func _link_signals_to_triggers(boon_bane: BoonBane) -> void:
 		Constants.TRIGGER.on_interval:
 			# handled within boon_bane by timer
 			pass
+
+		_:
+			push_error(
+				"BoonsBanesContainerComponent: `_link_signals_to_triggers` given a trigger (",
+				Utility.get_enum_name(Constants.TRIGGER, boon_bane.trigger),
+				") that we don't know how to handle."
+			)
 
 func get_all_boon_banes() -> Array[BoonBane]:
 	return _all_boon_banes

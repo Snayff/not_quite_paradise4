@@ -19,19 +19,25 @@ extends Node
 # @export var
 #
 @export_group("Details")
-@export var _stats: Array[StatData]  ## a unique list of all the stats
+@export var _editor_stats: Array[StatData]  ## this is a wrapper for _stats, due to godot's issue with arrays always sharing resources.
 #endregion
 
 
 #region VARS
-
+var _stats: Array[StatData]  ## a unique list of all the stats copied from _editor_stats on _ready.
 #endregion
 
 
 #region FUNCS
 
 func _ready() -> void:
+	_duplicate_editor_resource_arrays()
 	_check_for_duplicates()
+
+## duplicate all supplies in _editor_supplies to _supplies
+func _duplicate_editor_resource_arrays() -> void:
+	for stat in _editor_stats:
+		_stats.append(stat.duplicate(true))
 
 ## check the _stats for multiple of the same stat and generate an error if there is a duplicate
 func _check_for_duplicates() -> void:
@@ -59,6 +65,9 @@ func add_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:
 	if stat == null:
 		push_error("StatsContainerComponent: stat_type (", Utility.get_enum_name(Constants.STAT_TYPE, stat_type), ") not recognised.")
 	stat.add_mod(mod)
+
+	# keep for debugging
+	# print("mod added to ", Utility.get_enum_name(Constants.STAT_TYPE, stat_type), ". ID: ", stat)
 
 func remove_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:
 	var stat = get_stat(stat_type)

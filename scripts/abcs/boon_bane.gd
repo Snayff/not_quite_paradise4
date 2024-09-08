@@ -20,7 +20,7 @@ signal activated
 # @export var
 @export_group("Definition")
 @export var f_name: String = "placeholder name"  ## the friendly name
-@export var _icon: Texture2D  ## icon to show identify the boon_bane
+@export var _icon: Texture2D  ## icon to show identify the boon_bane  # NOTE: Not yet used
 @export_group("Application")
 @export var trigger: Constants.TRIGGER  ## the thing that causes the boonbane to apply
 @export var _duration_type: Constants.DURATION_TYPE  ## how the lifetime of the boonbane is determined
@@ -85,7 +85,7 @@ func _setup_timers() -> void:
 
 ## @virtual where the effects are created and defined.
 func _configure_behaviour() -> void:
-	pass
+	push_error("BoonBane: `_configure_behaviour` called directly, but is virtual. Must be overriden by child." )
 
 ## apply the effect to the target. called on trigger. must be defined in subclass and super called.
 ##

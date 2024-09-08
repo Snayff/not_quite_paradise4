@@ -30,7 +30,7 @@ var _supplies: Array[SupplyComponent]  ## all supplies. copied from _editor_supp
 
 #region FUNCS
 func _ready() -> void:
-	_duplicate_supplies_array()
+	_duplicate_editor_resource_arrays()
 
 	_check_all_unique()
 
@@ -40,7 +40,7 @@ func _ready() -> void:
 	_regen_timer.timeout.connect(_apply_regen_to_all_supplies)
 
 ## duplicate all supplies in _editor_supplies to _supplies
-func _duplicate_supplies_array() -> void:
+func _duplicate_editor_resource_arrays() -> void:
 	for supply in _editor_supplies:
 		_supplies.append(supply.duplicate(true))
 

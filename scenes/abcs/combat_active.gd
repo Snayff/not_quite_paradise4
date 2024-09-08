@@ -217,12 +217,9 @@ func _create_aura() -> Aura:
 		target_ = target_actor
 
 	var aura: Aura = _scene_spawner.spawn_scene(target_.global_position)
-	print("aura created")
 	aura.setup(aura.global_position, _allegiance.team, _valid_effect_option, _delivery_radius, _aura_lifetime)
-	print("aura setup")
 	aura.hit_valid_targets.connect(_effect_chain.on_hit_multiple)
 	aura.attach_to_target(target_)
-	print("aura attached to target: ", target_.name)
 
 	return aura
 
