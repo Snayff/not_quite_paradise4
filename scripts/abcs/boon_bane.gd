@@ -109,7 +109,8 @@ func terminate() -> void:
 	terminated.emit(self)
 
 	for effect in _effects:
-		effect.reverse_application(host)
+		if effect is ApplyStatModEffect:
+			effect.reverse_application(host)
 		effect.terminate()
 
 	queue_free()

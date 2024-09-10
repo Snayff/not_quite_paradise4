@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://f6yq0wv2pluc" path="res://assets/effects/chilled/blue_twinkle4.png" id="3_uppqa"]
 [ext_resource type="Texture2D" uid="uid://07vqvp46ob0x" path="res://assets/effects/chilled/blue_twinkle3.png" id="4_h51o4"]
 [ext_resource type="Texture2D" uid="uid://dhw3dxit50mrn" path="res://assets/effects/chilled/blue_twinkle2.png" id="5_wlny5"]
-[ext_resource type="Script" path="res://scripts/components/visuals/oneshot_animation.gd" id="6_gmjry"]
+[ext_resource type="Script" path="res://scripts/animations/oneshot_animation.gd" id="6_gmjry"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qw108"]
 resource_local_to_scene = true
