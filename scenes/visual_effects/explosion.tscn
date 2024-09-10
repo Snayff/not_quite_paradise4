@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cyeorwaeridub" path="res://assets/effects/explosion/Inferno(Frame2).png" id="2_qhua1"]
 [ext_resource type="Texture2D" uid="uid://qt4kwy8ssyxt" path="res://assets/effects/explosion/Inferno(Frame3).png" id="3_dn3gm"]
 [ext_resource type="Texture2D" uid="uid://7nrw4llyft0v" path="res://assets/effects/explosion/Inferno(Frame4).png" id="4_kblhv"]
-[ext_resource type="Script" path="res://scripts/components/visuals/oneshot_animation.gd" id="5_yk2jh"]
+[ext_resource type="Script" path="res://scripts/animations/oneshot_animation.gd" id="5_yk2jh"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_lhwko"]
 animations = [{
