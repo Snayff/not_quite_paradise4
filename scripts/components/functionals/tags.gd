@@ -11,8 +11,9 @@ extends Node
 ##
 ## tags that already exist are ignored.
 func add_tag(tag: Constants.COMBAT_TAG) -> void:
-	if not tag in _tags:
+	if has_tag(tag):
 		return
+
 	_tags.append(tag)
 
 ## add an array of tags.
@@ -20,7 +21,7 @@ func add_tag(tag: Constants.COMBAT_TAG) -> void:
 ## tags that already exist are ignored.
 func add_tags(tags: Array[Constants.COMBAT_TAG]) -> void:
 	for tag in tags:
-		if not tag in _tags:
+		if tag in _tags:
 			continue
 		_tags.append(tag)
 
@@ -46,6 +47,7 @@ func has_tag(tag: Constants.COMBAT_TAG) -> bool:
 ## check if a group of tags all exist
 func has_tags(tags: Array[Constants.COMBAT_TAG]) -> bool:
 	for tag in tags:
-		if not tag in _tags:
+		# if even 1 tag is missing, return false
+		if not has_tag(tag):
 			return false
 	return true
