@@ -52,9 +52,13 @@ func activate() -> void:
 	)
 	pass
 
-
-
-
+## @virtual deactivate the effect on the _target_sprite.
+## usually called at end of duration automiatically.
+func deactivate() -> void:
+	push_error(
+		"VisualEffect: `activate` called directly, but is virtual. Must be overriden by child."
+	)
+	pass
 
 
 #endregion

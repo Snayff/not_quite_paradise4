@@ -10,7 +10,7 @@ const WALK_MAX_VELOCITY = 200.0
 
 
 #region SIGNALS
-
+signal velocity_calculated(velocity: Vector2)
 #endregion
 
 
@@ -47,6 +47,9 @@ func calc_movement(state: PhysicsDirectBodyState2D) -> void:
 	# Finally, apply gravity and set back the linear velocity.
 	velocity += state.get_total_gravity() * step
 	state.set_linear_velocity(velocity)
+
+	# FIXME: this is a lot of overhead for every frame
+	velocity_calculated.emit(velocity)
 
 
 ## amends given velocity by input and returns amended velocity
