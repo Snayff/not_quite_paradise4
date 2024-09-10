@@ -4,3 +4,6 @@
 
 # local helper files
 *.bat
+
+# obsidian markdown editor
+.obsidian

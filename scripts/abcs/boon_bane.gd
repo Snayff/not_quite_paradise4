@@ -60,7 +60,7 @@ func _ready() -> void:
 		assert(_duration > _interval_length, "BoonBane: duration is less than interval_length. Will never activate.")
 
 	if (_duration_type == Constants.DURATION_TYPE.time or _duration_type == Constants.DURATION_TYPE.applications) and _duration == 0:
-		assert(_duration == 0, "BoonBane: duration_type is time or application, but no duration set. Will immediately terminate.")
+		assert(is_zero_approx(_duration), "BoonBane: duration_type is time or application, but no duration set. Will immediately terminate.")
 
 	# if we need to apply immediately, wait a frame then do so
 	if trigger == Constants.TRIGGER.on_application:

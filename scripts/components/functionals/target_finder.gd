@@ -86,7 +86,7 @@ func update_collisions() -> void:
 
 ## returns nearest target that is within range. If no valid targets in range, returns null.
 func get_nearest_target() -> CombatActor:
-	if _max_range == 0:
+	if is_zero_approx(_max_range):
 		# check if we can use self
 		if Utility.target_is_valid(_target_option, _root, _root):
 			return _root
