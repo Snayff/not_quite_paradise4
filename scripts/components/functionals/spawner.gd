@@ -7,14 +7,17 @@ extends Node2D
 @export var scene: PackedScene  ## The scene we want to spawn. If this is empty, nothing happens.
 
 
-## Spawn an instance of the scene at a specific global position on a parent
+## Spawn an instance of the scene at a specific global position, adding it to the specified parent.
 ##
-## By default, the parent is the current "main" scene , but can pass in an alternative parent if you so choose.
+## If parent is left null then we fetch this scene's parent.
 ## returns the instance of the spawned scene.
-func spawn_scene(global_spawn_position: Vector2 = global_position, parent: Node = get_tree().current_scene) -> Node:
+func spawn_scene(global_spawn_position: Vector2 = global_position, parent = null) -> Node:
 	if not scene is PackedScene:
 		#push_warning("SpawnerComponent: Nothing to spawn.")
 		return
+
+	if parent == null:
+		parent = get_tree().current_scene
 
 	# Instance the scene
 	var instance = scene.instantiate()
