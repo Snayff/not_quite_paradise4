@@ -106,7 +106,6 @@ func _set_target_actor(actor: CombatActor) -> void:
 	_target_actor = actor
 	_movement_component.target_actor = actor
 
-
 ## wrapper for setting movement component's target position
 func _set_target_position(target_position: Vector2) -> void:
 	_target_position = target_position
