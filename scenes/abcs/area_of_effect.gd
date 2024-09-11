@@ -71,7 +71,7 @@ func setup(
 
 	Utility.update_hitbox_hurtbox_collision(_hitbox, _team, _valid_effect_option)
 
-	if size != -1:
+	if size > 0:
 		# scale the aoe scene, which will then affect all children, inc. the collision shape
 		var shape: Shape2D = _hitbox.get_node("CollisionShape2D").shape
 		var ratio: float = Utility.get_ratio_desired_vs_current(size, shape)
