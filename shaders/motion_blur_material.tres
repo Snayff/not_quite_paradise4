@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://eyc457fqkg77"]
+
+[ext_resource type="Shader" path="res://shaders/motion_blur.gdshader" id="1_067vv"]
+
+[resource]
+shader = ExtResource("1_067vv")
+shader_parameter/dir = Vector2(0, 0)
+shader_parameter/quality = 4

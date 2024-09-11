@@ -3,12 +3,9 @@ class_name FlashComponent
 extends VisualEffect
 
 
-@export_group("Details")
-@export var _material: ShaderMaterial = preload("res://assets/effects/white_flash/white_flash_material.tres")  ## the material to alter the sprite
-
-
-var _original_sprite_material: Material  # store the original sprite's material to reset it after the flash
-var _timer: Timer = Timer.new()  # create a timer for the flash component to use
+var _material: ShaderMaterial = preload("res://shaders/white_flash_material.tres")  ## the material to alter the sprite
+var _original_sprite_material: Material  ## the sprite's original material to reset it after the flash
+var _timer: Timer = Timer.new()  ## time the duration
 
 
 func _ready() -> void:
@@ -20,6 +17,8 @@ func _ready() -> void:
 	# store the original sprite material
 	_original_sprite_material = _target_sprite.material
 
+	_timer.timeout.connect(deactivate)
+
 ## apply the flash effect, before reverting to normal.
 func activate():
 	# set the sprite's material to the flash material
@@ -28,8 +27,6 @@ func activate():
 	# start the timer (passing in the flash duration)
 	_timer.start(_duration)
 
-	# wait until the timer times out
-	await _timer.timeout
-
+func deactivate() -> void:
 	# set the sprite's material back to the original material that we stored
 	_target_sprite.material = _original_sprite_material
