@@ -1,28 +1,22 @@
-## class desc
+## data for [ABCProjectile]
 #@icon("")
 class_name DataProjectile
-extends Node
+extends Resource
 
-
-#region SIGNALS
-
-#endregion
-
-
-#region ON READY (for direct children only)
-
-#endregion
 
 
 #region EXPORTS
-# @export_group("Component Links")
-# @export var
-#
 @export_group("Details")
+## the team that caused this projectile to be created.
 @export var team: Constants.TEAM
-@export var valid_hit_option: Constants.TARGET_OPTION  ## who the projectile can hit
+## who the projectile can hit
+@export var valid_hit_option: Constants.TARGET_OPTION
+## how big the projectile should be
 @export var size: float
-@export var max_bodies_hit: int
+## how many bodies can be hit before expiry
+@export var max_bodies_can_hit: int
+## the animation for the projectile
+@export var sprite_frames: SpriteFrames
 #endregion
 
 
@@ -37,18 +31,17 @@ func define(
 	team_: Constants.TEAM,
 	valid_hit_option_: Constants.TARGET_OPTION,
 	size_: float = -1,
-	max_bodies_hit_: int = 1,
+	max_bodies_can_hit_: int = 1,
+	sprite_frames_: SpriteFrames
 	) -> void:
 
 	team = team_
 	valid_hit_option = valid_hit_option_
 	size = size_
-	max_bodies_hit = max_bodies_hit_
+	max_bodies_can_hit = max_bodies_can_hit_
+	sprite_frames = sprite_frames_
 
-
-
-
-
+#endregion
 
 
 

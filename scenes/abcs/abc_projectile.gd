@@ -5,8 +5,7 @@ extends RigidBody2D
 
 
 #region SIGNALS
-## emitted when resolved
-signal hit_valid_targets(hurtboxes: Array[HurtboxComponent])
+
 #endregion
 
 
@@ -41,6 +40,8 @@ var _team: Constants.TEAM
 var _valid_hit_option: Constants.TARGET_OPTION
 ## the animation for the projectile
 var _sprite_frames: SpriteFrames
+## the max number of bodies that can be hit
+var _max_bodies_can_hit: int
 #endregion
 
 
@@ -52,12 +53,23 @@ var _sprite_frames: SpriteFrames
 
 func _ready() -> void:
 	_sprite.stop()
+	_set_collision_disabled(true)
+	_set_hitbox_disabled(true)
 
 	_has_run_ready = true
 
 func setup(data: DataProjectile) -> void:
 	if not _has_run_ready:
 		push_error("AreaOfEffect: setup() called before _ready. ")
+
+	_team = data.team
+	_valid_hit_option = data.valid_hit_option
+	_max_bodies_can_hit = data.max_bodies_can_hit
+
+	_sprite.sprite_frames = data.sprite_frames
+
+	if data.size > 0:
+		_resize(data.size)
 
 	_update_collisions()
 
@@ -120,4 +132,3 @@ func _update_collisions() -> void:
 	Utility.update_hitbox_hurtbox_collision(_hitbox, _team, _valid_hit_option, _target_actor)
 
 	#endregion
-
