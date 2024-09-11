@@ -1,4 +1,7 @@
+// source: https://godotshaders.com/shader/2d-motion-blur/
+
 shader_type canvas_item;
+
 uniform vec2 dir = vec2(0,0);
 uniform int quality = 4;
 

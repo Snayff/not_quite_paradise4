@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c7jv6ffhqnc54"]
+
+[ext_resource type="Shader" path="res://shaders/trailing_silhouette.gdshader" id="1_li3d8"]
+
+[resource]
+shader = ExtResource("1_li3d8")
+shader_parameter/opacity = null
+shader_parameter/r = null
+shader_parameter/g = null
+shader_parameter/b = null
+shader_parameter/mix_color = null

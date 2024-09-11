@@ -33,6 +33,9 @@ var _is_active: bool = false  ## keep track of whether to update shader values
 func _ready() -> void:
 	super._ready()
 
+	# check for mandatory properties set in editor
+	assert(_movement_component is PhysicsMovementComponent, "MotionBlurComponent: Misssing `_movement_component`.")
+
 	_movement_component.velocity_calculated.connect(_update_direction)
 
 	# add the timer as a child of this component in order to use it
