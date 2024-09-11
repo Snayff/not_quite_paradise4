@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://rf7q3r0jhupi"]
+[gd_scene load_steps=12 format=4 uid="uid://rf7q3r0jhupi"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_e5ypc"]
 [ext_resource type="Texture2D" uid="uid://csx5xkiiijtyh" path="res://assets/tiles/lava_caves/LB-Lava-Lake-Main.png" id="1_ml8d5"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://cta4xur1b7ano" path="res://scenes/combat_actors/wolf_rider.tscn" id="5_gequ5"]
 [ext_resource type="PackedScene" uid="uid://bkqc7x4yp0pn2" path="res://scenes/combat_actors/horsey_rider.tscn" id="6_d7rtk"]
 [ext_resource type="PackedScene" uid="uid://bl26wjavwal5j" path="res://scenes/ui/stat_panel.tscn" id="6_pp6hl"]
+[ext_resource type="PackedScene" uid="uid://b3nadhopbya02" path="res://scenes/effect_delivery/mine.tscn" id="7_05kh2"]
+[ext_resource type="Texture2D" uid="uid://sndx4f18hm41" path="res://assets/projectiles/fireball.png" id="8_kvhnf"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8pgda"]
 texture = ExtResource("1_ml8d5")
@@ -49,6 +51,18 @@ texture = ExtResource("1_ml8d5")
 
 [sub_resource type="TileSet" id="TileSet_elap2"]
 sources/0 = SubResource("TileSetAtlasSource_8pgda")
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fjcca"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_kvhnf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_e5ypc")
@@ -120,3 +134,7 @@ custom_integrator = false
 contact_monitor = false
 max_contacts_reported = 0
 linear_damp = 999999.0
+
+[node name="Mine" parent="." instance=ExtResource("7_05kh2")]
+position = Vector2(74, 52)
+sprite_frames = SubResource("SpriteFrames_fjcca")

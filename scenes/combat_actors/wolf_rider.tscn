@@ -45,28 +45,28 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_3e800"]
 radius = 7.0
 
-[sub_resource type="Resource" id="Resource_c051k"]
+[sub_resource type="Resource" id="Resource_ccm7v"]
 resource_local_to_scene = true
 resource_name = "Strength"
 script = ExtResource("9_nf076")
 type = 0
 base_value = 10.0
 
-[sub_resource type="Resource" id="Resource_bo738"]
+[sub_resource type="Resource" id="Resource_jvg6x"]
 resource_local_to_scene = true
 resource_name = "Defence"
 script = ExtResource("9_nf076")
 type = 1
 base_value = 5.0
 
-[sub_resource type="Resource" id="Resource_77y4s"]
+[sub_resource type="Resource" id="Resource_7i4v5"]
 resource_local_to_scene = true
 resource_name = "Move Speed"
 script = ExtResource("9_nf076")
 type = 2
 base_value = 5.0
 
-[sub_resource type="Resource" id="Resource_cbp4c"]
+[sub_resource type="Resource" id="Resource_50ehq"]
 resource_local_to_scene = true
 resource_name = "Health"
 script = ExtResource("9_r5a4j")
@@ -74,7 +74,7 @@ type = 0
 max_value = 999
 regeneration_per_second = 0.0
 
-[sub_resource type="Resource" id="Resource_e7uei"]
+[sub_resource type="Resource" id="Resource_h6njx"]
 resource_local_to_scene = true
 resource_name = "Stamina"
 script = ExtResource("9_r5a4j")
@@ -99,10 +99,10 @@ visible = false
 shape = SubResource("CircleShape2D_3e800")
 
 [node name="StatsContainer" parent="." index="11"]
-_editor_stats = Array[ExtResource("9_nf076")]([SubResource("Resource_c051k"), SubResource("Resource_bo738"), SubResource("Resource_77y4s")])
+_editor_stats = Array[ExtResource("9_nf076")]([SubResource("Resource_ccm7v"), SubResource("Resource_jvg6x"), SubResource("Resource_7i4v5")])
 
 [node name="SupplyContainer" parent="." index="13"]
-_editor_supplies = Array[ExtResource("9_r5a4j")]([SubResource("Resource_cbp4c"), SubResource("Resource_e7uei")])
+_editor_supplies = Array[ExtResource("9_r5a4j")]([SubResource("Resource_50ehq"), SubResource("Resource_h6njx")])
 
 [node name="CirclingStars" parent="CombatActiveContainer" index="0" instance=ExtResource("7_47lvt")]
 cast_type = 0

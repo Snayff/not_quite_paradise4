@@ -1,6 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://b3nadhopbya02"]
+[gd_scene load_steps=7 format=3 uid="uid://b3nadhopbya02"]
 
 [ext_resource type="Script" path="res://scripts/components/functionals/proximity_alert.gd" id="1_e1nff"]
+[ext_resource type="Script" path="res://scripts/components/functionals/trigger.gd" id="2_oxerv"]
+[ext_resource type="Script" path="res://scripts/components/functionals/spawner.gd" id="3_ggaay"]
+[ext_resource type="PackedScene" uid="uid://cjod122hpha51" path="res://scenes/effect_delivery/aoe_explosion.tscn" id="4_pmkyy"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_sgabb"]
 resource_local_to_scene = true
@@ -13,6 +16,19 @@ sprite_frames = SubResource("SpriteFrames_sgabb")
 [node name="ProximityAlert" type="Area2D" parent="."]
 monitorable = false
 script = ExtResource("1_e1nff")
+_team = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ProximityAlert"]
 shape = SubResource("CircleShape2D_cnj8q")
+
+[node name="SpawnerComponent" type="Node2D" parent="."]
+script = ExtResource("3_ggaay")
+scene = ExtResource("4_pmkyy")
+
+[node name="ProximityTriggerSpawn" type="Node" parent="." node_paths=PackedStringArray("_object_with_signal", "_object_to_trigger")]
+script = ExtResource("2_oxerv")
+_object_with_signal = NodePath("../ProximityAlert")
+_signal_name = "valid_body_entered"
+_num_signal_args = 1
+_object_to_trigger = NodePath("../SpawnerComponent")
+_method_name_to_trigger = "spawn_scene"
