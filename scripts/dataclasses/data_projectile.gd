@@ -6,7 +6,7 @@ extends Resource
 
 
 #region EXPORTS
-@export_group("Details")
+@export_group("Base")
 ## the team that caused this projectile to be created.
 @export var team: Constants.TEAM
 ## who the projectile can hit
@@ -17,6 +17,9 @@ extends Resource
 @export var max_bodies_can_hit: int
 ## the animation for the projectile
 @export var sprite_frames: SpriteFrames
+@export_group("Throwable")
+## how far the projectile can travel
+@export var travel_range: float
 #endregion
 
 
@@ -30,9 +33,10 @@ extends Resource
 func define(
 	team_: Constants.TEAM,
 	valid_hit_option_: Constants.TARGET_OPTION,
+	sprite_frames_: SpriteFrames,
 	size_: float = -1,
 	max_bodies_can_hit_: int = 1,
-	sprite_frames_: SpriteFrames
+
 	) -> void:
 
 	team = team_
@@ -40,6 +44,13 @@ func define(
 	size = size_
 	max_bodies_can_hit = max_bodies_can_hit_
 	sprite_frames = sprite_frames_
+
+## definition of the [ProjectileThrowable] subclass
+func define_throwable(
+	travel_range_: float,
+	) -> void:
+
+	travel_range = travel_range_
 
 #endregion
 

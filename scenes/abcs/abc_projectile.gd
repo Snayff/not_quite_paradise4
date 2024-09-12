@@ -5,7 +5,8 @@ extends RigidBody2D
 
 
 #region SIGNALS
-
+## when the projectile hits _cleanup and self_terminates, for any reason
+signal died
 #endregion
 
 
@@ -32,6 +33,8 @@ var _target_actor: CombatActor
 var _has_run_ready: bool = false
 ## has signalled out the named signal. we only want to share it once.
 var _has_signalled_out_hit_valid_targets: bool = false
+## how many bodies hit so far. only tracks valid hits.
+var _num_bodies_hit: int = 0
 
 # projectile data
 ## the team that caused this projectile to be created.
@@ -40,7 +43,7 @@ var _team: Constants.TEAM
 var _valid_hit_option: Constants.TARGET_OPTION
 ## the animation for the projectile
 var _sprite_frames: SpriteFrames
-## the max number of bodies that can be hit
+## the max number of valid bodies that can be hit
 var _max_bodies_can_hit: int
 #endregion
 
@@ -60,7 +63,25 @@ func _ready() -> void:
 
 func setup(data: DataProjectile) -> void:
 	if not _has_run_ready:
-		push_error("AreaOfEffect: setup() called before _ready. ")
+		push_error("ABCProjectile: setup() called before _ready. ")
+
+	assert(
+		data.team is Constants.TEAM,
+		"ABCProjectile: `team` is missing."
+	)
+	assert(
+		data.valid_hit_option is Constants.TARGET_OPTION,
+		"ABCProjectile: `valid_hit_option` is missing."
+	)
+	assert(
+		data.max_bodies_can_hit is int and data.max_bodies_can_hit > 0,
+		"ABCProjectile: `max_bodies_can_hit` is missing or invalid."
+	)
+	assert(
+		data.sprite_frames is SpriteFrames,
+		"ABCProjectile: `sprite_frames` is missing."
+	)
+
 
 	_team = data.team
 	_valid_hit_option = data.valid_hit_option
@@ -81,8 +102,9 @@ func _on_hit(hurtbox: HurtboxComponent) -> void:
 		"ABCProjectile: `_on_hit` called directly, but is virtual. Must be overriden by child."
 	)
 
-## queue_free
-func _cleanup() -> void:
+## self-terminate. inform of death via died signal.
+func _terminate() -> void:
+	died.emit()
 	queue_free()
 
 ######################
