@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cqi7b1uis5b7k"]
+[gd_scene load_steps=12 format=3 uid="uid://cqi7b1uis5b7k"]
 
 [ext_resource type="PackedScene" uid="uid://baut7l07kp2rc" path="res://scenes/abcs/abc_projectile.tscn" id="1_1rweh"]
 [ext_resource type="Script" path="res://scenes/templates/projectile_throwable.gd" id="2_bbj4i"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://scripts/components/functionals/supply.gd" id="5_l37ln"]
 [ext_resource type="Script" path="res://scripts/components/functionals/death_trigger.gd" id="5_oufxx"]
 [ext_resource type="Script" path="res://scripts/components/functionals/physics_movement.gd" id="7_v8jiw"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_q1xa1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w41mh"]
 resource_local_to_scene = true
@@ -22,6 +24,7 @@ max_value = 999
 regeneration_per_second = 0.0
 
 [node name="ProjectileThrowable" instance=ExtResource("1_1rweh")]
+physics_material_override = SubResource("PhysicsMaterial_q1xa1")
 script = ExtResource("2_bbj4i")
 
 [node name="CollisionShape2D" parent="." index="0"]

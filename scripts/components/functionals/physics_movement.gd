@@ -7,8 +7,9 @@ extends Node
 const WALK_ACCEL = 1000.0
 const WALK_DEACCEL = 1000.0
 const WALK_MAX_VELOCITY = 200.0
-const MOVE_SPEED = 10.0  # FIXME: at low speeds the projectile keeps missing the target, even when still
-
+const MOVE_SPEED = 50.0  # FIXME: at low speeds the projectile keeps missing the target, even when still
+const ACCEL = 50.0
+const DECCEL = 100.0
 
 #region SIGNALS
 
@@ -35,11 +36,87 @@ var _is_facing_left: bool = false
 var _target_actor: CombatActor
 var _current_target_pos: Vector2 = Vector2.ZERO
 var _is_following_target_actor: bool = false
+
 #endregion
 
 
 #region FUNCS
+
+
+## update the physics state's velocity
+func pp(delta: float) -> void:
+	## calc direction to target
+	if _target_actor is CombatActor or _current_target_pos != Vector2.ZERO:
+
+		# get or update target position
+		if _is_following_target_actor or _current_target_pos == Vector2.ZERO:
+			_current_target_pos = _target_actor.global_position
+
+	var velocity = _root.linear_velocity
+	var movement = _root.global_position.direction_to(_current_target_pos)
+
+	# if already at max speed, slow down
+	var slow_down_force: Vector2 = Vector2.ZERO
+	if absf(velocity.x) > MOVE_SPEED:
+		if velocity.x > 0:
+			slow_down_force.x -= DECCEL
+		else:
+			slow_down_force.x += DECCEL
+
+	if absf(velocity.y) > MOVE_SPEED:
+		if velocity.y > 0:
+			slow_down_force.y -= DECCEL
+		else:
+			slow_down_force.y += DECCEL
+
+	# apply slowdown, if needed
+	if !slow_down_force.is_zero_approx():
+		_root.apply_impulse(slow_down_force * delta, _root.global_position)
+
+	# move towards target
+	_root.apply_impulse(movement * ACCEL * delta, _root.global_position)
+
+
+
+
+#
+#
+#
+#
+	## not moving, deccelerate
+	##if movement.is_zero_approx():
+		##movement * (delta * DECCEL)
+	##else:
+		##movement * (delta * ACCEL)
+#
+	## right
+	#if movement.x > 0:
+		#velocity.x += movement.x
+#
+	## left
+	#elif  movement.x < 0:
+		#velocity.x -= absf(movement.x)
+#
+	## up
+	#if movement.y < 0:
+		#velocity.y -= absf(movement.y)
+	#elif movement.y > 0:
+		#velocity.y += movement.y
+#
+	#print("vel:", velocity)
+	#velocity.x = clampf(velocity.x, -MOVE_SPEED, MOVE_SPEED)
+	#velocity.y = clampf(velocity.y, -MOVE_SPEED, MOVE_SPEED)
+	#print("post clamp vel:", velocity)
+#
+	##print("movement: ", movement, " | vel: ", velocity)
+	##breakpoint
+	##HyperLog.sketch_arrow(_root.global_position, movement, 0, Color.GREEN)
+	HyperLog.sketch_arrow(_root.global_position, velocity, 0, Color.RED)
+	#_root.apply_impulse(velocity, _root.global_position)
+	#_root.apply_impulse(_root.global_position.direction_to(_current_target_pos) * MOVE_SPEED * delta, _root.global_position)
+
 func calc_movement(state: PhysicsDirectBodyState2D) -> void:
+
 	var velocity: Vector2 = state.get_linear_velocity()
 	var step: float = state.get_step()
 
@@ -56,10 +133,24 @@ func calc_movement(state: PhysicsDirectBodyState2D) -> void:
 
 		# update velocity
 		# FIXME: this always pulls to bottom right
+		print("root pos: ", _root.global_position, " | target: ", _current_target_pos)
 		var movement: Vector2 = _root.global_position.direction_to(
 			_target_actor.global_position
 			) * MOVE_SPEED
-		velocity = _root.global_position.lerp(_root.global_position + movement, step * WALK_ACCEL)
+
+		velocity = _get_velocity(
+			velocity,
+			step,
+			movement.x > 0,
+			movement.x < 0,
+			movement.y < 0,
+			movement.y > 0,
+		)
+
+		#velocity = _root.global_position.lerp(_root.global_position + movement, step * WALK_ACCEL)
+		print("movement: ", movement, " | velocity: ", velocity)
+		HyperLog.sketch_arrow(_root.global_position, movement, 0, Color.GREEN)
+		HyperLog.sketch_arrow(_root.global_position, velocity, 0, Color.RED)
 
 	# TODO: only amend facing if we intend to move in a direction. e.g. dont face direction
 	#	because knocked back in that direction.
@@ -80,7 +171,10 @@ func _apply_input_movement_velocity(velocity: Vector2, delta: float) -> Vector2:
 	var move_up := Input.is_action_pressed(&"move_up")
 	var move_down := Input.is_action_pressed(&"move_down")
 
-	# Process logic when character is on floor.
+	return _get_velocity(velocity, delta, move_left, move_right, move_up, move_down)
+
+func _get_velocity(velocity: Vector2, delta: float, move_left: bool, move_right: bool, move_up: bool, move_down: bool) -> Vector2:
+
 	if move_left and not move_right:
 		if velocity.x > -WALK_MAX_VELOCITY:
 			velocity.x -= WALK_ACCEL * delta
@@ -136,8 +230,8 @@ func _amend_facing(velocity: Vector2, move_left: bool, move_right: bool) -> void
 				_main_sprite.position.x = _main_sprite.position.x * -1
 
 	_is_facing_left = new_facing_left
-
-
-
-
-#endregion
+#
+#
+#
+#
+##endregion

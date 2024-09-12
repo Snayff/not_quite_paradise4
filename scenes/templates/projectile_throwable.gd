@@ -73,7 +73,10 @@ func activate() -> void:
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	assert(_movement_component is PhysicsMovementComponent)
-	_movement_component.calc_movement(state)
+	#_movement_component.calc_movement(state)
+
+func _physics_process(delta: float) -> void:
+	_movement_component.pp(delta)
 
 func _on_hit(hurtbox: HurtboxComponent) -> void:
 	if !Utility.target_is_valid(_valid_hit_option, _hitbox.originator, hurtbox.root, _target_actor):
