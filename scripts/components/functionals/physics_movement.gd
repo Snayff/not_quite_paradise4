@@ -55,6 +55,7 @@ func calc_movement(state: PhysicsDirectBodyState2D) -> void:
 			_current_target_pos = _target_actor.global_position
 
 		# update velocity
+		# FIXME: this always pulls to bottom right
 		var movement: Vector2 = _root.global_position.direction_to(
 			_target_actor.global_position
 			) * MOVE_SPEED

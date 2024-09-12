@@ -1,6 +1,6 @@
 ## A projectile that moves, expires on reaching end of travel range,
 ## triggers effects on hit and on death
-@icon("res://assets/node_icons/projectile.png")
+@icon("res://assets/node_icons/projectile_throwable.png")
 class_name ProjectileThrowable
 extends ABCProjectile
 
