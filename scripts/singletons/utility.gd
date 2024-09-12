@@ -132,6 +132,9 @@ func _get_percentage_decrease(new_value: float, old_value: float) -> float:
 
 ## load a [SpriteFrames] from disk
 func get_sprite_frame(sprite_frame_name: String) -> SpriteFrames:
-	return load(Constants.PATH_SPRITE_FRAMES.path_join(sprite_frame_name))
+	var sprite_frames: SpriteFrames = load(Constants.PATH_SPRITE_FRAMES.path_join(sprite_frame_name))
+	if sprite_frames is not SpriteFrames:
+		push_error("Utility: sprite_frames (", sprite_frame_name, ") not found.")
+	return sprite_frames
 
 #endregion

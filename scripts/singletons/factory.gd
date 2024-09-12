@@ -26,7 +26,7 @@ func create_projectile(projectile_name: String, team: Constants.TEAM) -> ABCProj
 
 	# get specific subclass
 	var projectile: ABCProjectile
-	match data_class["subclass"]:
+	match dict_data["subclass"]:
 		"throwable":
 			# finish setting up data class
 			data_class.define_throwable(
@@ -36,7 +36,9 @@ func create_projectile(projectile_name: String, team: Constants.TEAM) -> ABCProj
 
 			# create and setup instance
 			projectile = _PROJECTILE_THROWABLE.instantiate() as ProjectileThrowable
-			projectile.setup(data_class)
+			projectile.ready.connect(projectile.setup.bind(data_class), ConnectFlags.CONNECT_ONE_SHOT)
+			# TODO: find a better way to do this. Perhaps a top level projectiles node?
+			get_tree().get_root().add_child(projectile)
 
 		_:
 			push_error("Factory: projectile subclass unknown.")

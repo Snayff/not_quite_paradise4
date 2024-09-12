@@ -16,6 +16,7 @@ script = ExtResource("1_bxxyy")
 shape = SubResource("CircleShape2D_0j716")
 
 [node name="HitboxComponent" type="Area2D" parent="."]
+monitorable = false
 script = ExtResource("2_v8dwh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]

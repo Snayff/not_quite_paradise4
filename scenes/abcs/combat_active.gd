@@ -143,7 +143,10 @@ func cast()-> void:
 
 	if _delivery_method == Constants.EFFECT_DELIVERY_METHOD.projectile:
 		if _cast_position is Marker2D:
-			_create_projectile()
+			# _create_projectile()
+			var projectile: ProjectileThrowable = _create_projectile_new()
+			projectile.set_target_actor(target_actor)
+			projectile.activate()
 			_restart_cooldown()
 		else:
 			push_error("CombatActive: `_cast_position` not defined.")
@@ -179,6 +182,12 @@ func _create_projectile() -> VisualProjectile:
 	projectile.setup(_travel_range, _allegiance.team, _valid_effect_option, target_actor, target_position)
 	projectile.hit_valid_target.connect(_effect_chain.on_hit)
 
+	return projectile
+
+func _create_projectile_new() -> ABCProjectile:
+	var projectile: ABCProjectile = Factory.create_projectile("fireball", _allegiance.team)
+	projectile.hit_valid_target.connect(_effect_chain.on_hit)
+	projectile.global_position = _cast_position.global_position
 	return projectile
 
 ## creates an orbital projectile in the _orbiter component.

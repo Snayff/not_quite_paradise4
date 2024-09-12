@@ -11,7 +11,7 @@ signal died
 
 
 #region ON READY (for direct children only)
-@onready var _hitbox: HitboxComponent = %HitboxComponent
+@onready var _hitbox: HitboxComponent = $HitboxComponent
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 
@@ -41,8 +41,6 @@ var _num_bodies_hit: int = 0
 var _team: Constants.TEAM
 ## who the projectile can hit
 var _valid_hit_option: Constants.TARGET_OPTION
-## the animation for the projectile
-var _sprite_frames: SpriteFrames
 ## the max number of valid bodies that can be hit
 var _max_bodies_can_hit: int
 #endregion
@@ -62,6 +60,7 @@ func _ready() -> void:
 	_has_run_ready = true
 
 func setup(data: DataProjectile) -> void:
+	print("proj setup")
 	if not _has_run_ready:
 		push_error("ABCProjectile: setup() called before _ready. ")
 
@@ -97,6 +96,7 @@ func setup(data: DataProjectile) -> void:
 ## on hit functionality
 ##
 ## @virtual
+@warning_ignore("unused_parameter")  # virtual, so obv not used
 func _on_hit(hurtbox: HurtboxComponent) -> void:
 	push_error(
 		"ABCProjectile: `_on_hit` called directly, but is virtual. Must be overriden by child."

@@ -57,8 +57,15 @@ func setup(data: DataProjectile) -> void:
 	_set_travel_range(data.travel_range)
 
 func activate() -> void:
+	assert(
+		_target_actor is CombatActor,
+		"ProjectileThrowable: `_target_actor` is missing. Did you call `set_target_actor`
+		before activate? "
+	)
+
 	_set_collision_disabled(false)
 	_set_hitbox_disabled(false)
+	_sprite.play()
 
 func _on_hit(hurtbox: HurtboxComponent) -> void:
 	if !Utility.target_is_valid(_valid_hit_option, _hitbox.originator, hurtbox.root, _target_actor):
@@ -81,11 +88,11 @@ func _on_hit(hurtbox: HurtboxComponent) -> void:
 		_death_trigger.activate()
 
 ## update the stamina value of the supply container and the associated max range
-func _set_travel_range(travel_range: float) -> void:
+func _set_travel_range(travel_range_: float) -> void:
 	@warning_ignore("narrowing_conversion")  # happy with reduced precision
-	_supply_container.get_supply(Constants.SUPPLY_TYPE.stamina).set_value(travel_range)
+	_supply_container.get_supply(Constants.SUPPLY_TYPE.stamina).set_value(travel_range_)
 	@warning_ignore("narrowing_conversion")  # happy with reduced precision
-	_supply_container.get_supply(Constants.SUPPLY_TYPE.stamina).max_value = travel_range
+	_supply_container.get_supply(Constants.SUPPLY_TYPE.stamina).max_value = travel_range_
 
 
 
