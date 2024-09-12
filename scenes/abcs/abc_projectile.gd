@@ -149,8 +149,7 @@ func _resize(size: float) -> void:
 
 ## updates all collisions to reflect current target, team etc.
 func _update_collisions() -> void:
-	Utility.update_body_collisions(self, _team, _valid_hit_option, _target_actor)
-	# TODO: need to remove self from layer, so dont collide with other bodies in same team
-	Utility.update_hitbox_hurtbox_collision(_hitbox, _team, _valid_hit_option, _target_actor)
+	Utility.update_body_collisions(self, _team, _valid_hit_option, _target_actor, false)
+	Utility.update_hitbox_hurtbox_collision(_hitbox, _team, _valid_hit_option, _target_actor, false)
 
 	#endregion

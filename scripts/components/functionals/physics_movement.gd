@@ -7,7 +7,7 @@ extends Node
 const WALK_ACCEL = 1000.0
 const WALK_DEACCEL = 1000.0
 const WALK_MAX_VELOCITY = 200.0
-const MOVE_SPEED = 10.0
+const MOVE_SPEED = 10.0  # FIXME: at low speeds the projectile keeps missing the target, even when still
 
 
 #region SIGNALS
