@@ -1,11 +1,28 @@
 ## constants used across the project.
 ##
-## where an instance may exist with a similar name, e.g. STAT, we append "_TYPE" or similar to the constant's name, to help differentiation.
+## where an instance may exist with a similar name, e.g. STAT,
+## we append "_TYPE" or similar to the constant's name, to help differentiation.
 extends Node
+
+########################
+####### PATHS #########
+######################
+
+const PATH_SPRITE_FRAMES: String = "res://data/sprite_frames/"
+
+#########################
+####### COMBAT #########
+######################
 
 const FRICTION: float = 10.3 ## the reduction in force applied to a physics object when new force not being applied
 const AURA_TICK_RATE: float = 0.33  ## the standard amount for how long an [Aura] waits before looping.
 const GLOBAL_CAST_DELAY: float = 0.33  ## min time to wait between combat active casts
+
+
+
+########################
+####### ENUMS #########
+######################
 
 ## the team the entity is on
 enum TEAM {

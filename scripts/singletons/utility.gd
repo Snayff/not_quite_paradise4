@@ -130,4 +130,8 @@ func _get_percentage_increase(new_value: float, old_value: float) -> float:
 func _get_percentage_decrease(new_value: float, old_value: float) -> float:
 	return 1 - ((old_value - new_value) / old_value)
 
+## load a [SpriteFrames] from disk
+func get_sprite_frame(sprite_frame_name: String) -> SpriteFrames:
+	return load(Constants.PATH_SPRITE_FRAMES.path_join(sprite_frame_name))
+
 #endregion

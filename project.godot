@@ -19,6 +19,8 @@ config/icon="res://icon.svg"
 
 Constants="*res://scripts/singletons/constants.gd"
 Utility="*res://scripts/singletons/utility.gd"
+Library="*res://scripts/singletons/library.gd"
+Factory="*res://scripts/singletons/factory.gd"
 
 [display]
 

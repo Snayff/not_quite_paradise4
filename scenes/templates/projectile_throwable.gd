@@ -32,9 +32,12 @@ signal hit_valid_target(hurtbox: HurtboxComponent)
 #region VARS
 ## the amount of stamina we can drain before expiry
 var travel_range: float
+## how fast we travel
+var move_speed: float
 
 #endregion
 
+# TODO: need to spend down stamina on movement
 
 #region FUNCS
 func _ready() -> void:
@@ -52,6 +55,10 @@ func setup(data: DataProjectile) -> void:
 	super.setup(data)
 
 	_set_travel_range(data.travel_range)
+
+func activate() -> void:
+	_set_collision_disabled(false)
+	_set_hitbox_disabled(false)
 
 func _on_hit(hurtbox: HurtboxComponent) -> void:
 	if !Utility.target_is_valid(_valid_hit_option, _hitbox.originator, hurtbox.root, _target_actor):
@@ -72,12 +79,6 @@ func _on_hit(hurtbox: HurtboxComponent) -> void:
 		_set_collision_disabled(true)
 		_terminate()
 		_death_trigger.activate()
-
-
-
-func activate() -> void:
-	_set_collision_disabled(false)
-	_set_hitbox_disabled(false)
 
 ## update the stamina value of the supply container and the associated max range
 func _set_travel_range(travel_range: float) -> void:

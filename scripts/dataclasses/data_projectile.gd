@@ -20,6 +20,8 @@ extends Resource
 @export_group("Throwable")
 ## how far the projectile can travel
 @export var travel_range: float
+## how fast we travel
+var move_speed: float
 #endregion
 
 
@@ -48,9 +50,11 @@ func define(
 ## definition of the [ProjectileThrowable] subclass
 func define_throwable(
 	travel_range_: float,
+	move_speed_: float
 	) -> void:
 
 	travel_range = travel_range_
+	move_speed = move_speed_
 
 #endregion
 
