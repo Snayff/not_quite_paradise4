@@ -31,9 +31,11 @@ signal hit_valid_target(hurtbox: HurtboxComponent)
 
 #region VARS
 ## the amount of stamina we can drain before expiry
-var travel_range: float
+var _travel_range: float
 ## how fast we travel
-var move_speed: float
+var _move_speed: float
+## whether we track targets movement and follow, or not
+var _is_homing: bool
 
 #endregion
 
@@ -49,12 +51,14 @@ func _ready() -> void:
 func setup(data: DataProjectile) -> void:
 	assert(
 		data.travel_range is float,
-		"ProjectileThrowable: `travel_range` is missing."
+		"ProjectileThrowable: `_travel_range` is missing."
 	)
 
 	super.setup(data)
 
 	_set_travel_range(data.travel_range)
+	_move_speed = data.move_speed
+	_is_homing = data.is_homing
 
 func activate() -> void:
 	assert(
@@ -66,6 +70,10 @@ func activate() -> void:
 	_set_collision_disabled(false)
 	_set_hitbox_disabled(false)
 	_sprite.play()
+
+func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
+	assert(_movement_component is PhysicsMovementComponent)
+	_movement_component.calc_movement(state)
 
 func _on_hit(hurtbox: HurtboxComponent) -> void:
 	if !Utility.target_is_valid(_valid_hit_option, _hitbox.originator, hurtbox.root, _target_actor):
@@ -94,7 +102,9 @@ func _set_travel_range(travel_range_: float) -> void:
 	@warning_ignore("narrowing_conversion")  # happy with reduced precision
 	_supply_container.get_supply(Constants.SUPPLY_TYPE.stamina).max_value = travel_range_
 
-
+func set_target_actor(actor: CombatActor) -> void:
+	super.set_target_actor(actor)
+	_movement_component.set_target_actor(actor, _is_homing)
 
 
 #endregion

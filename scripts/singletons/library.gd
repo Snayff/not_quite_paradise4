@@ -12,6 +12,7 @@ var _data: Dictionary  = {
 			"max_bodies_can_hit": 1,
 			"travel_range": 100.0,
 			"move_speed": 50.0,
+			"is_homing": false
 		}
 	}
 }

@@ -22,6 +22,8 @@ extends Resource
 @export var travel_range: float
 ## how fast we travel
 var move_speed: float
+## whether we track targets movement and follow, or not
+var is_homing: bool
 #endregion
 
 
@@ -50,11 +52,13 @@ func define(
 ## definition of the [ProjectileThrowable] subclass
 func define_throwable(
 	travel_range_: float,
-	move_speed_: float
+	move_speed_: float,
+	is_homing_: bool,
 	) -> void:
 
 	travel_range = travel_range_
 	move_speed = move_speed_
+	is_homing = is_homing_
 
 #endregion
 

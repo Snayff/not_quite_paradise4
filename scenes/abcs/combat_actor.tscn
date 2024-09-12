@@ -134,9 +134,10 @@ script = ExtResource("9_xcpun")
 _root = NodePath("..")
 _font = ExtResource("10_nqnyt")
 
-[node name="PhysicsMovement" type="Node" parent="." node_paths=PackedStringArray("_main_sprite")]
+[node name="PhysicsMovement" type="Node" parent="." node_paths=PackedStringArray("_root", "_main_sprite")]
 unique_name_in_owner = true
 script = ExtResource("12_73flk")
+_root = NodePath("..")
 _main_sprite = NodePath("../AnimatedSprite2D")
 
 [node name="StatsContainer" type="Node" parent="."]

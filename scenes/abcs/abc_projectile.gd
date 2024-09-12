@@ -60,7 +60,6 @@ func _ready() -> void:
 	_has_run_ready = true
 
 func setup(data: DataProjectile) -> void:
-	print("proj setup")
 	if not _has_run_ready:
 		push_error("ABCProjectile: setup() called before _ready. ")
 
@@ -151,6 +150,7 @@ func _resize(size: float) -> void:
 ## updates all collisions to reflect current target, team etc.
 func _update_collisions() -> void:
 	Utility.update_body_collisions(self, _team, _valid_hit_option, _target_actor)
+	# TODO: need to remove self from layer, so dont collide with other bodies in same team
 	Utility.update_hitbox_hurtbox_collision(_hitbox, _team, _valid_hit_option, _target_actor)
 
 	#endregion

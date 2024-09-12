@@ -10,6 +10,7 @@ resource_local_to_scene = true
 resource_local_to_scene = true
 
 [node name="Projectile" type="RigidBody2D"]
+can_sleep = false
 script = ExtResource("1_bxxyy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

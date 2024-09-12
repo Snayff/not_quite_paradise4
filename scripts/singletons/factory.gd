@@ -31,7 +31,8 @@ func create_projectile(projectile_name: String, team: Constants.TEAM) -> ABCProj
 			# finish setting up data class
 			data_class.define_throwable(
 				dict_data["travel_range"],
-				dict_data["move_speed"]
+				dict_data["move_speed"],
+				dict_data["is_homing"]
 			)
 
 			# create and setup instance
