@@ -109,4 +109,10 @@ func _check_frame_and_conditionally_enable() -> void:
 		_set_collision_disabled(true)
 		_has_signalled_out_hit_valid_targets = true
 
+## turns off body coliisions and updates hitbox collisions to align to team etc.
+func _update_collisions() -> void:
+	# NOTE: if body collision layer is on then the aoe is pushed to the outer edge of the collision
+	Utility.update_body_collisions(self, _team, _valid_hit_option, _target_actor, false, false)
+	Utility.update_hitbox_hurtbox_collision(_hitbox, _team, _valid_hit_option, _target_actor, false)
+
 #endregion

@@ -19,7 +19,8 @@ signal max_value_changed() ## the resource's max value has changed
 		max_value = clamp(value, 1, INF)
 		if max_value < value:
 			set_value(max_value)
-		value_changed.emit()
+			value_changed.emit()
+		max_value_changed.emit()
 @export var regeneration_per_second: float = 0
 #endregion
 

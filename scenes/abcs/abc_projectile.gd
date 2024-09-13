@@ -32,6 +32,7 @@ var _target_actor: CombatActor
 ## has completed _ready()
 var _has_run_ready: bool = false
 ## how many bodies hit so far. only tracks valid hits.
+@warning_ignore("unused_private_class_variable")  # used by subclasses
 var _num_bodies_hit: int = 0
 
 # projectile data
@@ -164,7 +165,7 @@ func _resize(size: float) -> void:
 
 	scale = Vector2(ratio, ratio)
 
-## updates all collisions to reflect current target, team etc.
+## turns off body coliisions layer and updates body mask and hitbox collisions to align to team etc.
 func _update_collisions() -> void:
 	Utility.update_body_collisions(self, _team, _valid_hit_option, _target_actor, false)
 	Utility.update_hitbox_hurtbox_collision(_hitbox, _team, _valid_hit_option, _target_actor, false)

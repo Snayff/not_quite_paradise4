@@ -185,6 +185,7 @@ func _create_projectile() -> VisualProjectile:
 	return projectile
 
 func _create_projectile_new() -> ProjectileThrowable:
+	# TODO: active needs to specify projectile name
 	var projectile: ProjectileThrowable = Factory.create_projectile(
 		"fireball",
 		 _allegiance.team,
