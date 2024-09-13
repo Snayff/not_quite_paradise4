@@ -220,10 +220,27 @@ func _create_melee() -> AreaOfEffect:
 
 	return aoe
 
+
+
+func _create_aura() -> ProjectileAura:
+	var target_: CombatActor
+	if _valid_target_option == Constants.TARGET_OPTION.self_:
+		target_ = _caster
+	else:
+		target_ = target_actor
+
+	var projectile: ProjectileAura = Factory.create_projectile(
+		"icy_wind",
+		_allegiance.team,
+		target_.global_position,
+		_effect_chain.on_hit_multiple
+	)
+	return projectile
+
 ## create an [Aura] at the either the caster's or target's position, based on [_valid_target_option], with the Aura targeting the same.
 ##
 ## if _valid_target_option == TARGET_OPTION.self then targets self, otherwise targets [target_actor]
-func _create_aura() -> Aura:
+func _create_aura_old() -> Aura:
 	# NOTE: because we dont keep track of auras created we cant clear them on demand.
 	var target_: CombatActor
 	if _valid_target_option == Constants.TARGET_OPTION.self_:

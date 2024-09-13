@@ -38,7 +38,13 @@ extends Resource
 
 @export_group("AoE")
 ## the animation frame on which to look for hits
-@export var application_frame: int
+@export var aoe_application_frame: int
+
+@export_group("Aura")
+## how long the aura lasts before expiring.
+@export var lifetime: float
+## the animation frame on which to look for hits
+@export var aura_application_frame: int
 
 #endregion
 
@@ -84,8 +90,13 @@ func define_throwable(
 	lock_rotation = lock_rotation_
 
 ## definition of the [ProjectileAreaofEffect] subclass. call after define.
-func define_aoe(application_frame_: int) -> void:
-	application_frame = application_frame_
+func define_aoe(application_frame: int) -> void:
+	aoe_application_frame = application_frame
+
+## definition of the [ProjectileAura] subclass. call after define.
+func define_aura(application_frame: int, lifetime_: float) -> void:
+	aura_application_frame = application_frame
+	lifetime = lifetime_
 
 #endregion
 

@@ -52,6 +52,7 @@ func _ready() -> void:
 	# link hitbox signal to our on_hit
 	_hitbox.hit_hurtbox.connect(_on_hit)
 
+## process setup. does NOT automatically trigger activate.
 func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
 	assert(
 		data.travel_range is float,

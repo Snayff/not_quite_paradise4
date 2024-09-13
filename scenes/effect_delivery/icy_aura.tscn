@@ -1,37 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://emj3hqywkf3u"]
+[gd_scene load_steps=4 format=3 uid="uid://emj3hqywkf3u"]
 
-[ext_resource type="Texture2D" uid="uid://cwl2hnyyawgw4" path="res://assets/effects/frost_ring/FrostRing(Frame1).png" id="1_0xwyd"]
 [ext_resource type="PackedScene" uid="uid://cn52hgkon4ww" path="res://scenes/abcs/aura.tscn" id="1_x62kg"]
-[ext_resource type="Texture2D" uid="uid://cieefl6hakdk3" path="res://assets/effects/frost_ring/FrostRing(Frame2).png" id="2_svvaq"]
-[ext_resource type="Texture2D" uid="uid://b6ig7m73f4wq1" path="res://assets/effects/frost_ring/FrostRing(Frame3).png" id="3_ee6hg"]
-[ext_resource type="Texture2D" uid="uid://cpuc4gfdjcloq" path="res://assets/effects/frost_ring/FrostRing(Frame4).png" id="4_1f4iy"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_mdwds"]
-resource_local_to_scene = true
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_0xwyd")
-}, {
-"duration": 1.0,
-"texture": ExtResource("2_svvaq")
-}, {
-"duration": 1.0,
-"texture": ExtResource("3_ee6hg")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_1f4iy")
-}],
-"loop": true,
-"name": &"default",
-"speed": 8.0
-}]
+[ext_resource type="SpriteFrames" uid="uid://bfgjp3q2fqbdq" path="res://data/sprite_frames/icy_wind.tres" id="2_ragug"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pkrjs"]
 radius = 13.0
 
 [node name="IcyAura" instance=ExtResource("1_x62kg")]
-sprite_frames = SubResource("SpriteFrames_mdwds")
+sprite_frames = ExtResource("2_ragug")
 
 [node name="CollisionShape2D" parent="HitboxComponent" index="0"]
 shape = SubResource("CircleShape2D_pkrjs")

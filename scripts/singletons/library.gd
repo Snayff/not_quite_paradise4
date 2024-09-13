@@ -20,16 +20,28 @@ var _data: Dictionary  = {
 			"deceleration": 2000.0,
 			"lock_rotation": true,
 		},
-	"explosion": {
-		"subclass": "aoe",
-		# base attrs
-		"sprite_frames": "explosion.tres",
-		"valid_hit_option": Constants.TARGET_OPTION.enemy,
-		"size": 8,
-		"max_bodies_can_hit": -1,
-		# aoe attrs
-		"application_frame": 0
-	}
+		"explosion": {
+			"subclass": "aoe",
+			# base attrs
+			"sprite_frames": "explosion.tres",
+			"valid_hit_option": Constants.TARGET_OPTION.anyone,
+			"size": 8,
+			"max_bodies_can_hit": -1,
+			# aoe attrs
+			"application_frame": 0
+		},
+		"icy_wind": {
+			"subclass": "aura",
+			# base attrs
+			"sprite_frames": "icy_wind.tres",
+			"valid_hit_option": Constants.TARGET_OPTION.enemy,
+			"size": 320,
+			"max_bodies_can_hit": -1,
+			# aura attrs
+			"application_frame": 2,
+			"lifetime": 3.0,
+		},
+
 	}
 }
 

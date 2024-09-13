@@ -1,0 +1,27 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://bfgjp3q2fqbdq"]
+
+[ext_resource type="Texture2D" uid="uid://cwl2hnyyawgw4" path="res://assets/effects/frost_ring/FrostRing(Frame1).png" id="1_41u5s"]
+[ext_resource type="Texture2D" uid="uid://cieefl6hakdk3" path="res://assets/effects/frost_ring/FrostRing(Frame2).png" id="2_y6r1f"]
+[ext_resource type="Texture2D" uid="uid://b6ig7m73f4wq1" path="res://assets/effects/frost_ring/FrostRing(Frame3).png" id="3_kj63f"]
+[ext_resource type="Texture2D" uid="uid://cpuc4gfdjcloq" path="res://assets/effects/frost_ring/FrostRing(Frame4).png" id="4_k2rri"]
+
+[resource]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_41u5s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_y6r1f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_kj63f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_k2rri")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]

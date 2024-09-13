@@ -2,8 +2,15 @@
 extends Node
 
 # N.B. can't preload with variable, so all hardcoded
-const _PROJECTILE_THROWABLE: PackedScene = preload("res://scenes/templates/projectile_throwable.tscn")
-const _PROJECTILE_AOE: PackedScene = preload("res://scenes/templates/projectile_area_of_effect.tscn")
+const _PROJECTILE_THROWABLE: PackedScene = preload(
+	"res://scenes/templates/projectile_throwable.tscn"
+)
+const _PROJECTILE_AOE: PackedScene = preload(
+	"res://scenes/templates/projectile_area_of_effect.tscn"
+)
+const _PROJECTILE_AURA: PackedScene = preload(
+	"res://scenes/templates/projectile_aura.tscn"
+)
 
 
 #region VARS
@@ -57,7 +64,20 @@ func create_projectile(
 			projectile = _PROJECTILE_AOE.instantiate() as ProjectileAreaOfEffect
 
 			if on_hit_callable != null:
-				projectile.hit_valid_targets.connect(on_hit_callable)
+				projectile.hit_multiple_valid_targets.connect(on_hit_callable)
+
+		"aura":
+			data_class.define_aura(
+				dict_data["application_frame"],
+				dict_data["lifetime"]
+			)
+
+			projectile = _PROJECTILE_AURA.instantiate() as ProjectileAura
+
+			if on_hit_callable != null:
+				projectile.hit_multiple_valid_targets.connect(on_hit_callable)
+
+
 		_:
 			push_error("Factory: projectile subclass unknown.")
 
