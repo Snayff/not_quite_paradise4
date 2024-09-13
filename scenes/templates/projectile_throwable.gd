@@ -59,6 +59,9 @@ func setup(data: DataProjectile) -> void:
 	_set_travel_range(data.travel_range)
 	_move_speed = data.move_speed
 	_is_homing = data.is_homing
+	lock_rotation = data.lock_rotation
+
+	_movement_component.setup(data.max_speed, data.acceleration, data.deceleration)
 
 func activate() -> void:
 	assert(
@@ -71,12 +74,8 @@ func activate() -> void:
 	_set_hitbox_disabled(false)
 	_sprite.play()
 
-func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
-	assert(_movement_component is PhysicsMovementComponent)
-	#_movement_component.calc_movement(state)
-
 func _physics_process(delta: float) -> void:
-	_movement_component.pp(delta)
+	_movement_component.execute_physics(delta)
 
 func _on_hit(hurtbox: HurtboxComponent) -> void:
 	if !Utility.target_is_valid(_valid_hit_option, _hitbox.originator, hurtbox.root, _target_actor):
@@ -108,6 +107,5 @@ func _set_travel_range(travel_range_: float) -> void:
 func set_target_actor(actor: CombatActor) -> void:
 	super.set_target_actor(actor)
 	_movement_component.set_target_actor(actor, _is_homing)
-
 
 #endregion

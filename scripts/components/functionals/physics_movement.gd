@@ -3,13 +3,12 @@
 class_name PhysicsMovementComponent
 extends Node
 
+
 # TODO: move these to a stat sheet, as they vary by actor
 const WALK_ACCEL = 1000.0
 const WALK_DEACCEL = 1000.0
 const WALK_MAX_VELOCITY = 200.0
-const MOVE_SPEED = 50.0  # FIXME: at low speeds the projectile keeps missing the target, even when still
-const ACCEL = 50.0
-const DECCEL = 100.0
+
 
 #region SIGNALS
 
@@ -23,10 +22,12 @@ const DECCEL = 100.0
 
 #region EXPORTS
 @export_group("Component Links")
+## the body to apply forces to
 @export var _root: PhysicsBody2D
 ## the sprite we're going to flip the facing of, based on direction
-@export var _main_sprite: Node2D
+@export var _sprite: Node2D
 @export_group("Details")
+## divert logic to respond to controls rather than targeting
 @export var is_attached_to_player: bool = false
 #endregion
 
@@ -35,16 +36,36 @@ const DECCEL = 100.0
 var _is_facing_left: bool = false
 var _target_actor: CombatActor
 var _current_target_pos: Vector2 = Vector2.ZERO
+## whether to update _current_target_pos to targets current position
 var _is_following_target_actor: bool = false
-
+## max movement speed. with max_speed < accel < deccel we can get some random sidewinding movement,
+## but still hit target. with move_speed >= accel we move straight to target
+var _max_speed: float
+## how quickly we accelerate. uses delta, so will apply ~1/60th per frame to the velocity,
+## up to max_speed.
+var _acceleration: float
+## how quickly we decelerate. uses delta, so will apply ~1/60th per frame to the velocity.
+## applied when max_speed is hit. should be >= acceleration.
+var _deceleration: float
+## whether setup() has been called
+var _has_run_setup: bool = false
 #endregion
 
 
 #region FUNCS
+func setup(max_speed: float, acceleration: float, deceleration: float) -> void:
+	_max_speed = max_speed
+	_acceleration = acceleration
+	_deceleration = deceleration
 
+	_has_run_setup = true
 
-## update the physics state's velocity
-func pp(delta: float) -> void:
+# TODO: eventually, this should just be the _physics process, so that it doesnt need to be called.
+## update the physics state's velocity. won't run until setup() has been called.
+func execute_physics(delta: float) -> void:
+	if not _has_run_setup:
+		return
+
 	## calc direction to target
 	if _target_actor is CombatActor or _current_target_pos != Vector2.ZERO:
 
@@ -57,100 +78,33 @@ func pp(delta: float) -> void:
 
 	# if already at max speed, slow down
 	var slow_down_force: Vector2 = Vector2.ZERO
-	if absf(velocity.x) > MOVE_SPEED:
+	if absf(velocity.x) > _max_speed:
 		if velocity.x > 0:
-			slow_down_force.x -= DECCEL
+			slow_down_force.x -= _deceleration
 		else:
-			slow_down_force.x += DECCEL
+			slow_down_force.x += _deceleration
 
-	if absf(velocity.y) > MOVE_SPEED:
+	if absf(velocity.y) > _max_speed:
 		if velocity.y > 0:
-			slow_down_force.y -= DECCEL
+			slow_down_force.y -= _deceleration
 		else:
-			slow_down_force.y += DECCEL
+			slow_down_force.y += _deceleration
 
 	# apply slowdown, if needed
 	if !slow_down_force.is_zero_approx():
 		_root.apply_impulse(slow_down_force * delta, _root.global_position)
 
 	# move towards target
-	_root.apply_impulse(movement * ACCEL * delta, _root.global_position)
+	_root.apply_impulse(movement * _acceleration * delta, _root.global_position)
 
-
-
-
-#
-#
-#
-#
-	## not moving, deccelerate
-	##if movement.is_zero_approx():
-		##movement * (delta * DECCEL)
-	##else:
-		##movement * (delta * ACCEL)
-#
-	## right
-	#if movement.x > 0:
-		#velocity.x += movement.x
-#
-	## left
-	#elif  movement.x < 0:
-		#velocity.x -= absf(movement.x)
-#
-	## up
-	#if movement.y < 0:
-		#velocity.y -= absf(movement.y)
-	#elif movement.y > 0:
-		#velocity.y += movement.y
-#
-	#print("vel:", velocity)
-	#velocity.x = clampf(velocity.x, -MOVE_SPEED, MOVE_SPEED)
-	#velocity.y = clampf(velocity.y, -MOVE_SPEED, MOVE_SPEED)
-	#print("post clamp vel:", velocity)
-#
-	##print("movement: ", movement, " | vel: ", velocity)
-	##breakpoint
-	##HyperLog.sketch_arrow(_root.global_position, movement, 0, Color.GREEN)
-	HyperLog.sketch_arrow(_root.global_position, velocity, 0, Color.RED)
-	#_root.apply_impulse(velocity, _root.global_position)
-	#_root.apply_impulse(_root.global_position.direction_to(_current_target_pos) * MOVE_SPEED * delta, _root.global_position)
-
+# TODO: remove and fold into physics process/execute physics above, so projecitle and actor use same
 func calc_movement(state: PhysicsDirectBodyState2D) -> void:
-
 	var velocity: Vector2 = state.get_linear_velocity()
 	var step: float = state.get_step()
 
 	# get player input.
 	if is_attached_to_player:
 		velocity = _apply_input_movement_velocity(velocity, step)
-
-	# calc direction to target
-	elif _target_actor is CombatActor or _current_target_pos != Vector2.ZERO:
-
-		# get or update target position
-		if _is_following_target_actor or _current_target_pos == Vector2.ZERO:
-			_current_target_pos = _target_actor.global_position
-
-		# update velocity
-		# FIXME: this always pulls to bottom right
-		print("root pos: ", _root.global_position, " | target: ", _current_target_pos)
-		var movement: Vector2 = _root.global_position.direction_to(
-			_target_actor.global_position
-			) * MOVE_SPEED
-
-		velocity = _get_velocity(
-			velocity,
-			step,
-			movement.x > 0,
-			movement.x < 0,
-			movement.y < 0,
-			movement.y > 0,
-		)
-
-		#velocity = _root.global_position.lerp(_root.global_position + movement, step * WALK_ACCEL)
-		print("movement: ", movement, " | velocity: ", velocity)
-		HyperLog.sketch_arrow(_root.global_position, movement, 0, Color.GREEN)
-		HyperLog.sketch_arrow(_root.global_position, velocity, 0, Color.RED)
 
 	# TODO: only amend facing if we intend to move in a direction. e.g. dont face direction
 	#	because knocked back in that direction.
@@ -163,6 +117,39 @@ func calc_movement(state: PhysicsDirectBodyState2D) -> void:
 func set_target_actor(actor: CombatActor, is_following: bool) -> void:
 	_target_actor = actor
 	_is_following_target_actor = is_following
+
+## amend the attached sprites facing based on movement and velocity
+func _amend_facing(velocity: Vector2, move_left: bool, move_right: bool) -> void:
+	if !is_instance_valid(_sprite):
+		return
+
+	var new_facing_left: bool = _is_facing_left
+
+	# Check facing
+	if velocity.x < 0 and move_left:
+		new_facing_left = true
+	elif velocity.x > 0 and move_right:
+		new_facing_left = false
+
+	# Update facings
+	if new_facing_left != _is_facing_left:
+		if new_facing_left:
+			# some nodes just need the x axis flipping
+			_sprite.scale.x = -1
+
+			# but some nodes need their relative position flipping, too
+			if _sprite.position.x != 0:
+				_sprite.position.x = _sprite.position.x * -1
+		else:
+			_sprite.scale.x = 1
+
+			if _sprite.position.x != 0:
+				_sprite.position.x = _sprite.position.x * -1
+
+	_is_facing_left = new_facing_left
+
+# FIXME: The below is still used by player for movement. Can't get it to work for projectiles.
+# 		need to unify approach.
 
 ## amends given velocity by input and returns amended velocity
 func _apply_input_movement_velocity(velocity: Vector2, delta: float) -> Vector2:
@@ -204,34 +191,6 @@ func _get_velocity(velocity: Vector2, delta: float, move_left: bool, move_right:
 
 	return velocity
 
-## amend the attached sprites facing based on movement and velocity
-func _amend_facing(velocity: Vector2, move_left: bool, move_right: bool) -> void:
-	var new_facing_left := _is_facing_left
 
-	# Check facing
-	if velocity.x < 0 and move_left:
-		new_facing_left = true
-	elif velocity.x > 0 and move_right:
-		new_facing_left = false
 
-	# Update facings
-	if new_facing_left != _is_facing_left:
-		if new_facing_left:
-			# some nodes just need the x axis flipping
-			_main_sprite.scale.x = -1
-
-			# but some nodes need their relative position flipping, too
-			if _main_sprite.position.x != 0:
-				_main_sprite.position.x = _main_sprite.position.x * -1
-		else:
-			_main_sprite.scale.x = 1
-
-			if _main_sprite.position.x != 0:
-				_main_sprite.position.x = _main_sprite.position.x * -1
-
-	_is_facing_left = new_facing_left
-#
-#
-#
-#
-##endregion
+#endregion

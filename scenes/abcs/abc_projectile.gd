@@ -84,8 +84,9 @@ func setup(data: DataProjectile) -> void:
 	_team = data.team
 	_valid_hit_option = data.valid_hit_option
 	_max_bodies_can_hit = data.max_bodies_can_hit
-
 	_sprite.sprite_frames = data.sprite_frames
+
+	_align_collisions_to_sprite()
 
 	if data.size > 0:
 		_resize(data.size)
@@ -127,6 +128,23 @@ func set_target_actor(actor: CombatActor) -> void:
 ####### PRIVATE #######
 ######################
 
+## set the collision shapes on self and hitbox to closely match the sprite size
+func _align_collisions_to_sprite() -> void:
+	var sprite_size: Vector2 = Utility.get_current_sprite_size(_sprite)
+	var longest_size_length: int = 0
+	if sprite_size.x > sprite_size.y:
+		longest_size_length = sprite_size.x
+	else:
+		longest_size_length = sprite_size.y
+
+	for shape_ in [get_node("./CollisionShape2D").shape, _hitbox.get_node("./CollisionShape2D").shape]:
+		if shape_ is CircleShape2D:
+			shape_.radius = longest_size_length / 2
+		else:
+			push_warning(
+				"ABCProjectile: shape not recognised, so collision shape not matched to sprite size"
+			)
+
 ## enable or diasble the collisions. Deferred call.
 ##
 ## true disables the projectile's collisions.
@@ -151,5 +169,7 @@ func _resize(size: float) -> void:
 func _update_collisions() -> void:
 	Utility.update_body_collisions(self, _team, _valid_hit_option, _target_actor, false)
 	Utility.update_hitbox_hurtbox_collision(_hitbox, _team, _valid_hit_option, _target_actor, false)
+
+
 
 	#endregion

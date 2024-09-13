@@ -156,20 +156,26 @@ func get_enum_name(enum_: Variant, value: Variant) -> String:
 
 ## get the % difference between the current shape "size" and the desired size.
 ##
-## uses different properties based on the shape type.
+## note, uses different properties based on the shape type.
 func get_ratio_desired_vs_current(desired_size: float, shape: Shape2D) -> float:
-	var ratio: float = 1
+	var ratio: float = get_percentage_change(desired_size, get_shape_size(shape))
+	return ratio
+
+## get the size of a shape
+##
+## note, uses different properties based on the shape type.
+func get_shape_size(shape: Shape2D) -> float:
+	var size: float
 	if shape is CircleShape2D:
-		ratio = get_percentage_change(desired_size, shape.radius * 2)
+		size = shape.radius * 2
 
 	elif shape is SegmentShape2D:
-		var size: float = shape.a.distance_to(shape.b)
-		ratio = get_percentage_change(desired_size, size)
+		size = shape.a.distance_to(shape.b)
 
 	elif shape is CapsuleShape2D:
-		ratio = get_percentage_change(desired_size, shape.height)
+		size = shape.height
 
-	return ratio
+	return size
 
 # the change in value, expressed as variance from 1. e.g. reduction by 13 points is 0.87.
 func get_percentage_change(new_value: float, old_value: float) -> float:
@@ -194,5 +200,9 @@ func get_sprite_frame(sprite_frame_name: String) -> SpriteFrames:
 	if sprite_frames is not SpriteFrames:
 		push_error("Utility: sprite_frames (", sprite_frame_name, ") not found.")
 	return sprite_frames
+
+## get the dimensions of the sprite in the current frame of the [SpriteFrames]
+func get_current_sprite_size(sprite: AnimatedSprite2D) -> Vector2:
+	return sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame).get_size()
 
 #endregion

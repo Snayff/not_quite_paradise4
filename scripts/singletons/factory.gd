@@ -21,7 +21,7 @@ func create_projectile(projectile_name: String, team: Constants.TEAM) -> ABCProj
 		dict_data["valid_hit_option"],
 		Utility.get_sprite_frame(dict_data["sprite_frames"]),
 		dict_data["size"],
-		dict_data["max_bodies_can_hit"]
+		dict_data["max_bodies_can_hit"],
 	)
 
 	# get specific subclass
@@ -32,7 +32,11 @@ func create_projectile(projectile_name: String, team: Constants.TEAM) -> ABCProj
 			data_class.define_throwable(
 				dict_data["travel_range"],
 				dict_data["move_speed"],
-				dict_data["is_homing"]
+				dict_data["is_homing"],
+				dict_data["max_speed"],
+				dict_data["acceleration"],
+				dict_data["deceleration"],
+				dict_data["lock_rotation"]
 			)
 
 			# create and setup instance
