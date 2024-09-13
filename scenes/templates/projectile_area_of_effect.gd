@@ -55,17 +55,20 @@ func _ready() -> void:
 	visible = false
 
 func setup(data: DataProjectile) -> void:
+	super.setup(data)
+
+	# do after super.setup as that's where sprite_frames are assigned
 	assert(
 		_application_frame <= _sprite.sprite_frames.get_frame_count("default"),
 		"AreaOfEffect:	`_application_frame` is higher than the total number of frames."
 	)
 
-	super.setup(data)
-
 	if _sprite.sprite_frames.get_animation_speed("default") > 40:
 		push_warning("AreaOfEffect: animation is fast enough that we might be too fast to register the hits.")
 
 	_application_frame = data.application_frame
+
+	activate()
 
 func activate() -> void:
 	_sprite.play()

@@ -49,7 +49,7 @@ func _ready() -> void:
 	# get flag for oneshot
 	var flag: int = 0
 	if _is_oneshot:
-		flag = ConnectFlags.CONNECT_ONE_SHOT
+		flag = CONNECT_ONE_SHOT
 
 	# unbind args and connect signal
 	var trigger_callable: Callable

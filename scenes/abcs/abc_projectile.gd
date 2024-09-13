@@ -70,7 +70,7 @@ func setup(data: DataProjectile) -> void:
 		"ABCProjectile: `valid_hit_option` is missing."
 	)
 	assert(
-		data.max_bodies_can_hit is int and data.max_bodies_can_hit > 0,
+		data.max_bodies_can_hit is int and data.max_bodies_can_hit != 0,
 		"ABCProjectile: `max_bodies_can_hit` is missing or invalid."
 	)
 	assert(

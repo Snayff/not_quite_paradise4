@@ -31,8 +31,19 @@ extends EffectChain
 #endregion
 
 
+
 #region FUNCS
 func on_hit(hurtbox: HurtboxComponent) -> void:
+	#var aoe: ProjectileAreaOfEffect =  Factory.create_projectile("explosion", _allegiance.team)
+	#aoe.hit_valid_targets.connect(_aoe_hit)
+	#var callable = Factory.create_projectile.bind("explosion", _allegiance.team, _aoe_hit)
+	#get_tree().process_frame.connect(callable, CONNECT_ONE_SHOT)
+
+	Utility.call_next_frame(Factory.create_projectile, ["explosion", _allegiance.team, _aoe_hit])
+
+
+
+func on_hit_old(hurtbox: HurtboxComponent) -> void:
 	# aoe
 	var _aoe: AreaOfEffect = _aoe_scene.instantiate()
 	# need to defer adding the _aoe as a child

@@ -20,10 +20,10 @@ var _data: Dictionary  = {
 			"deceleration": 2000.0,
 			"lock_rotation": true,
 		},
-	"explosion" : {
+	"explosion": {
 		"subclass": "aoe",
 		# base attrs
-		"sprite_frames": "fireball.tres",
+		"sprite_frames": "explosion.tres",
 		"valid_hit_option": Constants.TARGET_OPTION.enemy,
 		"size": 8,
 		"max_bodies_can_hit": -1,
@@ -33,6 +33,6 @@ var _data: Dictionary  = {
 	}
 }
 
-## get data of a projectile. pass by ref, so dont edit!
+## get data of a projectile. passed by ref, so dont edit!
 func get_projectile_data(projectile_name: String) -> Dictionary:
 	return _data["projectile"][projectile_name]
