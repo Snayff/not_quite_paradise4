@@ -31,8 +31,6 @@ signal died
 var _target_actor: CombatActor
 ## has completed _ready()
 var _has_run_ready: bool = false
-## has signalled out the named signal. we only want to share it once.
-var _has_signalled_out_hit_valid_targets: bool = false
 ## how many bodies hit so far. only tracks valid hits.
 var _num_bodies_hit: int = 0
 
@@ -93,6 +91,14 @@ func setup(data: DataProjectile) -> void:
 
 	_update_collisions()
 
+## enable self and begin to act
+##
+## @virtual
+func activate() -> void:
+	push_error(
+		"ABCProjectile: `activate` called directly, but is virtual. Must be overriden by child."
+	)
+
 ## on hit functionality
 ##
 ## @virtual
@@ -110,14 +116,6 @@ func _terminate() -> void:
 ######################
 ####### PUBLIC ######
 ####################
-
-## enable self and begin to act
-##
-## @virtual
-func activate() -> void:
-	push_error(
-		"ABCProjectile: `activate` called directly, but is virtual. Must be overriden by child."
-	)
 
 ## set the actor the projectile should target.
 func set_target_actor(actor: CombatActor) -> void:

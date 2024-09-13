@@ -3,8 +3,8 @@ extends Node
 
 ## storage of the static data # NOTE: may want to load from external later
 var _data: Dictionary  = {
-	"projectile" : {
-		"fireball" : {
+	"projectile": {
+		"fireball": {
 			"subclass": "throwable",
 			# base attrs
 			"sprite_frames": "fireball.tres",
@@ -19,7 +19,17 @@ var _data: Dictionary  = {
 			"acceleration": 1000.0,
 			"deceleration": 2000.0,
 			"lock_rotation": true,
-		}
+		},
+	"explosion" : {
+		"subclass": "aoe",
+		# base attrs
+		"sprite_frames": "fireball.tres",
+		"valid_hit_option": Constants.TARGET_OPTION.enemy,
+		"size": 8,
+		"max_bodies_can_hit": -1,
+		# aoe attrs
+		"application_frame": 0
+	}
 	}
 }
 

@@ -42,6 +42,11 @@ var _is_homing: bool
 # TODO: need to spend down stamina on movement
 
 #region FUNCS
+
+##########################
+####### LIFECYCLE ######
+######################
+
 func _ready() -> void:
 	super._ready()
 
@@ -66,7 +71,7 @@ func setup(data: DataProjectile) -> void:
 func activate() -> void:
 	assert(
 		_target_actor is CombatActor,
-		"ProjectileThrowable: `_target_actor` is missing. Did you call `set_target_actor`
+		"ProjectileThrowable: `_target_actor` is missing. Did you call `set_target_actor` \
 		before activate? "
 	)
 
@@ -91,11 +96,24 @@ func _on_hit(hurtbox: HurtboxComponent) -> void:
 	_on_hit_effect_spawner.spawn_scene(global_position)
 
 	# if we've reached max hits, prevent further hits and self terminate
-	if _num_bodies_hit >= _max_bodies_can_hit:
+	if _num_bodies_hit >= _max_bodies_can_hit and _max_bodies_can_hit != -1:
 		_set_hitbox_disabled(true)
 		_set_collision_disabled(true)
 		_terminate()
 		_death_trigger.activate()
+
+
+######################
+####### PUBLIC ######
+####################
+
+func set_target_actor(actor: CombatActor) -> void:
+	super.set_target_actor(actor)
+	_movement_component.set_target_actor(actor, _is_homing)
+
+########################
+####### PRIVATE #######
+######################
 
 ## update the stamina value of the supply container and the associated max range
 func _set_travel_range(travel_range_: float) -> void:
@@ -103,9 +121,5 @@ func _set_travel_range(travel_range_: float) -> void:
 	_supply_container.get_supply(Constants.SUPPLY_TYPE.stamina).set_value(travel_range_)
 	@warning_ignore("narrowing_conversion")  # happy with reduced precision
 	_supply_container.get_supply(Constants.SUPPLY_TYPE.stamina).max_value = travel_range_
-
-func set_target_actor(actor: CombatActor) -> void:
-	super.set_target_actor(actor)
-	_movement_component.set_target_actor(actor, _is_homing)
 
 #endregion

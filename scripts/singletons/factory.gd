@@ -3,7 +3,7 @@ extends Node
 
 # N.B. can't preload with variable, so all hardcoded
 const _PROJECTILE_THROWABLE: PackedScene = preload("res://scenes/templates/projectile_throwable.tscn")
-
+const _PROJECTILE_AOE: PackedScene = preload("res://scenes/templates/projectile_area_of_effect.tscn")
 
 
 #region VARS
@@ -37,6 +37,11 @@ func create_projectile(projectile_name: String, team: Constants.TEAM) -> ABCProj
 				dict_data["acceleration"],
 				dict_data["deceleration"],
 				dict_data["lock_rotation"]
+			)
+
+		"aoe":
+			data_class.define_aoe(
+				dict_data["application_frame"]
 			)
 
 			# create and setup instance

@@ -12,7 +12,7 @@ extends Resource
 @export var valid_hit_option: Constants.TARGET_OPTION
 ## how big the projectile should be
 @export var size: float
-## how many bodies can be hit before expiry
+## how many bodies can be hit before expiry. -1 means no limit.
 @export var max_bodies_can_hit: int
 ## the animation for the projectile
 @export var sprite_frames: SpriteFrames
@@ -35,6 +35,10 @@ extends Resource
 @export var move_speed: float
 ## whether we track targets movement and follow, or not
 @export var is_homing: bool
+
+@export_group("AoE")
+## the animation frame on which to look for hits
+@export var application_frame: int
 
 #endregion
 
@@ -78,6 +82,10 @@ func define_throwable(
 	acceleration = acceleration_
 	deceleration = deceleration_
 	lock_rotation = lock_rotation_
+
+## definition of the [ProjectileAreaofEffect] subclass. call after define.
+func define_aoe(application_frame_: int) -> void:
+	application_frame = application_frame_
 
 #endregion
 
