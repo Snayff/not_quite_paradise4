@@ -57,7 +57,7 @@ func _ready() -> void:
 
 	_has_run_ready = true
 
-func setup(data: DataProjectile) -> void:
+func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
 	if not _has_run_ready:
 		push_error("ABCProjectile: setup() called before _ready. ")
 
@@ -78,6 +78,7 @@ func setup(data: DataProjectile) -> void:
 		"ABCProjectile: `sprite_frames` is missing."
 	)
 
+	global_position = spawn_pos
 
 	_team = data.team
 	_valid_hit_option = data.valid_hit_option

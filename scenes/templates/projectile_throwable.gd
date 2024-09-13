@@ -53,13 +53,13 @@ func _ready() -> void:
 	# link hitbox signal to our on_hit
 	_hitbox.hit_hurtbox.connect(_on_hit)
 
-func setup(data: DataProjectile) -> void:
+func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
 	assert(
 		data.travel_range is float,
 		"ProjectileThrowable: `_travel_range` is missing."
 	)
 
-	super.setup(data)
+	super.setup(spawn_pos, data)
 
 	_set_travel_range(data.travel_range)
 	_move_speed = data.move_speed

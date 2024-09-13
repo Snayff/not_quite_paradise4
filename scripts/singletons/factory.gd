@@ -15,6 +15,7 @@ const _PROJECTILE_AOE: PackedScene = preload("res://scenes/templates/projectile_
 func create_projectile(
 	projectile_name: String,
 	team: Constants.TEAM,
+	spawn_pos: Vector2,
 	on_hit_callable: Variant = null
 	) -> ABCProjectile:
 	# get base info
@@ -62,7 +63,7 @@ func create_projectile(
 
 	# create and setup instance
 
-	projectile.ready.connect(projectile.setup.bind(data_class), CONNECT_ONE_SHOT)
+	projectile.ready.connect(projectile.setup.bind(spawn_pos, data_class), CONNECT_ONE_SHOT)
 	# TODO: find a better way to do this. Perhaps a top level projectiles node?
 	get_tree().get_root().add_child(projectile)
 

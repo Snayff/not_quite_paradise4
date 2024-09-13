@@ -54,8 +54,8 @@ func _ready() -> void:
 
 	visible = false
 
-func setup(data: DataProjectile) -> void:
-	super.setup(data)
+func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
+	super.setup(spawn_pos, data)
 
 	# do after super.setup as that's where sprite_frames are assigned
 	assert(

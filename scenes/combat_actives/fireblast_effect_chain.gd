@@ -39,7 +39,10 @@ func on_hit(hurtbox: HurtboxComponent) -> void:
 	#var callable = Factory.create_projectile.bind("explosion", _allegiance.team, _aoe_hit)
 	#get_tree().process_frame.connect(callable, CONNECT_ONE_SHOT)
 
-	Utility.call_next_frame(Factory.create_projectile, ["explosion", _allegiance.team, _aoe_hit])
+	Utility.call_next_frame(
+		Factory.create_projectile,
+		["explosion", _allegiance.team, hurtbox.global_position, _aoe_hit]
+	)
 
 
 

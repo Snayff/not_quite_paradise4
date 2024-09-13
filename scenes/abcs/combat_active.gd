@@ -185,9 +185,14 @@ func _create_projectile() -> VisualProjectile:
 	return projectile
 
 func _create_projectile_new() -> ProjectileThrowable:
-	var projectile: ProjectileThrowable = Factory.create_projectile("fireball", _allegiance.team)
-	projectile.hit_valid_target.connect(_effect_chain.on_hit)
-	projectile.global_position = _cast_position.global_position
+	var projectile: ProjectileThrowable = Factory.create_projectile(
+		"fireball",
+		 _allegiance.team,
+		_cast_position.global_position,
+		_effect_chain.on_hit
+	)
+	#projectile.hit_valid_target.connect(_effect_chain.on_hit)
+	#projectile.global_position = _cast_position.global_position
 	return projectile
 
 ## creates an orbital projectile in the _orbiter component.
