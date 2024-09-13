@@ -56,7 +56,6 @@ func _process(delta: float) -> void:
 ## trigger on hit effects, if target is valid
 func _on_hit(hurtbox: HurtboxComponent) -> void:
 	if effect_chain_target_is_valid(hurtbox):
-		hurtbox.hurt.emit(self)
 		on_hit_effect_spawner.spawn_scene(global_position)
 		death_trigger.activate()
 		hit_valid_target.emit(hurtbox)

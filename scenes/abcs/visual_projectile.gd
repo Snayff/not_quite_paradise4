@@ -83,7 +83,6 @@ func _on_hit(hurtbox: HurtboxComponent) -> void:
 		_hitbox.set_disabled_status(true)
 
 		# emit signals
-		hurtbox.hurt.emit(self)
 		hit_valid_target.emit(hurtbox)
 
 		# spawn on hit effect
