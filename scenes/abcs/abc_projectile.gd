@@ -131,7 +131,7 @@ func set_target_actor(actor: CombatActor) -> void:
 ## set the collision shapes on self and hitbox to closely match the sprite size
 func _align_collisions_to_sprite() -> void:
 	var sprite_size: Vector2 = Utility.get_current_sprite_size(_sprite)
-	var longest_size_length: int = 0
+	var longest_size_length: float = 0
 	if sprite_size.x > sprite_size.y:
 		longest_size_length = sprite_size.x
 	else:

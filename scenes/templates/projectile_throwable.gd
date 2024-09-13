@@ -13,7 +13,6 @@ signal hit_valid_target(hurtbox: HurtboxComponent)
 
 #region ON READY (for direct children only)
 @onready var _on_hit_effect_spawner: SpawnerComponent = $OnHitEffectSpawner
-@onready var _on_death_effect_spawner: SpawnerComponent = $OnDeathEffectSpawner
 @onready var _supply_container: SupplyContainerComponent = $SupplyContainerComponent
 @onready var _death_trigger: DeathTrigger = $DeathTrigger
 @onready var _movement_component: PhysicsMovementComponent = $PhysicsMovementComponent
@@ -32,7 +31,7 @@ signal hit_valid_target(hurtbox: HurtboxComponent)
 #region VARS
 ## the amount of stamina we can drain before expiry
 var _travel_range: float
-## how fast we travel
+## how fast we travel at max speed
 var _move_speed: float
 ## whether we track targets movement and follow, or not
 var _is_homing: bool
