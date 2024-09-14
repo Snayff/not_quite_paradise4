@@ -126,9 +126,25 @@ func set_target_actor(actor: CombatActor) -> void:
 
 ## update the stamina value of the supply container and the associated max range
 func _set_travel_range(travel_range_: float) -> void:
-	@warning_ignore("narrowing_conversion")  # happy with reduced precision
-	_supply_container.get_supply(Constants.SUPPLY_TYPE.stamina).set_value(travel_range_)
-	@warning_ignore("narrowing_conversion")  # happy with reduced precision
-	_supply_container.get_supply(Constants.SUPPLY_TYPE.stamina).max_value = travel_range_
+	#FIXME: supply has stamina, but thinks it is health?!?!
+	var supply: SupplyComponent = _supply_container.get_supply(Constants.SUPPLY_TYPE.stamina)
+
+	if supply is SupplyComponent:
+		@warning_ignore("narrowing_conversion")  # happy with reduced precision
+		supply.set_value(travel_range_, travel_range_)
+
+	else:
+		var supplies: Array[SupplyComponent] = _supply_container.get_all_supplies()
+		var supply_names: Array[String] = []
+		for s in supplies:
+			supply_names.append(Utility.get_enum_name(Constants.SUPPLY_TYPE, s.type))
+		push_error(
+			"ProjectileThrowable: supply (",
+			Utility.get_enum_name(Constants.SUPPLY_TYPE, Constants.SUPPLY_TYPE.stamina),
+			") not found. SupplyContainer has ",
+			supply_names,
+			"."
+		)
+
 
 #endregion

@@ -32,6 +32,7 @@ func _ready() -> void:
 	# link hitbox signal to our on_hit
 	_hitbox.hit_hurtbox.connect(_on_hit)
 
+# start acting. must be manually triggered.
 func activate() -> void:
 	_set_hitbox_disabled(false)
 

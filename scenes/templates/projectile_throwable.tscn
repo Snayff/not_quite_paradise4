@@ -18,8 +18,9 @@ resource_local_to_scene = true
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_uav7v"]
 
-[sub_resource type="Resource" id="Resource_q602h"]
+[sub_resource type="Resource" id="Resource_ksq6s"]
 resource_local_to_scene = true
+resource_name = "Stamina"
 script = ExtResource("5_l37ln")
 type = 1
 max_value = 999
@@ -47,7 +48,7 @@ script = ExtResource("3_1074t")
 
 [node name="SupplyContainerComponent" type="Node" parent="." index="5"]
 script = ExtResource("4_xyxv7")
-_editor_supplies = Array[ExtResource("5_l37ln")]([SubResource("Resource_q602h")])
+_editor_supplies = Array[ExtResource("5_l37ln")]([SubResource("Resource_ksq6s")])
 
 [node name="DeathTrigger" type="Node" parent="." index="6" node_paths=PackedStringArray("_root", "_supply_container", "_destroy_effect_spawner")]
 script = ExtResource("5_oufxx")

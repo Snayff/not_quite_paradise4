@@ -13,8 +13,8 @@ signal max_value_changed() ## the resource's max value has changed
 
 #region EXPORTS
 @export_group("Details")
-@export var type: Constants.SUPPLY_TYPE  ## @REQUIRED.
-@export var max_value: int = 999:  ## @REQUIRED.
+@export var type: Constants.SUPPLY_TYPE
+@export var max_value: int = 999:
 	set(value):
 		max_value = clamp(value, 1, INF)
 		if max_value < value:
@@ -55,8 +55,12 @@ func decrease(amount: int) -> void:
 func increase(amount: int) -> void:
 	_value = clamp(value + amount, value, max_value)
 
-func set_value(value_: int) -> void:
+## set the current and max value. If max_value not set, it is left as is.
+func set_value(value_: int, max_value_: int = -1) -> void:
 	_value = value_
+
+	if max_value_ != -1:
+		max_value = max_value_
 
 ## wrapper for increase using regeneration_per_second
 func apply_regen() -> void:
