@@ -41,8 +41,6 @@ signal new_target(target: CombatActor)
 		_travel_range = value
 		if _target_finder is TargetFinder:
 			_target_finder.set_max_range(_travel_range)
-@export_group("Aura")
-@export var _aura_lifetime: float = -1  ## how long the aura should last. only applies if delivery method == aura.
 
 #endregion
 
@@ -83,6 +81,11 @@ var _has_run_ready: bool = false  ## if _ready() has finished
 
 
 #region FUNCS
+
+##########################
+####### LIFECYCLE ######
+######################
+
 func _ready() -> void:
 	# check for mandatory properties set in editor
 	assert(_scene_spawner is SpawnerComponent, "CombatActive: Misssing `_scene_spawner`.")
@@ -130,10 +133,15 @@ func _draw() -> void:
 	## draw circle, or remove circle by redrawing without one
 	if _is_debug and is_selected:
 		if target_actor is CombatActor:
-			# get the offset and mulitply by distance
 			# FIXME: circle wobbles when player moves
-			var draw_pos: Vector2 =  global_position.direction_to(target_actor.global_position) * global_position.distance_to(target_actor.global_position)
+			# get the offset and mulitply by distance
+			var draw_pos: Vector2 = global_position.direction_to(target_actor.global_position) * \
+				global_position.distance_to(target_actor.global_position)
 			draw_circle(draw_pos, 10, Color.ALICE_BLUE, false, 1)
+
+##########################
+####### PUBLIC ##########
+########################
 
 ## casts the active
 func cast()-> void:
@@ -141,9 +149,9 @@ func cast()-> void:
 		push_error("CombatActive: No target given to cast.")
 		return
 
-	if _delivery_method == Constants.EFFECT_DELIVERY_METHOD.projectile:
+	if _delivery_method == Constants.EFFECT_DELIVERY_METHOD.throwable:
 		if _cast_position is Marker2D:
-			var projectile: ProjectileThrowable = _create_projectile_new()
+			var projectile: ProjectileThrowable = _create_throwable()
 			projectile.set_target_actor(target_actor)
 			projectile.activate()
 			_restart_cooldown()
@@ -170,21 +178,54 @@ func cast()-> void:
 			push_error("CombatActive: `_cast_position` not defined.")
 
 	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.aura:
-		_create_aura()
+		var projectile: ProjectileAura = _create_aura()
+
+		# set target so that aura follows them around
+		var target_: CombatActor
+		if _valid_target_option == Constants.TARGET_OPTION.self_:
+			target_ = _caster
+		else:
+			target_ = target_actor
+		projectile.set_target_actor(target_)
+
 		_restart_cooldown()
 
 	else:
 		push_error("CombatActive: `_delivery_method` (", _delivery_method, ") not defined.")
 
-## create a projectile at the _cast_position
-func _create_projectile() -> VisualProjectile:
-	var projectile: VisualProjectile = _scene_spawner.spawn_scene(_cast_position.global_position)
-	projectile.setup(_travel_range, _allegiance.team, _valid_effect_option, target_actor, target_position)
-	projectile.hit_valid_target.connect(_effect_chain.on_hit)
 
-	return projectile
+## set the target actor. can accept null.
+func set_target_actor(actor: CombatActor) -> void:
+	if actor is CombatActor:
+		target_actor = actor
+		if not target_actor.is_connected("died", set_target_actor):
+			target_actor.died.connect(set_target_actor.bind(null))  # to clear target
+		new_target.emit(actor)
+	else:
+		if _cooldown_timer.is_connected("timeout", cast):
+			# if no target then keep cooldown going but dont connect to the cast
+			_cooldown_timer.timeout.disconnect(cast)
 
-func _create_projectile_new() -> ProjectileThrowable:
+## sets allegiance and updates child target finder's targeting info (as this is contingent on allegiance).
+func set_allegiance(allegiance: Allegiance) -> void:
+	_allegiance = allegiance
+	_target_finder.set_targeting_info(_travel_range, _valid_target_option, _allegiance)
+
+func set_projectile_position(marker: Marker2D) -> void:
+	_cast_position = marker
+
+##########################
+####### PRIVATE #########
+########################
+
+## start cooldown timer and update is_ready to false
+func _restart_cooldown() -> void:
+	_cooldown_timer.start()
+	is_ready = false
+
+
+## create a throwable projectile at the _cast_position
+func _create_throwable() -> ProjectileThrowable:
 	# TODO: active needs to specify projectile name
 	var projectile: ProjectileThrowable = Factory.create_projectile(
 		"fireball",
@@ -193,20 +234,6 @@ func _create_projectile_new() -> ProjectileThrowable:
 		_effect_chain.on_hit
 	)
 	return projectile
-
-## creates an orbital projectile in the _orbiter component.
-##
-## returns null if could not create, e.g. if already at max orbitals
-func _create_orbital_old()  -> VisualProjectile:
-	if not _orbiter.has_max_projectiles:
-		var projectile: VisualProjectile = _scene_spawner.spawn_scene(_caster.global_position, _orbiter)
-		projectile.setup(_travel_range, _allegiance.team, _valid_effect_option)
-		projectile.hit_valid_target.connect(_effect_chain.on_hit)
-
-		return projectile
-
-	else:
-		return null
 
 func _create_orbital() -> ProjectileOrbital:
 	if not _orbiter.has_max_projectiles:
@@ -231,8 +258,6 @@ func _create_melee() -> AreaOfEffect:
 
 	return aoe
 
-
-
 func _create_aura() -> ProjectileAura:
 	var target_: CombatActor
 	if _valid_target_option == Constants.TARGET_OPTION.self_:
@@ -247,48 +272,5 @@ func _create_aura() -> ProjectileAura:
 		_effect_chain.on_hit_multiple
 	)
 	return projectile
-
-## create an [Aura] at the either the caster's or target's position, based on [_valid_target_option], with the Aura targeting the same.
-##
-## if _valid_target_option == TARGET_OPTION.self then targets self, otherwise targets [target_actor]
-func _create_aura_old() -> Aura:
-	# NOTE: because we dont keep track of auras created we cant clear them on demand.
-	var target_: CombatActor
-	if _valid_target_option == Constants.TARGET_OPTION.self_:
-		target_ = _caster
-	else:
-		target_ = target_actor
-
-	var aura: Aura = _scene_spawner.spawn_scene(target_.global_position)
-	aura.setup(aura.global_position, _allegiance.team, _valid_effect_option, _delivery_radius, _aura_lifetime)
-	aura.hit_valid_targets.connect(_effect_chain.on_hit_multiple)
-	aura.attach_to_target(target_)
-
-	return aura
-
-## set the target actor. can accept null.
-func set_target_actor(actor: CombatActor) -> void:
-	if actor is CombatActor:
-		target_actor = actor
-		if not target_actor.is_connected("died", set_target_actor):
-			target_actor.died.connect(set_target_actor.bind(null))  # to clear target
-		new_target.emit(actor)
-	else:
-		if _cooldown_timer.is_connected("timeout", cast):
-			# if no target then keep cooldown going but dont connect to the cast
-			_cooldown_timer.timeout.disconnect(cast)
-
-## sets allegiance and updates child target finder's targeting info (as this is contingent on allegiance).
-func set_allegiance(allegiance: Allegiance) -> void:
-	_allegiance = allegiance
-	_target_finder.set_targeting_info(_travel_range, _valid_target_option, _allegiance)
-
-func set_projectile_position(marker: Marker2D) -> void:
-	_cast_position = marker
-
-## start cooldown timer and update is_ready to false
-func _restart_cooldown() -> void:
-	_cooldown_timer.start()
-	is_ready = false
 
 #endregion

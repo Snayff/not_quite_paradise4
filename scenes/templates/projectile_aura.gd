@@ -25,7 +25,6 @@ signal hit_multiple_valid_targets(hurtboxes: Array[HurtboxComponent])
 
 
 #region VARS
-var _target: CombatActor
 ## the animation frame on which to apply the effects
 var _application_frame: int = 0
 ## how long the aura lasts before expiring.
@@ -103,8 +102,8 @@ func activate() -> void:
 
 
 func _process(_delta: float) -> void:
-	if _target is CombatActor:
-		global_position = _target.global_position
+	if _target_actor is CombatActor:
+		global_position = _target_actor.global_position
 
 
 ## if target is valid and not already hit, log the target for later signaling (when animation ends)

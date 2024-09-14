@@ -79,7 +79,7 @@ enum CAST_TYPE {
 ## how a set of effects in a [CombatActive] are delivered
 enum EFFECT_DELIVERY_METHOD {
 	direct_to_target,
-	projectile,
+	throwable,
 	orbital,
 	melee,
 	aura
