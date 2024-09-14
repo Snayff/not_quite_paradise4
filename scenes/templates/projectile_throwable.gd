@@ -35,7 +35,6 @@ var _travel_range: float
 var _move_speed: float
 ## whether we track targets movement and follow, or not
 var _is_homing: bool
-var _is_physics_enabled: bool = true
 
 #endregion
 
@@ -59,6 +58,14 @@ func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
 		data.travel_range is float,
 		"ProjectileThrowable: `_travel_range` is missing."
 	)
+	assert(
+		data.move_speed is float,
+		"ProjectileThrowable: `_move_speed` is missing."
+	)
+	assert(
+		data.is_homing is bool,
+		"ProjectileThrowable: `is_homing` is missing."
+	)
 
 	super.setup(spawn_pos, data)
 
@@ -76,15 +83,13 @@ func activate() -> void:
 		before activate? "
 	)
 
-	if not _is_physics_enabled:
-		_set_collision_disabled(false)
-		_set_hitbox_disabled(false)
+	_set_collision_disabled(false)
+	_set_hitbox_disabled(false)
 
 	_sprite.play()
 
 func _physics_process(delta: float) -> void:
-	if _is_physics_enabled:
-		_movement_component.execute_physics(delta)
+	_movement_component.execute_physics(delta)
 
 func _on_hit(hurtbox: HurtboxComponent) -> void:
 	if !Utility.target_is_valid(_valid_hit_option, _hitbox.originator, hurtbox.root, _target_actor):

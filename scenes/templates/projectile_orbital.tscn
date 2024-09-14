@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://dlcpmqcbd7ytj"]
+
+[ext_resource type="PackedScene" uid="uid://baut7l07kp2rc" path="res://scenes/abcs/abc_projectile.tscn" id="1_v6alx"]
+[ext_resource type="Script" path="res://scenes/templates/projectile_orbital.gd" id="2_cbcqs"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ci0ku"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ffws4"]
+resource_local_to_scene = true
+
+[node name="ProjectileOrbital" instance=ExtResource("1_v6alx")]
+script = ExtResource("2_cbcqs")
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("CircleShape2D_ci0ku")
+
+[node name="CollisionShape2D" parent="HitboxComponent" index="0"]
+shape = SubResource("CircleShape2D_ffws4")

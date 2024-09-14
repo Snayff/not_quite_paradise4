@@ -11,6 +11,9 @@ const _PROJECTILE_AOE: PackedScene = preload(
 const _PROJECTILE_AURA: PackedScene = preload(
 	"res://scenes/templates/projectile_aura.tscn"
 )
+const _PROJECTILE_ORBITAL: PackedScene = preload(
+	"res://scenes/templates/projectile_orbital.tscn"
+)
 
 
 #region VARS
@@ -77,6 +80,11 @@ func create_projectile(
 			if on_hit_callable != null:
 				projectile.hit_multiple_valid_targets.connect(on_hit_callable)
 
+		"orbital":
+			projectile = _PROJECTILE_ORBITAL.instantiate() as ProjectileOrbital
+
+			if on_hit_callable != null:
+				projectile.hit_valid_target.connect(on_hit_callable)
 
 		_:
 			push_error("Factory: projectile subclass unknown.")
@@ -86,8 +94,6 @@ func create_projectile(
 	projectile.ready.connect(projectile.setup.bind(spawn_pos, data_class), CONNECT_ONE_SHOT)
 	# TODO: find a better way to do this. Perhaps a top level projectiles node?
 	get_tree().get_root().add_child(projectile)
-
-
 
 	return projectile
 

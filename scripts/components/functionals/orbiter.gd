@@ -1,5 +1,5 @@
 ## a component to hold a series of projectiles
-@icon("res://assets/node_icons/rotate.png")
+@icon("res://assets/node_icons/orbiter.png")
 class_name ProjectileOrbiterComponent
 extends Node2D
 
@@ -15,58 +15,55 @@ extends Node2D
 
 
 #region EXPORTS
-# @export_group("Component Links")
-@export var _root: CombatActor
 @export_group("Details")
-@export var _max_projectiles: int = 1
-@export var _orbit_scale: float = 30
+## max number of projectiles allower in the orbit
+@export var _max_projectiles: int = 6
+## how quickly the projectiles circle the actor
 @export var _rotation_speed: float = PI
+## the size of the circle that the projectiles follow
+## 20 is about minimum for circling a 16x16 actor.
+## 50-70 is getting quite far from the actor.
+@export var _orbit_radius: float = 60.0
 #endregion
 
 
 #region VARS
-var _projectiles: Array = []
-var _num_projectiles:
+var _projectiles: Array[ProjectileOrbital] = []
+var _num_projectiles: int:
 	set(value):
 		push_error("ProjectileOrbiterComponent: Can't set `_num_projectiles` directly.")
 	get:
 		return _projectiles.size()
-var _points: Array = []
+## the points in the orbit on which to place the projectiles
+var _points: Array[Vector2] = []
+## FIXME: we should really update _points, but can't work out how to do so.
+##		by separating the angles and points like this the circles arent evenly spread
+## the angle of each projectile in the orbit
+var _angles: Array[float] = []
+## if the orbiter has the maximum number of projectiles in orbit
 var has_max_projectiles: bool:
 	set(value):
 		push_error("ProjectileOrbiterComponent: Can't set `has_max_projectiles` directly.")
 	get:
 		return _num_projectiles == _max_projectiles
-
 #endregion
 
-@export var radius: float = 60.0
-@export var speed: float = 2.0
-var x_offset = 150
-var y_offset = 150
-var angles: Array[float] = []
 
 #region FUNCS
 func _ready() -> void:
 	_generate_points_in_circle()
 
-func _process(delta):
-	# FIXME: this wont work on physics, so need to give the the target
-	rotation += _rotation_speed * delta
-
+func _physics_process(delta: float) -> void:
 	for i in _projectiles.size():
-		angles[i] += speed * delta
+		if not is_instance_valid(_projectiles[i]):
+			break
 
-		var x_pos = cos(angles[i])
-		var y_pos = sin(angles[i])
-		_projectiles[i].global_position.x = radius * x_pos + global_position.x
-		_projectiles[i].global_position.y = radius * y_pos + global_position.y
+		_angles[i] += _rotation_speed * delta
 
-
-#func _physics_process(delta: float) -> void:
-	#for projectile in _projectiles:
-		#assert(projectile is ProjectileThrowable)
-		#projectile.apply_torque_impulse(100)
+		var x_pos = cos(_angles[i])
+		var y_pos = sin(_angles[i])
+		_projectiles[i].global_position.x = _orbit_radius * x_pos + global_position.x
+		_projectiles[i].global_position.y = _orbit_radius * y_pos + global_position.y
 
 ## calculate evenly spaced points around a circle based on number of projectiles
 func _generate_points_in_circle():
@@ -81,29 +78,29 @@ func _generate_points_in_circle():
 			var x = cos(deg_to_rad(angle))
 			var y = sin(deg_to_rad(angle))
 
-			var point = Vector2(x * _orbit_scale, y * _orbit_scale)
+			var point = Vector2(x * _orbit_radius, y * _orbit_radius)
 			_points.append(point)
 
-			angles.append(angle)
+			_angles.append(angle)
 
 			i += 1
 			angle += increment
 
 ## adds a projectile to the orbit. Recalculates position of all projectiles in orbit.
-func add_projectile(projectile) -> void:
+func add_projectile(projectile: ProjectileOrbital) -> void:
 	if _num_projectiles + 1 <= _max_projectiles:  # +1 as we're about to add 1 and dont want to go over the limit
 		_projectiles.append(projectile)
-		# NOTE: it might look better if we assign to a random position in the circle
-		#	or the furthest from the currently filled position.
-		#	also, this means currently a projectile can spawn where one has just expired,
-		# 	essentially double hitting.
-		projectile.position = _points[_projectiles.size() - 1]  # -1 to account for starting from 0
+		# FIXME: need to use radial spreading to improve the look of spawnign new projectiles.
+		#		also, this means currently a projectile can spawn where one has just expired,
+		#		essentially double hitting.
+		projectile.position = _points[_projectiles.size() - 1] # -1 to account for starting from 0
 
 	else:
 		push_warning("ProjectileOrbiterComponent: Tried to add more projectiles than the max allowed, so ignored.")
 
 ## removes a projectile to the orbit. Recalculates position of all projectiles in orbit.
-func remove_projectile(projectile: VisualProjectile) -> void:
+func remove_projectile(projectile: ProjectileOrbital) -> void:
 	_projectiles.erase(projectile)
+
 
 #endregion

@@ -143,7 +143,6 @@ func cast()-> void:
 
 	if _delivery_method == Constants.EFFECT_DELIVERY_METHOD.projectile:
 		if _cast_position is Marker2D:
-			# _create_projectile()
 			var projectile: ProjectileThrowable = _create_projectile_new()
 			projectile.set_target_actor(target_actor)
 			projectile.activate()
@@ -157,6 +156,7 @@ func cast()-> void:
 			if projectile != null:
 				projectile.died.connect(_orbiter.remove_projectile.bind(projectile))
 				_orbiter.add_projectile(projectile)
+				projectile.activate()
 				_restart_cooldown()
 
 		else:
@@ -192,8 +192,6 @@ func _create_projectile_new() -> ProjectileThrowable:
 		_cast_position.global_position,
 		_effect_chain.on_hit
 	)
-	#projectile.hit_valid_target.connect(_effect_chain.on_hit)
-	#projectile.global_position = _cast_position.global_position
 	return projectile
 
 ## creates an orbital projectile in the _orbiter component.
@@ -210,11 +208,16 @@ func _create_orbital_old()  -> VisualProjectile:
 	else:
 		return null
 
-func _create_orbital() -> ProjectileThrowable:
+func _create_orbital() -> ProjectileOrbital:
 	if not _orbiter.has_max_projectiles:
-		var x = _create_projectile_new()
-		x._is_physics_enabled = false
-		return x
+		var projectile: ProjectileOrbital = Factory.create_projectile(
+		"fire_orb",
+		 _allegiance.team,
+		_cast_position.global_position,
+		_effect_chain.on_hit
+		)
+		return projectile
+
 	else:
 		return null
 

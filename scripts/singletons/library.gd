@@ -1,7 +1,8 @@
 ## static data used across the project
 extends Node
 
-## storage of the static data # NOTE: may want to load from external later
+# NOTE: may want to load from external later
+## storage of the static data
 var _data: Dictionary  = {
 	"projectile": {
 		"fireball": {
@@ -40,6 +41,14 @@ var _data: Dictionary  = {
 			# aura attrs
 			"application_frame": 2,
 			"lifetime": 3.0,
+		},
+		"fire_orb": {
+			"subclass": "orbital",
+			# base attrs
+			"sprite_frames": "fireball.tres",
+			"valid_hit_option": Constants.TARGET_OPTION.enemy,
+			"size": 8,
+			"max_bodies_can_hit": 1,
 		},
 
 	}
