@@ -16,8 +16,7 @@ extends Node2D
 
 #region EXPORTS
 # @export_group("Component Links")
-# @export var
-#
+@export var _root: CombatActor
 @export_group("Details")
 @export var _max_projectiles: int = 1
 @export var _orbit_scale: float = 30
@@ -26,7 +25,7 @@ extends Node2D
 
 
 #region VARS
-var _projectiles: Array[VisualProjectile] = []
+var _projectiles: Array = []
 var _num_projectiles:
 	set(value):
 		push_error("ProjectileOrbiterComponent: Can't set `_num_projectiles` directly.")
@@ -41,13 +40,33 @@ var has_max_projectiles: bool:
 
 #endregion
 
+@export var radius: float = 60.0
+@export var speed: float = 2.0
+var x_offset = 150
+var y_offset = 150
+var angles: Array[float] = []
 
 #region FUNCS
 func _ready() -> void:
 	_generate_points_in_circle()
 
 func _process(delta):
+	# FIXME: this wont work on physics, so need to give the the target
 	rotation += _rotation_speed * delta
+
+	for i in _projectiles.size():
+		angles[i] += speed * delta
+
+		var x_pos = cos(angles[i])
+		var y_pos = sin(angles[i])
+		_projectiles[i].global_position.x = radius * x_pos + global_position.x
+		_projectiles[i].global_position.y = radius * y_pos + global_position.y
+
+
+#func _physics_process(delta: float) -> void:
+	#for projectile in _projectiles:
+		#assert(projectile is ProjectileThrowable)
+		#projectile.apply_torque_impulse(100)
 
 ## calculate evenly spaced points around a circle based on number of projectiles
 func _generate_points_in_circle():
@@ -65,11 +84,13 @@ func _generate_points_in_circle():
 			var point = Vector2(x * _orbit_scale, y * _orbit_scale)
 			_points.append(point)
 
+			angles.append(angle)
+
 			i += 1
 			angle += increment
 
 ## adds a projectile to the orbit. Recalculates position of all projectiles in orbit.
-func add_projectile(projectile: VisualProjectile) -> void:
+func add_projectile(projectile) -> void:
 	if _num_projectiles + 1 <= _max_projectiles:  # +1 as we're about to add 1 and dont want to go over the limit
 		_projectiles.append(projectile)
 		# NOTE: it might look better if we assign to a random position in the circle

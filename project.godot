@@ -22,6 +22,7 @@ Utility="*res://scripts/singletons/utility.gd"
 Library="*res://scripts/singletons/library.gd"
 Factory="*res://scripts/singletons/factory.gd"
 HyperLog="*res://addons/hyperlog/hyperlog.tscn"
+Maths="*res://scripts/singletons/maths.gd"
 
 [display]
 

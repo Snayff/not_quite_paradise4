@@ -163,6 +163,7 @@ func _resize(size: float) -> void:
 	var shape: Shape2D = get_node("CollisionShape2D").shape
 	var ratio: float = Utility.get_ratio_desired_vs_current(size, shape)
 
+	# FIXME: the scaling seems to work for a single frame, then reverts.
 	scale = Vector2(ratio, ratio)
 
 ## turns off body coliisions layer and updates body mask and hitbox collisions to align to team etc.

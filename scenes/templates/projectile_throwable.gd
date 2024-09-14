@@ -35,6 +35,7 @@ var _travel_range: float
 var _move_speed: float
 ## whether we track targets movement and follow, or not
 var _is_homing: bool
+var _is_physics_enabled: bool = true
 
 #endregion
 
@@ -75,12 +76,15 @@ func activate() -> void:
 		before activate? "
 	)
 
-	_set_collision_disabled(false)
-	_set_hitbox_disabled(false)
+	if not _is_physics_enabled:
+		_set_collision_disabled(false)
+		_set_hitbox_disabled(false)
+
 	_sprite.play()
 
 func _physics_process(delta: float) -> void:
-	_movement_component.execute_physics(delta)
+	if _is_physics_enabled:
+		_movement_component.execute_physics(delta)
 
 func _on_hit(hurtbox: HurtboxComponent) -> void:
 	if !Utility.target_is_valid(_valid_hit_option, _hitbox.originator, hurtbox.root, _target_actor):

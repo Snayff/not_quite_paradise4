@@ -25,7 +25,7 @@ var _data: Dictionary  = {
 			# base attrs
 			"sprite_frames": "explosion.tres",
 			"valid_hit_option": Constants.TARGET_OPTION.anyone,
-			"size": 8,
+			"size": 16,
 			"max_bodies_can_hit": -1,
 			# aoe attrs
 			"application_frame": 0
@@ -35,7 +35,7 @@ var _data: Dictionary  = {
 			# base attrs
 			"sprite_frames": "icy_wind.tres",
 			"valid_hit_option": Constants.TARGET_OPTION.enemy,
-			"size": 320,
+			"size": 32,
 			"max_bodies_can_hit": -1,
 			# aura attrs
 			"application_frame": 2,

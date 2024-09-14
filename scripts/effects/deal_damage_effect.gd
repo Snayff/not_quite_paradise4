@@ -3,6 +3,13 @@
 class_name DealDamageEffect
 extends Effect
 
+# NOTE: info on damage formulae:
+# 	polynomial / exponential example:  ax^2 + bx + c, with a, b, and c being constants.
+# 	e.g. (((strength) ^ 3 ÷ 32) + 32) x damage_multiplier
+# 	damage multiplier would be set by the attack in question
+#
+# 	linear example: (a + b - c) * e
+# 	e.g. (attacker_attack * damage_multiplier - defender_defence) * weakness_multiplier
 
 #region SIGNALS
 

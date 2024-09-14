@@ -116,6 +116,13 @@ enum TRIGGER {
 	on_death,
 	on_interval,
 	on_application,
+	on_use_combat_active,
+	on_heal,
+	on_summon,
+	on_kill,
+	on_move,
+	on_deal_damage,
+	on_receive_damage
 }
 
 ## how a lifetime or duration is determined
@@ -124,4 +131,24 @@ enum DURATION_TYPE {
 	applications,
 	until_removed,
 	permanent
+}
+
+## defined types of target preference
+enum TARGET_PREFERENCE {
+	any, ## anyone
+	lowest_health, ## actor with lowest health
+	highest_health,  ## actor with highest health
+	weak_to_mundane,  ## actor with weakness to mundane damage type
+	damaged,  ## actor that isnt full health
+	nearest,  ## actor nearest caller
+	furthest,  ## actor furthest from caller, but still in range
+}
+
+## different animation types for an actor
+enum ACTOR_ANIMATION_NAME {
+	cast,
+	attack,
+	death,
+	idle,
+	walk
 }

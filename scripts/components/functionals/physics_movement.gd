@@ -91,7 +91,7 @@ func execute_physics(delta: float) -> void:
 			slow_down_force.y += _deceleration
 
 	# apply slowdown, if needed
-	if !slow_down_force.is_zero_approx():
+	if not slow_down_force.is_zero_approx():
 		_root.apply_impulse(slow_down_force * delta, _root.global_position)
 
 	# move towards target
@@ -120,6 +120,7 @@ func set_target_actor(actor: CombatActor, is_following: bool) -> void:
 
 ## amend the attached sprites facing based on movement and velocity
 func _amend_facing(velocity: Vector2, move_left: bool, move_right: bool) -> void:
+	# FIXME: this is no longer working
 	if !is_instance_valid(_sprite):
 		return
 

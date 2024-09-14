@@ -3,11 +3,17 @@ extends Node
 
 
 #region VARS
+var _last_id : int = 0
 
 #endregion
 
 
 #region FUNCS
+## generate a unique id
+func generate_id() -> int:
+	_last_id += 1
+	return _last_id
+
 ## set the collision layers and masks, based on team and targeting, to the relevant "_body" collision layers.
 func update_body_collisions(
 	node: CollisionObject2D,

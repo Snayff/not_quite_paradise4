@@ -31,6 +31,9 @@ scene = ExtResource("2_n4c11")
 [node name="CollisionShape2D" parent="TargetFinder" index="0"]
 shape = SubResource("CircleShape2D_gns30")
 
+[node name="ProjectileOrbiter" parent="." index="3"]
+_max_projectiles = 10
+
 [node name="EffectChain" type="Node" parent="." index="4"]
 script = ExtResource("4_nd7yx")
 _damage_scalers = Array[ExtResource("5_33pwh")]([SubResource("Resource_qxiwj")])

@@ -199,7 +199,7 @@ func _create_projectile_new() -> ProjectileThrowable:
 ## creates an orbital projectile in the _orbiter component.
 ##
 ## returns null if could not create, e.g. if already at max orbitals
-func _create_orbital()  -> VisualProjectile:
+func _create_orbital_old()  -> VisualProjectile:
 	if not _orbiter.has_max_projectiles:
 		var projectile: VisualProjectile = _scene_spawner.spawn_scene(_caster.global_position, _orbiter)
 		projectile.setup(_travel_range, _allegiance.team, _valid_effect_option)
@@ -207,6 +207,14 @@ func _create_orbital()  -> VisualProjectile:
 
 		return projectile
 
+	else:
+		return null
+
+func _create_orbital() -> ProjectileThrowable:
+	if not _orbiter.has_max_projectiles:
+		var x = _create_projectile_new()
+		x._is_physics_enabled = false
+		return x
 	else:
 		return null
 
