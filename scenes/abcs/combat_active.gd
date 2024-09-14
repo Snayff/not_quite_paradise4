@@ -172,7 +172,9 @@ func cast()-> void:
 
 	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.melee:
 		if _cast_position is Marker2D:
-			_create_melee()
+			var projectile = _create_melee()
+			var angle = _caster.get_angle_to(target_actor.global_position)
+			projectile.rotation = angle
 			_restart_cooldown()
 		else:
 			push_error("CombatActive: `_cast_position` not defined.")
@@ -249,7 +251,9 @@ func _create_orbital() -> ProjectileOrbital:
 		return null
 
 ## create an [AreaOfEffect] at the _target_position
-func _create_melee() -> AreaOfEffect:
+func _create_melee_old() -> AreaOfEffect:
+
+
 	var aoe: AreaOfEffect = _scene_spawner.spawn_scene(_cast_position.global_position)
 	aoe.setup(aoe.global_position, _allegiance.team, _valid_effect_option, _delivery_radius)
 	aoe.hit_valid_targets.connect(_effect_chain.on_hit_multiple)
@@ -257,6 +261,15 @@ func _create_melee() -> AreaOfEffect:
 	aoe.rotation = angle
 
 	return aoe
+
+## create a projectile at the _target_position
+func _create_melee() -> ProjectileAreaOfEffect:
+	return Factory.create_projectile(
+		"slash",
+		_allegiance.team,
+		_cast_position.global_position,
+		_effect_chain.on_hit_multiple
+	)
 
 func _create_aura() -> ProjectileAura:
 	var target_: CombatActor

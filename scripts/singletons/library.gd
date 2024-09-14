@@ -50,6 +50,16 @@ var _data: Dictionary  = {
 			"size": 8,
 			"max_bodies_can_hit": 1,
 		},
+		"slash": {
+			"subclass": "aoe",
+			# base attrs
+			"sprite_frames": "slash.tres",
+			"valid_hit_option": Constants.TARGET_OPTION.enemy,
+			"size": 16,
+			"max_bodies_can_hit": -1,
+			# aoe attrs
+			"application_frame": 1
+		},
 
 	}
 }
