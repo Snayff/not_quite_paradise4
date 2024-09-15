@@ -1,5 +1,5 @@
 ## info regarding a changeable value, such as health or mana.
-@icon("res://assets/node_icons/supply.png")
+@icon("res://components/functionals/supply.png")
 class_name SupplyComponent
 extends Resource
 

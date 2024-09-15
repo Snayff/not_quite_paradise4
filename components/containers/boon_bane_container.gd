@@ -1,6 +1,6 @@
 ## interface for all boons and banes, aka status effects. handles linking the boonbane to the relevant signals.
 @icon("res://components/containers/boon_bane_container.png")
-class_name BoonsBanesContainerComponent
+class_name BoonBaneContainer
 extends Node
 
 

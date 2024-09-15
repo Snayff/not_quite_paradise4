@@ -99,7 +99,7 @@ func _update_labels() -> void:
 			labels_added += 1
 
 
-	if _target.boons_banes is BoonsBanesContainerComponent:
+	if _target.boons_banes is BoonBaneContainer:
 		# loop all boon_banes
 		var boon_banes: Array[ABCBoonBane] = _target.boons_banes.get_all_boon_banes()
 		for i in range(boon_banes.size()):

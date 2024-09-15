@@ -52,7 +52,7 @@ func _aoe_hit(hurtboxes: Array[HurtboxComponent]) -> void:
 		effect.apply(hurtbox.root)
 
 		# apply boon_bane
-		if not hurtbox.root.boons_banes is BoonsBanesContainerComponent:
+		if not hurtbox.root.boons_banes is BoonBaneContainer:
 			# no boon bane container to apply a boon bane to
 			continue
 		var burn = BoonBaneBurn.new(_caster)

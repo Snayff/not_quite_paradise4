@@ -31,7 +31,7 @@ extends ABCEffectChain
 
 func on_hit(hurtbox: HurtboxComponent) -> void:
 	# apply boon_bane
-	if not hurtbox.root.boons_banes is BoonsBanesContainerComponent:
+	if not hurtbox.root.boons_banes is BoonBaneContainer:
 		return
 	var chilled = BoonBaneChilled.new(_caster)
 	hurtbox.root.boons_banes.add_boon_bane(chilled)
