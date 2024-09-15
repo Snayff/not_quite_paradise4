@@ -1,5 +1,5 @@
 ## data for [ABCProjectile]
-@icon("res://assets/node_icons/data_projectile.png")
+@icon("res://projectiles/data_projectile.png")
 class_name DataProjectile
 extends Resource
 

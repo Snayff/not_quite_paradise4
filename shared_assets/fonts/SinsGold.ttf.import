@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://fnnng7cl03ka"
-path="res://.godot/imported/CompassGold.ttf-fb90c1ddc4ad9121f6122e799788496f.fontdata"
+uid="uid://xfatb788yq6e"
+path="res://.godot/imported/SinsGold.ttf-5ec19ec60db3064951d5556c65abb4ce.fontdata"
 
 [deps]
 
-source_file="res://assets/fonts/CompassGold.ttf"
-dest_files=["res://.godot/imported/CompassGold.ttf-fb90c1ddc4ad9121f6122e799788496f.fontdata"]
+source_file="res://shared_assets/fonts/SinsGold.ttf"
+dest_files=["res://.godot/imported/SinsGold.ttf-5ec19ec60db3064951d5556c65abb4ce.fontdata"]
 
 [params]
 

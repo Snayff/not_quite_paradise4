@@ -55,7 +55,7 @@ func setup(caster: CombatActor, allegiance: Allegiance, valid_effect_option: Con
 ##
 ## this is usually casting, but can be activated by other means.
 func can_activate() -> bool:
-	var tags = _caster.get_node_or_null("Tags")
+	var tags: TagsComponent = _caster.get_node_or_null("Tags")
 	if tags is TagsComponent:
 		return tags.has_tags(_caster_required_tags)
 	return false

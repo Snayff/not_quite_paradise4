@@ -1,6 +1,6 @@
 ## A projectile that follows the target and loops an animation, repeatedly applying
 ## its effects on tick.
-@icon("res://assets/node_icons/projectile_aura.png")
+@icon("res://projectiles/projectile_aura.png")
 class_name ProjectileAura
 extends ABCProjectile
 

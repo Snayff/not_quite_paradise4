@@ -1,5 +1,5 @@
 ## a projectile that does not move on its own, but expected to be moved by a [ProjectileOrbiter]
-@icon("res://assets/node_icons/projectile_orbital.png")
+@icon("res://projectiles/projectile_orbital.png")
 class_name ProjectileOrbital
 extends ABCProjectile
 

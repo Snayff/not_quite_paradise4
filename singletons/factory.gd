@@ -3,16 +3,16 @@ extends Node
 
 # N.B. can't preload with variable, so all hardcoded
 const _PROJECTILE_THROWABLE: PackedScene = preload(
-	"res://scenes/templates/projectile_throwable.tscn"
+											   "res://projectiles/projectile_throwable.tscn"
 )
 const _PROJECTILE_AOE: PackedScene = preload(
-	"res://scenes/templates/projectile_area_of_effect.tscn"
+											   "res://projectiles/projectile_area_of_effect.tscn"
 )
 const _PROJECTILE_AURA: PackedScene = preload(
-	"res://scenes/templates/projectile_aura.tscn"
+											   "res://projectiles/projectile_aura.tscn"
 )
 const _PROJECTILE_ORBITAL: PackedScene = preload(
-	"res://scenes/templates/projectile_orbital.tscn"
+											   "res://projectiles/projectile_orbital.tscn"
 )
 
 

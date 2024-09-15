@@ -1,5 +1,5 @@
 ## abc for delivery of effects and functionality.
-@icon("res://assets/node_icons/abc.png")
+@icon("res://shared_assets/node_icons/abc.png")
 class_name ABCProjectile
 extends RigidBody2D
 

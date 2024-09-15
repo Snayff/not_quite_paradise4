@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://baut7l07kp2rc"]
 
-[ext_resource type="Script" path="res://scenes/abcs/abc_projectile.gd" id="1_bxxyy"]
+[ext_resource type="Script" path="res://projectiles/abc_projectile.gd" id="1_bxxyy"]
 [ext_resource type="Script" path="res://scripts/components/functionals/hitbox.gd" id="2_v8dwh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0j716"]

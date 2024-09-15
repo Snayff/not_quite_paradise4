@@ -1,6 +1,6 @@
 ## A projectile that does not move, hits 1 or more bodies in an area. self terminates at end of
 ## animation.
-@icon("res://assets/node_icons/projectile_aoe.png")
+@icon("res://projectiles/projectile_aoe.png")
 class_name ProjectileAreaOfEffect
 extends ABCProjectile
 

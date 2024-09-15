@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://cqi7b1uis5b7k"]
 
-[ext_resource type="PackedScene" uid="uid://baut7l07kp2rc" path="res://scenes/abcs/abc_projectile.tscn" id="1_1rweh"]
-[ext_resource type="Script" path="res://scenes/templates/projectile_throwable.gd" id="2_bbj4i"]
+[ext_resource type="PackedScene" uid="uid://baut7l07kp2rc" path="res://projectiles/abc_projectile.tscn" id="1_1rweh"]
+[ext_resource type="Script" path="res://projectiles/projectile_throwable.gd" id="2_bbj4i"]
 [ext_resource type="Script" path="res://scripts/components/functionals/spawner.gd" id="3_1074t"]
 [ext_resource type="Script" path="res://scripts/components/functionals/supply_container.gd" id="4_xyxv7"]
 [ext_resource type="Script" path="res://scripts/components/functionals/supply.gd" id="5_l37ln"]
