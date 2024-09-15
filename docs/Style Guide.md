@@ -155,6 +155,16 @@ While not respected by Godot, we use tags to quickly identify aspects of functio
 | --------- | ------------------------------------------ |
 | @virtual  | A function to be overridden by subclasses. |
 | @nullable | A function that can return null.           |
+## Formatting
+We can make reading the documentation even better by making use of the codes referenced [here](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_documentation_comments.html#bbcode-and-class-reference), though until we can export the documentation into a readable format this is not expected as it wont add too much value. 
+
+The only format codes we use regularly are the following:
+
+| Tag       | Description   | Example                | Result                |
+| --------- | ------------- | ---------------------- | --------------------- |
+| `[Class]` | Link to class | `Move the [Sprite2D].` | Move the [Sprite2D]() |
+
+
 # Warnings & Errors
 ## Types
 `assert`s are used where we want the game to fail hard. These are predominantly for things that will be known at initialisation.
