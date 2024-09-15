@@ -122,7 +122,7 @@ Nothing Special, just Godot!
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+_For more examples, please refer to the [Documentation](https://snayff.github.io/not_quite_paradise4/)_
 
 
 <!-- ROADMAP -->
@@ -164,12 +164,12 @@ All other assets and media have a variety of licenses, per asset. See `LICENSE_m
 
 
 <!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
+<!-- ## Acknowledgments
 
 * []()
 * []()
 * []()
-
+-->
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
