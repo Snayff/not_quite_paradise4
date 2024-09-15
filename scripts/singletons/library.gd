@@ -13,7 +13,7 @@ var _data: Dictionary  = {
 			"size": 8,
 			"max_bodies_can_hit": 1,
 			# throwable attrs
-			"travel_range": 100.0,
+			"max_range": 100.0,
 			"move_speed": 50.0,
 			"is_homing": false,
 			"max_speed": 100.0,
@@ -69,3 +69,18 @@ func get_projectile_data(projectile_name: String) -> Dictionary:
 	if not _data["projectile"].has(projectile_name):
 		push_error("Library: projectile name (", projectile_name, ") not found.")
 	return _data["projectile"][projectile_name]
+
+## get the range of the projectile.
+##
+## only [ProjectileThrowable] has range, so gives a base value for everything else
+func get_projectile_range(projectile_name: String) -> float:
+	var data: Dictionary = get_projectile_data(projectile_name)
+	var max_range: float
+	if data.has("max_range"):
+		max_range = data["max_range"]
+	else:
+		# NOTE: this is slightly more than the smaller actor size. when using bigger sprites
+		#		this wont work for melee.
+		max_range = 24
+
+	return max_range

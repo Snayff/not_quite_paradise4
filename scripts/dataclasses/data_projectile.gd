@@ -30,7 +30,7 @@ extends Resource
 
 @export_group("Throwable")
 ## how far the projectile can travel
-@export var travel_range: float
+@export var max_range: float
 ## how fast we travel
 @export var move_speed: float
 ## whether we track targets movement and follow, or not
@@ -72,7 +72,7 @@ func define(
 
 ## definition of the [ProjectileThrowable] subclass. call after define.
 func define_throwable(
-	travel_range_: float,
+	max_range_: float,
 	move_speed_: float,
 	is_homing_: bool,
 	max_speed_: float = 100.0,
@@ -81,7 +81,7 @@ func define_throwable(
 	lock_rotation_: bool = true,
 	) -> void:
 
-	travel_range = travel_range_
+	max_range = max_range_
 	move_speed = move_speed_
 	is_homing = is_homing_
 	max_speed = max_speed_

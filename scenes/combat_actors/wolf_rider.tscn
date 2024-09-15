@@ -106,13 +106,10 @@ _editor_supplies = Array[ExtResource("9_r5a4j")]([SubResource("Resource_50ehq"),
 
 [node name="CirclingStars" parent="CombatActiveContainer" index="0" instance=ExtResource("7_47lvt")]
 cast_type = 0
-_projectile_name = "fire_orb"
 
 [node name="Fireblast" parent="CombatActiveContainer" index="1" instance=ExtResource("6_jm2bo")]
-_projectile_name = "fireball"
 
 [node name="Slash" parent="CombatActiveContainer" index="2" instance=ExtResource("10_fkwpq")]
-_projectile_name = "slash"
 
 [node name="CastPosition" parent="CentrePivot" index="0"]
 position = Vector2(10, -1)

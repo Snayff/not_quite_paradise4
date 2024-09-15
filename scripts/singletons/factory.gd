@@ -45,7 +45,7 @@ func create_projectile(
 		Constants.EFFECT_DELIVERY_METHOD.throwable:
 			# finish setting up data class
 			data_class.define_throwable(
-				dict_data["travel_range"],
+				dict_data["max_range"],
 				dict_data["move_speed"],
 				dict_data["is_homing"],
 				dict_data["max_speed"],

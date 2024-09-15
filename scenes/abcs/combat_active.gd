@@ -38,11 +38,12 @@ signal new_target(target: CombatActor)
 
 # FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?! also no good for range finding
 # TODO: rename to range. hide if delivery_method is melee and set to 15.
-var _travel_range: int:  ## how far the projectile can travel. when set, updates target finder.
+## how far the projectile can travel. when set, updates target finder.
+var _max_range: int:
 	set(value):
-		_travel_range = value
+		_max_range = value
 		if _target_finder is TargetFinder:
-			_target_finder.set_max_range(_travel_range)
+			_target_finder.set_max_range(_max_range)
 
 #endregion
 
@@ -101,14 +102,16 @@ func _ready() -> void:
 	_cooldown_timer.one_shot = true
 	_cooldown_timer.timeout.connect(func(): is_ready = true )
 
-	# internalise delivery method
+	# internalise some projectile data
 	_delivery_method = Library.get_projectile_data(_projectile_name)["effect_delivery_method"]
+	_max_range = Library.get_projectile_range(_projectile_name)
 
 	# FIXME: this is now set in library, per projectile, so how do we update target finder?
 	# config target finder
 	_target_finder.new_target.connect(set_target_actor)  # ensure we're in sync with range finders new target
 
 	_has_run_ready = true
+
 
 ## run setup process and repeat on all direct children.
 ##
@@ -127,7 +130,7 @@ func setup(caster: CombatActor, allegiance: Allegiance, cast_position: Marker2D)
 
 	_effect_chain.setup(_caster, _allegiance, _valid_effect_option)
 
-	_target_finder.setup(_caster, _travel_range, _valid_target_option, _allegiance)
+	_target_finder.setup(_caster, _max_range, _valid_target_option, _allegiance)
 
 func _process(_delta: float) -> void:
 	queue_redraw()
@@ -258,7 +261,7 @@ func set_target_actor(actor: CombatActor) -> void:
 func set_allegiance(allegiance: Allegiance) -> void:
 	_allegiance = allegiance
 	# FIXME: travel range and target option are set in library, need to get from there
-	_target_finder.set_targeting_info(_travel_range, _valid_target_option, _allegiance)
+	_target_finder.set_targeting_info(_max_range, _valid_target_option, _allegiance)
 
 func set_projectile_position(marker: Marker2D) -> void:
 	_cast_position = marker

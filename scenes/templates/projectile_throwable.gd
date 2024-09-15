@@ -30,7 +30,7 @@ signal hit_valid_target(hurtbox: HurtboxComponent)
 
 #region VARS
 ## the amount of stamina we can drain before expiry
-var _travel_range: float
+var _max_range: float
 ## how fast we travel at max speed
 var _move_speed: float
 ## whether we track targets movement and follow, or not
@@ -55,8 +55,8 @@ func _ready() -> void:
 ## process setup. does NOT automatically trigger activate.
 func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
 	assert(
-		data.travel_range is float,
-		"ProjectileThrowable: `_travel_range` is missing."
+		data.max_range is float,
+		"ProjectileThrowable: `_max_range` is missing."
 	)
 	assert(
 		data.move_speed is float,
@@ -69,7 +69,7 @@ func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
 
 	super.setup(spawn_pos, data)
 
-	_set_travel_range(data.travel_range)
+	_set_max_range(data.max_range)
 	_move_speed = data.move_speed
 	_is_homing = data.is_homing
 	lock_rotation = data.lock_rotation
@@ -125,13 +125,13 @@ func set_target_actor(actor: CombatActor) -> void:
 ######################
 
 ## update the stamina value of the supply container and the associated max range
-func _set_travel_range(travel_range_: float) -> void:
+func _set_max_range(max_range_: float) -> void:
 	#FIXME: supply has stamina, but thinks it is health?!?!
 	var supply: SupplyComponent = _supply_container.get_supply(Constants.SUPPLY_TYPE.stamina)
 
 	if supply is SupplyComponent:
 		@warning_ignore("narrowing_conversion")  # happy with reduced precision
-		supply.set_value(travel_range_, travel_range_)
+		supply.set_value(max_range_, max_range_)
 
 	else:
 		var supplies: Array[SupplyComponent] = _supply_container.get_all_supplies()
