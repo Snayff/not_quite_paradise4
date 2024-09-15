@@ -19,8 +19,6 @@ icon = ExtResource("2_e43xh")
 cast_type = 1
 cast_cost = 5
 _valid_effect_option = 2
-_delivery_method = 2
-_travel_range = 200
 
 [node name="CooldownTimer" parent="." index="0"]
 wait_time = 0.3

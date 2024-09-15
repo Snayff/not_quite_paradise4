@@ -164,7 +164,7 @@ func cast()-> void:
 		_cast_orbital()
 
 	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.area_of_effect:
-	_cast_area_of_effect()
+		_cast_area_of_effect()
 
 	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.aura:
 		_cast_aura()
