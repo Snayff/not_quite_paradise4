@@ -1,5 +1,5 @@
 ## a component to hold a series of projectiles
-@icon("res://assets/node_icons/orbiter.png")
+@icon("res://components/functionals/orbiter.png")
 class_name ProjectileOrbiterComponent
 extends Node2D
 

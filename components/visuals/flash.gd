@@ -1,6 +1,6 @@
 ## flash the attached sprite
 class_name FlashComponent
-extends VisualEffect
+extends ABCVisualEffect
 
 
 var _material: ShaderMaterial = preload("res://shaders/white_flash_material.tres")  ## the material to alter the sprite

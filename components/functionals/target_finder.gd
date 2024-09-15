@@ -1,5 +1,5 @@
 ## an area2D that enables finding targets of a given type
-@icon("res://assets/node_icons/target_finder.png")
+@icon("res://components/functionals/target_finder.png")
 class_name TargetFinder
 extends Area2D
 

@@ -1,0 +1,111 @@
+[gd_scene load_steps=17 format=3 uid="uid://bkqc7x4yp0pn2"]
+
+[ext_resource type="PackedScene" uid="uid://cgd54nt0un6ix" path="res://combat/actors/combat_actor.tscn" id="1_2tlmc"]
+[ext_resource type="Texture2D" uid="uid://dldmflst28sas" path="res://assets/actors/horse_rider/RampartSpriteFemale-Right(Frame1).png" id="2_legq8"]
+[ext_resource type="Texture2D" uid="uid://b0ioe50hirnxg" path="res://assets/actors/horse_rider/RampartSpriteFemale-Right(Frame2).png" id="3_ityd4"]
+[ext_resource type="Texture2D" uid="uid://ffba1pgjsx4n" path="res://assets/actors/horse_rider/RampartSpriteFemale-Right(Frame3).png" id="4_evaqq"]
+[ext_resource type="Texture2D" uid="uid://dwxusomrgbenr" path="res://assets/actors/horse_rider/RampartSpriteFemale-Right(Frame4).png" id="5_dgnbb"]
+[ext_resource type="PackedScene" uid="uid://kupnh58vddx7" path="res://scenes/visual_effects/death.tscn" id="6_utgjv"]
+[ext_resource type="Script" path="res://scripts/components/functionals/supply.gd" id="8_iiiq1"]
+[ext_resource type="Script" path="res://scripts/dataclasses/stat.gd" id="8_xjwvb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yg56m"]
+radius = 6.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fdb4c"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_legq8")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_legq8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ityd4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_evaqq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_dgnbb")
+}],
+"loop": true,
+"name": &"move",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_346nu"]
+radius = 7.0
+
+[sub_resource type="Resource" id="Resource_c051k"]
+resource_local_to_scene = true
+resource_name = "Strength"
+script = ExtResource("8_xjwvb")
+type = 0
+base_value = 10.0
+
+[sub_resource type="Resource" id="Resource_bo738"]
+resource_local_to_scene = true
+resource_name = "Defence"
+script = ExtResource("8_xjwvb")
+type = 1
+base_value = 5.0
+
+[sub_resource type="Resource" id="Resource_77y4s"]
+resource_local_to_scene = true
+resource_name = "Move Speed"
+script = ExtResource("8_xjwvb")
+type = 2
+base_value = 5.0
+
+[sub_resource type="Resource" id="Resource_8sonu"]
+resource_local_to_scene = true
+resource_name = "Health"
+script = ExtResource("8_iiiq1")
+type = 0
+max_value = 999
+regeneration_per_second = 0.0
+
+[sub_resource type="Resource" id="Resource_tv478"]
+resource_local_to_scene = true
+resource_name = "Stamina"
+script = ExtResource("8_iiiq1")
+type = 1
+max_value = 50
+regeneration_per_second = 0.0
+
+[node name="HorseyRider" instance=ExtResource("1_2tlmc")]
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("CircleShape2D_yg56m")
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_fdb4c")
+animation = &"move"
+
+[node name="HurtboxComponent" parent="." index="2"]
+collision_layer = 4
+
+[node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
+shape = SubResource("CircleShape2D_346nu")
+
+[node name="Allegiance" parent="." index="3"]
+team = 1
+
+[node name="DeathEffectSpawner" parent="." index="5"]
+scene = ExtResource("6_utgjv")
+
+[node name="DamageNumbers" parent="." index="9"]
+position = Vector2(0, -8)
+
+[node name="StatsContainer" parent="." index="11"]
+_editor_stats = Array[ExtResource("8_xjwvb")]([SubResource("Resource_c051k"), SubResource("Resource_bo738"), SubResource("Resource_77y4s")])
+
+[node name="SupplyContainer" parent="." index="13"]
+_editor_supplies = Array[ExtResource("8_iiiq1")]([SubResource("Resource_8sonu"), SubResource("Resource_tv478")])

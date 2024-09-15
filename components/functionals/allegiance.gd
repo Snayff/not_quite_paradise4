@@ -1,6 +1,6 @@
 ## info regarding the team the actor is on.
 ## updates linked components to reflect the team.
-@icon("res://assets/node_icons/allegiance.png")
+@icon("res://components/functionals/allegiance.png")
 class_name Allegiance
 extends Node
 

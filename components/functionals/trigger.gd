@@ -2,7 +2,7 @@
 ##
 ## Does not handle methods that expect arguments, unless the signal and the method
 ## match exactly.
-@icon("res://assets/node_icons/trigger.png")
+@icon("res://components/functionals/trigger.png")
 class_name ComponentTrigger
 extends Node
 

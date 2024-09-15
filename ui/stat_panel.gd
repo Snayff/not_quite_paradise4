@@ -101,7 +101,7 @@ func _update_labels() -> void:
 
 	if _target.boons_banes is BoonsBanesContainerComponent:
 		# loop all boon_banes
-		var boon_banes: Array[BoonBane] = _target.boons_banes.get_all_boon_banes()
+		var boon_banes: Array[ABCBoonBane] = _target.boons_banes.get_all_boon_banes()
 		for i in range(boon_banes.size()):
 			var boon_bane = boon_banes[i]
 
@@ -124,7 +124,7 @@ func _apply_stat_data_to_label(label_: Label, stat: StatData) -> Label:
 	label_.text = str(Utility.get_enum_name(Constants.STAT_TYPE, stat.type), ": ", stat.value)
 	return label_
 
-func _apply_boonbane_data_to_label(label_: Label, boonbane: BoonBane) -> Label:
+func _apply_boonbane_data_to_label(label_: Label, boonbane: ABCBoonBane) -> Label:
 	label_.text = boonbane.f_name
 	return label_
 

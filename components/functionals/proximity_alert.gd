@@ -1,5 +1,5 @@
 ## simple area2d that validates bodies based on targeting options
-@icon("res://assets/node_icons/proximity.png")
+@icon("res://components/functionals/proximity.png")
 class_name ProximityAlert
 extends Area2D
 

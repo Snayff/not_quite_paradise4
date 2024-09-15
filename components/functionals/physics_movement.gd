@@ -1,5 +1,5 @@
 ## apply forces to the attached physics node
-@icon("res://assets/node_icons/phys_move.png")
+@icon("res://components/functionals/phys_move.png")
 class_name PhysicsMovementComponent
 extends Node
 

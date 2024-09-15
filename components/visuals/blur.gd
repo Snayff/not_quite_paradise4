@@ -1,6 +1,6 @@
 ## Apply directional blur to a sprite
 class_name MotionBlurComponent
-extends VisualEffect
+extends ABCVisualEffect
 # FIXME: shader's effect distorts the image, but doesnt work as intended.
 
 #region SIGNALS

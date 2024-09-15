@@ -1,6 +1,6 @@
 ## scale a sprite to a specified size and then back again
 class_name ScaleComponent
-extends VisualEffect
+extends ABCVisualEffect
 
 @export_group("Details")
 @export var _scale_amount = Vector2(1.5, 1.5)  ## the scale amount (as a vector)

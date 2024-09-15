@@ -2,7 +2,7 @@
 ## Note, this shakes the sprite and not the root node, otherwise we'd get unexpected behavior
 ## as we are manipulating the position of the node and moving it to 0,0
 class_name ShakeComponent
-extends VisualEffect
+extends ABCVisualEffect
 
 
 

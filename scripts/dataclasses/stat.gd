@@ -1,7 +1,7 @@
 ## a numerical statistic, with helper functionality for handling modifications
 ##
 ## for modifiers, additions are handled before multiplications
-@icon("res://assets/node_icons/stat.png")
+@icon("res://scripts/dataclasses/stat.png")
 class_name StatData
 extends Resource
 

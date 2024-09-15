@@ -1,5 +1,5 @@
 ## apply movement to the attached node via transformation of the position
-@icon("res://assets/node_icons/move.png")
+@icon("res://components/functionals/move.png")
 class_name MovementComponent
 extends Node2D
 

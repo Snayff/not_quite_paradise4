@@ -1,5 +1,5 @@
 ## a modifier to a [StatData]
-@icon("res://assets/node_icons/stat_mod.png")
+@icon("res://scripts/dataclasses/stat_mod.png")
 class_name StatModData
 extends Resource
 

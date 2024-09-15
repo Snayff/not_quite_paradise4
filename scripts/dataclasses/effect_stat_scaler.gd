@@ -1,7 +1,7 @@
 ## denotes a stat and a portion of a stat to scale by.
 ##
 ## for use by effects
-@icon("res://assets/node_icons/effect_stat_scaler.png")
+@icon("res://scripts/dataclasses/effect_stat_scaler.png")
 class_name EffectStatScalerData
 extends Resource
 
