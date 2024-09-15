@@ -25,7 +25,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/Snayff/godot_combat_test">
+  <a href="https://github.com/Snayff/not_quite_paradise4">
     <img src="logo.png" alt="Logo" width="64" height="64">
   </a>
 
@@ -37,14 +37,14 @@
 	<br />
 	<br />
     <!-- 
-	<a href="https://github.com/Snayff/godot_combat_test"><strong>Explore the docs »</strong></a>
+	<a href="https://github.com/Snayff/not_quite_paradise4"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Snayff/godot_combat_test">View Demo</a>
+    <a href="https://github.com/Snayff/not_quite_paradise4">View Demo</a>
     ·
-    <a href="https://github.com/Snayff/godot_combat_test/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/Snayff/not_quite_paradise4/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
-    <a href="https://github.com/Snayff/godot_combat_test/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/Snayff/not_quite_paradise4/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
 	  -->
   </p>
 </div>
@@ -111,11 +111,11 @@ Nothing Special, just Godot!
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/Snayff/godot_combat_test.git
+   git clone https://github.com/Snayff/not_quite_paradise4.git
    ```
 2. Change git remote url to avoid accidental pushes to base project
    ```sh
-   git remote set-url origin Snayff/godot_combat_test
+   git remote set-url origin Snayff/not_quite_paradise4
    git remote -v # confirm the changes
    ```
 3. Open Godot and import the repo/project
@@ -132,7 +132,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/Snayff/godot_combat_test/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/Snayff/not_quite_paradise4/issues) for a full list of proposed features (and known issues).
 
 
 <!-- CONTRIBUTING -->
@@ -152,8 +152,8 @@ Don't forget to give the project a star! Thanks again!
 
 ### Top contributors:
 
-<a href="https://github.com/Snayff/godot_combat_test/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Snayff/godot_combat_test" alt="contrib.rocks image" />
+<a href="https://github.com/Snayff/not_quite_paradise4/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Snayff/not_quite_paradise4" alt="contrib.rocks image" />
 </a>
 
 
@@ -181,17 +181,17 @@ All other assets and media have a variety of licenses, per asset. See `LICENSE_m
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [release-shield]: https://img.shields.io/github/v/release/Snayff/godot_combat_template?style=for-the-badge
-[release-url]: https://github.com/Snayff/godot_combat_test/releases
-[contributors-shield]: https://img.shields.io/github/contributors/Snayff/godot_combat_test.svg?style=for-the-badge
-[contributors-url]: https://github.com/Snayff/godot_combat_test/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Snayff/godot_combat_test.svg?style=for-the-badge
-[forks-url]: https://github.com/Snayff/godot_combat_test/network/members
-[stars-shield]: https://img.shields.io/github/stars/Snayff/godot_combat_test.svg?style=for-the-badge
-[stars-url]: https://github.com/Snayff/godot_combat_test/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Snayff/godot_combat_test.svg?style=for-the-badge
-[issues-url]: https://github.com/Snayff/godot_combat_test/issues
-[license-shield]: https://img.shields.io/github/license/Snayff/godot_combat_test.svg?style=for-the-badge
-[license-url]: https://github.com/Snayff/godot_combat_test/blob/master/LICENSE.md
+[release-url]: https://github.com/Snayff/not_quite_paradise4/releases
+[contributors-shield]: https://img.shields.io/github/contributors/Snayff/not_quite_paradise4.svg?style=for-the-badge
+[contributors-url]: https://github.com/Snayff/not_quite_paradise4/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Snayff/not_quite_paradise4.svg?style=for-the-badge
+[forks-url]: https://github.com/Snayff/not_quite_paradise4/network/members
+[stars-shield]: https://img.shields.io/github/stars/Snayff/not_quite_paradise4.svg?style=for-the-badge
+[stars-url]: https://github.com/Snayff/not_quite_paradise4/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Snayff/not_quite_paradise4.svg?style=for-the-badge
+[issues-url]: https://github.com/Snayff/not_quite_paradise4/issues
+[license-shield]: https://img.shields.io/github/license/Snayff/not_quite_paradise4.svg?style=for-the-badge
+[license-url]: https://github.com/Snayff/not_quite_paradise4/blob/master/LICENSE.md
 [headline-screenshot]: https://imgur.com/a/oaokpsr
 [headline-screenshot-url]: https://imgur.com/a/oaokpsr
 [godot-shield]: https://img.shields.io/badge/Godot-white?style=for-the-badge&logo=godotengine&logoColor=%23478CBF
