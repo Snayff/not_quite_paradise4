@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 Constants="*res://scripts/singletons/constants.gd"
 Utility="*res://scripts/singletons/utility.gd"
+Library="*res://scripts/singletons/library.gd"
+Factory="*res://scripts/singletons/factory.gd"
+HyperLog="*res://addons/hyperlog/hyperlog.tscn"
+Maths="*res://scripts/singletons/maths.gd"
 
 [display]
 
@@ -27,7 +31,7 @@ window/size/viewport_height=480
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/hyperlog/plugin.cfg")
 
 [filesystem]
 

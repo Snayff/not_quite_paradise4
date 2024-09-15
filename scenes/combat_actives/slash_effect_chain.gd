@@ -1,4 +1,4 @@
-## the series of effects for the Slash skill
+## series of effects for Slash. deals damage to all actors hit
 #@icon("")
 class_name SlashEffectChain
 extends EffectChain

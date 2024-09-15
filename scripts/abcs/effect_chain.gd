@@ -78,7 +78,7 @@ func on_hit(hurtbox: HurtboxComponent) -> void:
 
 ## acts as a wrapper for processing multiple `on_hit` calls at once.
 ##
-## often used with [AreaOfEffect].
+## often used with [ProjectileAreaOfEffect].
 func on_hit_multiple(hurtboxes: Array[HurtboxComponent]) -> void:
 	for hurtbox in hurtboxes:
 		on_hit(hurtbox)

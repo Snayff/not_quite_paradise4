@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://baut7l07kp2rc"]
+
+[ext_resource type="Script" path="res://scenes/abcs/abc_projectile.gd" id="1_bxxyy"]
+[ext_resource type="Script" path="res://scripts/components/functionals/hitbox.gd" id="2_v8dwh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0j716"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qafb8"]
+resource_local_to_scene = true
+
+[node name="Projectile" type="RigidBody2D"]
+gravity_scale = 0.0
+can_sleep = false
+lock_rotation = true
+script = ExtResource("1_bxxyy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_0j716")
+
+[node name="HitboxComponent" type="Area2D" parent="."]
+monitorable = false
+script = ExtResource("2_v8dwh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("CircleShape2D_qafb8")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

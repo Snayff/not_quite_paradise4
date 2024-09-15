@@ -32,34 +32,34 @@ signal new_target(target: CombatActor)
 @export var _valid_target_option: Constants.TARGET_OPTION  ## who the active can target
 @export var _valid_effect_option: Constants.TARGET_OPTION  ## who the active's effects can affect
 @export_group("Delivery")
-@export var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
-@export var _delivery_radius: float = 1  ## how big the delivery method is, e.g. size of melee aoe
-# FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?! also no good for range finding
-# TODO: rename to range. hide if delivery_method is melee and set to 15.
-@export var _travel_range: int:  ## how far the projectile can travel. when set, updates target finder.
-	set(value):
-		_travel_range = value
-		if _target_finder is TargetFinder:
-			_target_finder.set_max_range(_travel_range)
-@export_group("Aura")
-@export var _aura_lifetime: float = -1  ## how long the aura should last. only applies if delivery method == aura.
-
+@export var _projectile_name: String = ""
+@export_group("Debug")
+@export var _is_debug: bool = true  ## whether to show debug stuff
 #endregion
 
 
 #region VARS
 var target_actor: CombatActor
 var target_position: Vector2  ## NOTE: not yet used
+
+# set by parent container
+var _caster: CombatActor  ## who owns this active
+var _allegiance: Allegiance  ## creator's allegiance component
+var _cast_position: Marker2D  ##  projectile spawn location. Must have to be able to use `projectile` delivery method.
+
+# cast state
 var is_ready: bool = false:  ## if is off cooldown. set by cooldown timer timeout
 	set(_value):
 		is_ready = _value
 		if is_ready:
 			now_ready.emit()
-var _is_debug: bool = true  ## whether to show debug stuff
-# set by parent container
-var _caster: CombatActor  ## who owns this active
-var _allegiance: Allegiance  ## creator's allegiance component
-var _cast_position: Marker2D  ##  projectile spawn location. Must have to be able to use `projectile` delivery method.
+var can_cast: bool:
+	set(_value):
+		push_error("CombatActive: Can't set `can_cast` directly.")
+	get:
+		if is_ready and target_actor is CombatActor:
+			return true
+		return false
 var time_until_ready: float:
 	set(value):
 		push_error("CombatActive: Can't set `time_until_ready` directly.")
@@ -71,18 +71,28 @@ var percent_ready: float:
 	get():
 		return _cooldown_timer.time_left / _cooldown_timer.wait_time
 var is_selected: bool = false  ## whether this active is selected by the parent container
-var can_cast: bool:
-	set(_value):
-		push_error("CombatActive: Can't set `can_cast` directly.")
-	get:
-		if is_ready and target_actor is CombatActor:
-			return true
-		return false
+
+# flags
 var _has_run_ready: bool = false  ## if _ready() has finished
+
+# data from library
+var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
+# FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?! also no good for range finding
+## how far the projectile can travel. when set, updates target finder.
+var _max_range: float:
+	set(value):
+		_max_range = value
+		if _target_finder is TargetFinder:
+			_target_finder.set_max_range(_max_range)
 #endregion
 
 
 #region FUNCS
+
+##########################
+####### LIFECYCLE ######
+######################
+
 func _ready() -> void:
 	# check for mandatory properties set in editor
 	assert(_scene_spawner is SpawnerComponent, "CombatActive: Misssing `_scene_spawner`.")
@@ -94,10 +104,16 @@ func _ready() -> void:
 	_cooldown_timer.one_shot = true
 	_cooldown_timer.timeout.connect(func(): is_ready = true )
 
+	# internalise some projectile data
+	_delivery_method = Library.get_projectile_data(_projectile_name)["effect_delivery_method"]
+	_max_range = Library.get_projectile_range(_projectile_name)
+
+	# FIXME: this is now set in library, per projectile, so how do we update target finder?
 	# config target finder
 	_target_finder.new_target.connect(set_target_actor)  # ensure we're in sync with range finders new target
 
 	_has_run_ready = true
+
 
 ## run setup process and repeat on all direct children.
 ##
@@ -116,7 +132,7 @@ func setup(caster: CombatActor, allegiance: Allegiance, cast_position: Marker2D)
 
 	_effect_chain.setup(_caster, _allegiance, _valid_effect_option)
 
-	_target_finder.setup(_caster, _travel_range, _valid_target_option, _allegiance)
+	_target_finder.setup(_caster, _max_range, _valid_target_option, _allegiance)
 
 func _process(_delta: float) -> void:
 	queue_redraw()
@@ -130,10 +146,15 @@ func _draw() -> void:
 	## draw circle, or remove circle by redrawing without one
 	if _is_debug and is_selected:
 		if target_actor is CombatActor:
-			# get the offset and mulitply by distance
 			# FIXME: circle wobbles when player moves
-			var draw_pos: Vector2 =  global_position.direction_to(target_actor.global_position) * global_position.distance_to(target_actor.global_position)
+			# get the offset and mulitply by distance
+			var draw_pos: Vector2 = global_position.direction_to(target_actor.global_position) * \
+				global_position.distance_to(target_actor.global_position)
 			draw_circle(draw_pos, 10, Color.ALICE_BLUE, false, 1)
+
+##########################
+####### PUBLIC ##########
+########################
 
 ## casts the active
 func cast()-> void:
@@ -141,87 +162,20 @@ func cast()-> void:
 		push_error("CombatActive: No target given to cast.")
 		return
 
-	if _delivery_method == Constants.EFFECT_DELIVERY_METHOD.projectile:
-		if _cast_position is Marker2D:
-			_create_projectile()
-			_restart_cooldown()
-		else:
-			push_error("CombatActive: `_cast_position` not defined.")
+	if _delivery_method == Constants.EFFECT_DELIVERY_METHOD.throwable:
+		_cast_throwable()
 
 	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.orbital:
-		if _orbiter is ProjectileOrbiterComponent:
-			var projectile = _create_orbital()
-			if projectile != null:
-				projectile.died.connect(_orbiter.remove_projectile.bind(projectile))
-				_orbiter.add_projectile(projectile)
-				_restart_cooldown()
+		_cast_orbital()
 
-		else:
-			push_error("CombatActive: `_orbiter` not defined.")
-
-	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.melee:
-		if _cast_position is Marker2D:
-			_create_melee()
-			_restart_cooldown()
-		else:
-			push_error("CombatActive: `_cast_position` not defined.")
+	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.area_of_effect:
+		_cast_area_of_effect()
 
 	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.aura:
-		_create_aura()
-		_restart_cooldown()
+		_cast_aura()
 
 	else:
 		push_error("CombatActive: `_delivery_method` (", _delivery_method, ") not defined.")
-
-## create a projectile at the _cast_position
-func _create_projectile() -> VisualProjectile:
-	var projectile: VisualProjectile = _scene_spawner.spawn_scene(_cast_position.global_position)
-	projectile.setup(_travel_range, _allegiance.team, _valid_effect_option, target_actor, target_position)
-	projectile.hit_valid_target.connect(_effect_chain.on_hit)
-
-	return projectile
-
-## creates an orbital projectile in the _orbiter component.
-##
-## returns null if could not create, e.g. if already at max orbitals
-func _create_orbital()  -> VisualProjectile:
-	if not _orbiter.has_max_projectiles:
-		var projectile: VisualProjectile = _scene_spawner.spawn_scene(_caster.global_position, _orbiter)
-		projectile.setup(_travel_range, _allegiance.team, _valid_effect_option)
-		projectile.hit_valid_target.connect(_effect_chain.on_hit)
-
-		return projectile
-
-	else:
-		return null
-
-## create an [AreaOfEffect] at the _target_position
-func _create_melee() -> AreaOfEffect:
-	var aoe: AreaOfEffect = _scene_spawner.spawn_scene(_cast_position.global_position)
-	aoe.setup(aoe.global_position, _allegiance.team, _valid_effect_option, _delivery_radius)
-	aoe.hit_valid_targets.connect(_effect_chain.on_hit_multiple)
-	var angle = _caster.get_angle_to(target_actor.global_position)
-	aoe.rotation = angle
-
-	return aoe
-
-## create an [Aura] at the either the caster's or target's position, based on [_valid_target_option], with the Aura targeting the same.
-##
-## if _valid_target_option == TARGET_OPTION.self then targets self, otherwise targets [target_actor]
-func _create_aura() -> Aura:
-	# NOTE: because we dont keep track of auras created we cant clear them on demand.
-	var target_: CombatActor
-	if _valid_target_option == Constants.TARGET_OPTION.self_:
-		target_ = _caster
-	else:
-		target_ = target_actor
-
-	var aura: Aura = _scene_spawner.spawn_scene(target_.global_position)
-	aura.setup(aura.global_position, _allegiance.team, _valid_effect_option, _delivery_radius, _aura_lifetime)
-	aura.hit_valid_targets.connect(_effect_chain.on_hit_multiple)
-	aura.attach_to_target(target_)
-
-	return aura
 
 ## set the target actor. can accept null.
 func set_target_actor(actor: CombatActor) -> void:
@@ -238,14 +192,89 @@ func set_target_actor(actor: CombatActor) -> void:
 ## sets allegiance and updates child target finder's targeting info (as this is contingent on allegiance).
 func set_allegiance(allegiance: Allegiance) -> void:
 	_allegiance = allegiance
-	_target_finder.set_targeting_info(_travel_range, _valid_target_option, _allegiance)
+	# FIXME: travel range and target option are set in library, need to get from there
+	_target_finder.set_targeting_info(_max_range, _valid_target_option, _allegiance)
 
 func set_projectile_position(marker: Marker2D) -> void:
 	_cast_position = marker
+
+##########################
+####### PRIVATE #########
+########################
 
 ## start cooldown timer and update is_ready to false
 func _restart_cooldown() -> void:
 	_cooldown_timer.start()
 	is_ready = false
+
+
+
+func _create_projectile(cast_position: Vector2, on_hit_callable: Callable) -> ABCProjectile:
+	var projectile: ABCProjectile = Factory.create_projectile(
+		_projectile_name,
+		_allegiance.team,
+		cast_position,
+		on_hit_callable
+	)
+	return projectile
+
+func _cast_throwable() -> void:
+	if _cast_position is Marker2D:
+		var projectile: ProjectileThrowable = _create_projectile(
+			_cast_position.global_position,
+			_effect_chain.on_hit
+		)
+		projectile.set_target_actor(target_actor)
+		projectile.activate()
+		_restart_cooldown()
+	else:
+		push_error("CombatActive: `_cast_position` not defined.")
+
+func _cast_orbital() -> void:
+	if _orbiter is ProjectileOrbiterComponent:
+		if _orbiter.has_max_projectiles:
+			return
+
+		var projectile: ProjectileOrbital = _create_projectile(
+			_cast_position.global_position,
+			_effect_chain.on_hit
+		)
+		projectile.died.connect(_orbiter.remove_projectile.bind(projectile))
+		_orbiter.add_projectile(projectile)
+		projectile.activate()
+		_restart_cooldown()
+
+	else:
+		push_error("CombatActive: `_orbiter` not defined.")
+
+func _cast_area_of_effect() -> void:
+	if _cast_position is Marker2D:
+		var projectile: ProjectileAreaOfEffect = _create_projectile(
+			_cast_position.global_position,
+			_effect_chain.on_hit_multiple
+		)
+		var angle: float = _caster.get_angle_to(target_actor.global_position)
+		projectile.rotation = angle
+		_restart_cooldown()
+	else:
+		push_error("CombatActive: `_cast_position` not defined.")
+
+func _cast_aura() -> void:
+	# set target so that aura follows them around
+	var target_: CombatActor
+	# FIXME: this is defined in library, need to get from there.
+	if _valid_target_option == Constants.TARGET_OPTION.self_:
+		target_ = _caster
+	else:
+		target_ = target_actor
+
+	var projectile: ProjectileAura = _create_projectile(
+			_cast_position.global_position,
+			_effect_chain.on_hit_multiple
+		)
+	projectile.set_target_actor(target_)
+
+	_restart_cooldown()
+
 
 #endregion

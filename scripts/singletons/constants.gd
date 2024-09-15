@@ -1,11 +1,28 @@
 ## constants used across the project.
 ##
-## where an instance may exist with a similar name, e.g. STAT, we append "_TYPE" or similar to the constant's name, to help differentiation.
+## where an instance may exist with a similar name, e.g. STAT,
+## we append "_TYPE" or similar to the constant's name, to help differentiation.
 extends Node
+
+########################
+####### PATHS #########
+######################
+
+const PATH_SPRITE_FRAMES: String = "res://data/sprite_frames/"
+
+#########################
+####### COMBAT #########
+######################
 
 const FRICTION: float = 10.3 ## the reduction in force applied to a physics object when new force not being applied
 const AURA_TICK_RATE: float = 0.33  ## the standard amount for how long an [Aura] waits before looping.
 const GLOBAL_CAST_DELAY: float = 0.33  ## min time to wait between combat active casts
+
+
+
+########################
+####### ENUMS #########
+######################
 
 ## the team the entity is on
 enum TEAM {
@@ -62,9 +79,9 @@ enum CAST_TYPE {
 ## how a set of effects in a [CombatActive] are delivered
 enum EFFECT_DELIVERY_METHOD {
 	direct_to_target,
-	projectile,
+	throwable,
 	orbital,
-	melee,
+	area_of_effect,
 	aura
 }
 
@@ -99,6 +116,13 @@ enum TRIGGER {
 	on_death,
 	on_interval,
 	on_application,
+	on_use_combat_active,
+	on_heal,
+	on_summon,
+	on_kill,
+	on_move,
+	on_deal_damage,
+	on_receive_damage
 }
 
 ## how a lifetime or duration is determined
@@ -107,4 +131,24 @@ enum DURATION_TYPE {
 	applications,
 	until_removed,
 	permanent
+}
+
+## defined types of target preference
+enum TARGET_PREFERENCE {
+	any, ## anyone
+	lowest_health, ## actor with lowest health
+	highest_health,  ## actor with highest health
+	weak_to_mundane,  ## actor with weakness to mundane damage type
+	damaged,  ## actor that isnt full health
+	nearest,  ## actor nearest caller
+	furthest,  ## actor furthest from caller, but still in range
+}
+
+## different animation types for an actor
+enum ACTOR_ANIMATION_NAME {
+	cast,
+	attack,
+	death,
+	idle,
+	walk
 }

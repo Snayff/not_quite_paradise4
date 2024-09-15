@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://d0566hc3pop1n"]
-
-[ext_resource type="Script" path="res://scenes/components/pop_up_numbers.gd" id="1_vahxx"]
-
-[node name="PopUpNumbers" type="Marker2D"]
-script = ExtResource("1_vahxx")

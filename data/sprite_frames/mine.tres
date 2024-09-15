@@ -1,0 +1,15 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://djh1ae4v6i52y"]
+
+[ext_resource type="Texture2D" uid="uid://rjc8pu5vsjls" path="res://assets/projectiles/crappy_bomb.png" id="1_t8m5k"]
+
+[resource]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_t8m5k")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://lbhta0mrhs1b"]
+[gd_scene load_steps=7 format=3 uid="uid://lbhta0mrhs1b"]
 
 [ext_resource type="PackedScene" uid="uid://cn8jpy03lpd4m" path="res://scenes/abcs/combat_active.tscn" id="1_bejtl"]
 [ext_resource type="Texture2D" uid="uid://bdriwng0shu7t" path="res://assets/active_icons/circiling_stars.png" id="2_e43xh"]
-[ext_resource type="PackedScene" uid="uid://cgsflwjesyi8j" path="res://scenes/effect_delivery/visual_fireball.tscn" id="2_n4c11"]
 [ext_resource type="Script" path="res://scenes/combat_actives/circling_stars_effect_chain.gd" id="4_nd7yx"]
 [ext_resource type="Script" path="res://scripts/dataclasses/effect_stat_scaler.gd" id="5_33pwh"]
 
@@ -19,17 +18,16 @@ icon = ExtResource("2_e43xh")
 cast_type = 1
 cast_cost = 5
 _valid_effect_option = 2
-_delivery_method = 2
-_travel_range = 200
+_projectile_name = "fire_orb"
 
 [node name="CooldownTimer" parent="." index="0"]
 wait_time = 0.3
 
-[node name="SceneSpawner" parent="." index="1"]
-scene = ExtResource("2_n4c11")
-
 [node name="CollisionShape2D" parent="TargetFinder" index="0"]
 shape = SubResource("CircleShape2D_gns30")
+
+[node name="ProjectileOrbiter" parent="." index="3"]
+_max_projectiles = 10
 
 [node name="EffectChain" type="Node" parent="." index="4"]
 script = ExtResource("4_nd7yx")

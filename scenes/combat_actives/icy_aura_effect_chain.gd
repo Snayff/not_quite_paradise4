@@ -1,4 +1,4 @@
-## class desc
+## series of effects for Icy Aura. applies [Chilled] to hit actors.
 #@icon("")
 class_name IcyAuraEffectChain
 extends EffectChain

@@ -1,8 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://cta4xur1b7ano"]
+[gd_scene load_steps=19 format=3 uid="uid://cta4xur1b7ano"]
 
 [ext_resource type="PackedScene" uid="uid://cgd54nt0un6ix" path="res://scenes/abcs/combat_actor.tscn" id="1_m432m"]
 [ext_resource type="Texture2D" uid="uid://dopseo1w5jxrl" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame1).png" id="2_2j4ap"]
-[ext_resource type="Material" uid="uid://c7jv6ffhqnc54" path="res://shaders/trailing_silhouette.tres" id="2_2vh51"]
 [ext_resource type="Texture2D" uid="uid://y6wkn3lkdhy1" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame2).png" id="3_k08ba"]
 [ext_resource type="Texture2D" uid="uid://dcdgt417cspcb" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame3).png" id="4_qq01u"]
 [ext_resource type="Texture2D" uid="uid://bwamwonvpg20u" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame4).png" id="5_2jq15"]
@@ -10,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://lbhta0mrhs1b" path="res://scenes/combat_actives/circling_stars.tscn" id="7_47lvt"]
 [ext_resource type="Script" path="res://scripts/dataclasses/stat.gd" id="9_nf076"]
 [ext_resource type="Script" path="res://scripts/components/functionals/supply.gd" id="9_r5a4j"]
-[ext_resource type="PackedScene" uid="uid://ctgejtyeyphms" path="res://scenes/combat_actives/icy_aura.tscn" id="10_sm50s"]
+[ext_resource type="PackedScene" uid="uid://dskbsash4djh5" path="res://scenes/combat_actives/slash.tscn" id="10_fkwpq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nvgpk"]
 radius = 6.0
@@ -46,28 +45,28 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_3e800"]
 radius = 7.0
 
-[sub_resource type="Resource" id="Resource_c051k"]
+[sub_resource type="Resource" id="Resource_ccm7v"]
 resource_local_to_scene = true
 resource_name = "Strength"
 script = ExtResource("9_nf076")
 type = 0
 base_value = 10.0
 
-[sub_resource type="Resource" id="Resource_bo738"]
+[sub_resource type="Resource" id="Resource_jvg6x"]
 resource_local_to_scene = true
 resource_name = "Defence"
 script = ExtResource("9_nf076")
 type = 1
 base_value = 5.0
 
-[sub_resource type="Resource" id="Resource_77y4s"]
+[sub_resource type="Resource" id="Resource_7i4v5"]
 resource_local_to_scene = true
 resource_name = "Move Speed"
 script = ExtResource("9_nf076")
 type = 2
 base_value = 5.0
 
-[sub_resource type="Resource" id="Resource_cbp4c"]
+[sub_resource type="Resource" id="Resource_50ehq"]
 resource_local_to_scene = true
 resource_name = "Health"
 script = ExtResource("9_r5a4j")
@@ -75,7 +74,7 @@ type = 0
 max_value = 999
 regeneration_per_second = 0.0
 
-[sub_resource type="Resource" id="Resource_e7uei"]
+[sub_resource type="Resource" id="Resource_h6njx"]
 resource_local_to_scene = true
 resource_name = "Stamina"
 script = ExtResource("9_r5a4j")
@@ -84,7 +83,6 @@ max_value = 50
 regeneration_per_second = 0.0
 
 [node name="WolfRider" instance=ExtResource("1_m432m")]
-material = ExtResource("2_2vh51")
 
 [node name="CollisionShape2D" parent="." index="0"]
 visible = false
@@ -101,17 +99,17 @@ visible = false
 shape = SubResource("CircleShape2D_3e800")
 
 [node name="StatsContainer" parent="." index="11"]
-_editor_stats = Array[ExtResource("9_nf076")]([SubResource("Resource_c051k"), SubResource("Resource_bo738"), SubResource("Resource_77y4s")])
+_editor_stats = Array[ExtResource("9_nf076")]([SubResource("Resource_ccm7v"), SubResource("Resource_jvg6x"), SubResource("Resource_7i4v5")])
 
 [node name="SupplyContainer" parent="." index="13"]
-_editor_supplies = Array[ExtResource("9_r5a4j")]([SubResource("Resource_cbp4c"), SubResource("Resource_e7uei")])
+_editor_supplies = Array[ExtResource("9_r5a4j")]([SubResource("Resource_50ehq"), SubResource("Resource_h6njx")])
 
 [node name="CirclingStars" parent="CombatActiveContainer" index="0" instance=ExtResource("7_47lvt")]
 cast_type = 0
 
 [node name="Fireblast" parent="CombatActiveContainer" index="1" instance=ExtResource("6_jm2bo")]
 
-[node name="IcyAura" parent="CombatActiveContainer" index="2" instance=ExtResource("10_sm50s")]
+[node name="Slash" parent="CombatActiveContainer" index="2" instance=ExtResource("10_fkwpq")]
 
 [node name="CastPosition" parent="CentrePivot" index="0"]
 position = Vector2(10, -1)
