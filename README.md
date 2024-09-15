@@ -18,15 +18,11 @@
 [![Issues][issues-shield]][issues-url]
 [![Release][release-shield]][release-url]
 
-
-
-
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/Snayff/not_quite_paradise4">
-    <img src="logo.png" alt="Logo" width="64" height="64">
+    <img src="https://github.com/user-attachments/assets/78001617-062e-4c32-87d1-9bca87d89839" alt="Logo" width="64" height="64">
   </a>
 
 <h3 align="center">Not Quite Paradise 4</h3>
@@ -82,7 +78,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![HeadlineScreenshot][headline-screenshot]][headline-screenshot-url]
+<!-- [![HeadlineScreenshot][headline-screenshot]][headline-screenshot-url] -->
 
 
 
@@ -192,7 +188,7 @@ All other assets and media have a variety of licenses, per asset. See `LICENSE_m
 [issues-url]: https://github.com/Snayff/not_quite_paradise4/issues
 [license-shield]: https://img.shields.io/github/license/Snayff/not_quite_paradise4.svg?style=for-the-badge
 [license-url]: https://github.com/Snayff/not_quite_paradise4/blob/master/LICENSE.md
-[headline-screenshot]: https://imgur.com/a/oaokpsr
-[headline-screenshot-url]: https://imgur.com/a/oaokpsr
+[headline-screenshot]: https://github.com/user-attachments/assets/78001617-062e-4c32-87d1-9bca87d89839
+[headline-screenshot-url]: https://github.com/user-attachments/assets/78001617-062e-4c32-87d1-9bca87d89839
 [godot-shield]: https://img.shields.io/badge/Godot-white?style=for-the-badge&logo=godotengine&logoColor=%23478CBF
 [godot-url]: https://godotengine.org/
