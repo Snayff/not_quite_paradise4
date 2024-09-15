@@ -6,7 +6,7 @@ extends Node
 var _data: Dictionary  = {
 	"projectile": {
 		"fireball": {
-			"subclass": "throwable",
+			"effect_delivery_method": Constants.EFFECT_DELIVERY_METHOD.throwable,
 			# base attrs
 			"sprite_frames": "fireball.tres",
 			"valid_hit_option": Constants.TARGET_OPTION.enemy,
@@ -22,7 +22,7 @@ var _data: Dictionary  = {
 			"lock_rotation": true,
 		},
 		"explosion": {
-			"subclass": "aoe",
+			"effect_delivery_method": Constants.EFFECT_DELIVERY_METHOD.area_of_effect,
 			# base attrs
 			"sprite_frames": "explosion.tres",
 			"valid_hit_option": Constants.TARGET_OPTION.anyone,
@@ -32,7 +32,7 @@ var _data: Dictionary  = {
 			"application_frame": 0
 		},
 		"icy_wind": {
-			"subclass": "aura",
+			"effect_delivery_method": Constants.EFFECT_DELIVERY_METHOD.aura,
 			# base attrs
 			"sprite_frames": "icy_wind.tres",
 			"valid_hit_option": Constants.TARGET_OPTION.enemy,
@@ -43,7 +43,7 @@ var _data: Dictionary  = {
 			"lifetime": 3.0,
 		},
 		"fire_orb": {
-			"subclass": "orbital",
+			"effect_delivery_method": Constants.EFFECT_DELIVERY_METHOD.orbital,
 			# base attrs
 			"sprite_frames": "fireball.tres",
 			"valid_hit_option": Constants.TARGET_OPTION.enemy,
@@ -51,7 +51,7 @@ var _data: Dictionary  = {
 			"max_bodies_can_hit": 1,
 		},
 		"slash": {
-			"subclass": "aoe",
+			"effect_delivery_method": Constants.EFFECT_DELIVERY_METHOD.area_of_effect,
 			# base attrs
 			"sprite_frames": "slash.tres",
 			"valid_hit_option": Constants.TARGET_OPTION.enemy,
@@ -66,4 +66,6 @@ var _data: Dictionary  = {
 
 ## get data of a projectile. passed by ref, so dont edit!
 func get_projectile_data(projectile_name: String) -> Dictionary:
+	if not _data["projectile"].has(projectile_name):
+		push_error("Library: projectile name (", projectile_name, ") not found.")
 	return _data["projectile"][projectile_name]

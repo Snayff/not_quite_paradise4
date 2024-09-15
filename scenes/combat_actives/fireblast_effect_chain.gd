@@ -1,4 +1,4 @@
-## the series of effects for the fireblast skill
+## fireblast is a single target skill that triggers an aoe on hit.
 class_name FireblastEffectChain
 extends EffectChain
 

@@ -81,7 +81,7 @@ enum EFFECT_DELIVERY_METHOD {
 	direct_to_target,
 	throwable,
 	orbital,
-	melee,
+	area_of_effect,
 	aura
 }
 

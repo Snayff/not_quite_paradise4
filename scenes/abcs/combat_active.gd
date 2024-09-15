@@ -33,10 +33,12 @@ signal new_target(target: CombatActor)
 @export var _valid_effect_option: Constants.TARGET_OPTION  ## who the active's effects can affect
 @export_group("Delivery")
 @export var _projectile_name: String = ""
-@export var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
+@export_group("Debug")
+@export var _is_debug: bool = true  ## whether to show debug stuff
+
 # FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?! also no good for range finding
 # TODO: rename to range. hide if delivery_method is melee and set to 15.
-@export var _travel_range: int:  ## how far the projectile can travel. when set, updates target finder.
+var _travel_range: int:  ## how far the projectile can travel. when set, updates target finder.
 	set(value):
 		_travel_range = value
 		if _target_finder is TargetFinder:
@@ -53,11 +55,12 @@ var is_ready: bool = false:  ## if is off cooldown. set by cooldown timer timeou
 		is_ready = _value
 		if is_ready:
 			now_ready.emit()
-var _is_debug: bool = true  ## whether to show debug stuff
+
 # set by parent container
 var _caster: CombatActor  ## who owns this active
 var _allegiance: Allegiance  ## creator's allegiance component
 var _cast_position: Marker2D  ##  projectile spawn location. Must have to be able to use `projectile` delivery method.
+
 var time_until_ready: float:
 	set(value):
 		push_error("CombatActive: Can't set `time_until_ready` directly.")
@@ -77,6 +80,7 @@ var can_cast: bool:
 			return true
 		return false
 var _has_run_ready: bool = false  ## if _ready() has finished
+var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
 #endregion
 
 
@@ -96,6 +100,9 @@ func _ready() -> void:
 	_cooldown_timer.start()
 	_cooldown_timer.one_shot = true
 	_cooldown_timer.timeout.connect(func(): is_ready = true )
+
+	# internalise delivery method
+	_delivery_method = Library.get_projectile_data(_projectile_name)["effect_delivery_method"]
 
 	# FIXME: this is now set in library, per projectile, so how do we update target finder?
 	# config target finder
@@ -152,51 +159,15 @@ func cast()-> void:
 
 	if _delivery_method == Constants.EFFECT_DELIVERY_METHOD.throwable:
 		_cast_throwable()
-		#if _cast_position is Marker2D:
-			#var projectile: ProjectileThrowable = _create_throwable()
-			#projectile.set_target_actor(target_actor)
-			#projectile.activate()
-			#_restart_cooldown()
-		#else:
-			#push_error("CombatActive: `_cast_position` not defined.")
 
 	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.orbital:
 		_cast_orbital()
 
-		#if _orbiter is ProjectileOrbiterComponent:
-			#var projectile = _create_orbital()
-			#if projectile != null:
-				#projectile.died.connect(_orbiter.remove_projectile.bind(projectile))
-				#_orbiter.add_projectile(projectile)
-				#projectile.activate()
-				#_restart_cooldown()
-#
-		#else:
-			#push_error("CombatActive: `_orbiter` not defined.")
-
-	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.melee:
-		_cast_melee()
-		#if _cast_position is Marker2D:
-			#var projectile = _create_melee()
-			#var angle = _caster.get_angle_to(target_actor.global_position)
-			#projectile.rotation = angle
-			#_restart_cooldown()
-		#else:
-			#push_error("CombatActive: `_cast_position` not defined.")
+	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.area_of_effect:
+	_cast_area_of_effect()
 
 	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.aura:
 		_cast_aura()
-		#var projectile: ProjectileAura = _create_aura()
-#
-		## set target so that aura follows them around
-		#var target_: CombatActor
-		#if _valid_target_option == Constants.TARGET_OPTION.self_:
-			#target_ = _caster
-		#else:
-			#target_ = target_actor
-		#projectile.set_target_actor(target_)
-#
-		#_restart_cooldown()
 
 	else:
 		push_error("CombatActive: `_delivery_method` (", _delivery_method, ") not defined.")
@@ -204,18 +175,21 @@ func cast()-> void:
 
 
 
-func _create_projectile(cast_position: Vector2) -> ABCProjectile:
+func _create_projectile(cast_position: Vector2, on_hit_callable: Callable) -> ABCProjectile:
 	var projectile: ABCProjectile = Factory.create_projectile(
 		_projectile_name,
 		_allegiance.team,
 		cast_position,
-		_effect_chain.on_hit
+		on_hit_callable
 	)
 	return projectile
 
 func _cast_throwable() -> void:
 	if _cast_position is Marker2D:
-		var projectile: ProjectileThrowable = _create_projectile(_cast_position.global_position)
+		var projectile: ProjectileThrowable = _create_projectile(
+			_cast_position.global_position,
+			_effect_chain.on_hit
+		)
 		projectile.set_target_actor(target_actor)
 		projectile.activate()
 		_restart_cooldown()
@@ -227,7 +201,10 @@ func _cast_orbital() -> void:
 		if _orbiter.has_max_projectiles:
 			return
 
-		var projectile: ProjectileOrbital = _create_projectile(_cast_position.global_position)
+		var projectile: ProjectileOrbital = _create_projectile(
+			_cast_position.global_position,
+			_effect_chain.on_hit
+		)
 		projectile.died.connect(_orbiter.remove_projectile.bind(projectile))
 		_orbiter.add_projectile(projectile)
 		projectile.activate()
@@ -236,10 +213,13 @@ func _cast_orbital() -> void:
 	else:
 		push_error("CombatActive: `_orbiter` not defined.")
 
-func _cast_melee() -> void:
+func _cast_area_of_effect() -> void:
 	if _cast_position is Marker2D:
-		var projectile = _create_projectile(_cast_position.global_position)
-		var angle = _caster.get_angle_to(target_actor.global_position)
+		var projectile: ProjectileAreaOfEffect = _create_projectile(
+			_cast_position.global_position,
+			_effect_chain.on_hit_multiple
+		)
+		var angle: float = _caster.get_angle_to(target_actor.global_position)
 		projectile.rotation = angle
 		_restart_cooldown()
 	else:
@@ -254,14 +234,13 @@ func _cast_aura() -> void:
 	else:
 		target_ = target_actor
 
-	var projectile = _create_projectile(_cast_position.global_position)
+	var projectile: ProjectileAura = _create_projectile(
+			_cast_position.global_position,
+			_effect_chain.on_hit_multiple
+		)
 	projectile.set_target_actor(target_)
 
 	_restart_cooldown()
-
-
-
-
 
 ## set the target actor. can accept null.
 func set_target_actor(actor: CombatActor) -> void:

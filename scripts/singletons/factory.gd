@@ -41,8 +41,8 @@ func create_projectile(
 
 	# get specific subclass
 	var projectile: ABCProjectile
-	match dict_data["subclass"]:
-		"throwable":
+	match dict_data["effect_delivery_method"]:
+		Constants.EFFECT_DELIVERY_METHOD.throwable:
 			# finish setting up data class
 			data_class.define_throwable(
 				dict_data["travel_range"],
@@ -59,7 +59,7 @@ func create_projectile(
 			if on_hit_callable != null:
 				projectile.hit_valid_target.connect(on_hit_callable)
 
-		"aoe":
+		Constants.EFFECT_DELIVERY_METHOD.area_of_effect:
 			data_class.define_aoe(
 				dict_data["application_frame"]
 			)
@@ -69,7 +69,7 @@ func create_projectile(
 			if on_hit_callable != null:
 				projectile.hit_multiple_valid_targets.connect(on_hit_callable)
 
-		"aura":
+		Constants.EFFECT_DELIVERY_METHOD.aura:
 			data_class.define_aura(
 				dict_data["application_frame"],
 				dict_data["lifetime"]
@@ -80,14 +80,18 @@ func create_projectile(
 			if on_hit_callable != null:
 				projectile.hit_multiple_valid_targets.connect(on_hit_callable)
 
-		"orbital":
+		Constants.EFFECT_DELIVERY_METHOD.orbital:
 			projectile = _PROJECTILE_ORBITAL.instantiate() as ProjectileOrbital
 
 			if on_hit_callable != null:
 				projectile.hit_valid_target.connect(on_hit_callable)
 
 		_:
-			push_error("Factory: projectile subclass unknown.")
+			push_error(
+				"Factory: projectile delivery type (",
+				dict_data["effect_delivery_method"],
+				" unknown."
+			)
 
 	# create and setup instance
 
