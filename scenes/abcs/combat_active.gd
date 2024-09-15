@@ -35,33 +35,31 @@ signal new_target(target: CombatActor)
 @export var _projectile_name: String = ""
 @export_group("Debug")
 @export var _is_debug: bool = true  ## whether to show debug stuff
-
-# FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?! also no good for range finding
-# TODO: rename to range. hide if delivery_method is melee and set to 15.
-## how far the projectile can travel. when set, updates target finder.
-var _max_range: int:
-	set(value):
-		_max_range = value
-		if _target_finder is TargetFinder:
-			_target_finder.set_max_range(_max_range)
-
 #endregion
 
 
 #region VARS
 var target_actor: CombatActor
 var target_position: Vector2  ## NOTE: not yet used
-var is_ready: bool = false:  ## if is off cooldown. set by cooldown timer timeout
-	set(_value):
-		is_ready = _value
-		if is_ready:
-			now_ready.emit()
 
 # set by parent container
 var _caster: CombatActor  ## who owns this active
 var _allegiance: Allegiance  ## creator's allegiance component
 var _cast_position: Marker2D  ##  projectile spawn location. Must have to be able to use `projectile` delivery method.
 
+# cast state
+var is_ready: bool = false:  ## if is off cooldown. set by cooldown timer timeout
+	set(_value):
+		is_ready = _value
+		if is_ready:
+			now_ready.emit()
+var can_cast: bool:
+	set(_value):
+		push_error("CombatActive: Can't set `can_cast` directly.")
+	get:
+		if is_ready and target_actor is CombatActor:
+			return true
+		return false
 var time_until_ready: float:
 	set(value):
 		push_error("CombatActive: Can't set `time_until_ready` directly.")
@@ -73,15 +71,19 @@ var percent_ready: float:
 	get():
 		return _cooldown_timer.time_left / _cooldown_timer.wait_time
 var is_selected: bool = false  ## whether this active is selected by the parent container
-var can_cast: bool:
-	set(_value):
-		push_error("CombatActive: Can't set `can_cast` directly.")
-	get:
-		if is_ready and target_actor is CombatActor:
-			return true
-		return false
+
+# flags
 var _has_run_ready: bool = false  ## if _ready() has finished
+
+# data from library
 var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
+# FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?! also no good for range finding
+## how far the projectile can travel. when set, updates target finder.
+var _max_range: float:
+	set(value):
+		_max_range = value
+		if _target_finder is TargetFinder:
+			_target_finder.set_max_range(_max_range)
 #endregion
 
 
@@ -175,6 +177,35 @@ func cast()-> void:
 	else:
 		push_error("CombatActive: `_delivery_method` (", _delivery_method, ") not defined.")
 
+## set the target actor. can accept null.
+func set_target_actor(actor: CombatActor) -> void:
+	if actor is CombatActor:
+		target_actor = actor
+		if not target_actor.is_connected("died", set_target_actor):
+			target_actor.died.connect(set_target_actor.bind(null))  # to clear target
+		new_target.emit(actor)
+	else:
+		if _cooldown_timer.is_connected("timeout", cast):
+			# if no target then keep cooldown going but dont connect to the cast
+			_cooldown_timer.timeout.disconnect(cast)
+
+## sets allegiance and updates child target finder's targeting info (as this is contingent on allegiance).
+func set_allegiance(allegiance: Allegiance) -> void:
+	_allegiance = allegiance
+	# FIXME: travel range and target option are set in library, need to get from there
+	_target_finder.set_targeting_info(_max_range, _valid_target_option, _allegiance)
+
+func set_projectile_position(marker: Marker2D) -> void:
+	_cast_position = marker
+
+##########################
+####### PRIVATE #########
+########################
+
+## start cooldown timer and update is_ready to false
+func _restart_cooldown() -> void:
+	_cooldown_timer.start()
+	is_ready = false
 
 
 
@@ -245,83 +276,5 @@ func _cast_aura() -> void:
 
 	_restart_cooldown()
 
-## set the target actor. can accept null.
-func set_target_actor(actor: CombatActor) -> void:
-	if actor is CombatActor:
-		target_actor = actor
-		if not target_actor.is_connected("died", set_target_actor):
-			target_actor.died.connect(set_target_actor.bind(null))  # to clear target
-		new_target.emit(actor)
-	else:
-		if _cooldown_timer.is_connected("timeout", cast):
-			# if no target then keep cooldown going but dont connect to the cast
-			_cooldown_timer.timeout.disconnect(cast)
-
-## sets allegiance and updates child target finder's targeting info (as this is contingent on allegiance).
-func set_allegiance(allegiance: Allegiance) -> void:
-	_allegiance = allegiance
-	# FIXME: travel range and target option are set in library, need to get from there
-	_target_finder.set_targeting_info(_max_range, _valid_target_option, _allegiance)
-
-func set_projectile_position(marker: Marker2D) -> void:
-	_cast_position = marker
-
-##########################
-####### PRIVATE #########
-########################
-
-## start cooldown timer and update is_ready to false
-func _restart_cooldown() -> void:
-	_cooldown_timer.start()
-	is_ready = false
-#
-#
-### create a throwable projectile at the _cast_position
-#func _create_throwable() -> ProjectileThrowable:
-	## TODO: active needs to specify projectile name
-	#var projectile: ProjectileThrowable = Factory.create_projectile(
-		#"fireball",
-		 #_allegiance.team,
-		#_cast_position.global_position,
-		#_effect_chain.on_hit
-	#)
-	#return projectile
-#
-#func _create_orbital() -> ProjectileOrbital:
-	#if not _orbiter.has_max_projectiles:
-		#var projectile: ProjectileOrbital = Factory.create_projectile(
-		#"fire_orb",
-		 #_allegiance.team,
-		#_cast_position.global_position,
-		#_effect_chain.on_hit
-		#)
-		#return projectile
-#
-	#else:
-		#return null
-#
-### create a projectile at the _target_position
-#func _create_melee() -> ProjectileAreaOfEffect:
-	#return Factory.create_projectile(
-		#"slash",
-		#_allegiance.team,
-		#_cast_position.global_position,
-		#_effect_chain.on_hit_multiple
-	#)
-#
-#func _create_aura() -> ProjectileAura:
-	#var target_: CombatActor
-	#if _valid_target_option == Constants.TARGET_OPTION.self_:
-		#target_ = _caster
-	#else:
-		#target_ = target_actor
-#
-	#var projectile: ProjectileAura = Factory.create_projectile(
-		#"icy_wind",
-		#_allegiance.team,
-		#target_.global_position,
-		#_effect_chain.on_hit_multiple
-	#)
-	#return projectile
 
 #endregion
