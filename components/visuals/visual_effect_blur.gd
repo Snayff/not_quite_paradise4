@@ -1,5 +1,6 @@
 ## Apply directional blur to a sprite
-class_name MotionBlurComponent
+@icon("res://components/visuals/visual_effect_blur.png")
+class_name VisualEffectMotionBlur
 extends ABCVisualEffect
 # FIXME: shader's effect distorts the image, but doesnt work as intended.
 
@@ -34,7 +35,7 @@ func _ready() -> void:
 	super._ready()
 
 	# check for mandatory properties set in editor
-	assert(_movement_component is PhysicsMovementComponent, "MotionBlurComponent: Misssing `_movement_component`.")
+	assert(_movement_component is PhysicsMovementComponent, "VisualEffectMotionBlur: Misssing `_movement_component`.")
 
 	_movement_component.velocity_calculated.connect(_update_direction)
 

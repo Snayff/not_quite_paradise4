@@ -40,7 +40,7 @@ func _configure_behaviour() -> void:
 	scaler.stat = Constants.STAT_TYPE.strength
 	scaler.scale_value = 0.5
 	_damage_scalers.append(scaler)
-	_application_animation_scene = load("res://scenes/visual_effects/fire.tscn")
+	_application_animation_scene = load("res://visual_effects/fire/fire.tscn")
 	_duration = 2.5
 	_duration_type = Constants.DURATION_TYPE.time
 	trigger = Constants.TRIGGER.on_interval

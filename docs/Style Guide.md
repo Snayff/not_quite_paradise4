@@ -27,34 +27,16 @@ If the implementation is easy to explain, it may be a good idea.
 Namespaces are one honking great idea -- let's do more of those!
 ```
 # Structure
-## Overview
-The top level folder structure should look like this:
--assets
--data
--docs
--scenes
--scripts
--scenes_with_scripts
+We structure the project by function, meaning objects that are alike are found together. This is a bit different to the more common approach of separating by type (e.g. images with images, scripts with scripts), but as we scale should keep things easy to find. Also makes it easier to reorganise or reuse objects in another project, as the dependencies are likely close by. 
 
-## Assets
-The `assets` folder contains all non-code assets. 
-
-While utilising assets from a variety of places we include the `license.txt` file alongside the related assets. 
-## Data
-Config and data files.
-## Docs
-Project documentation is held here.
-## Scenes
-xxx
-## Scripts
-xxx
+That said, somethings must be shared. Where this is the case they are held in top level folders, usually with shared in the title. An example of this is the `ABC` node icon, as there are many ABC classes that use that icon. 
 # Folders
 We use folders to group like things and create identifiable separation. For example, a set of sprites for a single animation should be in their own folder.
 # Naming
 ## Private or Public
 Private or local variables and functions should be prefixed with an underscore, i.e. `_`. This is to keep the external API of the class as clean and simple as possible. 
 ## Simple Differentiation
-We use a trailing underscore, i.e. `_` where we need a simple differnetiation between variable names. This is often used where arguments in a function might otherwise match class variables. 
+We use a trailing underscore, i.e. `_` where we need a simple differentiation between variable names. This is often used where arguments in a function might otherwise match class variables. 
 
 ## Is or Has
 For any conditions that check the *thing*-ness of a class, we use `Is*` or `Has*`, e.g. `IsReady` naming conventions. 

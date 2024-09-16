@@ -1,5 +1,6 @@
 ## scale a sprite to a specified size and then back again
-class_name ScaleComponent
+@icon("res://components/visuals/visual_effect_scale.png")
+class_name VisualEffectScale
 extends ABCVisualEffect
 
 @export_group("Details")

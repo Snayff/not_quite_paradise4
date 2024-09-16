@@ -24,3 +24,12 @@ We adopt a fix as you go attitude, meaning we generally avoid Pull Requests cont
 # Releases
 ## Semantic Versioning
 Much like Godot, we use a loose version of Semantic Versioning, or [SemVer](https://semver.org/). 
+
+# Working With the Project
+## Know Your Colour
+Hurtboxes use orange, specifically `f9870d6b`.
+Physics, such as body collisions, use red, specifically `ff11006b`.
+Target searching uses yellow, specifically `fef21e6b`.
+
+## Node Icons
+If you see and ABC icon, you know you need to use a subclass, and not that class directly, as it is an Abstract Base Class.

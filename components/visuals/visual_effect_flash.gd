@@ -1,6 +1,6 @@
 ## flash the attached sprite
-@icon("res://components/functionals/physics_movement.png")
-class_name FlashComponent
+@icon("res://components/visuals/visual_effect_flash.png")
+class_name VisualEffectFlash
 extends ABCVisualEffect
 
 

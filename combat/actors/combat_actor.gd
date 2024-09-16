@@ -12,7 +12,7 @@ signal died  ## actor has died
 #region ON READY
 #FIXME: can we get rid of some of these? shouldnt we only need them for things we use in this script, rather than as an interface for other nodes, who
 #  could use get_node()?
-@onready var _on_hit_flash: FlashComponent = %OnHitFlash
+@onready var _on_hit_flash: VisualEffectFlash = %OnHitFlash
 @onready var reusable_spawner: SpawnerComponent = %ReusableSpawner  ## component for spawning runtime-defined Nodes on the actor
 @onready var allegiance: Allegiance = %Allegiance
 @onready var combat_active_container: CombatActiveContainerComponent = %CombatActiveContainer
