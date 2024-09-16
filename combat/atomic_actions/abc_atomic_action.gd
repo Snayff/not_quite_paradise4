@@ -1,5 +1,5 @@
 ## ABC for AtomicActions. These are the most granular action in combat, e.g. dealing damage.
-#@icon("")
+@icon("res://shared_assets/node_icons/abc.png")
 class_name ABCAtomicAction
 extends Node
 

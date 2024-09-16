@@ -1,7 +1,7 @@
 ## ABC for a series of effects
 ##
 ## an ABCEffectChain usually remains active as a child of a [CombatActive], meaning it isnt freed and reinstatiated.
-@icon("res://combat/actives/effect_chain.png")
+@icon("res://shared_assets/node_icons/abc.png")
 class_name ABCEffectChain
 extends Node
 

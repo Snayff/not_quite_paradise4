@@ -1,5 +1,5 @@
-## An aesthetic only effect. As such, should have no functional side effects.
-@icon("res://components/visuals/visual_effect.png")
+## ABC for an aesthetic only effect. As such, should have no functional side effects.
+@icon("res://shared_assets/node_icons/abc.png")
 class_name ABCVisualEffect
 extends Node
 
@@ -50,7 +50,6 @@ func activate() -> void:
 	push_error(
 		"VisualEffect: `activate` called directly, but is virtual. Must be overriden by child."
 	)
-	pass
 
 ## @virtual deactivate the effect on the _target_sprite.
 ## usually called at end of duration automiatically.
@@ -58,7 +57,7 @@ func deactivate() -> void:
 	push_error(
 		"VisualEffect: `activate` called directly, but is virtual. Must be overriden by child."
 	)
-	pass
+
 
 
 #endregion

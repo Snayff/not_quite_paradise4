@@ -1,5 +1,5 @@
 ## ABC for boon_banes
-#@icon("")
+@icon("res://shared_assets/node_icons/abc.png")
 class_name ABCBoonBane
 extends Node
 
