@@ -1,4 +1,7 @@
-## ABC for an active skill used in combat
+## an active skill used in combat
+##
+## icon and effect chain are dyanmically loaded based on name. both must be in
+## [PATH_COMBAT_ACTIVES].
 @icon("res://combat/actives/combat_active.png")
 class_name CombatActive
 extends Node2D
@@ -21,6 +24,10 @@ signal new_target(target: CombatActor)
 
 
 #region EXPORTS
+@export_group("NEW")
+## used to load data from library
+@export var _combat_active_name: String = ""
+
 # TODO: move these to a config node, so designing a combat active is abstracted and only available within scene
 @export_group("Aesthetics")
 @export var icon: CompressedTexture2D  ## the icon used to identify the active
@@ -75,7 +82,12 @@ var is_selected: bool = false  ## whether this active is selected by the parent 
 # flags
 var _has_run_ready: bool = false  ## if _ready() has finished
 
-# data from library
+# data from library - combat active
+var _cooldown_duration: float = 0
+var _max_projectiles: int = 0
+var _orbit_rotation: float = 0.0
+var _orbit_radius: int = 0
+# data from library - projectile
 var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
 # FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?! also no good for range finding
 ## how far the projectile can travel. when set, updates target finder.
@@ -99,20 +111,40 @@ func _ready() -> void:
 	assert(_effect_chain is ABCEffectChain, "CombatActive: Missing `_effect_chain`.")
 	assert(_target_finder is TargetFinder, "CombatActive: Missing `_target_finder`.")
 
+	_load_data_from_library()
+
 	# config cooldown timer
 	_cooldown_timer.start()
 	_cooldown_timer.one_shot = true
 	_cooldown_timer.timeout.connect(func(): is_ready = true )
-
-	# internalise some projectile data
-	_delivery_method = Library.get_projectile_data(_projectile_name)["effect_delivery_method"]
-	_max_range = Library.get_projectile_range(_projectile_name)
 
 	# FIXME: this is now set in library, per projectile, so how do we update target finder?
 	# config target finder
 	_target_finder.new_target.connect(set_target_actor)  # ensure we're in sync with range finders new target
 
 	_has_run_ready = true
+
+func _load_data_from_library() -> void:
+	var dict_data: Dictionary = Library.get_combat_active_data(_combat_active_name)
+
+	# dynamically load icon and effect chain based on name
+	icon = load(Constants.PATH_COMBAT_ACTIVES.path_join(str(_combat_active_name, ".png")))
+	_effect_chain = load(Constants.PATH_COMBAT_ACTIVES.path_join(str("effect_chain_", _combat_active_name, ".gd"))).instantiate()
+
+	cast_type = dict_data["cast_type"]
+	cast_supply = dict_data["cast_supply"]
+	cast_cost = dict_data["cast_cost"]
+	_valid_target_option = dict_data["valid_target_option"]
+	_valid_effect_option = dict_data["valid_effect_option"]
+	_projectile_name = dict_data["projectile_name"]
+	_cooldown_duration = dict_data["cooldown_duration"]
+	_max_projectiles = dict_data["max_projectiles"]
+	_orbit_rotation = dict_data["orbit_rotation"]
+	_orbit_radius = dict_data["orbit_radius"]
+
+	# internalise some projectile data
+	_delivery_method = Library.get_projectile_data(_projectile_name)["effect_delivery_method"]
+	_max_range = Library.get_projectile_range(_projectile_name)
 
 
 ## run setup process and repeat on all direct children.

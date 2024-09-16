@@ -9,6 +9,7 @@ extends Node
 ######################
 
 const PATH_SPRITE_FRAMES: String = "res://data/sprite_frames/"
+const PATH_COMBAT_ACTIVES: String = "res://combat/actives/"
 
 #########################
 ####### COMBAT #########
