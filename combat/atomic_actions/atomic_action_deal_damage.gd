@@ -45,8 +45,8 @@ func apply(target: CombatActor) -> void:
 	if is_one_shot and has_applied_damage:
 		return
 
-	var supplies: SupplyContainerComponent = target.get_node_or_null("SupplyContainer")
-	if supplies is SupplyContainerComponent:
+	var supplies: SupplyContainer = target.get_node_or_null("SupplyContainer")
+	if supplies is SupplyContainer:
 		var supply = supplies.get_supply(target_supply)
 		var damage = _calculate_damage(target)
 		supply.decrease(damage)
@@ -66,7 +66,7 @@ func _calculate_damage(target: CombatActor) -> int:
 ## base damage modified by scalers
 func _apply_scalers() -> int:
 	var damage = base_damage
-	var stats: StatsContainerComponent = _source.get_node_or_null("StatsContainer")
+	var stats: StatsContainer = _source.get_node_or_null("StatsContainer")
 	if stats == null:
 		return base_damage
 
@@ -79,7 +79,7 @@ func _apply_scalers() -> int:
 ##
 ## NOTE: will need to amend when we add more stats, to account for different resistances and damage types
 func _apply_resistances(target: CombatActor, damage: int) -> int:
-	var stats: StatsContainerComponent = target.get_node_or_null("StatSheet")
+	var stats: StatsContainer = target.get_node_or_null("StatSheet")
 	if stats == null:
 		return damage
 

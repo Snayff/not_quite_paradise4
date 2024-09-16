@@ -25,7 +25,7 @@ signal new_target(target: CombatActor)
 @export var _root: CombatActor  ## who created this active
 @export var _allegiance: Allegiance  ## creator's allegiance component
 @export var _cast_position: Marker2D  ##  delivery method's spawn location. Ignored by Orbital.
-@export var _supplies: SupplyContainerComponent  ## the supplies to be used to cast actives
+@export var _supplies: SupplyContainer  ## the supplies to be used to cast actives
 @export_group("Details")
 ## list of names of the combat actives. used on init to instantiate the names given as nodes.
 @export var _combat_active_names: Array[String] = []
@@ -56,7 +56,7 @@ func _ready() -> void:
 	assert(_root is CombatActor, "Misssing `_root`.")
 	assert(_allegiance is Allegiance, "Misssing `_allegiance`.")
 	assert(_cast_position is Marker2D, "Misssing `_cast_position`.")
-	assert(_supplies is SupplyContainerComponent, "Misssing `_supplies`.")
+	assert(_supplies is SupplyContainer, "Misssing `_supplies`.")
 
 	_create_actives()
 

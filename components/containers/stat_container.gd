@@ -1,6 +1,6 @@
 ## interface for multiple [StatData]s.
 @icon("res://components/containers/stat_container.png")
-class_name StatsContainerComponent
+class_name StatsContainer
 extends Node
 
 
@@ -46,7 +46,7 @@ func _check_for_duplicates() -> void:
 		check_array.clear()
 		check_array = _stats.filter(func(i): return i.type == stat.type)
 		if check_array.size() > 1:
-			push_warning("StatsContainerComponent: Multiple instances of ", stat.type, " found. Must be unique.")
+			push_warning("StatsContainer: Multiple instances of ", stat.type, " found. Must be unique.")
 
 ## get a stat from the stat sheet.
 ##
@@ -63,7 +63,7 @@ func get_all_stats() -> Array[StatData]:
 func add_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:
 	var stat = get_stat(stat_type)
 	if stat == null:
-		push_error("StatsContainerComponent: stat_type (", Utility.get_enum_name(Constants.STAT_TYPE, stat_type), ") not recognised.")
+		push_error("StatsContainer: stat_type (", Utility.get_enum_name(Constants.STAT_TYPE, stat_type), ") not recognised.")
 	stat.add_mod(mod)
 
 	# keep for debugging
