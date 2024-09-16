@@ -297,7 +297,11 @@ func _cast_orbital() -> void:
 		)
 		projectile.died.connect(_orbiter.remove_projectile.bind(projectile))
 		_orbiter.add_projectile(projectile)
+
+		# FIXME: projectile appears at (0,0) and then jumps to position
+		#		even moving this into orbiter, and even deferring, doesnt fix.
 		projectile.activate()
+
 		_restart_cooldown()
 
 	else:

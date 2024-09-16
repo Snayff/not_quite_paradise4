@@ -108,7 +108,7 @@ var _data: Dictionary  = {
 			"cast_cost": 10,
 			"valid_target_option": Constants.TARGET_OPTION.self_,
 			"valid_effect_option": Constants.TARGET_OPTION.enemy,
-			"projectile_name": "fireball",
+			"projectile_name": "fire_orb",
 			"cooldown_duration": 1,
 			# orbitals only
 			"max_projectiles": 6,

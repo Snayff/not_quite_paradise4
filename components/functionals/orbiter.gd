@@ -106,6 +106,7 @@ func add_projectile(projectile: ProjectileOrbital) -> void:
 		# FIXME: need to use radial spreading to improve the look of spawnign new projectiles.
 		#		also, this means currently a projectile can spawn where one has just expired,
 		#		essentially double hitting.
+		# FIXME: projectiles all grouping up together, not spread around circle
 		projectile.position = _points[_projectiles.size() - 1] # -1 to account for starting from 0
 
 	else:

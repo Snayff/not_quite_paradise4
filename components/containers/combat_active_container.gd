@@ -86,14 +86,14 @@ func _unhandled_input(_event: InputEvent) -> void:
 ## use actives for which we have names in [_combat_active_names]. Runs setup and connects to
 ## signals.
 func _create_actives() -> void:
-	for name in _combat_active_names:
+	for name_ in _combat_active_names:
 		# create active and take note
 		var active_: CombatActive = _COMBAT_ACTIVE.instantiate()
 		add_child(active_)
 		_actives.append(active_)
 
 		# setup active
-		active_.setup(name, _root, _allegiance, _cast_position)
+		active_.setup(name_, _root, _allegiance, _cast_position)
 
 		# connect to signals
 		active_.now_ready.connect(func(): _ready_actives.append(active_))

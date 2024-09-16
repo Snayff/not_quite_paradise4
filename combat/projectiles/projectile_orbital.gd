@@ -32,10 +32,13 @@ func _ready() -> void:
 	# link hitbox signal to our on_hit
 	_hitbox.hit_hurtbox.connect(_on_hit)
 
+	visible = false
+
 # start acting. must be manually triggered.
 func activate() -> void:
 	_set_hitbox_disabled(false)
 
+	visible = true
 	_sprite.play()
 
 func _on_hit(hurtbox: HurtboxComponent) -> void:
