@@ -83,6 +83,9 @@ max_value = 10
 regeneration_per_second = 0.0
 
 [node name="WolfRider" instance=ExtResource("1_m432m")]
+_is_player = false
+_linear_damp = 5.0
+_mass = 100.0
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_s36p7")
@@ -108,7 +111,6 @@ _editor_supplies = Array[ExtResource("7_04s3i")]([SubResource("Resource_2qdql"),
 visible = false
 
 [node name="CirclingStars" parent="CombatActiveContainer" index="0" instance=ExtResource("7_47lvt")]
-cast_type = 0
 
 [node name="Fireblast" parent="CombatActiveContainer" index="1" instance=ExtResource("6_jm2bo")]
 

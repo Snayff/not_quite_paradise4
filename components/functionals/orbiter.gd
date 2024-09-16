@@ -16,13 +16,14 @@ extends Node2D
 
 #region EXPORTS
 @export_group("Details")
-## max number of projectiles allower in the orbit
+## max number of projectiles allower in the orbit. loaded from library.
 @export var _max_projectiles: int = 6
-## how quickly the projectiles circle the actor
+## how quickly the projectiles circle the actor. loaded from library.
 @export var _rotation_speed: float = PI
 ## the size of the circle that the projectiles follow
 ## 20 is about minimum for circling a 16x16 actor.
 ## 50-70 is getting quite far from the actor.
+## loaded from library.
 @export var _orbit_radius: float = 60.0
 #endregion
 
@@ -36,8 +37,8 @@ var _num_projectiles: int:
 		return _projectiles.size()
 ## the points in the orbit on which to place the projectiles
 var _points: Array[Vector2] = []
-## FIXME: we should really update _points, but can't work out how to do so.
-##		by separating the angles and points like this the circles arent evenly spread
+# FIXME: we should really update _points, but can't work out how to do so.
+#		by separating the angles and points like this the circles arent evenly spread
 ## the angle of each projectile in the orbit
 var _angles: Array[float] = []
 ## if the orbiter has the maximum number of projectiles in orbit
@@ -46,6 +47,8 @@ var has_max_projectiles: bool:
 		push_error("ProjectileOrbiterComponent: Can't set `has_max_projectiles` directly.")
 	get:
 		return _num_projectiles == _max_projectiles
+## whether setup() has been run or not
+var _has_run_setup: bool = false
 #endregion
 
 
@@ -53,7 +56,17 @@ var has_max_projectiles: bool:
 func _ready() -> void:
 	_generate_points_in_circle()
 
+func setup(max_projectiles: int, orbit_radius: int, rotation_speed: float) -> void:
+	_max_projectiles = max_projectiles
+	_orbit_radius = orbit_radius
+	_rotation_speed = rotation_speed
+
+	_has_run_setup = true
+
 func _physics_process(delta: float) -> void:
+	if not _has_run_setup:
+		return
+
 	for i in _projectiles.size():
 		if not is_instance_valid(_projectiles[i]):
 			break

@@ -16,7 +16,6 @@ signal new_target(target: CombatActor)
 #region ON READY
 @onready var _cooldown_timer: Timer = %CooldownTimer
 @onready var _scene_spawner: SpawnerComponent = %SceneSpawner
-@onready var _effect_chain: ABCEffectChain = $EffectChain
 @onready var _target_finder: TargetFinder = %TargetFinder
 @onready var _orbiter: ProjectileOrbiterComponent = %ProjectileOrbiter  ## handler for orbitals. Must have to be able to use `orbital` delivery method.
 
@@ -24,22 +23,14 @@ signal new_target(target: CombatActor)
 
 
 #region EXPORTS
-@export_group("NEW")
+@export_group("Details")
 ## used to load data from library
 @export var _combat_active_name: String = ""
-
-# TODO: move these to a config node, so designing a combat active is abstracted and only available within scene
-@export_group("Aesthetics")
-@export var icon: CompressedTexture2D  ## the icon used to identify the active
-@export_group("Casting")
-@export var cast_type: Constants.CAST_TYPE = Constants.CAST_TYPE.manual ## how the active is cast
-@export var cast_supply: Constants.SUPPLY_TYPE = Constants.SUPPLY_TYPE.stamina  ## what supply to pay the cast cost from
-@export var cast_cost: int = 0
-@export_group("Targeting")
-@export var _valid_target_option: Constants.TARGET_OPTION  ## who the active can target
-@export var _valid_effect_option: Constants.TARGET_OPTION  ## who the active's effects can affect
-@export_group("Delivery")
-@export var _projectile_name: String = ""
+## time between casts. updates cooldown_timer on update. loaded from library.
+var _cooldown_duration: float = 0:
+	set(v):
+		_cooldown_duration = v
+		_cooldown_timer.wait_time = v
 @export_group("Debug")
 @export var _is_debug: bool = true  ## whether to show debug stuff
 #endregion
@@ -83,10 +74,18 @@ var is_selected: bool = false  ## whether this active is selected by the parent 
 var _has_run_ready: bool = false  ## if _ready() has finished
 
 # data from library - combat active
-var _cooldown_duration: float = 0
-var _max_projectiles: int = 0
-var _orbit_rotation: float = 0.0
-var _orbit_radius: int = 0
+## the icon used to identify the active
+var icon: CompressedTexture2D
+## how the combat active is cast
+var _cast_type: Constants.CAST_TYPE = Constants.CAST_TYPE.manual
+## what supply to pay the cast cost from
+var cast_supply: Constants.SUPPLY_TYPE = Constants.SUPPLY_TYPE.stamina
+## how much supply the cast costs
+var cast_cost: int = 0
+var _valid_target_option: Constants.TARGET_OPTION  ## who the active can target
+var _valid_effect_option: Constants.TARGET_OPTION  ## who the active's effects can affect
+var _projectile_name: String = ""
+var _effect_chain: ABCEffectChain
 # data from library - projectile
 var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
 # FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?! also no good for range finding
@@ -108,15 +107,17 @@ var _max_range: float:
 func _ready() -> void:
 	# check for mandatory properties set in editor
 	assert(_scene_spawner is SpawnerComponent, "CombatActive: Misssing `_scene_spawner`.")
-	assert(_effect_chain is ABCEffectChain, "CombatActive: Missing `_effect_chain`.")
 	assert(_target_finder is TargetFinder, "CombatActive: Missing `_target_finder`.")
 
-	_load_data_from_library()
+	_load_data()
+
+	# check effect chain loaded properly
+	assert(_effect_chain is ABCEffectChain, "CombatActive: Missing `_effect_chain`.")
 
 	# config cooldown timer
-	_cooldown_timer.start()
+	_cooldown_timer.start(_cooldown_duration)
 	_cooldown_timer.one_shot = true
-	_cooldown_timer.timeout.connect(func(): is_ready = true )
+	_cooldown_timer.timeout.connect(func(): is_ready = true)
 
 	# FIXME: this is now set in library, per projectile, so how do we update target finder?
 	# config target finder
@@ -124,25 +125,31 @@ func _ready() -> void:
 
 	_has_run_ready = true
 
-func _load_data_from_library() -> void:
+func _load_data() -> void:
 	var dict_data: Dictionary = Library.get_combat_active_data(_combat_active_name)
 
 	# dynamically load icon and effect chain based on name
 	icon = load(Constants.PATH_COMBAT_ACTIVES.path_join(str(_combat_active_name, ".png")))
-	_effect_chain = load(Constants.PATH_COMBAT_ACTIVES.path_join(str("effect_chain_", _combat_active_name, ".gd"))).instantiate()
+	var x: PackedScene = load(Constants.PATH_COMBAT_ACTIVES.path_join(str("effect_chain_", _combat_active_name, ".gd")))
+	_effect_chain = x.instantiate()
 
-	cast_type = dict_data["cast_type"]
+	# assign values from data
+	_cast_type = dict_data["_cast_type"]
 	cast_supply = dict_data["cast_supply"]
 	cast_cost = dict_data["cast_cost"]
 	_valid_target_option = dict_data["valid_target_option"]
 	_valid_effect_option = dict_data["valid_effect_option"]
 	_projectile_name = dict_data["projectile_name"]
 	_cooldown_duration = dict_data["cooldown_duration"]
-	_max_projectiles = dict_data["max_projectiles"]
-	_orbit_rotation = dict_data["orbit_rotation"]
-	_orbit_radius = dict_data["orbit_radius"]
 
-	# internalise some projectile data
+	# config orbiter
+	_orbiter.setup(
+		dict_data["max_projectiles"],
+		dict_data["orbit_rotation_speed"],
+		dict_data["orbit_radius"]
+	)
+
+	# internalise some projectile data, for easier use later
 	_delivery_method = Library.get_projectile_data(_projectile_name)["effect_delivery_method"]
 	_max_range = Library.get_projectile_range(_projectile_name)
 
@@ -170,7 +177,7 @@ func _process(_delta: float) -> void:
 	queue_redraw()
 
 	# handle auto casting
-	if cast_type == Constants.CAST_TYPE.auto:
+	if _cast_type == Constants.CAST_TYPE.auto:
 		if can_cast:
 			cast()
 

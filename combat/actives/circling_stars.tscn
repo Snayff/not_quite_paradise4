@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://lbhta0mrhs1b"]
+[gd_scene load_steps=6 format=3 uid="uid://lbhta0mrhs1b"]
 
 [ext_resource type="PackedScene" uid="uid://cn8jpy03lpd4m" path="res://combat/actives/combat_active.tscn" id="1_bejtl"]
-[ext_resource type="Texture2D" uid="uid://bdriwng0shu7t" path="res://combat/actives/circiling_stars.png" id="2_e43xh"]
 [ext_resource type="Script" path="res://combat/actives/circling_stars_effect_chain.gd" id="4_nd7yx"]
 [ext_resource type="Script" path="res://dataclasses/effect_stat_scaler.gd" id="5_33pwh"]
 
@@ -14,11 +13,7 @@ stat = 0
 scale_value = 1.0
 
 [node name="CirclingStars" instance=ExtResource("1_bejtl")]
-icon = ExtResource("2_e43xh")
-cast_type = 1
-cast_cost = 5
-_valid_effect_option = 2
-_projectile_name = "fire_orb"
+_combat_active_name = "circling_stars"
 
 [node name="CooldownTimer" parent="." index="0"]
 wait_time = 0.3

@@ -73,7 +73,7 @@ var _data: Dictionary  = {
 			"cooldown_duration": 3,
 			# orbitals only
 			"max_projectiles": -1,
-			"orbit_rotation": -1,
+			"orbit_rotation_speed": -1,
 			"orbit_radius": -1,
 		},
 		"icy_wind": {
@@ -86,7 +86,7 @@ var _data: Dictionary  = {
 			"cooldown_duration": 5,
 			# orbitals only
 			"max_projectiles": -1,
-			"orbit_rotation": -1,
+			"orbit_rotation_speed": -1,
 			"orbit_radius": -1,
 		},
 		"fire_blast": {
@@ -99,10 +99,10 @@ var _data: Dictionary  = {
 			"cooldown_duration": 3,
 			# orbitals only
 			"max_projectiles": -1,
-			"orbit_rotation": -1,
+			"orbit_rotation_speed": -1,
 			"orbit_radius": -1,
 		},
-		"circline_stars": {
+		"circling_stars": {
 			"cast_type": Constants.CAST_TYPE.auto,
 			"cast_supply": Constants.SUPPLY_TYPE.stamina,
 			"cast_cost": 10,
@@ -112,7 +112,7 @@ var _data: Dictionary  = {
 			"cooldown_duration": 1,
 			# orbitals only
 			"max_projectiles": 6,
-			"orbit_rotation": PI,
+			"orbit_rotation_speed": PI,
 			"orbit_radius": 32,
 		}
 
