@@ -1,6 +1,6 @@
 ## series of effects for Icy Aura. applies [BoonBaneChilled] to hit actors.
 #@icon("")
-class_name IcyAuraEffectChain
+class_name EffectChainIcyWind
 extends ABCEffectChain
 
 

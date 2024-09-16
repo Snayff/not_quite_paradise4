@@ -89,7 +89,7 @@ var _data: Dictionary  = {
 			"orbit_rotation_speed": -1,
 			"orbit_radius": -1,
 		},
-		"fire_blast": {
+		"fireblast": {
 			"cast_type": Constants.CAST_TYPE.manual,
 			"cast_supply": Constants.SUPPLY_TYPE.stamina,
 			"cast_cost": 10,

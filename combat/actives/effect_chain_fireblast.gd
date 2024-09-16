@@ -1,5 +1,5 @@
 ## fireblast is a single target skill that triggers an aoe on hit.
-class_name FireblastEffectChain
+class_name EffectChainFireblast
 extends ABCEffectChain
 
 

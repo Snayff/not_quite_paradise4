@@ -129,12 +129,21 @@ func _load_data() -> void:
 	var dict_data: Dictionary = Library.get_combat_active_data(_combat_active_name)
 
 	# dynamically load icon and effect chain based on name
-	icon = load(Constants.PATH_COMBAT_ACTIVES.path_join(str(_combat_active_name, ".png")))
-	var x: PackedScene = load(Constants.PATH_COMBAT_ACTIVES.path_join(str("effect_chain_", _combat_active_name, ".gd")))
-	_effect_chain = x.instantiate()
+	icon = load(
+		Constants.PATH_COMBAT_ACTIVES.path_join(
+			str(_combat_active_name, ".png")
+		)
+	)
+	var effect_chain_script: Script = load(
+		Constants.PATH_COMBAT_ACTIVES.path_join(
+			str("effect_chain_", _combat_active_name, ".gd")
+		)
+	)
+	_effect_chain = effect_chain_script.new()
+	add_child(_effect_chain)
 
 	# assign values from data
-	_cast_type = dict_data["_cast_type"]
+	_cast_type = dict_data["cast_type"]
 	cast_supply = dict_data["cast_supply"]
 	cast_cost = dict_data["cast_cost"]
 	_valid_target_option = dict_data["valid_target_option"]

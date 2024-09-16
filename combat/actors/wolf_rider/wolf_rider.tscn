@@ -83,9 +83,6 @@ max_value = 10
 regeneration_per_second = 0.0
 
 [node name="WolfRider" instance=ExtResource("1_m432m")]
-_is_player = false
-_linear_damp = 5.0
-_mass = 100.0
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_s36p7")

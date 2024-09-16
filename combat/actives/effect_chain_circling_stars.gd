@@ -1,5 +1,5 @@
 ## the series of effects for the Circling Stars skill
-class_name CirclingStarsEffectChain
+class_name EffectChainCirclingStars
 extends ABCEffectChain
 
 

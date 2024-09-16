@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://lbhta0mrhs1b"]
 
 [ext_resource type="PackedScene" uid="uid://cn8jpy03lpd4m" path="res://combat/actives/combat_active.tscn" id="1_bejtl"]
-[ext_resource type="Script" path="res://combat/actives/circling_stars_effect_chain.gd" id="4_nd7yx"]
+[ext_resource type="Script" path="res://combat/actives/effect_chain_circling_stars.gd" id="4_nd7yx"]
 [ext_resource type="Script" path="res://dataclasses/effect_stat_scaler.gd" id="5_33pwh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gns30"]
