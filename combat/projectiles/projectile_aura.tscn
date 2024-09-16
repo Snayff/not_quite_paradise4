@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://bgnvmdtovlxif"]
+
+[ext_resource type="PackedScene" uid="uid://baut7l07kp2rc" path="res://combat/projectiles/abc_projectile.tscn" id="1_n2upc"]
+[ext_resource type="Script" path="res://combat/projectiles/projectile_aura.gd" id="2_dkdpn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_muo3x"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ka60x"]
+resource_local_to_scene = true
+
+[node name="ProjectileAura" instance=ExtResource("1_n2upc")]
+script = ExtResource("2_dkdpn")
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("CircleShape2D_muo3x")
+
+[node name="CollisionShape2D" parent="HitboxComponent" index="0"]
+shape = SubResource("CircleShape2D_ka60x")
+
+[node name="TimerTick" type="Timer" parent="." index="3"]
+unique_name_in_owner = true
+
+[node name="TimerLifetime" type="Timer" parent="." index="4"]
+unique_name_in_owner = true

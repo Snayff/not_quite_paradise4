@@ -1,9 +1,9 @@
 [gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://dbc17af8444fu"]
 
-[ext_resource type="Texture2D" uid="uid://ejiy6dh5goqd" path="res://assets/effects/explosion/Inferno(Frame1).png" id="1_pgc6s"]
-[ext_resource type="Texture2D" uid="uid://cyeorwaeridub" path="res://assets/effects/explosion/Inferno(Frame2).png" id="2_wcdnt"]
-[ext_resource type="Texture2D" uid="uid://qt4kwy8ssyxt" path="res://assets/effects/explosion/Inferno(Frame3).png" id="3_qwbpy"]
-[ext_resource type="Texture2D" uid="uid://7nrw4llyft0v" path="res://assets/effects/explosion/Inferno(Frame4).png" id="4_snyf1"]
+[ext_resource type="Texture2D" uid="uid://ejiy6dh5goqd" path="res://visual_effects/explosion/Inferno(Frame1).png" id="1_pgc6s"]
+[ext_resource type="Texture2D" uid="uid://cyeorwaeridub" path="res://visual_effects/explosion/Inferno(Frame2).png" id="2_wcdnt"]
+[ext_resource type="Texture2D" uid="uid://qt4kwy8ssyxt" path="res://visual_effects/explosion/Inferno(Frame3).png" id="3_qwbpy"]
+[ext_resource type="Texture2D" uid="uid://7nrw4llyft0v" path="res://visual_effects/explosion/Inferno(Frame4).png" id="4_snyf1"]
 
 [resource]
 animations = [{

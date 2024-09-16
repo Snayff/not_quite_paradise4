@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=3 uid="uid://lbhta0mrhs1b"]
+
+[ext_resource type="PackedScene" uid="uid://cn8jpy03lpd4m" path="res://combat/actives/combat_active.tscn" id="1_bejtl"]
+[ext_resource type="Texture2D" uid="uid://bdriwng0shu7t" path="res://combat/actives/circiling_stars.png" id="2_e43xh"]
+[ext_resource type="Script" path="res://combat/actives/circling_stars_effect_chain.gd" id="4_nd7yx"]
+[ext_resource type="Script" path="res://dataclasses/effect_stat_scaler.gd" id="5_33pwh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gns30"]
+resource_local_to_scene = true
+
+[sub_resource type="Resource" id="Resource_qxiwj"]
+script = ExtResource("5_33pwh")
+stat = 0
+scale_value = 1.0
+
+[node name="CirclingStars" instance=ExtResource("1_bejtl")]
+icon = ExtResource("2_e43xh")
+cast_type = 1
+cast_cost = 5
+_valid_effect_option = 2
+_projectile_name = "fire_orb"
+
+[node name="CooldownTimer" parent="." index="0"]
+wait_time = 0.3
+
+[node name="CollisionShape2D" parent="TargetFinder" index="0"]
+shape = SubResource("CircleShape2D_gns30")
+
+[node name="ProjectileOrbiter" parent="." index="3"]
+_max_projectiles = 10
+
+[node name="EffectChain" type="Node" parent="." index="4"]
+script = ExtResource("4_nd7yx")
+_damage_scalers = Array[ExtResource("5_33pwh")]([SubResource("Resource_qxiwj")])

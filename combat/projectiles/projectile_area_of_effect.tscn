@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://tr8c76jf7rr"]
+
+[ext_resource type="PackedScene" uid="uid://baut7l07kp2rc" path="res://combat/projectiles/abc_projectile.tscn" id="1_7uakx"]
+[ext_resource type="Script" path="res://combat/projectiles/projectile_area_of_effect.gd" id="2_nsj3h"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ldtmg"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_narao"]
+resource_local_to_scene = true
+
+[node name="ProjectileAreaOfEffect" instance=ExtResource("1_7uakx")]
+script = ExtResource("2_nsj3h")
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("CircleShape2D_ldtmg")
+
+[node name="CollisionShape2D" parent="HitboxComponent" index="0"]
+shape = SubResource("CircleShape2D_narao")

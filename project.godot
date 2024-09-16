@@ -11,18 +11,17 @@ config_version=5
 [application]
 
 config/name="Godot Combat Test"
-run/main_scene="res://world.tscn"
+run/main_scene="res://levels/world.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
-config/icon="res://icon.svg"
 
 [autoload]
 
-Constants="*res://scripts/singletons/constants.gd"
-Utility="*res://scripts/singletons/utility.gd"
-Library="*res://scripts/singletons/library.gd"
-Factory="*res://scripts/singletons/factory.gd"
 HyperLog="*res://addons/hyperlog/hyperlog.tscn"
-Maths="*res://scripts/singletons/maths.gd"
+Constants="*res://globals/constants.gd"
+Factory="*res://globals/factory.gd"
+Library="*res://globals/library.gd"
+Maths="*res://globals/maths.gd"
+Utility="*res://globals/utility.gd"
 
 [display]
 
@@ -32,6 +31,13 @@ window/size/viewport_height=480
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/hyperlog/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://_media_licenses/": "red",
+"res://addons/": "red"
+}
 
 [filesystem]
 

@@ -1,0 +1,56 @@
+[gd_scene load_steps=12 format=3 uid="uid://cqi7b1uis5b7k"]
+
+[ext_resource type="PackedScene" uid="uid://baut7l07kp2rc" path="res://combat/projectiles/abc_projectile.tscn" id="1_1rweh"]
+[ext_resource type="Script" path="res://combat/projectiles/projectile_throwable.gd" id="2_bbj4i"]
+[ext_resource type="Script" path="res://components/functionals/spawner.gd" id="3_1074t"]
+[ext_resource type="Script" path="res://components/containers/supply_container.gd" id="4_xyxv7"]
+[ext_resource type="Script" path="res://components/functionals/supply.gd" id="5_l37ln"]
+[ext_resource type="Script" path="res://components/functionals/death_trigger.gd" id="5_oufxx"]
+[ext_resource type="Script" path="res://components/functionals/physics_movement.gd" id="7_v8jiw"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_q1xa1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w41mh"]
+resource_local_to_scene = true
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uav7v"]
+
+[sub_resource type="Resource" id="Resource_ksq6s"]
+resource_local_to_scene = true
+resource_name = "Stamina"
+script = ExtResource("5_l37ln")
+type = 1
+max_value = 999
+regeneration_per_second = 0.0
+
+[node name="ProjectileThrowable" instance=ExtResource("1_1rweh")]
+physics_material_override = SubResource("PhysicsMaterial_q1xa1")
+lock_rotation = false
+script = ExtResource("2_bbj4i")
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("CircleShape2D_w41mh")
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_uav7v")
+
+[node name="OnHitEffectSpawner" type="Node2D" parent="." index="2"]
+script = ExtResource("3_1074t")
+
+[node name="OnDeathEffectSpawner" type="Node2D" parent="." index="3"]
+script = ExtResource("3_1074t")
+
+[node name="SupplyContainerComponent" type="Node" parent="." index="4"]
+script = ExtResource("4_xyxv7")
+_editor_supplies = Array[ExtResource("5_l37ln")]([SubResource("Resource_ksq6s")])
+
+[node name="DeathTrigger" type="Node" parent="." index="5" node_paths=PackedStringArray("_root", "_supply_container", "_destroy_effect_spawner")]
+script = ExtResource("5_oufxx")
+_root = NodePath("..")
+_supply_container = NodePath("../SupplyContainerComponent")
+_supply_type = 1
+_destroy_effect_spawner = NodePath("../OnDeathEffectSpawner")
+
+[node name="PhysicsMovementComponent" type="Node" parent="." index="6" node_paths=PackedStringArray("_root")]
+script = ExtResource("7_v8jiw")
+_root = NodePath("..")

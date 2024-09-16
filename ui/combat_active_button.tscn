@@ -1,0 +1,79 @@
+[gd_scene load_steps=5 format=3 uid="uid://dgw4fqh6afdsu"]
+
+[ext_resource type="Texture2D" uid="uid://cnu2udq2ovl2j" path="res://shared_assets/utility/white_square.png" id="2_of3q4"]
+[ext_resource type="Script" path="res://ui/combat_active_button.gd" id="2_vq21v"]
+[ext_resource type="FontFile" uid="uid://xfatb788yq6e" path="res://shared_assets/fonts/SinsGold.ttf" id="4_6l67w"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n7t1s"]
+bg_color = Color(0.975206, 0.82802, 0.0450746, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.80549, 0.650106, 0.249123, 1)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[node name="CombatActiveButton" type="TextureButton"]
+clip_contents = true
+custom_minimum_size = Vector2(32, 32)
+offset_right = 32.0
+offset_bottom = 32.0
+size_flags_horizontal = 3
+button_mask = 0
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("2_vq21v")
+
+[node name="CooldownProgressBar" type="TextureProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+step = 0.01
+fill_mode = 5
+nine_patch_stretch = true
+texture_progress = ExtResource("2_of3q4")
+tint_progress = Color(0.0858917, 0.0762731, 0.0762731, 0.623529)
+
+[node name="SelectedBorder" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_n7t1s")
+
+[node name="TimeLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -31.0
+offset_top = -23.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_6l67w")
+theme_override_font_sizes/font_size = 20
+text = "0.0"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Panel" type="Panel" parent="."]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

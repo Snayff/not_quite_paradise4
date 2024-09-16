@@ -1,0 +1,181 @@
+[gd_scene load_steps=26 format=3 uid="uid://cgd54nt0un6ix"]
+
+[ext_resource type="Script" path="res://combat/actors/combat_actor.gd" id="1_7c8xu"]
+[ext_resource type="Script" path="res://components/functionals/hurtbox.gd" id="2_24d4q"]
+[ext_resource type="Script" path="res://components/functionals/allegiance.gd" id="3_y0mah"]
+[ext_resource type="Script" path="res://components/functionals/death_trigger.gd" id="4_4tuqr"]
+[ext_resource type="Script" path="res://components/functionals/spawner.gd" id="5_wut4g"]
+[ext_resource type="Script" path="res://components/visuals/visual_effect_flash.gd" id="6_uyev7"]
+[ext_resource type="Script" path="res://components/functionals/tags.gd" id="8_5531i"]
+[ext_resource type="Script" path="res://components/visuals/pop_up_number.gd" id="9_xcpun"]
+[ext_resource type="FontFile" uid="uid://xfatb788yq6e" path="res://shared_assets/fonts/SinsGold.ttf" id="10_nqnyt"]
+[ext_resource type="Script" path="res://dataclasses/stat.gd" id="12_4r068"]
+[ext_resource type="Script" path="res://components/functionals/physics_movement.gd" id="12_73flk"]
+[ext_resource type="Script" path="res://components/containers/supply_container.gd" id="14_51mcn"]
+[ext_resource type="Script" path="res://components/containers/stat_container.gd" id="14_rlc1x"]
+[ext_resource type="Script" path="res://components/containers/boon_bane_container.gd" id="14_wly6u"]
+[ext_resource type="Script" path="res://components/functionals/supply.gd" id="15_suttt"]
+[ext_resource type="Script" path="res://components/containers/combat_active_container.gd" id="16_von4t"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8wo5g"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vxvtc"]
+resource_local_to_scene = true
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"move",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cr44w"]
+resource_local_to_scene = true
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ir07l"]
+resource_local_to_scene = true
+
+[sub_resource type="Resource" id="Resource_pyf65"]
+resource_local_to_scene = true
+resource_name = "Strength"
+script = ExtResource("12_4r068")
+type = 0
+base_value = 1.0
+
+[sub_resource type="Resource" id="Resource_2w050"]
+resource_local_to_scene = true
+resource_name = "Defence"
+script = ExtResource("12_4r068")
+type = 1
+base_value = 1.0
+
+[sub_resource type="Resource" id="Resource_na27n"]
+resource_local_to_scene = true
+script = ExtResource("12_4r068")
+type = 2
+base_value = 10.0
+
+[sub_resource type="Resource" id="Resource_j7sk8"]
+resource_local_to_scene = true
+script = ExtResource("15_suttt")
+type = 0
+max_value = 10
+regeneration_per_second = 0.0
+
+[sub_resource type="Resource" id="Resource_skrr3"]
+resource_local_to_scene = true
+script = ExtResource("15_suttt")
+type = 1
+max_value = 10
+regeneration_per_second = 0.0
+
+[node name="CombatActor" type="RigidBody2D"]
+collision_layer = 0
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_8wo5g")
+gravity_scale = 0.0
+lock_rotation = true
+custom_integrator = true
+contact_monitor = true
+max_contacts_reported = 4
+script = ExtResource("1_7c8xu")
+_is_player = null
+_linear_damp = null
+_mass = null
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_vxvtc")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_cr44w")
+debug_color = Color(1, 0.0680936, 0, 0.42)
+
+[node name="HurtboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("root")]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+script = ExtResource("2_24d4q")
+root = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+shape = SubResource("CircleShape2D_ir07l")
+debug_color = Color(0.975206, 0.528184, 0.051488, 0.42)
+
+[node name="Allegiance" type="Node" parent="." node_paths=PackedStringArray("_root", "hurtbox")]
+unique_name_in_owner = true
+script = ExtResource("3_y0mah")
+_root = NodePath("..")
+hurtbox = NodePath("../HurtboxComponent")
+
+[node name="DeathTrigger" type="Node" parent="." node_paths=PackedStringArray("_root", "_destroy_effect_spawner")]
+unique_name_in_owner = true
+script = ExtResource("4_4tuqr")
+_root = NodePath("..")
+_destroy_effect_spawner = NodePath("../DeathEffectSpawner")
+
+[node name="DeathEffectSpawner" type="Node2D" parent="."]
+script = ExtResource("5_wut4g")
+
+[node name="OnHitFlash" type="Node" parent="." node_paths=PackedStringArray("_target_sprite")]
+unique_name_in_owner = true
+script = ExtResource("6_uyev7")
+_target_sprite = NodePath("../AnimatedSprite2D")
+_duration = 0.15
+
+[node name="Tags" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("8_5531i")
+_tags = Array[int]([3])
+
+[node name="ReusableSpawner" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("5_wut4g")
+
+[node name="DamageNumbers" type="Marker2D" parent="." node_paths=PackedStringArray("_root")]
+unique_name_in_owner = true
+script = ExtResource("9_xcpun")
+_root = NodePath("..")
+_font = ExtResource("10_nqnyt")
+
+[node name="PhysicsMovement" type="Node" parent="." node_paths=PackedStringArray("_root")]
+unique_name_in_owner = true
+script = ExtResource("12_73flk")
+_root = NodePath("..")
+
+[node name="StatsContainer" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("14_rlc1x")
+_editor_stats = Array[ExtResource("12_4r068")]([SubResource("Resource_pyf65"), SubResource("Resource_2w050"), SubResource("Resource_na27n")])
+
+[node name="BoonsBanesContainer" type="Node" parent="." node_paths=PackedStringArray("_root", "_death_trigger")]
+unique_name_in_owner = true
+script = ExtResource("14_wly6u")
+_root = NodePath("..")
+_death_trigger = NodePath("../DeathTrigger")
+
+[node name="SupplyContainer" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("14_51mcn")
+_editor_supplies = Array[ExtResource("15_suttt")]([SubResource("Resource_j7sk8"), SubResource("Resource_skrr3")])
+
+[node name="CombatActiveContainer" type="Node2D" parent="." node_paths=PackedStringArray("_root", "_allegiance", "_cast_position", "_supplies")]
+unique_name_in_owner = true
+script = ExtResource("16_von4t")
+_root = NodePath("..")
+_allegiance = NodePath("../Allegiance")
+_cast_position = NodePath("../CentrePivot/CastPosition")
+_supplies = NodePath("../SupplyContainer")
+
+[node name="CentrePivot" type="Marker2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CastPosition" type="Marker2D" parent="CentrePivot"]
+unique_name_in_owner = true

@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3 uid="uid://dw7awoubb08p6"]
+
+[ext_resource type="Texture2D" uid="uid://dpbpfotm16cid" path="res://visual_effects/chilled/blue_twinkle6.png" id="1_wve0x"]
+[ext_resource type="Texture2D" uid="uid://bpgt1k0hpu2ry" path="res://visual_effects/chilled/blue_twinkle5.png" id="2_42g2u"]
+[ext_resource type="Texture2D" uid="uid://f6yq0wv2pluc" path="res://visual_effects/chilled/blue_twinkle4.png" id="3_uppqa"]
+[ext_resource type="Texture2D" uid="uid://07vqvp46ob0x" path="res://visual_effects/chilled/blue_twinkle3.png" id="4_h51o4"]
+[ext_resource type="Texture2D" uid="uid://dhw3dxit50mrn" path="res://visual_effects/chilled/blue_twinkle2.png" id="5_wlny5"]
+[ext_resource type="Script" path="res://animations/oneshot_animation.gd" id="6_gmjry"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qw108"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_wve0x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_42g2u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_uppqa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_h51o4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_wlny5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
+
+[node name="OneShotAnimation" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_qw108")
+autoplay = "default"
+frame_progress = 0.0513217
+script = ExtResource("6_gmjry")

@@ -1,1 +1,2 @@
-All non-code items in the project are either under the license provided in the same folder, or, where there is no license in the relevant folder, are under no license, meaning they are not available for use outside of this project. 
+See the information in res://_media_licenses/ for both the list of files, their attributions,
+and their licenses.

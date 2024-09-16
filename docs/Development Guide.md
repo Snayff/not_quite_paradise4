@@ -24,3 +24,17 @@ We adopt a fix as you go attitude, meaning we generally avoid Pull Requests cont
 # Releases
 ## Semantic Versioning
 Much like Godot, we use a loose version of Semantic Versioning, or [SemVer](https://semver.org/). 
+
+# Working With the Project
+## Know Your Colour
+Hurtboxes use orange, specifically `f9870d6b`.
+Physics, such as body collisions, use red, specifically `ff11006b`.
+Target searching uses yellow, specifically `fef21e6b`.
+
+## Node Icons
+### Unique and Derived
+We endeavour to create new node icons for all custom classes. Where there are a group of classes sharing the same custom-class parent we use unified a backdrop to the icon and a differentiating element in the bottom right corner, e.g. all VisualEffects have an eye as the background, then something unique in the foreground. 
+### ABCs
+If you see and ABC icon, you know you need to use a subclass, and not that class directly, as it is an Abstract Base Class.
+# Attributions
+Any media used must be added to the attribution list in the `_media_licenses` folder, along with its license. 
