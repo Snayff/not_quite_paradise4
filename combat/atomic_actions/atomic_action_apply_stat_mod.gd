@@ -29,8 +29,8 @@ var _stat_mods: Dictionary = {}  ## {Constsants.STAT_TYPE: [StatModData]}
 
 #region FUNCS
 func apply(target: CombatActor) -> void:
-	var stats: StatsContainerComponent = target.get_node_or_null("StatsContainer")
-	if stats is not StatsContainerComponent:
+	var stats: StatsContainer = target.get_node_or_null("StatsContainer")
+	if stats is not StatsContainer:
 		return
 
 	# loop keys, which are the stat types
@@ -53,8 +53,8 @@ func add_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:
 
 
 func reverse_application(target: CombatActor) -> void:
-	var stats: StatsContainerComponent = target.get_node_or_null("StatsContainer")
-	if stats is not StatsContainerComponent:
+	var stats: StatsContainer = target.get_node_or_null("StatsContainer")
+	if stats is not StatsContainer:
 		return
 
 	# loop keys, which are the stat types

@@ -61,6 +61,61 @@ var _data: Dictionary  = {
 			"application_frame": 1
 		},
 
+	},
+	"combat_active": {
+		"slash": {
+			"cast_type": Constants.CAST_TYPE.manual,
+			"cast_supply": Constants.SUPPLY_TYPE.stamina,
+			"cast_cost": 7,
+			"valid_target_option": Constants.TARGET_OPTION.enemy,
+			"valid_effect_option": Constants.TARGET_OPTION.enemy,
+			"projectile_name": "slash",
+			"cooldown_duration": 3,
+			# orbitals only
+			"max_projectiles": -1,
+			"orbit_rotation_speed": -1,
+			"orbit_radius": -1,
+		},
+		"icy_wind": {
+			"cast_type": Constants.CAST_TYPE.manual,
+			"cast_supply": Constants.SUPPLY_TYPE.stamina,
+			"cast_cost": 10,
+			"valid_target_option": Constants.TARGET_OPTION.self_,
+			"valid_effect_option": Constants.TARGET_OPTION.enemy,
+			"projectile_name": "icy_wind",
+			"cooldown_duration": 5,
+			# orbitals only
+			"max_projectiles": -1,
+			"orbit_rotation_speed": -1,
+			"orbit_radius": -1,
+		},
+		"fireblast": {
+			"cast_type": Constants.CAST_TYPE.manual,
+			"cast_supply": Constants.SUPPLY_TYPE.stamina,
+			"cast_cost": 10,
+			"valid_target_option": Constants.TARGET_OPTION.enemy,
+			"valid_effect_option": Constants.TARGET_OPTION.enemy,
+			"projectile_name": "fireball",
+			"cooldown_duration": 3,
+			# orbitals only
+			"max_projectiles": -1,
+			"orbit_rotation_speed": -1,
+			"orbit_radius": -1,
+		},
+		"circling_stars": {
+			"cast_type": Constants.CAST_TYPE.auto,
+			"cast_supply": Constants.SUPPLY_TYPE.stamina,
+			"cast_cost": 10,
+			"valid_target_option": Constants.TARGET_OPTION.self_,
+			"valid_effect_option": Constants.TARGET_OPTION.enemy,
+			"projectile_name": "fire_orb",
+			"cooldown_duration": 1,
+			# orbitals only
+			"max_projectiles": 6,
+			"orbit_rotation_speed": PI,
+			"orbit_radius": 32,
+		}
+
 	}
 }
 
@@ -84,3 +139,9 @@ func get_projectile_range(projectile_name: String) -> float:
 		max_range = 24
 
 	return max_range
+
+## get data of a combat active. passed by ref, so dont edit!
+func get_combat_active_data(combat_active_name: String) -> Dictionary:
+	if not _data["combat_active"].has(combat_active_name):
+		push_error("Library: combat_active name (", combat_active_name, ") not found.")
+	return _data["combat_active"][combat_active_name]

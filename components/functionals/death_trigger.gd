@@ -8,7 +8,7 @@ signal died
 
 @export_group("Component Links")
 @export var _root: Node  ## the node this component will operate on. @REQUIRED.
-@export var _supply_container: SupplyContainerComponent  ## the supply container to refer to for the automatic trigger
+@export var _supply_container: SupplyContainer  ## the supply container to refer to for the automatic trigger
 @export_group("Automatic Triggers")
 @export var _supply_type: Constants.SUPPLY_TYPE  ## the supply_type that triggers death on empty. Ignored if  _supply_container is empty.
 @export_group("Results")
@@ -20,7 +20,7 @@ func _ready() -> void:
 	assert(_root is Node, "Misssing `root`. ")
 
 	# Connect the emptied signal on our supply to the activate function, if we have a resource.
-	if _supply_container is SupplyContainerComponent:
+	if _supply_container is SupplyContainer:
 		var supply = _supply_container.get_supply(_supply_type)
 		if supply:
 			supply.emptied.connect(activate)

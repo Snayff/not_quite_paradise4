@@ -80,6 +80,12 @@ _root = NodePath("../..")
 _root = NodePath("../..")
 
 [node name="TargetStatPanel" parent="WolfRider/UI" node_paths=PackedStringArray("_root") instance=ExtResource("6_pp6hl")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -64.0
+offset_right = 0.0
+grow_horizontal = 0
 _root = NodePath("../..")
 
 [node name="Camera2D" type="Camera2D" parent="WolfRider"]

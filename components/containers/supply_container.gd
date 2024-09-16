@@ -1,6 +1,6 @@
 ## interface for all supplies, e.g. health or stamina.
 @icon("res://components/containers/supply_container.png")
-class_name SupplyContainerComponent
+class_name SupplyContainer
 extends Node
 
 
@@ -50,7 +50,7 @@ func _check_all_unique() -> void:
 		if not supply.type in types:
 			types.append(supply.type)
 		else:
-			push_error("SupplyContainerComponent: Contains duplicate supply type (", Constants.SUPPLY_TYPE.find_key(supply.type), ").")
+			push_error("SupplyContainer: Contains duplicate supply type (", Constants.SUPPLY_TYPE.find_key(supply.type), ").")
 
 ## get a supply from its type. returns null if no matching supply found.
 func get_supply(supply_type: Constants.SUPPLY_TYPE) -> SupplyComponent:

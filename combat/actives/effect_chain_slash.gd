@@ -1,6 +1,6 @@
 ## series of effects for Slash. deals damage to all actors hit
-#@icon("")
-class_name SlashEffectChain
+@icon("res://combat/actives/effect_chain.png")
+class_name EffectChainSlash
 extends ABCEffectChain
 
 

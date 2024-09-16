@@ -1,4 +1,7 @@
-## ABC for an active skill used in combat
+## an active skill used in combat
+##
+## icon and effect chain are dyanmically loaded based on name. both must be in
+## [PATH_COMBAT_ACTIVES].
 @icon("res://combat/actives/combat_active.png")
 class_name CombatActive
 extends Node2D
@@ -13,7 +16,6 @@ signal new_target(target: CombatActor)
 #region ON READY
 @onready var _cooldown_timer: Timer = %CooldownTimer
 @onready var _scene_spawner: SpawnerComponent = %SceneSpawner
-@onready var _effect_chain: ABCEffectChain = $EffectChain
 @onready var _target_finder: TargetFinder = %TargetFinder
 @onready var _orbiter: ProjectileOrbiterComponent = %ProjectileOrbiter  ## handler for orbitals. Must have to be able to use `orbital` delivery method.
 
@@ -21,18 +23,14 @@ signal new_target(target: CombatActor)
 
 
 #region EXPORTS
-# TODO: move these to a config node, so designing a combat active is abstracted and only available within scene
-@export_group("Aesthetics")
-@export var icon: CompressedTexture2D  ## the icon used to identify the active
-@export_group("Casting")
-@export var cast_type: Constants.CAST_TYPE = Constants.CAST_TYPE.manual ## how the active is cast
-@export var cast_supply: Constants.SUPPLY_TYPE = Constants.SUPPLY_TYPE.stamina  ## what supply to pay the cast cost from
-@export var cast_cost: int = 0
-@export_group("Targeting")
-@export var _valid_target_option: Constants.TARGET_OPTION  ## who the active can target
-@export var _valid_effect_option: Constants.TARGET_OPTION  ## who the active's effects can affect
-@export_group("Delivery")
-@export var _projectile_name: String = ""
+@export_group("Details")
+## used to load data from library
+@export var _combat_active_name: String = ""
+## time between casts. updates cooldown_timer on update. loaded from library.
+var _cooldown_duration: float = 0:
+	set(v):
+		_cooldown_duration = v
+		_cooldown_timer.wait_time = v
 @export_group("Debug")
 @export var _is_debug: bool = true  ## whether to show debug stuff
 #endregion
@@ -75,9 +73,22 @@ var is_selected: bool = false  ## whether this active is selected by the parent 
 # flags
 var _has_run_ready: bool = false  ## if _ready() has finished
 
-# data from library
+# data from library - combat active
+## the icon used to identify the active
+var icon: CompressedTexture2D
+## how the combat active is cast
+var _cast_type: Constants.CAST_TYPE = Constants.CAST_TYPE.manual
+## what supply to pay the cast cost from
+var cast_supply: Constants.SUPPLY_TYPE = Constants.SUPPLY_TYPE.stamina
+## how much supply the cast costs
+var cast_cost: int = 0
+var _valid_target_option: Constants.TARGET_OPTION  ## who the active can target
+var _valid_effect_option: Constants.TARGET_OPTION  ## who the active's effects can affect
+var _projectile_name: String = ""
+var _effect_chain: ABCEffectChain
+# data from library - projectile
 var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
-# FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?! also no good for range finding
+# FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?!
 ## how far the projectile can travel. when set, updates target finder.
 var _max_range: float:
 	set(value):
@@ -96,35 +107,38 @@ var _max_range: float:
 func _ready() -> void:
 	# check for mandatory properties set in editor
 	assert(_scene_spawner is SpawnerComponent, "CombatActive: Misssing `_scene_spawner`.")
-	assert(_effect_chain is ABCEffectChain, "CombatActive: Missing `_effect_chain`.")
 	assert(_target_finder is TargetFinder, "CombatActive: Missing `_target_finder`.")
 
 	# config cooldown timer
-	_cooldown_timer.start()
 	_cooldown_timer.one_shot = true
-	_cooldown_timer.timeout.connect(func(): is_ready = true )
-
-	# internalise some projectile data
-	_delivery_method = Library.get_projectile_data(_projectile_name)["effect_delivery_method"]
-	_max_range = Library.get_projectile_range(_projectile_name)
-
-	# FIXME: this is now set in library, per projectile, so how do we update target finder?
-	# config target finder
-	_target_finder.new_target.connect(set_target_actor)  # ensure we're in sync with range finders new target
+	_cooldown_timer.timeout.connect(func(): is_ready = true)
 
 	_has_run_ready = true
 
-
-## run setup process and repeat on all direct children.
+## run setup process. Also sets up all direct children.
 ##
 ## N.B. not recursive, so children are responsible for calling setup() on their own children
-func setup(caster: CombatActor, allegiance: Allegiance, cast_position: Marker2D) -> void:
+func setup(
+	combat_active_name: String,
+	caster: CombatActor,
+	allegiance: Allegiance,
+	cast_position: Marker2D
+	) -> void:
+
 	if not _has_run_ready:
 		push_error("CombatActive: setup() called before _ready. ")
 
 	assert(caster is CombatActor, "CombatActive: Missing `caster`.")
 	assert(allegiance is Allegiance, "CombatActive: Missing `allegiance`.")
 	assert(cast_position is Marker2D, "CombatActive: Missing `cast_position`.")
+
+	_load_data(combat_active_name)
+
+	# check effect chain loaded properly
+	assert(_effect_chain is ABCEffectChain, "CombatActive: Missing `_effect_chain`.")
+
+	# config target finder - # ensure we're in sync with range finders new target
+	_target_finder.new_target.connect(set_target_actor)
 
 	_caster = caster
 	_allegiance = allegiance
@@ -134,11 +148,53 @@ func setup(caster: CombatActor, allegiance: Allegiance, cast_position: Marker2D)
 
 	_target_finder.setup(_caster, _max_range, _valid_target_option, _allegiance)
 
+
+## load data from the library and instantiate required children, e.g. [ABCEffectChain]
+func _load_data(combat_active_name: String) -> void:
+	_combat_active_name = combat_active_name
+
+	var dict_data: Dictionary = Library.get_combat_active_data(_combat_active_name)
+
+	# dynamically load icon and effect chain based on name
+	icon = load(
+		Constants.PATH_COMBAT_ACTIVES.path_join(
+			str(_combat_active_name, ".png")
+		)
+	)
+	var effect_chain_script: Script = load(
+		Constants.PATH_COMBAT_ACTIVES.path_join(
+			str("effect_chain_", _combat_active_name, ".gd")
+		)
+	)
+	_effect_chain = effect_chain_script.new()
+	add_child(_effect_chain)
+
+	# assign values from data
+	_cast_type = dict_data["cast_type"]
+	cast_supply = dict_data["cast_supply"]
+	cast_cost = dict_data["cast_cost"]
+	_valid_target_option = dict_data["valid_target_option"]
+	_valid_effect_option = dict_data["valid_effect_option"]
+	_projectile_name = dict_data["projectile_name"]
+	_cooldown_timer.start(_cooldown_duration)
+	_cooldown_duration = dict_data["cooldown_duration"]
+
+	# config orbiter
+	_orbiter.setup(
+		dict_data["max_projectiles"],
+		dict_data["orbit_radius"],
+		dict_data["orbit_rotation_speed"],
+	)
+
+	# internalise some projectile data, for easier use later
+	_delivery_method = Library.get_projectile_data(_projectile_name)["effect_delivery_method"]
+	_max_range = Library.get_projectile_range(_projectile_name)
+
 func _process(_delta: float) -> void:
 	queue_redraw()
 
 	# handle auto casting
-	if cast_type == Constants.CAST_TYPE.auto:
+	if _cast_type == Constants.CAST_TYPE.auto:
 		if can_cast:
 			cast()
 
@@ -241,7 +297,11 @@ func _cast_orbital() -> void:
 		)
 		projectile.died.connect(_orbiter.remove_projectile.bind(projectile))
 		_orbiter.add_projectile(projectile)
+
+		# FIXME: projectile appears at (0,0) and then jumps to position
+		#		even moving this into orbiter, and even deferring, doesnt fix.
 		projectile.activate()
+
 		_restart_cooldown()
 
 	else:

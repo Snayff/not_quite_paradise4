@@ -15,13 +15,13 @@ signal died  ## actor has died
 @onready var _on_hit_flash: VisualEffectFlash = %OnHitFlash
 @onready var reusable_spawner: SpawnerComponent = %ReusableSpawner  ## component for spawning runtime-defined Nodes on the actor
 @onready var allegiance: Allegiance = %Allegiance
-@onready var combat_active_container: CombatActiveContainerComponent = %CombatActiveContainer
-@onready var stats_container: StatsContainerComponent = %StatsContainer
+@onready var combat_active_container: CombatActiveContainer = %CombatActiveContainer
+@onready var stats_container: StatsContainer = %StatsContainer
 @onready var boons_banes: BoonBaneContainer = %BoonsBanesContainer
 @onready var _damage_numbers: PopUpNumbers = %DamageNumbers
 @onready var _death_trigger: DeathTrigger = %DeathTrigger
 @onready var _physics_movement: PhysicsMovementComponent = %PhysicsMovement
-@onready var _supply_container: SupplyContainerComponent = %SupplyContainer
+@onready var _supply_container: SupplyContainer = %SupplyContainer
 @onready var _centre_pivot: Marker2D = %CentrePivot
 
 #endregion
@@ -55,7 +55,7 @@ func _ready() -> void:
 
 	update_collisions()
 
-	if _supply_container is SupplyContainerComponent:
+	if _supply_container is SupplyContainer:
 		# setup triggers and process for death on health empty
 		var health = _supply_container.get_supply(Constants.SUPPLY_TYPE.health)
 		health.emptied.connect(func(): died.emit())  # inform of death when empty

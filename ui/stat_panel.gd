@@ -1,4 +1,4 @@
-## a set of data pulled from the actors [StatsContainerComponent].
+## a set of data pulled from the actors [StatsContainer].
 ## WARNING: Hacky as fuck.
 #@icon("")
 class_name StatPanel
@@ -65,7 +65,7 @@ func _update_labels() -> void:
 
 	# add supplies
 	var labels_added: int = 0
-	if _target._supply_container is SupplyContainerComponent:
+	if _target._supply_container is SupplyContainer:
 		var supplies: Array[SupplyComponent] = _target._supply_container.get_all_supplies()
 		for i in range(supplies.size()):
 			var supply = supplies[i]
@@ -81,7 +81,7 @@ func _update_labels() -> void:
 
 			labels_added += 1
 
-	if _target.stats_container is StatsContainerComponent:
+	if _target.stats_container is StatsContainer:
 		# loop all stats
 		var stats: Array[StatData] = _target.stats_container.get_all_stats()
 		for i in range(stats.size()):
