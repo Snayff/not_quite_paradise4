@@ -88,7 +88,7 @@ var _projectile_name: String = ""
 var _effect_chain: ABCEffectChain
 # data from library - projectile
 var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
-# FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?! also no good for range finding
+# FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?!
 ## how far the projectile can travel. when set, updates target finder.
 var _max_range: float:
 	set(value):
@@ -109,23 +109,50 @@ func _ready() -> void:
 	assert(_scene_spawner is SpawnerComponent, "CombatActive: Misssing `_scene_spawner`.")
 	assert(_target_finder is TargetFinder, "CombatActive: Missing `_target_finder`.")
 
-	_load_data()
+	# config cooldown timer
+	_cooldown_timer.one_shot = true
+	_cooldown_timer.timeout.connect(func(): is_ready = true)
+
+	_has_run_ready = true
+
+## run setup process. Also sets up all direct children.
+##
+## N.B. not recursive, so children are responsible for calling setup() on their own children
+func setup(
+	combat_active_name: String,
+	caster: CombatActor,
+	allegiance: Allegiance,
+	cast_position: Marker2D
+	) -> void:
+
+	if not _has_run_ready:
+		push_error("CombatActive: setup() called before _ready. ")
+
+	assert(caster is CombatActor, "CombatActive: Missing `caster`.")
+	assert(allegiance is Allegiance, "CombatActive: Missing `allegiance`.")
+	assert(cast_position is Marker2D, "CombatActive: Missing `cast_position`.")
+
+	_load_data(combat_active_name)
 
 	# check effect chain loaded properly
 	assert(_effect_chain is ABCEffectChain, "CombatActive: Missing `_effect_chain`.")
 
-	# config cooldown timer
-	_cooldown_timer.start(_cooldown_duration)
-	_cooldown_timer.one_shot = true
-	_cooldown_timer.timeout.connect(func(): is_ready = true)
+	# config target finder - # ensure we're in sync with range finders new target
+	_target_finder.new_target.connect(set_target_actor)
 
-	# FIXME: this is now set in library, per projectile, so how do we update target finder?
-	# config target finder
-	_target_finder.new_target.connect(set_target_actor)  # ensure we're in sync with range finders new target
+	_caster = caster
+	_allegiance = allegiance
+	_cast_position = cast_position
 
-	_has_run_ready = true
+	_effect_chain.setup(_caster, _allegiance, _valid_effect_option)
 
-func _load_data() -> void:
+	_target_finder.setup(_caster, _max_range, _valid_target_option, _allegiance)
+
+
+## load data from the library and instantiate required children, e.g. [ABCEffectChain]
+func _load_data(combat_active_name: String) -> void:
+	_combat_active_name = combat_active_name
+
 	var dict_data: Dictionary = Library.get_combat_active_data(_combat_active_name)
 
 	# dynamically load icon and effect chain based on name
@@ -149,38 +176,19 @@ func _load_data() -> void:
 	_valid_target_option = dict_data["valid_target_option"]
 	_valid_effect_option = dict_data["valid_effect_option"]
 	_projectile_name = dict_data["projectile_name"]
+	_cooldown_timer.start(_cooldown_duration)
 	_cooldown_duration = dict_data["cooldown_duration"]
 
 	# config orbiter
 	_orbiter.setup(
 		dict_data["max_projectiles"],
+		dict_data["orbit_radius"],
 		dict_data["orbit_rotation_speed"],
-		dict_data["orbit_radius"]
 	)
 
 	# internalise some projectile data, for easier use later
 	_delivery_method = Library.get_projectile_data(_projectile_name)["effect_delivery_method"]
 	_max_range = Library.get_projectile_range(_projectile_name)
-
-
-## run setup process and repeat on all direct children.
-##
-## N.B. not recursive, so children are responsible for calling setup() on their own children
-func setup(caster: CombatActor, allegiance: Allegiance, cast_position: Marker2D) -> void:
-	if not _has_run_ready:
-		push_error("CombatActive: setup() called before _ready. ")
-
-	assert(caster is CombatActor, "CombatActive: Missing `caster`.")
-	assert(allegiance is Allegiance, "CombatActive: Missing `allegiance`.")
-	assert(cast_position is Marker2D, "CombatActive: Missing `cast_position`.")
-
-	_caster = caster
-	_allegiance = allegiance
-	_cast_position = cast_position
-
-	_effect_chain.setup(_caster, _allegiance, _valid_effect_option)
-
-	_target_finder.setup(_caster, _max_range, _valid_target_option, _allegiance)
 
 func _process(_delta: float) -> void:
 	queue_redraw()

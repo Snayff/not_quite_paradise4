@@ -61,6 +61,8 @@ func setup(max_projectiles: int, orbit_radius: int, rotation_speed: float) -> vo
 	_orbit_radius = orbit_radius
 	_rotation_speed = rotation_speed
 
+	_generate_points_in_circle()
+
 	_has_run_setup = true
 
 func _physics_process(delta: float) -> void:
@@ -80,11 +82,12 @@ func _physics_process(delta: float) -> void:
 
 ## calculate evenly spaced points around a circle based on number of projectiles
 func _generate_points_in_circle():
-	if _max_projectiles != 0:
-		var increment = float(360) / float(_max_projectiles)
+	if _max_projectiles >= 0:
+		var increment = clampf(float(360) / float(_max_projectiles), 1, 360)
 		var angle = 0
 
 		_points.clear()
+		_angles.clear()
 		@warning_ignore("unused_variable")  # godot thinks i is unused for some reason
 		var i: int = 0
 		while angle < float(360):

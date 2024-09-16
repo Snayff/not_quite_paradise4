@@ -30,3 +30,7 @@ _action_bar = NodePath("..")
 [node name="ActiveSkillButton3" parent="." node_paths=PackedStringArray("_action_bar") instance=ExtResource("2_5v3ir")]
 layout_mode = 2
 _action_bar = NodePath("..")
+
+[node name="ActiveSkillButton4" parent="." node_paths=PackedStringArray("_action_bar") instance=ExtResource("2_5v3ir")]
+layout_mode = 2
+_action_bar = NodePath("..")
