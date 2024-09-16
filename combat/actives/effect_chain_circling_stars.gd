@@ -1,4 +1,5 @@
 ## the series of effects for the Circling Stars skill
+@icon("res://combat/actives/effect_chain.png")
 class_name EffectChainCirclingStars
 extends ABCEffectChain
 

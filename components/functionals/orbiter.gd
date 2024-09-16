@@ -53,9 +53,6 @@ var _has_run_setup: bool = false
 
 
 #region FUNCS
-func _ready() -> void:
-	_generate_points_in_circle()
-
 func setup(max_projectiles: int, orbit_radius: int, rotation_speed: float) -> void:
 	_max_projectiles = max_projectiles
 	_orbit_radius = orbit_radius
