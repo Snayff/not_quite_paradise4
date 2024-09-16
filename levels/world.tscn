@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" path="res://levels/world.gd" id="1_e5ypc"]
 [ext_resource type="Texture2D" uid="uid://csx5xkiiijtyh" path="res://levels/LB-Lava-Lake-Main.png" id="1_ml8d5"]
-[ext_resource type="PackedScene" uid="uid://dakrcm4hmx6jt" path="res://scenes/ui/action_bar.tscn" id="4_gaq2h"]
+[ext_resource type="PackedScene" uid="uid://dakrcm4hmx6jt" path="res://ui/action_bar.tscn" id="4_gaq2h"]
 [ext_resource type="PackedScene" uid="uid://cta4xur1b7ano" path="res://combat/actors/wolf_rider/wolf_rider.tscn" id="5_gequ5"]
 [ext_resource type="PackedScene" uid="uid://bkqc7x4yp0pn2" path="res://combat/actors/horse_rider/horsey_rider.tscn" id="6_d7rtk"]
-[ext_resource type="PackedScene" uid="uid://bl26wjavwal5j" path="res://scenes/ui/stat_panel.tscn" id="6_pp6hl"]
+[ext_resource type="PackedScene" uid="uid://bl26wjavwal5j" path="res://ui/stat_panel.tscn" id="6_pp6hl"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8pgda"]
 texture = ExtResource("1_ml8d5")
@@ -74,24 +74,12 @@ _mass = 5.0
 [node name="UI" type="CanvasLayer" parent="WolfRider"]
 
 [node name="ActionBar" parent="WolfRider/UI" node_paths=PackedStringArray("_root") instance=ExtResource("4_gaq2h")]
-offset_left = -87.0
-offset_top = -61.0
-offset_right = 88.0
-offset_bottom = -2.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
 _root = NodePath("../..")
 
 [node name="PlayerStatPanel" parent="WolfRider/UI" node_paths=PackedStringArray("_root") instance=ExtResource("6_pp6hl")]
 _root = NodePath("../..")
 
 [node name="TargetStatPanel" parent="WolfRider/UI" node_paths=PackedStringArray("_root") instance=ExtResource("6_pp6hl")]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -64.0
-offset_right = 0.0
-grow_horizontal = 0
 _root = NodePath("../..")
 
 [node name="Camera2D" type="Camera2D" parent="WolfRider"]

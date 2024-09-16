@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://f6yq0wv2pluc"
-path="res://.godot/imported/blue_twinkle4.png-3e5184d1a5e378f0260169758bbe7c4f.ctex"
+path="res://.godot/imported/blue_twinkle4.png-e7864e7bdfcbb7f33f4825384018343b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/effects/chilled/blue_twinkle4.png"
-dest_files=["res://.godot/imported/blue_twinkle4.png-3e5184d1a5e378f0260169758bbe7c4f.ctex"]
+source_file="res://visual_effects/chilled/blue_twinkle4.png"
+dest_files=["res://.godot/imported/blue_twinkle4.png-e7864e7bdfcbb7f33f4825384018343b.ctex"]
 
 [params]
 

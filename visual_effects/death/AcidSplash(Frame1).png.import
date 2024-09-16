@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://di8qerf5cpgr"
-path="res://.godot/imported/AcidSplash(Frame1).png-7c939373e080e1e7ddf2b783533c1f40.ctex"
+path="res://.godot/imported/AcidSplash(Frame1).png-c7855f552d68d8844726e1a879b41e62.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/effects/death/AcidSplash(Frame1).png"
-dest_files=["res://.godot/imported/AcidSplash(Frame1).png-7c939373e080e1e7ddf2b783533c1f40.ctex"]
+source_file="res://visual_effects/death/AcidSplash(Frame1).png"
+dest_files=["res://.godot/imported/AcidSplash(Frame1).png-c7855f552d68d8844726e1a879b41e62.ctex"]
 
 [params]
 

@@ -1,6 +1,6 @@
-## interface for a collection of [CombatActive]s.
+## interface for a collection of [CombatActive] scenes.
 ##
-## CombatActives should be added as children.
+## CombatActives should be added as instantiated scene children.
 @icon("res://components/containers/combat_active_container.png")
 class_name CombatActiveContainerComponent
 extends Node2D

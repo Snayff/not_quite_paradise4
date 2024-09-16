@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dakrcm4hmx6jt"]
 
-[ext_resource type="Script" path="res://scenes/ui/action_bar.gd" id="1_jn6fm"]
-[ext_resource type="PackedScene" uid="uid://dgw4fqh6afdsu" path="res://scenes/ui/combat_active_button.tscn" id="2_5v3ir"]
+[ext_resource type="Script" path="res://ui/action_bar.gd" id="1_jn6fm"]
+[ext_resource type="PackedScene" uid="uid://dgw4fqh6afdsu" path="res://ui/combat_active_button.tscn" id="2_5v3ir"]
 
 [node name="ActionBar" type="HBoxContainer"]
 anchors_preset = 7

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://csx5xkiiijtyh"
-path="res://.godot/imported/LB-Lava-Lake-Main.png-3e6ec7d0afcb1423eb46a69f36eb1ac9.ctex"
+path="res://.godot/imported/LB-Lava-Lake-Main.png-c3ecce845b0a671e8ce26a68fec84d55.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tiles/lava_caves/LB-Lava-Lake-Main.png"
-dest_files=["res://.godot/imported/LB-Lava-Lake-Main.png-3e6ec7d0afcb1423eb46a69f36eb1ac9.ctex"]
+source_file="res://levels/LB-Lava-Lake-Main.png"
+dest_files=["res://.godot/imported/LB-Lava-Lake-Main.png-c3ecce845b0a671e8ce26a68fec84d55.ctex"]
 
 [params]
 

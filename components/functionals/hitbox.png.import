@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b117dts7pkavd"
-path="res://.godot/imported/hit.png-1cf168dec0a7f499921645d106c32389.ctex"
+path="res://.godot/imported/hitbox.png-1942d018ac29262f78c6d6d666e44882.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/node_icons/hit.png"
-dest_files=["res://.godot/imported/hit.png-1cf168dec0a7f499921645d106c32389.ctex"]
+source_file="res://components/functionals/hitbox.png"
+dest_files=["res://.godot/imported/hitbox.png-1942d018ac29262f78c6d6d666e44882.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bbb3ma5uwrg3a"
-path="res://.godot/imported/target_finder.png-887cd013f37e25f61adaa74d0cb84f58.ctex"
+path="res://.godot/imported/target_finder.png-35005b2458bf1df52cf0f0c244e1fb4c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/node_icons/target_finder.png"
-dest_files=["res://.godot/imported/target_finder.png-887cd013f37e25f61adaa74d0cb84f58.ctex"]
+source_file="res://components/functionals/target_finder.png"
+dest_files=["res://.godot/imported/target_finder.png-35005b2458bf1df52cf0f0c244e1fb4c.ctex"]
 
 [params]
 

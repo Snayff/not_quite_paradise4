@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cefustm78vxtf"
-path="res://.godot/imported/projectile_throwable.png-f335532b2a8c2e7e1d436b2e0a3a1174.ctex"
+path="res://.godot/imported/projectile_throwable.png-312c244f8a156e55839fe68a7c00a456.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/node_icons/projectile_throwable.png"
-dest_files=["res://.godot/imported/projectile_throwable.png-f335532b2a8c2e7e1d436b2e0a3a1174.ctex"]
+source_file="res://combat/projectiles/projectile_throwable.png"
+dest_files=["res://.godot/imported/projectile_throwable.png-312c244f8a156e55839fe68a7c00a456.ctex"]
 
 [params]
 

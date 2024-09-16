@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dfwdprtd0xdwy"
-path="res://.godot/imported/supply_container.png-f929ff1735c6831b45cf6153fba38598.ctex"
+path="res://.godot/imported/supply_container.png-a33538b56b50ac106bec67848dd0ad3a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/node_icons/supply_container.png"
-dest_files=["res://.godot/imported/supply_container.png-f929ff1735c6831b45cf6153fba38598.ctex"]
+source_file="res://components/containers/supply_container.png"
+dest_files=["res://.godot/imported/supply_container.png-a33538b56b50ac106bec67848dd0ad3a.ctex"]
 
 [params]
 

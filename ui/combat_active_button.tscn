@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dgw4fqh6afdsu"]
+[gd_scene load_steps=5 format=3 uid="uid://dgw4fqh6afdsu"]
 
-[ext_resource type="Texture2D" uid="uid://qsvexj3lju74" path="res://icon.svg" id="1_nagn8"]
-[ext_resource type="Texture2D" uid="uid://cnu2udq2ovl2j" path="res://assets/utility/white_square.png" id="2_of3q4"]
-[ext_resource type="Script" path="res://scenes/ui/combat_active_button.gd" id="2_vq21v"]
-[ext_resource type="FontFile" uid="uid://xfatb788yq6e" path="res://assets/fonts/SinsGold.ttf" id="4_6l67w"]
+[ext_resource type="Texture2D" uid="uid://cnu2udq2ovl2j" path="res://shared_assets/utility/white_square.png" id="2_of3q4"]
+[ext_resource type="Script" path="res://ui/combat_active_button.gd" id="2_vq21v"]
+[ext_resource type="FontFile" uid="uid://xfatb788yq6e" path="res://shared_assets/fonts/SinsGold.ttf" id="4_6l67w"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n7t1s"]
 bg_color = Color(0.975206, 0.82802, 0.0450746, 0)
@@ -24,7 +23,6 @@ offset_right = 32.0
 offset_bottom = 32.0
 size_flags_horizontal = 3
 button_mask = 0
-texture_normal = ExtResource("1_nagn8")
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("2_vq21v")

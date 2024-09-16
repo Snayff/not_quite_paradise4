@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://g51nqfgj3654"
-path="res://.godot/imported/effect_chain.png-95b527e28459fd147b5829388c178c66.ctex"
+path="res://.godot/imported/effect_chain.png-2fad1249972b16a017b1b89fe1d19420.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/node_icons/effect_chain.png"
-dest_files=["res://.godot/imported/effect_chain.png-95b527e28459fd147b5829388c178c66.ctex"]
+source_file="res://combat/actives/effect_chain.png"
+dest_files=["res://.godot/imported/effect_chain.png-2fad1249972b16a017b1b89fe1d19420.ctex"]
 
 [params]
 

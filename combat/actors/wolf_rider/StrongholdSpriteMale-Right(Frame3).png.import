@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dcdgt417cspcb"
-path="res://.godot/imported/StrongholdSpriteMale-Right(Frame3).png-d46e4d88e3ac8e843c69f42f8794d31f.ctex"
+path="res://.godot/imported/StrongholdSpriteMale-Right(Frame3).png-c7d784b6a2f17bd20c3484398d9c3c66.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame3).png"
-dest_files=["res://.godot/imported/StrongholdSpriteMale-Right(Frame3).png-d46e4d88e3ac8e843c69f42f8794d31f.ctex"]
+source_file="res://combat/actors/wolf_rider/StrongholdSpriteMale-Right(Frame3).png"
+dest_files=["res://.godot/imported/StrongholdSpriteMale-Right(Frame3).png-c7d784b6a2f17bd20c3484398d9c3c66.ctex"]
 
 [params]
 

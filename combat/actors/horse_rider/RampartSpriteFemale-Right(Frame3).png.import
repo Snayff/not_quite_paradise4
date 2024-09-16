@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ffba1pgjsx4n"
-path="res://.godot/imported/RampartSpriteFemale-Right(Frame3).png-2a8cab1006db25f9cf7dcfc7581b0807.ctex"
+path="res://.godot/imported/RampartSpriteFemale-Right(Frame3).png-6fa6b6701027a37dc0307780fe48068e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/actors/horse_rider/RampartSpriteFemale-Right(Frame3).png"
-dest_files=["res://.godot/imported/RampartSpriteFemale-Right(Frame3).png-2a8cab1006db25f9cf7dcfc7581b0807.ctex"]
+source_file="res://combat/actors/horse_rider/RampartSpriteFemale-Right(Frame3).png"
+dest_files=["res://.godot/imported/RampartSpriteFemale-Right(Frame3).png-6fa6b6701027a37dc0307780fe48068e.ctex"]
 
 [params]
 

@@ -36,7 +36,7 @@ func _configure_behaviour() -> void:
 	_duration = 10
 
 	_duration_type = Constants.DURATION_TYPE.time
-	_application_animation_scene = load("res://scenes/visual_effects/chilled.tscn")
+	_application_animation_scene = load("res://visual_effects/chilled/chilled.tscn")
 
 	# create statmod effect
 	var effect: AtomicActionApplyStatMod = AtomicActionApplyStatMod.new(self, _source)

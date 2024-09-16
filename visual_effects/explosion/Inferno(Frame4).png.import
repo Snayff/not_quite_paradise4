@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://7nrw4llyft0v"
-path="res://.godot/imported/Inferno(Frame4).png-f6e4c994ac44300cdd2f2045f7f4d873.ctex"
+path="res://.godot/imported/Inferno(Frame4).png-5f30c9408d13af7ed538f08932b93e60.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/effects/explosion/Inferno(Frame4).png"
-dest_files=["res://.godot/imported/Inferno(Frame4).png-f6e4c994ac44300cdd2f2045f7f4d873.ctex"]
+source_file="res://visual_effects/explosion/Inferno(Frame4).png"
+dest_files=["res://.godot/imported/Inferno(Frame4).png-5f30c9408d13af7ed538f08932b93e60.ctex"]
 
 [params]
 

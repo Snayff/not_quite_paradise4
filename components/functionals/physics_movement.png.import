@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://0jm1dc7jhecs"
-path="res://.godot/imported/phys_move.png-112c2a62bb69b059501637db1a59af36.ctex"
+path="res://.godot/imported/physics_movement.png-764396c22e600229f6546fea978dde7d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/node_icons/phys_move.png"
-dest_files=["res://.godot/imported/phys_move.png-112c2a62bb69b059501637db1a59af36.ctex"]
+source_file="res://components/functionals/physics_movement.png"
+dest_files=["res://.godot/imported/physics_movement.png-764396c22e600229f6546fea978dde7d.ctex"]
 
 [params]
 

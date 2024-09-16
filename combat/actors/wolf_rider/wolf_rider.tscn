@@ -1,18 +1,16 @@
-[gd_scene load_steps=19 format=3 uid="uid://cta4xur1b7ano"]
+[gd_scene load_steps=20 format=3 uid="uid://cta4xur1b7ano"]
 
 [ext_resource type="PackedScene" uid="uid://cgd54nt0un6ix" path="res://combat/actors/combat_actor.tscn" id="1_m432m"]
-[ext_resource type="Texture2D" uid="uid://dopseo1w5jxrl" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame1).png" id="2_2j4ap"]
-[ext_resource type="Texture2D" uid="uid://y6wkn3lkdhy1" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame2).png" id="3_k08ba"]
-[ext_resource type="Texture2D" uid="uid://dcdgt417cspcb" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame3).png" id="4_qq01u"]
-[ext_resource type="Texture2D" uid="uid://bwamwonvpg20u" path="res://assets/actors/wolf_rider/StrongholdSpriteMale-Right(Frame4).png" id="5_2jq15"]
+[ext_resource type="Texture2D" uid="uid://dopseo1w5jxrl" path="res://combat/actors/wolf_rider/StrongholdSpriteMale-Right(Frame1).png" id="2_2j4ap"]
+[ext_resource type="Texture2D" uid="uid://y6wkn3lkdhy1" path="res://combat/actors/wolf_rider/StrongholdSpriteMale-Right(Frame2).png" id="3_k08ba"]
+[ext_resource type="Texture2D" uid="uid://dcdgt417cspcb" path="res://combat/actors/wolf_rider/StrongholdSpriteMale-Right(Frame3).png" id="4_qq01u"]
+[ext_resource type="Texture2D" uid="uid://bwamwonvpg20u" path="res://combat/actors/wolf_rider/StrongholdSpriteMale-Right(Frame4).png" id="5_2jq15"]
 [ext_resource type="PackedScene" uid="uid://lsbutqx8scoq" path="res://combat/actives/fireblast.tscn" id="6_jm2bo"]
+[ext_resource type="Script" path="res://components/functionals/supply.gd" id="7_04s3i"]
 [ext_resource type="PackedScene" uid="uid://lbhta0mrhs1b" path="res://combat/actives/circling_stars.tscn" id="7_47lvt"]
-[ext_resource type="Script" path="res://scripts/dataclasses/stat.gd" id="9_nf076"]
-[ext_resource type="Script" path="res://scripts/components/functionals/supply.gd" id="9_r5a4j"]
+[ext_resource type="Script" path="res://dataclasses/stat.gd" id="9_nf076"]
 [ext_resource type="PackedScene" uid="uid://dskbsash4djh5" path="res://combat/actives/slash.tscn" id="10_fkwpq"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_nvgpk"]
-radius = 6.0
+[ext_resource type="PackedScene" uid="uid://ctgejtyeyphms" path="res://combat/actives/icy_aura.tscn" id="10_jxk3p"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_s36p7"]
 animations = [{
@@ -42,54 +40,56 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_nwg6j"]
+resource_local_to_scene = true
+radius = 6.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_3e800"]
 radius = 7.0
 
-[sub_resource type="Resource" id="Resource_ccm7v"]
+[sub_resource type="Resource" id="Resource_ewdon"]
 resource_local_to_scene = true
 resource_name = "Strength"
 script = ExtResource("9_nf076")
 type = 0
 base_value = 10.0
 
-[sub_resource type="Resource" id="Resource_jvg6x"]
+[sub_resource type="Resource" id="Resource_8r6on"]
 resource_local_to_scene = true
 resource_name = "Defence"
 script = ExtResource("9_nf076")
 type = 1
 base_value = 5.0
 
-[sub_resource type="Resource" id="Resource_7i4v5"]
+[sub_resource type="Resource" id="Resource_tue2u"]
 resource_local_to_scene = true
 resource_name = "Move Speed"
 script = ExtResource("9_nf076")
 type = 2
 base_value = 5.0
 
-[sub_resource type="Resource" id="Resource_50ehq"]
+[sub_resource type="Resource" id="Resource_2qdql"]
 resource_local_to_scene = true
-resource_name = "Health"
-script = ExtResource("9_r5a4j")
+script = ExtResource("7_04s3i")
 type = 0
-max_value = 999
+max_value = 10
 regeneration_per_second = 0.0
 
-[sub_resource type="Resource" id="Resource_h6njx"]
+[sub_resource type="Resource" id="Resource_lrrnl"]
 resource_local_to_scene = true
-resource_name = "Stamina"
-script = ExtResource("9_r5a4j")
+script = ExtResource("7_04s3i")
 type = 1
-max_value = 50
+max_value = 10
 regeneration_per_second = 0.0
 
 [node name="WolfRider" instance=ExtResource("1_m432m")]
 
-[node name="CollisionShape2D" parent="." index="0"]
-visible = false
-shape = SubResource("CircleShape2D_nvgpk")
-
-[node name="AnimatedSprite2D" parent="." index="1"]
+[node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_s36p7")
+
+[node name="CollisionShape2D" parent="." index="1"]
+visible = false
+shape = SubResource("CircleShape2D_nwg6j")
 
 [node name="HurtboxComponent" parent="." index="2"]
 collision_layer = 2
@@ -99,17 +99,22 @@ visible = false
 shape = SubResource("CircleShape2D_3e800")
 
 [node name="StatsContainer" parent="." index="11"]
-_editor_stats = Array[ExtResource("9_nf076")]([SubResource("Resource_ccm7v"), SubResource("Resource_jvg6x"), SubResource("Resource_7i4v5")])
+_editor_stats = Array[ExtResource("9_nf076")]([SubResource("Resource_ewdon"), SubResource("Resource_8r6on"), SubResource("Resource_tue2u")])
 
 [node name="SupplyContainer" parent="." index="13"]
-_editor_supplies = Array[ExtResource("9_r5a4j")]([SubResource("Resource_50ehq"), SubResource("Resource_h6njx")])
+_editor_supplies = Array[ExtResource("7_04s3i")]([SubResource("Resource_2qdql"), SubResource("Resource_lrrnl")])
+
+[node name="CombatActiveContainer" parent="." index="14"]
+visible = false
 
 [node name="CirclingStars" parent="CombatActiveContainer" index="0" instance=ExtResource("7_47lvt")]
 cast_type = 0
 
 [node name="Fireblast" parent="CombatActiveContainer" index="1" instance=ExtResource("6_jm2bo")]
 
-[node name="Slash" parent="CombatActiveContainer" index="2" instance=ExtResource("10_fkwpq")]
+[node name="IcyAura" parent="CombatActiveContainer" index="2" instance=ExtResource("10_jxk3p")]
+
+[node name="Slash" parent="CombatActiveContainer" index="3" instance=ExtResource("10_fkwpq")]
 
 [node name="CastPosition" parent="CentrePivot" index="0"]
 position = Vector2(10, -1)

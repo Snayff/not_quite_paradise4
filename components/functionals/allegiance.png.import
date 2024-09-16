@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://0675nshym14n"
-path="res://.godot/imported/allegiance.png-7138363dfb4b11103b3b8ef57a6e2a0e.ctex"
+path="res://.godot/imported/allegiance.png-ddd8cbd4f9af8485414f5466fd261dbd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/node_icons/allegiance.png"
-dest_files=["res://.godot/imported/allegiance.png-7138363dfb4b11103b3b8ef57a6e2a0e.ctex"]
+source_file="res://components/functionals/allegiance.png"
+dest_files=["res://.godot/imported/allegiance.png-ddd8cbd4f9af8485414f5466fd261dbd.ctex"]
 
 [params]
 

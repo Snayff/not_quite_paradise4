@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b6ig7m73f4wq1"
-path="res://.godot/imported/FrostRing(Frame3).png-92cb84024d479f7f52ca94681b37859c.ctex"
+path="res://.godot/imported/FrostRing(Frame3).png-86fc6bf899e55bbd602a2a44fda9cf80.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/effects/frost_ring/FrostRing(Frame3).png"
-dest_files=["res://.godot/imported/FrostRing(Frame3).png-92cb84024d479f7f52ca94681b37859c.ctex"]
+source_file="res://visual_effects/frost_ring/FrostRing(Frame3).png"
+dest_files=["res://.godot/imported/FrostRing(Frame3).png-86fc6bf899e55bbd602a2a44fda9cf80.ctex"]
 
 [params]
 

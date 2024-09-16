@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bgnvmdtovlxif"]
 
-[ext_resource type="PackedScene" uid="uid://baut7l07kp2rc" path="res://projectiles/abc_projectile.tscn" id="1_n2upc"]
-[ext_resource type="Script" path="res://projectiles/projectile_aura.gd" id="2_dkdpn"]
+[ext_resource type="PackedScene" uid="uid://baut7l07kp2rc" path="res://combat/projectiles/abc_projectile.tscn" id="1_n2upc"]
+[ext_resource type="Script" path="res://combat/projectiles/projectile_aura.gd" id="2_dkdpn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_muo3x"]
 resource_local_to_scene = true

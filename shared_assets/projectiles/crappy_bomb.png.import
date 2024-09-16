@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://rjc8pu5vsjls"
-path="res://.godot/imported/crappy_bomb.png-97bafc84cba22dcb0a6111d3737b5968.ctex"
+path="res://.godot/imported/crappy_bomb.png-04df91034ba23346d4115a490220c95d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/projectiles/crappy_bomb.png"
-dest_files=["res://.godot/imported/crappy_bomb.png-97bafc84cba22dcb0a6111d3737b5968.ctex"]
+source_file="res://shared_assets/projectiles/crappy_bomb.png"
+dest_files=["res://.godot/imported/crappy_bomb.png-04df91034ba23346d4115a490220c95d.ctex"]
 
 [params]
 

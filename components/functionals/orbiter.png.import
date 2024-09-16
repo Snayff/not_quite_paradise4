@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bd26yv2vogvrk"
-path="res://.godot/imported/orbiter.png-73d6430a58087cce3bf4c9b30dbb77ed.ctex"
+path="res://.godot/imported/orbiter.png-d85c3e04871d3bbc0a7b49982b5e9b66.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/node_icons/orbiter.png"
-dest_files=["res://.godot/imported/orbiter.png-73d6430a58087cce3bf4c9b30dbb77ed.ctex"]
+source_file="res://components/functionals/orbiter.png"
+dest_files=["res://.godot/imported/orbiter.png-d85c3e04871d3bbc0a7b49982b5e9b66.ctex"]
 
 [params]
 

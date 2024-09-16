@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://1oshey2py2wp"
-path="res://.godot/imported/number.png-411f399d695c2e6c1b20bc7d597e2226.ctex"
+path="res://.godot/imported/pop_up_number.png-d553b69d847e9e56804749c920982718.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/node_icons/number.png"
-dest_files=["res://.godot/imported/number.png-411f399d695c2e6c1b20bc7d597e2226.ctex"]
+source_file="res://components/visuals/pop_up_number.png"
+dest_files=["res://.godot/imported/pop_up_number.png-d553b69d847e9e56804749c920982718.ctex"]
 
 [params]
 

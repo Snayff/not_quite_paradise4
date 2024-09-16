@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ci0fixdjxsw33"
-path="res://.godot/imported/proximity.png-55b413345c15780374c7ac33d741dea7.ctex"
+path="res://.godot/imported/proximity.png-2a841100798d8bd0a6c35e9912b381d9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/node_icons/proximity.png"
-dest_files=["res://.godot/imported/proximity.png-55b413345c15780374c7ac33d741dea7.ctex"]
+source_file="res://components/functionals/proximity.png"
+dest_files=["res://.godot/imported/proximity.png-2a841100798d8bd0a6c35e9912b381d9.ctex"]
 
 [params]
 
