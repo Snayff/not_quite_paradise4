@@ -66,7 +66,7 @@ func _update_labels() -> void:
 	# add supplies
 	var labels_added: int = 0
 	if _target._supply_container is SupplyContainer:
-		var supplies: Array[SupplyComponent] = _target._supply_container.get_all_supplies()
+		var supplies: Array[Supply] = _target._supply_container.get_all_supplies()
 		for i in range(supplies.size()):
 			var supply = supplies[i]
 
@@ -116,7 +116,7 @@ func _update_labels() -> void:
 
 			labels_added += 1
 
-func  _apply_supply_data_to_label(label_: Label, supply: SupplyComponent) -> Label:
+func  _apply_supply_data_to_label(label_: Label, supply: Supply) -> Label:
 	label_.text = str(Utility.get_enum_name(Constants.SUPPLY_TYPE, supply.type), ": ",  supply.value)
 	return label_
 

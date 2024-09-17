@@ -141,7 +141,7 @@ func cast_ready_active(active_name: String) -> bool:
 	var active: CombatActive = get_active(active_name)
 	if active.can_cast:
 		# pay the toll
-		var supply: SupplyComponent = _supplies.get_supply(active.cast_supply)
+		var supply: Supply = _supplies.get_supply(active.cast_supply)
 		# only health supply MUST have enough to use
 		if active.cast_supply == Constants.SUPPLY_TYPE.health:
 			if active.cast_cost > supply.value:

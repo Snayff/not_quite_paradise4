@@ -5,6 +5,7 @@ extends Node
 ## storage of the static data
 var _data: Dictionary  = {
 	"projectile": {
+		# NOTE: sprite frames are not unique, so specify
 		"fireball": {
 			"effect_delivery_method": Constants.EFFECT_DELIVERY_METHOD.throwable,
 			# base attrs
@@ -63,6 +64,7 @@ var _data: Dictionary  = {
 
 	},
 	"combat_active": {
+		# NOTE: icons are unique, so can load by name
 		"slash": {
 			"cast_type": Constants.CAST_TYPE.manual,
 			"cast_supply": Constants.SUPPLY_TYPE.stamina,
@@ -118,7 +120,22 @@ var _data: Dictionary  = {
 
 	},
 	"actor": {
+		# NOTE: sprite frames are not unique, so specify
+		"wolf_rider" : {
+			"sprite_frames": "wolf_rider.tres",
+			"mass": 100,
+			"actives": ["slash", "icy_wind", "fireblast", "circling_stars"],
+			"supplies": {
+				Constants.SUPPLY_TYPE.health: 10,
+				Constants.SUPPLY_TYPE.stamina: 100,
+			},
+			"stats": {
+				Constants.STAT_TYPE.strength: 10,
+				Constants.STAT_TYPE.defence: 5,
+				Constants.STAT_TYPE.move_speed: 50,
+			}
 
+		}
 	}
 }
 

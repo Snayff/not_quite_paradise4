@@ -127,14 +127,14 @@ func set_target_actor(actor: Actor) -> void:
 ## update the stamina value of the supply container and the associated max range
 func _set_max_range(max_range_: float) -> void:
 	#FIXME: supply has stamina, but thinks it is health?!?!
-	var supply: SupplyComponent = _supply_container.get_supply(Constants.SUPPLY_TYPE.stamina)
+	var supply: Supply = _supply_container.get_supply(Constants.SUPPLY_TYPE.stamina)
 
-	if supply is SupplyComponent:
+	if supply is Supply:
 		@warning_ignore("narrowing_conversion")  # happy with reduced precision
 		supply.set_value(max_range_, max_range_)
 
 	else:
-		var supplies: Array[SupplyComponent] = _supply_container.get_all_supplies()
+		var supplies: Array[Supply]     = _supply_container.get_all_supplies()
 		var supply_names: Array[String] = []
 		for s in supplies:
 			supply_names.append(Utility.get_enum_name(Constants.SUPPLY_TYPE, s.type))

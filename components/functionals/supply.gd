@@ -1,6 +1,6 @@
-## info regarding a changeable value, such as health or mana.
+## info regarding a changeable, numeric value, such as health or mana.
 @icon("res://components/functionals/supply.png")
-class_name SupplyComponent
+class_name Supply
 extends Resource
 
 #region SIGNALS

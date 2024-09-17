@@ -35,7 +35,7 @@ func create_projectile(
 	data_class.define(
 		team,
 		dict_data["valid_hit_option"],
-		Utility.get_sprite_frame(dict_data["sprite_frames"]),
+		Utility.get_sprite_frame(dict_data["sprite_frames"], "projectiles"),
 		dict_data["size"],
 		dict_data["max_bodies_can_hit"],
 	)

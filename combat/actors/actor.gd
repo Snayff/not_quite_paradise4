@@ -57,7 +57,7 @@ func _ready() -> void:
 
 	if _supply_container is SupplyContainer:
 		# setup triggers and process for death on health empty
-		var health = _supply_container.get_supply(Constants.SUPPLY_TYPE.health)
+		var health: Supply = _supply_container.get_supply(Constants.SUPPLY_TYPE.health)
 		health.emptied.connect(func(): died.emit())  # inform of death when empty
 
 		# and hit effects
@@ -65,7 +65,7 @@ func _ready() -> void:
 		health.value_decreased.connect(_damage_numbers.display_number)
 
 		# setup triggers and process for exhaustion on stamina empty
-		var stamina = _supply_container.get_supply(Constants.SUPPLY_TYPE.stamina)
+		var stamina: Supply = _supply_container.get_supply(Constants.SUPPLY_TYPE.stamina)
 		stamina.emptied.connect(_apply_exhaustion)
 
 	if _physics_movement is PhysicsMovementComponent:

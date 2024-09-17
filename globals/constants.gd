@@ -15,9 +15,16 @@ const PATH_COMBAT_ACTIVES: String = "res://combat/actives/"
 ####### COMBAT #########
 ######################
 
-const FRICTION: float = 10.3 ## the reduction in force applied to a physics object when new force not being applied
-const AURA_TICK_RATE: float = 0.33  ## the standard amount for how long an [Aura] waits before looping.
-const GLOBAL_CAST_DELAY: float = 0.33  ## min time to wait between combat active casts
+## the reduction in force applied to a physics object when new force not being applied
+const FRICTION: float = 10.3
+## the linear damping applied to bodies
+const LINEAR_DAMP: float = 5.0
+
+## the standard amount for how long an [Aura] waits before looping.
+const AURA_TICK_RATE: float = 0.33
+## min time to wait between combat active casts
+const GLOBAL_CAST_DELAY: float = 0.33
+
 
 
 
@@ -97,7 +104,7 @@ enum STAT_TYPE {
 
 ## similar to a stat, but one that can have a fluctuating value between 0 and max.
 ##
-## relates to [SupplyComponent].
+## relates to [Supply].
 enum SUPPLY_TYPE {
 	health,
 	stamina
