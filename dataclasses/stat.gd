@@ -2,7 +2,7 @@
 ##
 ## for modifiers, additions are handled before multiplications
 @icon("res://scripts/dataclasses/stat.png")
-class_name StatData
+class_name Stat
 extends Resource
 
 

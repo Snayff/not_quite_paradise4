@@ -1,4 +1,4 @@
-## interface for initialising and managing [StatData]s.
+## interface for initialising and managing [Stat]s.
 @icon("res://components/containers/stat_container.png")
 class_name StatsContainer
 extends Node
@@ -17,13 +17,13 @@ extends Node
 #region EXPORTS
 @export_group("Details")
 ## this is a wrapper for _stats, due to godot's issue with arrays always sharing resources.
-@export var _editor_stats: Array[StatData]
+@export var _editor_stats: Array[Stat]
 #endregion
 
 
 #region VARS
 ## a unique list of all the stats copied from _editor_stats on _ready.
-var _stats: Array[StatData]
+var _stats: Array[Stat]
 #endregion
 
 
@@ -58,7 +58,7 @@ func _stat_exists(stat_type: Constants.STAT_TYPE) -> bool:
 		return true
 	return false
 
-## create a series of [StatData]s. Cannot create a duplicate of an existing stat type.
+## create a series of [Stat]s. Cannot create a duplicate of an existing stat type.
 ##
 ## stat_type_array: array of 1D dictionaries in the form of `STAT_TYPE : {value}`
 func create_stats(stat_type_array: Array[Dictionary]) -> void:
@@ -78,24 +78,24 @@ func create_stats(stat_type_array: Array[Dictionary]) -> void:
 			continue
 
 
-		var value_ = stat_type_array[i].values()[0]
-		var new_stat: StatData = StatData.new(stat_type, value_)
+		var value_         = stat_type_array[i].values()[0]
+		var new_stat: Stat = Stat.new(stat_type, value_)
 		_stats.append(new_stat)
 
 ## get a stat from the stat sheet.
 ##
 ## returns null if no matching stat found.
-func get_stat(stat_type: Constants.STAT_TYPE) -> StatData:
+func get_stat(stat_type: Constants.STAT_TYPE) -> Stat:
 	for stat_data in _stats:
 		if stat_data.type == stat_type:
 			return stat_data
 	return null
 
-func get_all_stats() -> Array[StatData]:
+func get_all_stats() -> Array[Stat]:
 	return _stats
 
 func add_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:
-	var stat: StatData = get_stat(stat_type)
+	var stat: Stat = get_stat(stat_type)
 	if stat == null:
 		push_error("StatsContainer: stat_type (", Utility.get_enum_name(Constants.STAT_TYPE, stat_type), ") not recognised.")
 	stat.add_mod(mod)
@@ -104,7 +104,7 @@ func add_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:
 	# print("mod added to ", Utility.get_enum_name(Constants.STAT_TYPE, stat_type), ". ID: ", stat)
 
 func remove_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:
-	var stat: StatData = get_stat(stat_type)
+	var stat: Stat = get_stat(stat_type)
 	stat.remove_mod(mod)
 
 #endregion

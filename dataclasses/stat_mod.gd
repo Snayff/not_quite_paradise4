@@ -1,4 +1,4 @@
-## a modifier to a [StatData]
+## a modifier to a [Stat]
 @icon("res://scripts/dataclasses/stat_mod.png")
 class_name StatModData
 extends Resource

@@ -83,7 +83,7 @@ func _update_labels() -> void:
 
 	if _target.stats_container is StatsContainer:
 		# loop all stats
-		var stats: Array[StatData] = _target.stats_container.get_all_stats()
+		var stats: Array[Stat] = _target.stats_container.get_all_stats()
 		for i in range(stats.size()):
 			var stat = stats[i]
 
@@ -120,7 +120,7 @@ func  _apply_supply_data_to_label(label_: Label, supply: Supply) -> Label:
 	label_.text = str(Utility.get_enum_name(Constants.SUPPLY_TYPE, supply.type), ": ",  supply.value)
 	return label_
 
-func _apply_stat_data_to_label(label_: Label, stat: StatData) -> Label:
+func _apply_stat_data_to_label(label_: Label, stat: Stat) -> Label:
 	label_.text = str(Utility.get_enum_name(Constants.STAT_TYPE, stat.type), ": ", stat.value)
 	return label_
 

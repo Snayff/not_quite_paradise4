@@ -97,7 +97,7 @@ enum EFFECT_DELIVERY_METHOD {
 
 ## the type of statistical breakdown of an entities physical properties.
 ##
-## relates to [StatData].
+## relates to [Stat].
 enum STAT_TYPE {
 	strength,
 	defence,
