@@ -8,7 +8,9 @@ extends Resource
 
 #region SIGNALS
 signal base_value_changed
+## a [StatMod] has been added
 signal modifier_added
+## a [StatMod] has been removed
 signal modifier_removed
 #endregion
 
@@ -19,10 +21,9 @@ signal modifier_removed
 
 
 #region EXPORTS
-# @export_group("Component Links")
-# @export var
 @export_group("Details")
 @export var type: Constants.STAT_TYPE
+## the unmodified value of the stat
 @export var base_value: float:
 	set(value):
 		base_value = value
@@ -32,10 +33,14 @@ signal modifier_removed
 
 #region VARS
 var _modifiers: Array[StatModData]
-var _modified_value: float  ## base_value modified by all _modifiers
+## base_value modified by all _modifiers. holds the last calculated value
+var _modified_value: float
+## the current value of the stat
+##
+## protected value. to set the value use [base_value] and adding or removing mods
 var value: float:
 	set(value_):
-		push_error("StatData: Can't set directly.")
+		push_error("Stat: Can't set directly.")
 	get:
 		if _is_dirty:
 			_recalculate()
@@ -67,7 +72,7 @@ func _recalculate() -> void:
 			multiplier *= mod.amount
 
 		else:
-			push_warning("StatData: unable to handle mod type of ", mod.type, ".")
+			push_warning("Stat: unable to handle mod type of ", mod.type, ".")
 
 	_modified_value *= multiplier
 	_is_dirty = false

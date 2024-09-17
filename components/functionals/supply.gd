@@ -31,7 +31,9 @@ signal max_value_changed()
 
 
 #region VARS
-## protective wrapper for the value. to set the value use [set_supply]
+## the current value of the supply
+##
+## protected value. to set the value use [set_value]
 var value: int:
 	set(value):
 		push_warning("SupplyComponent: Can't set value directly. Use funcs.")

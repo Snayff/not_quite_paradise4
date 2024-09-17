@@ -4,8 +4,10 @@ class_name Actor
 extends RigidBody2D
 
 #region SIGNALS
-signal new_target(actor: Actor)  ## changed target to new combat_actor
-signal died  ## actor has died
+## changed target to new combat_actor
+signal new_target(actor: Actor)
+## actor has died
+signal died
 #endregion
 
 
@@ -13,7 +15,8 @@ signal died  ## actor has died
 #FIXME: can we get rid of some of these? shouldnt we only need them for things we use in this script, rather than as an interface for other nodes, who
 #  could use get_node()?
 @onready var _on_hit_flash: VisualEffectFlash = %OnHitFlash
-@onready var reusable_spawner: SpawnerComponent = %ReusableSpawner  ## component for spawning runtime-defined Nodes on the actor
+## component for spawning runtime-defined Nodes on the actor
+@onready var reusable_spawner: SpawnerComponent = %ReusableSpawner
 @onready var allegiance: Allegiance = %Allegiance
 @onready var combat_active_container: CombatActiveContainer = %CombatActiveContainer
 @onready var stats_container: StatsContainer = %StatsContainer
@@ -98,12 +101,10 @@ func setup(data: DataActor) -> void:
 	acceleration = data.acceleration
 	deceleration = data.deceleration
 
-	data.supplies # <------------
+	_supply_container.create_supplies(data.supplies)
 	combat_active_container.create_actives(data.actives)
 	stats_container.create_stats(data.stats)
 	_tags.add_multiple_tags(data.tags)
-
-
 
 func _process(delta: float) -> void:
 	_global_cast_cd_counter -= delta
