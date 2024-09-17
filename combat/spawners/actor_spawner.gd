@@ -33,7 +33,7 @@ func _ready() -> void:
 	player.set_as_player(true)
 
 	# npcs
-	var i = 0
+	var i = 1
 	var team
 	for actor_name in _actors_to_spawn:
 		if i % 2 == 0:
@@ -42,6 +42,8 @@ func _ready() -> void:
 			team = Constants.TEAM.team2
 		var pos = Vector2(20 + (i * 20), 20 + (i * 20))
 		Factory.create_actor(actor_name, team, pos)
+
+		i += 1
 
 
 

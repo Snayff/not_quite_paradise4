@@ -59,7 +59,7 @@ tile_set = SubResource("TileSet_elap2")
 [node name="Actors" type="Node" parent="."]
 script = ExtResource("7_sfor0")
 _actor_to_spawn_as_player = "wolf_rider"
-_actors_to_spawn = Array[String](["wolf_rider"])
+_actors_to_spawn = Array[String](["horsey_rider", "wolf_rider", "horsey_rider"])
 
 [node name="Projectiles" type="Node" parent="."]
 

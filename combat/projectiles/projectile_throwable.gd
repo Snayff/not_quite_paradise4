@@ -13,9 +13,9 @@ signal hit_valid_target(hurtbox: HurtboxComponent)
 
 #region ON READY (for direct children only)
 @onready var _on_hit_effect_spawner: SpawnerComponent = $OnHitEffectSpawner
-@onready var _supply_container: SupplyContainer = $SupplyContainer
 @onready var _death_trigger: DeathTrigger = $DeathTrigger
 @onready var _movement_component: PhysicsMovementComponent = $PhysicsMovementComponent
+@onready var _supply_container: SupplyContainer = $SupplyContainerComponent
 
 #endregion
 

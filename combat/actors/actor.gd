@@ -129,8 +129,6 @@ func setup(spawn_pos: Vector2, data: DataActor) -> void:
 	else:
 		push_warning("Actor: no tag container.")
 
-	breakpoint
-
 func _process(delta: float) -> void:
 	_global_cast_cd_counter -= delta
 

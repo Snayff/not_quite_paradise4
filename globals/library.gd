@@ -147,6 +147,33 @@ var _data: Dictionary  = {
 				# Constants.COMBAT_TAG
 
 			]
+		},
+		"horsey_rider" : {
+			"sprite_frames": "horsey_rider.tres",
+			"size": 16,
+			"mass": 100.0,
+			"acceleration": 100.0,
+			"deceleration": 80.0,
+			"actives": [
+				"slash",
+				"icy_wind",
+				"fireblast",
+				"circling_stars"
+			],
+			"supplies": {
+				# SUPPLY_TYPE : [{max_value}, {regen_value}]
+				Constants.SUPPLY_TYPE.health: [10, 0.1],
+				Constants.SUPPLY_TYPE.stamina: [100, 0.0],
+			},
+			"stats": {
+				Constants.STAT_TYPE.strength: 10,
+				Constants.STAT_TYPE.defence: 5,
+				Constants.STAT_TYPE.move_speed: 50,
+			},
+			"tags": [
+				# Constants.COMBAT_TAG
+
+			]
 		}
 	}
 }
