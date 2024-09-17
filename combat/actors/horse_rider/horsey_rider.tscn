@@ -70,14 +70,14 @@ resource_local_to_scene = true
 script = ExtResource("8_qkltb")
 type = 0
 max_value = 10
-regeneration_per_second = 0.0
+regeneration = 0.0
 
 [sub_resource type="Resource" id="Resource_dbt0g"]
 resource_local_to_scene = true
 script = ExtResource("8_qkltb")
 type = 1
 max_value = 10
-regeneration_per_second = 0.0
+regeneration = 0.0
 
 [node name="HorseyRider" instance=ExtResource("1_2tlmc")]
 

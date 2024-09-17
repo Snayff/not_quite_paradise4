@@ -56,14 +56,14 @@ resource_local_to_scene = true
 script = ExtResource("7_04s3i")
 type = 0
 max_value = 10
-regeneration_per_second = 0.0
+regeneration = 0.0
 
 [sub_resource type="Resource" id="Resource_wjhii"]
 resource_local_to_scene = true
 script = ExtResource("7_04s3i")
 type = 1
 max_value = 10
-regeneration_per_second = 0.0
+regeneration = 0.0
 
 [node name="WolfRider" instance=ExtResource("1_m432m")]
 physics_material_override = SubResource("PhysicsMaterial_8wo5g")
@@ -82,6 +82,3 @@ _editor_stats = Array[ExtResource("9_nf076")]([SubResource("Resource_b7vcr"), Su
 
 [node name="SupplyContainer" parent="." index="13"]
 _editor_supplies = Array[ExtResource("7_04s3i")]([SubResource("Resource_wyjw5"), SubResource("Resource_wjhii")])
-
-[node name="CombatActiveContainer" parent="." index="14"]
-_combat_active_names = Array[String](["slash", "icy_wind", "fireblast", "circling_stars"])

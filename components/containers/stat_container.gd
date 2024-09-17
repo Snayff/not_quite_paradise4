@@ -60,10 +60,9 @@ func _stat_exists(stat_type: Constants.STAT_TYPE) -> bool:
 
 ## create a series of [Stat]s. Cannot create a duplicate of an existing stat type.
 ##
-## stat_type_array: array of 1D dictionaries in the form of `STAT_TYPE : {value}`
-func create_stats(stat_type_array: Array[Dictionary]) -> void:
-	for i in stat_type_array:
-		var stat_type = stat_type_array[i].keys()[0]
+## stat_type_array: dictionary in the form of `STAT_TYPE : {value}`
+func create_stats(stat_types: Dictionary) -> void:
+	for stat_type in stat_types:
 
 		# error if stat already exists
 		if _stat_exists(stat_type):
@@ -77,8 +76,7 @@ func create_stats(stat_type_array: Array[Dictionary]) -> void:
 				") as already exists.")
 			continue
 
-
-		var value_         = stat_type_array[i].values()[0]
+		var value_ = stat_types[stat_type][0]
 		var new_stat: Stat = Stat.new(stat_type, value_)
 		_stats.append(new_stat)
 

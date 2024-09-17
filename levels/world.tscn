@@ -66,7 +66,6 @@ custom_integrator = false
 contact_monitor = false
 max_contacts_reported = 0
 _is_player = true
-_linear_damp = 3.0
 _mass = 5.0
 
 [node name="UI" type="CanvasLayer" parent="WolfRider"]

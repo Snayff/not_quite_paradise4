@@ -54,10 +54,11 @@ func _assign_actives_to_buttons() -> void:
 	var actives = _root.combat_active_container.get_all_actives()
 	var i = 0
 	for button in _buttons:
-		button.combat_active = actives[i]
-		i += 1
 		if i >= actives.size():
 			break
+
+		button.combat_active = actives[i]
+		i += 1
 
 ## select a new button. active given must be the one linked to the button
 func _select_new_button(active: CombatActive) -> void:

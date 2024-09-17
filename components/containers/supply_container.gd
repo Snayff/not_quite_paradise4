@@ -64,11 +64,9 @@ func _check_all_unique() -> void:
 
 ## create a series of [Supply]s. Cannot create a duplicate of an existing supply type.
 ##
-## supply_type_array: array of dictionaries in the form of
-## `SUPPLY_TYPE : [{max_value}, {regen_value}]`
-func create_supplies(supply_type_array: Array[Dictionary]) -> void:
-	for i in supply_type_array:
-		var supply_type = supply_type_array[i].keys()[0]
+## supply_types: dictionary in the form of `SUPPLY_TYPE : [{max_value}, {regen_value}]`
+func create_supplies(supply_types: Dictionary) -> void:
+	for supply_type in supply_types.keys():
 
 		# error if stat already exists
 		if _supply_exists(supply_type):
@@ -83,8 +81,8 @@ func create_supplies(supply_type_array: Array[Dictionary]) -> void:
 			continue
 
 
-		var max_value_ = supply_type_array[i].values()[0]
-		var regen_value_ = supply_type_array[i].values()[1]
+		var max_value_ = supply_types[supply_type][0]
+		var regen_value_ = supply_types[supply_type][1]
 		var new_supply: Supply = Supply.new()
 		new_supply.setup(supply_type, max_value_, regen_value_)
 		_supplies.append(new_supply)

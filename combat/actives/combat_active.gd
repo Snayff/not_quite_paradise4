@@ -187,8 +187,7 @@ func _load_data(combat_active_name: String) -> void:
 	)
 
 	# internalise some projectile data, for easier use later
-	_delivery_method = Library.get_library_data("projectile", _projectile_name)
-["effect_delivery_method"]
+	_delivery_method = Library.get_library_data("projectile", _projectile_name)["effect_delivery_method"]
 	_max_range = Library.get_projectile_range(_projectile_name)
 
 func _process(_delta: float) -> void:
