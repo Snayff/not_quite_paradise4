@@ -22,6 +22,8 @@ const LINEAR_DAMP: float = 5.0
 
 ## the standard amount for how long an [Aura] waits before looping.
 const AURA_TICK_RATE: float = 0.33
+## the standard amount of time to wait before applying regen.
+const REGEN_TICK_RATE: float = 1.0
 ## min time to wait between combat active casts
 const GLOBAL_CAST_DELAY: float = 0.33
 

@@ -4,10 +4,14 @@ class_name Supply
 extends Resource
 
 #region SIGNALS
-signal value_changed() ## the resource value has changed
-signal value_decreased(amount: float) ## the resource value has decreased
-signal emptied() ##  there is none of the resource left
-signal max_value_changed() ## the resource's max value has changed
+## the resource value has changed
+signal value_changed()
+## the resource value has decreased
+signal value_decreased(amount: float)
+## there is none of the resource left
+signal emptied()
+## the resource's max value has changed
+signal max_value_changed()
 #endregion
 
 
@@ -21,11 +25,13 @@ signal max_value_changed() ## the resource's max value has changed
 			set_value(max_value)
 			value_changed.emit()
 		max_value_changed.emit()
-@export var regeneration_per_second: float = 0
+## the amount the supply is increased by each time regeneration is applied.
+@export var regeneration: float = 0
 #endregion
 
 
 #region VARS
+## protective wrapper for the value. to set the value use [set_supply]
 var value: int:
 	set(value):
 		push_warning("SupplyComponent: Can't set value directly. Use funcs.")
@@ -43,6 +49,11 @@ var _value: int = 999:
 			emptied.emit()
 
 #endregion
+## process setup
+func setup(type_: Constants.SUPPLY_TYPE, max_value_: int, regeneration_: float) -> void:
+	type = type_
+	max_value = max_value_
+	regeneration = regeneration_
 
 
 #region FUNCS
@@ -62,8 +73,8 @@ func set_value(value_: int, max_value_: int = -1) -> void:
 	if max_value_ != -1:
 		max_value = max_value_
 
-## wrapper for increase using regeneration_per_second
+## wrapper for increase using regeneration
 func apply_regen() -> void:
 	@warning_ignore("narrowing_conversion")  # happy with reduced precision
-	increase(regeneration_per_second)
+	increase(regeneration)
 #endregion

@@ -56,12 +56,14 @@ base_value = 1.0
 
 [sub_resource type="Resource" id="Resource_c5f6h"]
 resource_local_to_scene = true
+resource_name = "Move Speed"
 script = ExtResource("12_4r068")
 type = 2
 base_value = 10.0
 
 [sub_resource type="Resource" id="Resource_wyjw5"]
 resource_local_to_scene = true
+resource_name = "Health"
 script = ExtResource("15_suttt")
 type = 0
 max_value = 10
@@ -69,6 +71,7 @@ regeneration_per_second = 0.0
 
 [sub_resource type="Resource" id="Resource_wjhii"]
 resource_local_to_scene = true
+resource_name = "Stamina"
 script = ExtResource("15_suttt")
 type = 1
 max_value = 10
@@ -173,6 +176,7 @@ _root = NodePath("..")
 _allegiance = NodePath("../Allegiance")
 _cast_position = NodePath("../CentrePivot/CastPosition")
 _supplies = NodePath("../SupplyContainer")
+_combat_active_names = null
 
 [node name="CentrePivot" type="Marker2D" parent="."]
 unique_name_in_owner = true

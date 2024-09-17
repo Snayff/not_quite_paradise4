@@ -26,9 +26,6 @@ signal new_target(target: Actor)
 @export var _allegiance: Allegiance  ## creator's allegiance component
 @export var _cast_position: Marker2D  ##  delivery method's spawn location. Ignored by Orbital.
 @export var _supplies: SupplyContainer  ## the supplies to be used to cast actives
-@export_group("Details")
-## list of names of the combat actives. used on init to instantiate the names given as nodes.
-@export var _combat_active_names: Array[String] = []
 #endregion
 
 
@@ -58,8 +55,6 @@ func _ready() -> void:
 	assert(_cast_position is Marker2D, "Misssing `_cast_position`.")
 	assert(_supplies is SupplyContainer, "Misssing `_supplies`.")
 
-	_create_actives()
-
 	# select first active
 	if _actives.size() > 0:
 		_actives[0].is_selected = true
@@ -83,10 +78,18 @@ func _unhandled_input(_event: InputEvent) -> void:
 	elif cast_active and selected_active != null:
 		cast_ready_active(selected_active.name)
 
-## use actives for which we have names in [_combat_active_names]. Runs setup and connects to
+## create [CombatActive]s from names. Runs setup and connects to
 ## signals.
-func _create_actives() -> void:
+##
+## Only adds new actives, so does not clear existing.
+func create_actives(_combat_active_names: Array[String]) -> void:
 	for name_ in _combat_active_names:
+
+		# ensure we dont create one that already exists
+		for a in _actives:
+			if name_ == a.combat_active_name:
+				continue
+
 		# create active and take note
 		var active_: CombatActive = _COMBAT_ACTIVE.instantiate()
 		add_child(active_)
@@ -102,11 +105,6 @@ func _create_actives() -> void:
 	# if we have a selected active already, connect to its target signal
 	if selected_active:
 		selected_active.new_target.connect(_emit_new_target)
-
-
-	for child in get_children():
-		if child is CombatActive:
-			_actives.append(child)
 
 ## emit the new_target signal
 ##

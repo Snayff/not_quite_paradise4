@@ -45,10 +45,15 @@ var _is_dirty: bool = true  ## if the value has changed since last recalculated
 
 
 #region FUNCS
-func _init(type_: Constants.STAT_TYPE = Constants.STAT_TYPE.strength, base_value_: float = 0) -> void:
+func _init(
+	type_: Constants.STAT_TYPE = Constants.STAT_TYPE.strength,
+	base_value_: float = 0,
+	) -> void:
 	resource_local_to_scene = true
 	type = type_
 	base_value = base_value_
+
+	_is_dirty = true
 
 ## recalculate the current value
 func _recalculate() -> void:

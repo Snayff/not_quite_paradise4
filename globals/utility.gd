@@ -201,7 +201,7 @@ func _get_percentage_decrease(new_value: float, old_value: float) -> float:
 	return 1 - ((old_value - new_value) / old_value)
 
 ## load a [SpriteFrames] from disk
-func get_sprite_frame(sprite_frame_name: String, folder_name: String) -> SpriteFrames:
+func get_sprite_frame(folder_name: String, sprite_frame_name: String) -> SpriteFrames:
 	var sprite_frames: SpriteFrames = load(
 		Constants.PATH_SPRITE_FRAMES.path_join(sprite_frame_name)).path_join(folder_name)
 	)

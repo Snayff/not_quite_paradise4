@@ -23,16 +23,28 @@ signal died  ## actor has died
 @onready var _physics_movement: PhysicsMovementComponent = %PhysicsMovement
 @onready var _supply_container: SupplyContainer = %SupplyContainer
 @onready var _centre_pivot: Marker2D = %CentrePivot
+@onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var _tags: TagsComponent = %Tags
+
+
 
 #endregion
 
 
 #region EXPORTS
 @export_group("Details")
-@export var _is_player: bool = false  ## if the actor is player controlled
+## if the actor is player controlled
+@export var _is_player: bool = false
 @export_group("Physics")
-@export var _linear_damp: float = 5  ## set here, rather than built-in prop, due to editor issue
-@export var _mass: float = 100  ## set here, rather than built-in prop, due to editor issue
+## how massive the actor is.
+## set here, rather than built-in prop, due to editor issue
+@export var _mass: float = 100
+## how quickly we accelerate. uses delta, so will apply ~1/60th per frame to the velocity,
+## up to max_speed.
+@export var acceleration: float
+## how quickly we decelerate. uses delta, so will apply ~1/60th per frame to the velocity.
+## applied when max_speed is hit. should be >= acceleration.
+@export var deceleration: float
 #endregion
 
 
@@ -43,6 +55,8 @@ var _target: Actor:
 	set(value):
 		_target = value
 		new_target.emit(_target)
+## set here, rather than built-in prop, due to editor issue
+var _linear_damp: float = Constants.LINEAR_DAMP
 #endregion
 
 
@@ -76,6 +90,20 @@ func _ready() -> void:
 	combat_active_container.has_ready_active.connect(func(): _num_ready_actives += 1)  # support knowing when to auto cast
 	combat_active_container.new_active_selected.connect(func(active): _target = active.target_actor) # update target to match that of selected active
 	combat_active_container.new_target.connect(func(target): _target = target)
+
+func setup(data: DataActor) -> void:
+	allegiance.team = data.team
+	_sprite.sprite_frames = data.sprite_frames
+	mass = data.mass
+	acceleration = data.acceleration
+	deceleration = data.deceleration
+
+	data.supplies # <------------
+	combat_active_container.create_actives(data.actives)
+	stats_container.create_stats(data.stats)
+	_tags.add_multiple_tags(data.tags)
+
+
 
 func _process(delta: float) -> void:
 	_global_cast_cd_counter -= delta
