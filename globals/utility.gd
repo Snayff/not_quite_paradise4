@@ -19,7 +19,7 @@ func update_body_collisions(
 	node: CollisionObject2D,
 	team: Constants.TEAM,
 	target_option: Constants.TARGET_OPTION,
-	target_actor: CombatActor = null,
+	target_actor: Actor = null,
 	add_layers: bool = true,
 	add_masks: bool = true,
 	) -> void:
@@ -39,7 +39,7 @@ func update_hitbox_hurtbox_collision(
 	node: CollisionObject2D,
 	team: Constants.TEAM,
 	target_option: Constants.TARGET_OPTION,
-	target_actor: CombatActor = null,
+	target_actor: Actor = null,
 	add_layers: bool = true,
 	add_masks: bool = true,
 	) -> void:
@@ -61,7 +61,7 @@ func _update_collisions(
 	target_option: Constants.TARGET_OPTION,
 	team1: Constants.COLLISION_LAYER,
 	team2: Constants.COLLISION_LAYER,
-	target_actor: CombatActor = null,
+	target_actor: Actor = null,
 	add_layers: bool = true,
 	add_masks: bool = true,
 	) -> void:
@@ -112,7 +112,7 @@ func _update_collisions(
 
 	# only team of target
 	elif target_option in [Constants.TARGET_OPTION.target]:
-		if target_actor is CombatActor:
+		if target_actor is Actor:
 			var target_allegiance: Allegiance = target_actor.get_node_or_null("Allegiance")
 			if target_allegiance is Allegiance:
 				var target_team: Constants.TEAM = target_allegiance.team
@@ -132,7 +132,7 @@ func _update_collisions(
 ## check target is of type expected, as per [TARGET_OPTION]
 ##
 ## Only check against the items that identify self, not self, or target, as the [TEAM] element should be handled by collision layer/mask.
-func target_is_valid(target_option: Constants.TARGET_OPTION, originator: Node2D, target: Node2D, target_actor: CombatActor = null) -> bool:
+func target_is_valid(target_option: Constants.TARGET_OPTION, originator: Node2D, target: Node2D, target_actor: Actor = null) -> bool:
 	if target_option == Constants.TARGET_OPTION.self_:
 		if originator == target:
 			return true

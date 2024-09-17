@@ -8,7 +8,7 @@ extends Area2D
 signal hit_hurtbox(hurtbox: HurtboxComponent)
 
 
-var originator: CombatActor  ## the actor that created the thing that used this hitbox
+var originator: Actor  ## the actor that created the thing that used this hitbox
 
 
 func _ready():

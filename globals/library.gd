@@ -116,6 +116,9 @@ var _data: Dictionary  = {
 			"orbit_radius": 32,
 		}
 
+	},
+	"actor": {
+
 	}
 }
 

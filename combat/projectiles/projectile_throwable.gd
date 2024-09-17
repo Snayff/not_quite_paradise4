@@ -78,7 +78,7 @@ func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
 
 func activate() -> void:
 	assert(
-		_target_actor is CombatActor,
+		_target_actor is Actor,
 		"ProjectileThrowable: `_target_actor` is missing. Did you call `set_target_actor` \
 		before activate? "
 	)
@@ -116,7 +116,7 @@ func _on_hit(hurtbox: HurtboxComponent) -> void:
 ####### PUBLIC ######
 ####################
 
-func set_target_actor(actor: CombatActor) -> void:
+func set_target_actor(actor: Actor) -> void:
 	super.set_target_actor(actor)
 	_movement_component.set_target_actor(actor, _is_homing)
 

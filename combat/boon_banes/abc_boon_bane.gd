@@ -37,16 +37,16 @@ signal activated
 var _activations: int = 0  ## number of activations applied
 var _duration_timer: Timer  ## only needed if duration_type is time
 var _interval_timer: Timer  ## only needed if trigger is on_interval
-var _source: CombatActor  ## who is the original source of the effect
+var _source: Actor  ## who is the original source of the effect
 # config
-var host: CombatActor  ## the actor the boonbane is applied to
+var host: Actor  ## the actor the boonbane is applied to
 var _effects: Array[ABCAtomicAction] = []  # NOTE: should we use an ABCEffectChain instead?  ## the effects to be activated when the trigger happens
 # TODO: add an internal cooldown to allow limiting how often we trigger
 #endregion
 
 
 #region FUNCS
-func _init(source: CombatActor) -> void:
+func _init(source: Actor) -> void:
 	_source = source
 
 func _ready() -> void:
@@ -92,7 +92,7 @@ func _configure_behaviour() -> void:
 ## defaults to the host, if not other target given
 # FIXME: how is this going to work? signals are set by BoonBaneContainer and therefore wont know which target we need. How would we do an effect
 # 	where the attacker gets damage returned?
-func activate(target: CombatActor = host) -> void:
+func activate(target: Actor = host) -> void:
 	activated.emit()
 
 	for effect in _effects:

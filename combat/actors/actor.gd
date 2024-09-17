@@ -1,10 +1,10 @@
 ## entity that can move and fight in combat
 @icon("res://combat/actors/actor.png")
-class_name CombatActor
+class_name Actor
 extends RigidBody2D
 
 #region SIGNALS
-signal new_target(actor: CombatActor)  ## changed target to new combat_actor
+signal new_target(actor: Actor)  ## changed target to new combat_actor
 signal died  ## actor has died
 #endregion
 
@@ -39,7 +39,7 @@ signal died  ## actor has died
 #region VARS
 var _num_ready_actives: int = 0
 var _global_cast_cd_counter: float = 0  ## counter to track time since last cast. # TODO: this needs implementing for player
-var _target: CombatActor:
+var _target: Actor:
 	set(value):
 		_target = value
 		new_target.emit(_target)
@@ -84,7 +84,7 @@ func _process(delta: float) -> void:
 
 	# rotate cast position towards current target
 	if combat_active_container.selected_active is CombatActive:
-		if combat_active_container.selected_active.target_actor is CombatActor:
+		if combat_active_container.selected_active.target_actor is Actor:
 			_centre_pivot.look_at(combat_active_container.selected_active.target_actor.global_position)
 
 ## handle auto casting for non-player combat actors

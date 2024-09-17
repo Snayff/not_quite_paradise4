@@ -31,7 +31,7 @@ extends ABCEffectChain
 
 #region FUNCS
 func on_hit(hurtbox: HurtboxComponent) -> void:
-	var actor_hit: CombatActor = hurtbox.root
+	var actor_hit: Actor = hurtbox.root
 
 	# initial damage
 	var effect = AtomicActionDealDamageEffect.new(self, _caster)

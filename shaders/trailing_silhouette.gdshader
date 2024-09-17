@@ -10,7 +10,7 @@ uniform float b;
 uniform float mix_color;
 
 void vertex() {
-	
+
 }
 
 void fragment() {

@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://bkqc7x4yp0pn2"]
 
-[ext_resource type="PackedScene" uid="uid://cgd54nt0un6ix" path="res://combat/actors/combat_actor.tscn" id="1_2tlmc"]
+[ext_resource type="PackedScene" uid="uid://cgd54nt0un6ix" path="res://combat/actors/actor.tscn" id="1_2tlmc"]
 [ext_resource type="Texture2D" uid="uid://dldmflst28sas" path="res://combat/actors/horse_rider/RampartSpriteFemale-Right(Frame1).png" id="2_legq8"]
 [ext_resource type="Texture2D" uid="uid://b0ioe50hirnxg" path="res://combat/actors/horse_rider/RampartSpriteFemale-Right(Frame2).png" id="3_ityd4"]
 [ext_resource type="Texture2D" uid="uid://ffba1pgjsx4n" path="res://combat/actors/horse_rider/RampartSpriteFemale-Right(Frame3).png" id="4_evaqq"]

@@ -16,7 +16,7 @@ extends Node
 
 #region EXPORTS
 @export_group("Component Links")
-@export var _root: CombatActor
+@export var _root: Actor
 @export var _death_trigger: DeathTrigger  ## needed to connect signals to death triggers
 #
 # @export_group("Details")  # feel free to rename category
@@ -42,7 +42,7 @@ var _all_boon_banes: Array[ABCBoonBane]:
 #region FUNCS
 func _ready() -> void:
 	# check required values
-	assert(_root is CombatActor, "BoonsBanesContainerComponent: _root isnt assigned so won't know who to apply affects to.")
+	assert(_root is Actor, "BoonsBanesContainerComponent: _root isnt assigned so won't know who to apply affects to.")
 
 	# init blank dict of arrays
 	for trigger in Constants.TRIGGER.values():

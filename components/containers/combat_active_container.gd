@@ -11,7 +11,7 @@ const _COMBAT_ACTIVE: PackedScene = preload("res://combat/actives/combat_active.
 #region SIGNALS
 signal has_ready_active
 signal new_active_selected(active: CombatActive)
-signal new_target(target: CombatActor)
+signal new_target(target: Actor)
 #endregion
 
 
@@ -22,7 +22,7 @@ signal new_target(target: CombatActor)
 
 #region EXPORTS
 @export_group("Component Links")
-@export var _root: CombatActor  ## who created this active
+@export var _root: Actor  ## who created this active
 @export var _allegiance: Allegiance  ## creator's allegiance component
 @export var _cast_position: Marker2D  ##  delivery method's spawn location. Ignored by Orbital.
 @export var _supplies: SupplyContainer  ## the supplies to be used to cast actives
@@ -53,7 +53,7 @@ var selected_active: CombatActive:
 #region FUNCS
 func _ready() -> void:
 	# check for mandatory properties set in editor
-	assert(_root is CombatActor, "Misssing `_root`.")
+	assert(_root is Actor, "Misssing `_root`.")
 	assert(_allegiance is Allegiance, "Misssing `_allegiance`.")
 	assert(_cast_position is Marker2D, "Misssing `_cast_position`.")
 	assert(_supplies is SupplyContainer, "Misssing `_supplies`.")
@@ -111,7 +111,7 @@ func _create_actives() -> void:
 ## emit the new_target signal
 ##
 ## N.B. using func over lambda so we can disconnect when swapping selected active
-func _emit_new_target(target: CombatActor) -> void:
+func _emit_new_target(target: Actor) -> void:
 	new_target.emit(target)
 
 ## get an active by its class_name. returns null if nothing matching found.

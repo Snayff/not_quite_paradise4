@@ -102,7 +102,7 @@ func activate() -> void:
 
 
 func _process(_delta: float) -> void:
-	if _target_actor is CombatActor:
+	if _target_actor is Actor:
 		global_position = _target_actor.global_position
 
 

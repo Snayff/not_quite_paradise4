@@ -10,9 +10,10 @@ config_version=5
 
 [application]
 
-config/name="Godot Combat Test"
+config/name="Not Quite Paradise"
 run/main_scene="res://levels/world.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
+config/icon="res://shared_assets/utility/logo.png"
 
 [autoload]
 
@@ -27,6 +28,7 @@ Utility="*res://globals/utility.gd"
 
 window/size/viewport_width=720
 window/size/viewport_height=480
+window/size/always_on_top=true
 
 [editor_plugins]
 
