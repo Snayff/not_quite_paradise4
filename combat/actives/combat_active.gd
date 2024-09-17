@@ -119,7 +119,7 @@ func _ready() -> void:
 ##
 ## N.B. not recursive, so children are responsible for calling setup() on their own children
 func setup(
-	combat_active_name: String,
+	combat_active_name_: String,
 	caster: Actor,
 	allegiance: Allegiance,
 	cast_position: Marker2D
@@ -132,7 +132,7 @@ func setup(
 	assert(allegiance is Allegiance, "CombatActive: Missing `allegiance`.")
 	assert(cast_position is Marker2D, "CombatActive: Missing `cast_position`.")
 
-	_load_data(combat_active_name)
+	_load_data(combat_active_name_)
 
 	# check effect chain loaded properly
 	assert(_effect_chain is ABCEffectChain, "CombatActive: Missing `_effect_chain`.")
@@ -150,8 +150,8 @@ func setup(
 
 
 ## load data from the library and instantiate required children, e.g. [ABCEffectChain]
-func _load_data(combat_active_name: String) -> void:
-	combat_active_name = combat_active_name
+func _load_data(combat_active_name_: String) -> void:
+	combat_active_name = combat_active_name_
 
 	var dict_data: Dictionary = Library.get_library_data("combat_active", combat_active_name)
 

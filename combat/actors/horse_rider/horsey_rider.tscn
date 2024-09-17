@@ -80,6 +80,8 @@ max_value = 10
 regeneration = 0.0
 
 [node name="HorseyRider" instance=ExtResource("1_2tlmc")]
+_is_player = false
+_mass = 100.0
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_fdb4c")

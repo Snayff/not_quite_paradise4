@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://drhecv7pq5ypa"]
 
-[ext_resource type="SpriteFrames" uid="uid://dbc17af8444fu" path="res://data/sprite_frames/explosion.tres" id="1_rooth"]
+[ext_resource type="SpriteFrames" uid="uid://dbc17af8444fu" path="res://data/sprite_frames/projectiles/explosion.tres" id="1_rooth"]
 [ext_resource type="Script" path="res://animations/oneshot_animation.gd" id="5_yk2jh"]
 
 [node name="Explosion" type="AnimatedSprite2D"]

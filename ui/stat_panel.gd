@@ -32,7 +32,10 @@ var _target: Actor
 
 #region FUNCS
 func _ready() -> void:
-	# link to player#s target
+	if _root is not Actor:
+		return
+
+	# link to player's target
 	if name == "TargetStatPanel":
 		_root.new_target.connect(set_target)
 	# or link to player

@@ -27,7 +27,8 @@ signal died
 @onready var _supply_container: SupplyContainer = %SupplyContainer
 @onready var _centre_pivot: Marker2D = %CentrePivot
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var _tags: TagsComponent = %Tags
+@onready var _tag_container: TagContainer = $TagContainer
+
 
 
 
@@ -64,6 +65,11 @@ var _linear_damp: float = Constants.LINEAR_DAMP
 
 
 #region FUNCS
+
+##########################
+####### LIFECYCLE #######
+########################
+
 func _ready() -> void:
 	# NOTE: for some reason these arent being applied via the editor, but applying via code works
 	linear_damp = _linear_damp
@@ -72,7 +78,25 @@ func _ready() -> void:
 
 	update_collisions()
 
+	_death_trigger.died.connect(func(): died.emit())
+
+	combat_active_container.has_ready_active.connect(func(): _num_ready_actives += 1)  # support knowing when to auto cast
+	combat_active_container.new_active_selected.connect(func(active): _target = active.target_actor) # update target to match that of selected active
+	combat_active_container.new_target.connect(func(target): _target = target)
+
+func setup(spawn_pos: Vector2, data: DataActor) -> void:
+	global_position = spawn_pos
+
+	allegiance.team = data.team
+	_sprite.sprite_frames = data.sprite_frames
+	mass = data.mass
+	acceleration = data.acceleration
+	deceleration = data.deceleration
+
+	# create supplies
 	if _supply_container is SupplyContainer:
+		_supply_container.create_supplies(data.supplies)
+
 		# setup triggers and process for death on health empty
 		var health: Supply = _supply_container.get_supply(Constants.SUPPLY_TYPE.health)
 		health.emptied.connect(func(): died.emit())  # inform of death when empty
@@ -84,27 +108,28 @@ func _ready() -> void:
 		# setup triggers and process for exhaustion on stamina empty
 		var stamina: Supply = _supply_container.get_supply(Constants.SUPPLY_TYPE.stamina)
 		stamina.emptied.connect(_apply_exhaustion)
+	else:
+		push_warning("Actor: no supply container.")
 
-	if _physics_movement is PhysicsMovementComponent:
-		_physics_movement.is_attached_to_player = _is_player
+	# create combat actives
+	if combat_active_container is CombatActiveContainer:
+		combat_active_container.create_actives(data.actives)
+	else:
+		push_warning("Actor: no supply container.")
 
-	_death_trigger.died.connect(func(): died.emit())
+	# create stats
+	if stats_container is StatsContainer:
+		stats_container.create_stats(data.stats)
+	else:
+		push_warning("Actor: no stats container.")
 
-	combat_active_container.has_ready_active.connect(func(): _num_ready_actives += 1)  # support knowing when to auto cast
-	combat_active_container.new_active_selected.connect(func(active): _target = active.target_actor) # update target to match that of selected active
-	combat_active_container.new_target.connect(func(target): _target = target)
+	# create tags
+	if _tag_container is TagContainer:
+		_tag_container.add_multiple_tags(data.tags)
+	else:
+		push_warning("Actor: no tag container.")
 
-func setup(data: DataActor) -> void:
-	allegiance.team = data.team
-	_sprite.sprite_frames = data.sprite_frames
-	mass = data.mass
-	acceleration = data.acceleration
-	deceleration = data.deceleration
-
-	_supply_container.create_supplies(data.supplies)
-	combat_active_container.create_actives(data.actives)
-	stats_container.create_stats(data.stats)
-	_tags.add_multiple_tags(data.tags)
+	breakpoint
 
 func _process(delta: float) -> void:
 	_global_cast_cd_counter -= delta
@@ -116,6 +141,34 @@ func _process(delta: float) -> void:
 		if combat_active_container.selected_active.target_actor is Actor:
 			_centre_pivot.look_at(combat_active_container.selected_active.target_actor.global_position)
 
+func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
+	if _physics_movement is PhysicsMovementComponent:
+		_physics_movement.calc_movement(state)
+
+##########################
+####### PUBLIC ##########
+########################
+
+## updates all collisions to reflect current _target, team etc.
+func update_collisions() -> void:
+	Utility.update_body_collisions(self, allegiance.team, Constants.TARGET_OPTION.other, _target)
+
+func set_as_player(is_player: bool) -> void:
+	_is_player = is_player
+
+	if _physics_movement is PhysicsMovementComponent:
+		_physics_movement.is_attached_to_player = _is_player
+
+
+##########################
+####### PRIVATE #########
+########################
+
+## add the [BoonBaneExhaustion] [ABCBoonBane]. assumed to trigger after stamina is emptied.
+func _apply_exhaustion() -> void:
+	var exhaustion: BoonBaneExhaustion = BoonBaneExhaustion.new(self)
+	boons_banes.add_boon_bane(exhaustion)
+
 ## handle auto casting for non-player combat actors
 func _update_non_player_auto_casting() -> void:
 	# NOTE: should this be in an AI node?
@@ -125,18 +178,5 @@ func _update_non_player_auto_casting() -> void:
 				if combat_active_container.cast_random_ready_active():
 					_num_ready_actives -= 1
 					_global_cast_cd_counter = Constants.GLOBAL_CAST_DELAY
-
-func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
-	if _physics_movement is PhysicsMovementComponent:
-		_physics_movement.calc_movement(state)
-
-## updates all collisions to reflect current _target, team etc.
-func update_collisions() -> void:
-	Utility.update_body_collisions(self, allegiance.team, Constants.TARGET_OPTION.other, _target)
-
-## add the [BoonBaneExhaustion] [ABCBoonBane]. assumed to trigger after stamina is emptied.
-func _apply_exhaustion() -> void:
-	var exhaustion: BoonBaneExhaustion = BoonBaneExhaustion.new(self)
-	boons_banes.add_boon_bane(exhaustion)
 
 #endregion

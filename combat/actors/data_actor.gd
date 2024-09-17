@@ -19,12 +19,18 @@ extends Resource
 ## how quickly we decelerate. uses delta, so will apply ~1/60th per frame to the velocity.
 ## applied when max_speed is hit. should be >= acceleration.
 @export var deceleration: float
-@export var actives: Array[String]
-# SUPPLY_TYPE : [{max_value}, {regen_value}]
+## actives to be created
+## NOTE: can't type the array as Array[String] as causing a type mismatch
+@export var actives: Array
+## supplies to be created
+## SUPPLY_TYPE : [{max_value}, {regen_value}]
 @export var supplies: Dictionary
-# STAT_TYPE : {value}
+## stats to be created
+## STAT_TYPE : {value}
 @export var stats: Dictionary
-@export var tags: Array[Constants.COMBAT_TAG]
+## tags to be added
+## NOTE: can't type the array as Array[Constants.COMBAT_TAG] as causing a type mismatch
+@export var tags: Array
 
 #endregion
 
@@ -35,6 +41,8 @@ extends Resource
 
 #region FUNCS
 ## define the dataclass
+## ## NOTE: can't type the actives_ as Array[String] or tags_ as Array[Constants.COMBAT_TAG]
+## as causing a type mismatch
 func define(
 	team_: Constants.TEAM,
 	sprite_frames_: SpriteFrames,
@@ -42,10 +50,10 @@ func define(
 	mass_: float,
 	acceleration_: float,
 	deceleration_: float,
-	actives_: Array[String],
+	actives_: Array,
 	supplies_: Dictionary,
 	stats_: Dictionary,
-	tags_: Array[Constants.COMBAT_TAG]
+	tags_: Array
 
 	) -> void:
 

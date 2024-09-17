@@ -67,6 +67,8 @@ regeneration = 0.0
 
 [node name="WolfRider" instance=ExtResource("1_m432m")]
 physics_material_override = SubResource("PhysicsMaterial_8wo5g")
+_is_player = false
+_mass = 100.0
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_o5qn4")

@@ -76,7 +76,7 @@ func create_stats(stat_types: Dictionary) -> void:
 				") as already exists.")
 			continue
 
-		var value_ = stat_types[stat_type][0]
+		var value_ = stat_types[stat_type]
 		var new_stat: Stat = Stat.new(stat_type, value_)
 		_stats.append(new_stat)
 

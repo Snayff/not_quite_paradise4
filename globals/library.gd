@@ -136,7 +136,7 @@ var _data: Dictionary  = {
 			"supplies": {
 				# SUPPLY_TYPE : [{max_value}, {regen_value}]
 				Constants.SUPPLY_TYPE.health: [10, 0.1],
-				Constants.SUPPLY_TYPE.stamina: 100,
+				Constants.SUPPLY_TYPE.stamina: [100, 0.0],
 			},
 			"stats": {
 				Constants.STAT_TYPE.strength: 10,

@@ -98,11 +98,11 @@ func create_projectile(
 				" unknown."
 			)
 
-	# create and setup instance
-
+	# connect ready to setup
 	projectile.ready.connect(projectile.setup.bind(spawn_pos, data_class), CONNECT_ONE_SHOT)
-	# TODO: find a better way to do this. Perhaps a top level projectiles node?
-	get_tree().get_root().add_child(projectile)
+
+	# add to actor container parent
+	get_tree().get_root().get_node("World/Projectiles").add_child(projectile)
 
 	return projectile
 
@@ -135,11 +135,9 @@ func create_actor(
 	# connect ready to setup
 	actor.ready.connect(actor.setup.bind(spawn_pos, data_class), CONNECT_ONE_SHOT)
 
-	# add to actor container parent - if this works, do same for projectile
+	# add to actor container parent
+	get_tree().get_root().get_node("World/Actors").add_child(actor)
 
-
-	# TODO:
-	#		build actor.setup
 
 	return actor
 

@@ -1,6 +1,6 @@
 ## manage tags on an entity
-@icon("res://components/functionals/tags.png")
-class_name TagsComponent
+@icon("res://components/containers/tag_container.png")
+class_name TagContainer
 extends Node
 
 
@@ -19,7 +19,8 @@ func add_tag(tag: Constants.COMBAT_TAG) -> void:
 ## add an array of tags.
 ##
 ## tags that already exist are ignored.
-func add_multiple_tags(tags: Array[Constants.COMBAT_TAG]) -> void:
+## NOTE: can't type the array as Array[Constants.COMBAT_TAG] as causing a type mismatch
+func add_multiple_tags(tags: Array) -> void:
 	for tag in tags:
 		if tag in _tags:
 			continue

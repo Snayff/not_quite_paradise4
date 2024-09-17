@@ -82,7 +82,8 @@ func _unhandled_input(_event: InputEvent) -> void:
 ## signals.
 ##
 ## Only adds new actives, so does not clear existing.
-func create_actives(_combat_active_names: Array[String]) -> void:
+## NOTE: can't type the array as Array[String] as causing a type mismatch
+func create_actives(_combat_active_names: Array) -> void:
 	for name_ in _combat_active_names:
 
 		# ensure we dont create one that already exists
