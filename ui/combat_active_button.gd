@@ -1,4 +1,5 @@
 ## UI element displaying info about a [CombatActive]
+## FIXME:  hacky as fuck. Temp only.
 #@icon("")
 class_name CombatActiveButton
 extends TextureButton

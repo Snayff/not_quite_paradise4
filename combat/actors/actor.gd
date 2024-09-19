@@ -96,7 +96,6 @@ func setup(spawn_pos: Vector2, data: DataActor) -> void:
 	# create supplies
 	if _supply_container is SupplyContainer:
 		_supply_container.create_supplies(data.supplies)
-
 		# setup triggers and process for death on health empty
 		var health: Supply = _supply_container.get_supply(Constants.SUPPLY_TYPE.health)
 		health.emptied.connect(func(): died.emit())  # inform of death when empty

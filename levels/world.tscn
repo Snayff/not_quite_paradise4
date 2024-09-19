@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=4 uid="uid://rf7q3r0jhupi"]
+[gd_scene load_steps=12 format=4 uid="uid://rf7q3r0jhupi"]
 
 [ext_resource type="Script" path="res://levels/world.gd" id="1_e5ypc"]
 [ext_resource type="Texture2D" uid="uid://csx5xkiiijtyh" path="res://levels/LB-Lava-Lake-Main.png" id="1_ml8d5"]
 [ext_resource type="PackedScene" uid="uid://dakrcm4hmx6jt" path="res://ui/action_bar.tscn" id="4_gaq2h"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="6_8s47d"]
 [ext_resource type="PackedScene" uid="uid://bl26wjavwal5j" path="res://ui/stat_panel.tscn" id="6_pp6hl"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="7_aqsgo"]
 [ext_resource type="Script" path="res://combat/spawners/actor_spawner.gd" id="7_sfor0"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="8_1v8fi"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8pgda"]
 texture = ExtResource("1_ml8d5")
@@ -49,6 +52,12 @@ texture = ExtResource("1_ml8d5")
 [sub_resource type="TileSet" id="TileSet_elap2"]
 sources/0 = SubResource("TileSetAtlasSource_8pgda")
 
+[sub_resource type="Resource" id="Resource_t6gk4"]
+script = ExtResource("8_1v8fi")
+duration = 1.0
+transition = 0
+ease = 2
+
 [node name="World" type="Node2D"]
 script = ExtResource("1_e5ypc")
 
@@ -78,4 +87,13 @@ offset_right = 0.0
 grow_horizontal = 0
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position_smoothing_enabled = true
+physics_interpolation_mode = 2
+
+[node name="PhantomCameraHost" type="Node" parent="Camera2D"]
+script = ExtResource("6_8s47d")
+
+[node name="PhantomCamera2D" type="Node2D" parent="."]
+script = ExtResource("7_aqsgo")
+follow_mode = 2
+tween_resource = SubResource("Resource_t6gk4")
+draw_limits = true

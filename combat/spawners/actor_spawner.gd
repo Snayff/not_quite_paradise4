@@ -1,4 +1,5 @@
-## class desc
+## manages spawning of actors
+## FIXME:  hacky as fuck. Temp only.
 #@icon("")
 class_name ActorSpawner
 extends Node
@@ -31,6 +32,9 @@ func _ready() -> void:
 	# player
 	var player = Factory.create_actor(_actor_to_spawn_as_player, Constants.TEAM.team1, Vector2(20, 20))
 	player.set_as_player(true)
+	EventBus.player_assigned.emit(player)
+	var cams: Array[PhantomCamera2D] = PhantomCameraManager.get_phantom_camera_2ds()
+	cams[0].follow_target = player
 
 	# npcs
 	var i = 1

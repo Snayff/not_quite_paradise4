@@ -132,10 +132,10 @@ func create_actor(
 		dict_data["mass"],
 		dict_data["acceleration"],
 		dict_data["deceleration"],
-		actives ,#dict_data["actives"],
+		actives, #dict_data["actives"],
 		dict_data["supplies"],
 		dict_data["stats"],
-		tags#dict_data["tags"],
+		tags #dict_data["tags"],
 	)
 
 	# connect ready to setup

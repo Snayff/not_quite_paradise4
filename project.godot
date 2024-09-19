@@ -23,6 +23,8 @@ Factory="*res://globals/factory.gd"
 Library="*res://globals/library.gd"
 Maths="*res://globals/maths.gd"
 Utility="*res://globals/utility.gd"
+PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
+EventBus="*res://globals/event_bus.gd"
 
 [display]
 
@@ -32,7 +34,7 @@ window/size/always_on_top=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/hyperlog/plugin.cfg")
+enabled=PackedStringArray("res://addons/hyperlog/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
 
 [file_customization]
 
@@ -95,6 +97,7 @@ use_active={
 
 2d/default_gravity=0.0
 2d/default_gravity_vector=Vector2(0, 0)
+common/physics_interpolation=true
 
 [rendering]
 

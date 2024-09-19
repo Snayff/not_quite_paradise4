@@ -1,4 +1,5 @@
 ## UI container to hold and align [CombatActiveButton]s.
+## FIXME:  hacky as fuck. Temp only.
 #@icon("")
 class_name ActionBar
 extends HBoxContainer
@@ -30,9 +31,13 @@ var _currently_selected_index: int = 0
 #region FUNCS
 func _ready() -> void:
 	if _root is Actor:
-		_root.ready.connect(_post_ready)
+		_root.ready.connect(_initialise.bind(_root))
 
-func _post_ready() -> void:
+	EventBus.player_assigned.connect(_initialise)
+
+func _initialise(player: Actor) -> void:
+	_root = player
+
 	_load_buttons()
 	_assign_actives_to_buttons()
 
