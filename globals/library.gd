@@ -185,9 +185,16 @@ var _data: Dictionary  = {
 func get_library_data(primary_key: String, secondary_key: String ) -> Dictionary:
 	if not _data.has(primary_key):
 		push_error("Library: primary key (", primary_key, ") not found.")
+
 	if not _data[primary_key].has(secondary_key):
 		push_error("Library: secondary key (", secondary_key, ") not found.")
+
 	return _data[primary_key][secondary_key]
+
+func get_data_test() -> Array[String]:
+	var result: Array[String]
+	result.assign(_data["actor"]["wolf_rider"]["actives"])
+	return result
 
 ## get the range of the projectile.
 ##

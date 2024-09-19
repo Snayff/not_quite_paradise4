@@ -20,8 +20,7 @@ extends Resource
 ## applied when max_speed is hit. should be >= acceleration.
 @export var deceleration: float
 ## actives to be created
-## NOTE: can't type the array as Array[String] as causing a type mismatch
-@export var actives: Array
+@export var actives: Array[String]
 ## supplies to be created
 ## SUPPLY_TYPE : [{max_value}, {regen_value}]
 @export var supplies: Dictionary
@@ -29,8 +28,7 @@ extends Resource
 ## STAT_TYPE : {value}
 @export var stats: Dictionary
 ## tags to be added
-## NOTE: can't type the array as Array[Constants.COMBAT_TAG] as causing a type mismatch
-@export var tags: Array
+@export var tags: Array[Constants.COMBAT_TAG]
 
 #endregion
 
@@ -50,10 +48,10 @@ func define(
 	mass_: float,
 	acceleration_: float,
 	deceleration_: float,
-	actives_: Array,
+	actives_: Array[String],
 	supplies_: Dictionary,
 	stats_: Dictionary,
-	tags_: Array
+	tags_: Array[Constants.COMBAT_TAG]
 
 	) -> void:
 

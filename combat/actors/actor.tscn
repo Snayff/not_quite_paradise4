@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cgd54nt0un6ix"]
+[gd_scene load_steps=19 format=3 uid="uid://cgd54nt0un6ix"]
 
 [ext_resource type="Script" path="res://combat/actors/actor.gd" id="1_7c8xu"]
 [ext_resource type="Script" path="res://components/functionals/hurtbox.gd" id="2_24d4q"]
@@ -9,12 +9,10 @@
 [ext_resource type="Script" path="res://components/visuals/pop_up_number.gd" id="9_xcpun"]
 [ext_resource type="FontFile" uid="uid://xfatb788yq6e" path="res://shared_assets/fonts/SinsGold.ttf" id="10_nqnyt"]
 [ext_resource type="Script" path="res://components/containers/tag_container.gd" id="10_pv4ym"]
-[ext_resource type="Script" path="res://dataclasses/stat.gd" id="12_4r068"]
 [ext_resource type="Script" path="res://components/functionals/physics_movement.gd" id="12_73flk"]
 [ext_resource type="Script" path="res://components/containers/supply_container.gd" id="14_51mcn"]
 [ext_resource type="Script" path="res://components/containers/stat_container.gd" id="14_rlc1x"]
 [ext_resource type="Script" path="res://components/containers/boon_bane_container.gd" id="14_wly6u"]
-[ext_resource type="Script" path="res://components/functionals/supply.gd" id="15_suttt"]
 [ext_resource type="Script" path="res://components/containers/combat_active_container.gd" id="16_von4t"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8wo5g"]
@@ -39,43 +37,6 @@ radius = 6.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ir07l"]
 resource_local_to_scene = true
-
-[sub_resource type="Resource" id="Resource_jr58f"]
-resource_local_to_scene = true
-resource_name = "Strength"
-script = ExtResource("12_4r068")
-type = 0
-base_value = 1.0
-
-[sub_resource type="Resource" id="Resource_ik73g"]
-resource_local_to_scene = true
-resource_name = "Defence"
-script = ExtResource("12_4r068")
-type = 1
-base_value = 1.0
-
-[sub_resource type="Resource" id="Resource_b35dx"]
-resource_local_to_scene = true
-resource_name = "Move Speed"
-script = ExtResource("12_4r068")
-type = 2
-base_value = 10.0
-
-[sub_resource type="Resource" id="Resource_nyde6"]
-resource_local_to_scene = true
-resource_name = "Health"
-script = ExtResource("15_suttt")
-type = 0
-max_value = 10
-regeneration = 0.0
-
-[sub_resource type="Resource" id="Resource_81vtl"]
-resource_local_to_scene = true
-resource_name = "Stamina"
-script = ExtResource("15_suttt")
-type = 1
-max_value = 10
-regeneration = 0.0
 
 [node name="Actor" type="RigidBody2D"]
 collision_layer = 0
@@ -151,7 +112,6 @@ script = ExtResource("10_pv4ym")
 [node name="StatsContainer" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("14_rlc1x")
-_editor_stats = Array[ExtResource("12_4r068")]([SubResource("Resource_jr58f"), SubResource("Resource_ik73g"), SubResource("Resource_b35dx")])
 
 [node name="BoonsBanesContainer" type="Node" parent="." node_paths=PackedStringArray("_root", "_death_trigger")]
 unique_name_in_owner = true
@@ -162,7 +122,6 @@ _death_trigger = NodePath("../DeathTrigger")
 [node name="SupplyContainer" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("14_51mcn")
-_editor_supplies = Array[ExtResource("15_suttt")]([SubResource("Resource_nyde6"), SubResource("Resource_81vtl")])
 
 [node name="CombatActiveContainer" type="Node2D" parent="." node_paths=PackedStringArray("_root", "_allegiance", "_cast_position", "_supplies")]
 unique_name_in_owner = true

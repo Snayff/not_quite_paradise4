@@ -214,7 +214,11 @@ func get_current_sprite_size(sprite: AnimatedSprite2D) -> Vector2:
 	return sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame).get_size()
 
 func call_next_frame(callable: Callable, args: Array) -> void:
-	var deferred_callable: Callable = callable.bindv(args)
+	var deferred_callable: Callable = Callable(callable).bindv(args)
 	get_tree().process_frame.connect(deferred_callable, CONNECT_ONE_SHOT)
+
+## returns the type as a string
+func get_type_as_string(v: Variant) -> void:
+	return type_string(typeof(v))
 
 #endregion

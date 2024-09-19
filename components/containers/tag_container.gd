@@ -19,8 +19,7 @@ func add_tag(tag: Constants.COMBAT_TAG) -> void:
 ## add an array of tags.
 ##
 ## tags that already exist are ignored.
-## NOTE: can't type the array as Array[Constants.COMBAT_TAG] as causing a type mismatch
-func add_multiple_tags(tags: Array) -> void:
+func add_multiple_tags(tags: Array[Constants.COMBAT_TAG]) -> void:
 	for tag in tags:
 		if tag in _tags:
 			continue
