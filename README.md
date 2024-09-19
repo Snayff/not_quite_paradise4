@@ -22,25 +22,25 @@
 <br />
 <div align="center">
   <a href="https://github.com/Snayff/not_quite_paradise4">
-    <img src="https://github.com/user-attachments/assets/78001617-062e-4c32-87d1-9bca87d89839" alt="Logo" width="64" height="64">
+	<img src="https://github.com/user-attachments/assets/78001617-062e-4c32-87d1-9bca87d89839" alt="Logo" width="64" height="64">
   </a>
 
 <h3 align="center">Not Quite Paradise 4</h3>
 
   <p align="center">
-    Lead an army into battle to wrest control from the God-Queen's legions before she reawakens from death. 
-    <br />
+	Lead an army into battle to wrest control from the God-Queen's legions before she reawakens from death.
 	<br />
 	<br />
-    <!-- 
+	<br />
+	<!--
 	<a href="https://github.com/Snayff/not_quite_paradise4"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/Snayff/not_quite_paradise4">View Demo</a>
-    ·
-    <a href="https://github.com/Snayff/not_quite_paradise4/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
-    ·
-    <a href="https://github.com/Snayff/not_quite_paradise4/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+	<br />
+	<br />
+	<a href="https://github.com/Snayff/not_quite_paradise4">View Demo</a>
+	·
+	<a href="https://github.com/Snayff/not_quite_paradise4/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+	·
+	<a href="https://github.com/Snayff/not_quite_paradise4/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
 	  -->
   </p>
 </div>
@@ -51,25 +51,25 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+	<li>
+	  <a href="#about-the-project">About The Project</a>
+	  <ul>
+		<li><a href="#built-with">Built With</a></li>
+	  </ul>
+	</li>
+	<li>
+	  <a href="#getting-started">Getting Started</a>
+	  <ul>
+		<li><a href="#prerequisites">Prerequisites</a></li>
+		<li><a href="#installation">Installation</a></li>
+	  </ul>
+	</li>
+	<li><a href="#usage">Usage</a></li>
+	<li><a href="#roadmap">Roadmap</a></li>
+	<li><a href="#contributing">Contributing</a></li>
+	<li><a href="#license">License</a></li>
+	<li><a href="#contact">Contact</a></li>
+	<li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -82,7 +82,7 @@
 
 
 
-Very early stages of development, still working on core functionality. 
+Very early stages of development, still working on core functionality.
 
 
 
@@ -90,6 +90,12 @@ Very early stages of development, still working on core functionality.
 
 
 [![Godot][godot-shield]][godot-url]
+
+https://github.com/ramokz/phantom-camera
+
+https://github.com/OrigamiDev-Pete/TODO_Manager
+
+https://github.com/GuyUnger/HyperLog
 
 
 
