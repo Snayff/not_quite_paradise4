@@ -125,8 +125,8 @@ var _data: Dictionary  = {
 			"sprite_frames": "wolf_rider.tres",
 			"size": 16,
 			"mass": 100.0,
-			"acceleration": 100.0,
-			"deceleration": 80.0,
+			"acceleration": 250.0,
+			"deceleration": 200.0,
 			"actives": [
 				"slash",
 				"icy_wind",
@@ -141,7 +141,7 @@ var _data: Dictionary  = {
 			"stats": {
 				Constants.STAT_TYPE.strength: 10,
 				Constants.STAT_TYPE.defence: 5,
-				Constants.STAT_TYPE.move_speed: 50,
+				Constants.STAT_TYPE.move_speed: 200,
 			},
 			"tags": [
 				# Constants.COMBAT_TAG

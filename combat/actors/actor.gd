@@ -44,11 +44,26 @@ signal died
 ## set here, rather than built-in prop, due to editor issue
 @export var _mass: float = 100
 ## how quickly we accelerate. uses delta, so will apply ~1/60th per frame to the velocity,
-## up to max_speed.
-@export var acceleration: float
+## up to max_speed. acts as interface for _physics_movement.acceleration if _physics_movement
+## has completed setup.
+@export var _acceleration: float:
+	set(v):
+		if _physics_movement is not PhysicsMovementComponent:
+			return
+		if not _physics_movement._has_run_setup:
+			return
+		_physics_movement._acceleration = v
+		_acceleration = v
 ## how quickly we decelerate. uses delta, so will apply ~1/60th per frame to the velocity.
 ## applied when max_speed is hit. should be >= acceleration.
-@export var deceleration: float
+@export var _deceleration: float:
+	set(v):
+		if _physics_movement is not PhysicsMovementComponent:
+			return
+		if not _physics_movement._has_run_setup:
+			return
+		_physics_movement._deceleration = v
+		_deceleration = v
 #endregion
 
 
@@ -90,10 +105,10 @@ func setup(spawn_pos: Vector2, data: DataActor) -> void:
 	allegiance.team = data.team
 	_sprite.sprite_frames = data.sprite_frames
 	mass = data.mass
-	acceleration = data.acceleration
-	deceleration = data.deceleration
+	_acceleration = data.acceleration
+	_deceleration = data.deceleration
 
-	# create supplies
+	# config supplies
 	if _supply_container is SupplyContainer:
 		_supply_container.create_supplies(data.supplies)
 		# setup triggers and process for death on health empty
@@ -110,17 +125,27 @@ func setup(spawn_pos: Vector2, data: DataActor) -> void:
 	else:
 		push_warning("Actor: no supply container.")
 
-	# create combat actives
+	# config combat actives
 	if combat_active_container is CombatActiveContainer:
 		combat_active_container.create_actives(data.actives)
 	else:
 		push_warning("Actor: no supply container.")
 
-	# create stats
+	# config stats
 	if stats_container is StatsContainer:
 		stats_container.create_stats(data.stats)
 	else:
 		push_warning("Actor: no stats container.")
+
+	# config movement - must be done after stats, as we need move speed
+	if _physics_movement is PhysicsMovementComponent:
+		var move_speed: float =  10.0
+		if stats_container is StatsContainer:
+			move_speed = stats_container.get_stat(Constants.STAT_TYPE.move_speed).value
+		else:
+			push_warning("Actor: actor (", name, ") didnt have stats, so used base move speed.")
+
+		_physics_movement.setup(move_speed, data.acceleration, data.deceleration)
 
 	# create tags
 	if _tag_container is TagContainer:
