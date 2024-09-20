@@ -27,6 +27,8 @@ const _ACTOR: PackedScene = preload(
 
 #region FUNCS
 ## create an [ABCProjectile] at a given location on a given team.
+##
+## projectiles's `setup()` is called after their `ready` signal
 func create_projectile(
 	projectile_name: String,
 	team: Constants.TEAM,
@@ -102,11 +104,13 @@ func create_projectile(
 	projectile.ready.connect(projectile.setup.bind(spawn_pos, data_class), CONNECT_ONE_SHOT)
 
 	# add to actor container parent
-	get_tree().get_root().get_node("World/Projectiles").add_child(projectile)
-
+	#get_tree().get_root().get_node("World/Projectiles").add_child(projectile)
+	get_tree().get_root().add_child(projectile)
 	return projectile
 
 ## create an [Actor] at a given location on a given team.
+##
+## actor's `setup()` is called after their `ready` signal
 func create_actor(
 	actor_name: String,
 	team: Constants.TEAM,

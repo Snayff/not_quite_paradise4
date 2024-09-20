@@ -69,6 +69,14 @@ func _update_collisions(
 		push_warning("Utility: args of incorrect type.")
 		return
 
+	if node is not Actor:
+		print(
+			"Node (", node.name, ") -> team: ",
+			Utility.get_enum_name(Constants.TEAM, team),
+			" | target_option: ",
+			 Utility.get_enum_name(Constants.TARGET_OPTION, target_option)
+		)
+
 	# clear existing - 1-32 are the possible layers/masks
 	for i in range(1, 32):
 		node.set_collision_layer_value(i, false)
@@ -128,6 +136,8 @@ func _update_collisions(
 				node.set_collision_layer_value(
 					Constants.COLLISION_LAYER_MAP[team2], target_team == Constants.TEAM.team2
 				)
+
+	# print("- - - > layers: ", node.collision_layer, " | masks: ", node.collision_mask)
 
 ## check target is of type expected, as per [TARGET_OPTION]
 ##

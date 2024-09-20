@@ -114,6 +114,7 @@ func _on_hit(hurtbox: HurtboxComponent) -> void:
 func _terminate() -> void:
 	died.emit()
 	queue_free()
+	print("terminated")
 
 ######################
 ####### PUBLIC ######

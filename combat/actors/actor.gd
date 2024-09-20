@@ -29,9 +29,6 @@ signal died
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var _tag_container: TagContainer = $TagContainer
 
-
-
-
 #endregion
 
 
@@ -90,8 +87,6 @@ func _ready() -> void:
 	linear_damp = _linear_damp
 	mass = _mass
 	lock_rotation = true
-
-	update_collisions()
 
 	_death_trigger.died.connect(func(): died.emit())
 
@@ -153,6 +148,8 @@ func setup(spawn_pos: Vector2, data: DataActor) -> void:
 	else:
 		push_warning("Actor: no tag container.")
 
+	update_collisions()
+
 func _process(delta: float) -> void:
 	_global_cast_cd_counter -= delta
 
@@ -195,10 +192,12 @@ func _apply_exhaustion() -> void:
 func _update_non_player_auto_casting() -> void:
 	# NOTE: should this be in an AI node?
 	if not _is_player:
-		if _num_ready_actives > 0:
-			if _global_cast_cd_counter <= 0:
-				if combat_active_container.cast_random_ready_active():
-					_num_ready_actives -= 1
-					_global_cast_cd_counter = Constants.GLOBAL_CAST_DELAY
+		return
+		# FIXME: this isnt working. Leave for AI implementatin.
+		#if _num_ready_actives > 0:
+			#if _global_cast_cd_counter <= 0:
+				#if combat_active_container.cast_random_ready_active():
+					#_num_ready_actives -= 1
+					#_global_cast_cd_counter = Constants.GLOBAL_CAST_DELAY
 
 #endregion

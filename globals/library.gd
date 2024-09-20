@@ -111,7 +111,7 @@ var _data: Dictionary  = {
 			"valid_target_option": Constants.TARGET_OPTION.self_,
 			"valid_effect_option": Constants.TARGET_OPTION.enemy,
 			"projectile_name": "fire_orb",
-			"cooldown_duration": 1,
+			"cooldown_duration": 5,
 			# orbitals only
 			"max_projectiles": 6,
 			"orbit_rotation_speed": PI,
