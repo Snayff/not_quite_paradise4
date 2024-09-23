@@ -24,6 +24,7 @@ func _configure_behaviour() -> void:
 
 	# define base self
 	f_name = "burn"
+	type = Constants.BOON_BANE_TYPE.burn
 	is_unique = false
 	_application_animation_scene = load("res://visual_effects/fire/fire.tscn")
 	trigger = Constants.TRIGGER.on_interval

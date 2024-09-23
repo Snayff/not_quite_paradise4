@@ -95,18 +95,43 @@ func create_projectile(
 			)
 
 	# create and setup instance
-
 	projectile.ready.connect(projectile.setup.bind(spawn_pos, data_class), CONNECT_ONE_SHOT)
 	# TODO: find a better way to do this. Perhaps a top level projectiles node?
 	get_tree().get_root().add_child(projectile)
 
 	return projectile
 
+## creates a [ABCBoonBane] and adds to the given [BoonBaneContainer]
+func create_boon_bane(
+	boon_bane_type: Constants.BOON_BANE_TYPE,
+	container: BoonBaneContainer,
+	host: CombatActor,
+	source: CombatActor,
+	) -> ABCBoonBane:
+
+	var boon_bane: ABCBoonBane
+	match boon_bane_type:
+
+		Constants.BOON_BANE_TYPE.exhaustion:
+			boon_bane = BoonBaneChilled.new(host, source)
+
+		Constants.BOON_BANE_TYPE.chilled:
+			boon_bane = BoonBaneChilled.new(host, source)
+
+		Constants.BOON_BANE_TYPE.burn:
+			boon_bane = BoonBaneBurn.new(host, source)
+
+		_:
+			push_error(
+				"Factory: projectile delivery type (",
+				Utility.get_enum_name(Constants.BOON_BANE_TYPE, boon_bane_type),
+				" unknown."
+			)
+
+	# setup instance
+	container.add_child(boon_bane)
 
 
-
-
-
-
+	return boon_bane
 
 #endregion

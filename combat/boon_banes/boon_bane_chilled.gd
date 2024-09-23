@@ -18,7 +18,9 @@ func _configure_behaviour() -> void:
 
 	# define base self
 	f_name = "chilled"
+	type = Constants.BOON_BANE_TYPE.chilled
 	is_unique = true
+	_max_stacks = 10
 	var chilled_scene: PackedScene = load("res://visual_effects/chilled/chilled.tscn")
 	_application_animation_scene = chilled_scene
 	trigger = Constants.TRIGGER.on_application

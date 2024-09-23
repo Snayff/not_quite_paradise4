@@ -59,33 +59,28 @@ func _ready() -> void:
 
 ## adds a boon bane, if one doesnt exist, otherwise adds the number of stacks to the existing
 ## boon bane
-func add_boon_bane(boon_bane: ABCBoonBane, num_stacks: int = 1) -> void:
+func add_boon_bane(
+	boon_bane_type: Constants.BOON_BANE_TYPE,
+	caster: CombatActor,
+	num_stacks: int = 1
+	) -> void:
+	var boon_bane: ABCBoonBane = null
+
 	# find existing
 	var found_existing: bool = false
-	for boon_bane_ in _boons_banes[boon_bane_.trigger]:
-		if boon_bane.f_name == boon_bane_.f_name:
-			# overwrite the one given
-			boon_bane = boon_bane_
+	for existing_boon_bane in _all_boon_banes:
+		if boon_bane_type == existing_boon_bane.type:
+			boon_bane = existing_boon_bane
 			found_existing = true
+			break
 
 	if found_existing == false:
-		add_child(boon_bane)
+		boon_bane = Factory.create_boon_bane(boon_bane_type, self, _root, caster)
 		_boons_banes[boon_bane.trigger].append(boon_bane)
 		_link_signals_to_triggers(boon_bane)
-		boon_bane.host = _root
 
 	boon_bane.add_stacks(num_stacks)
-
-#	# if unique, check for any existing of same class
-#	if boon_bane.is_unique:
-#		for boon_bane_ in _all_boon_banes:
-#			if boon_bane_.get_script().resource_path == boon_bane.get_script().resource_path:
-#				return
-#
-#	add_child(boon_bane)
-#	_boons_banes[boon_bane.trigger].append(boon_bane)
-#	_link_signals_to_triggers(boon_bane)
-#	boon_bane.host = _root
+	#print("added stacks of ", boon_bane.f_name, " to ", _root, ". Fresh? ", !found_existing)
 
 func remove_boon_bane(boon_bane: ABCBoonBane, ignore_permanent: bool = false) -> void:
 	if boon_bane._duration_type == Constants.DURATION_TYPE.permanent and not ignore_permanent:

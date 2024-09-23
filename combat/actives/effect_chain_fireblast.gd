@@ -56,8 +56,9 @@ func _aoe_hit(hurtboxes: Array[HurtboxComponent]) -> void:
 		if not hurtbox.root.boons_banes is BoonBaneContainer:
 			# no boon bane container to apply a boon bane to
 			continue
-		var burn = BoonBaneBurn.new(_caster)
-		hurtbox.root.boons_banes.add_boon_bane(burn)
+		#FIXME: Restore
+		#var burn = BoonBaneBurn.new(_caster)
+		#hurtbox.root.boons_banes.add_boon_bane(burn, _caster)
 
 	# clean down damage effect
 	effect.terminate()

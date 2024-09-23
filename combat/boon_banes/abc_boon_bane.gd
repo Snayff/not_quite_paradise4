@@ -19,6 +19,7 @@ signal activated
 @export_group("Definition")
 ## the friendly name
 @export var f_name: String = "placeholder name"
+@export var type: Constants.BOON_BANE_TYPE
 # NOTE: Not yet used
 ## icon to show identify the boon_bane
 @export var _icon: Texture2D
@@ -65,7 +66,7 @@ var _interval_timer: Timer
 ## only used if _reminder_animation_scene is not null
 var _reminder_animation_timer: Timer
 ## the actor the boonbane is applied to
-var host: CombatActor
+var _host: CombatActor
 # NOTE: should we use an ABCEffectChain instead?
 ## the effects to be activated when the trigger happens
 var _effects: Array[ABCAtomicAction] = []
@@ -83,7 +84,8 @@ var _is_first_activation: bool = true
 ####### LIFECYCLE ######
 ######################
 
-func _init(source: CombatActor) -> void:
+func _init(host: CombatActor, source: CombatActor) -> void:
+	_host = host
 	_source = source
 
 func _ready() -> void:
@@ -147,7 +149,7 @@ func _setup_timers() -> void:
 ## defaults to the host, if not other target given
 # FIXME: how is this going to work? signals are set by BoonBaneContainer and therefore wont know which target we need. How would we do an effect
 # 	where the attacker gets damage returned?
-func activate(target: CombatActor = host) -> void:
+func activate(target: CombatActor = _host) -> void:
 	# inform listeners we activated boon bane
 	activated.emit()
 
@@ -182,7 +184,7 @@ func terminate() -> void:
 
 	for effect in _effects:
 		if effect is AtomicActionApplyStatMod:
-			effect.reverse_application(host)
+			effect.reverse_application(_host)
 		effect.terminate()
 
 	queue_free()

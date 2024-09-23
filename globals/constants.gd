@@ -153,11 +153,19 @@ enum TARGET_PREFERENCE {
 	furthest,  ## actor furthest from caller, but still in range
 }
 
-## different animation types for an actor
+## different animation types for an [CombatActor]
 enum ACTOR_ANIMATION_NAME {
 	cast,
 	attack,
 	death,
 	idle,
 	walk
+}
+
+## the type of [ABCBoonBane]
+enum BOON_BANE_TYPE {
+	exhaustion,
+	chilled,
+	burn,
+
 }
