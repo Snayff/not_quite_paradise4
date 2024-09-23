@@ -15,10 +15,14 @@ const PATH_COMBAT_ACTIVES: String = "res://combat/actives/"
 ####### COMBAT #########
 ######################
 
-const FRICTION: float = 10.3 ## the reduction in force applied to a physics object when new force not being applied
-const AURA_TICK_RATE: float = 0.33  ## the standard amount for how long an [Aura] waits before looping.
-const GLOBAL_CAST_DELAY: float = 0.33  ## min time to wait between combat active casts
-
+## the reduction in force applied to a physics object when new force not being applied
+const FRICTION: float = 10.3
+## the standard amount for how long an [ProjectileAura] waits before looping.
+const AURA_TICK_RATE: float = 0.33
+## min time to wait between combat active casts
+const GLOBAL_CAST_DELAY: float = 0.33
+## min time to wait between applications of the same boon bane
+const GLOBAL_BOON_BANE_TRIGGER_DELAY: float = 0.125
 
 
 ########################

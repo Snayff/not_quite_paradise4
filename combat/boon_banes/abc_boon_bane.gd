@@ -16,31 +16,48 @@ signal activated
 
 
 #region EXPORTS
-# @export_group("Component Links")
-# @export var
 @export_group("Definition")
-@export var f_name: String = "placeholder name"  ## the friendly name
-@export var _icon: Texture2D  ## icon to show identify the boon_bane  # NOTE: Not yet used
+## the friendly name
+@export var f_name: String = "placeholder name"
+# NOTE: Not yet used
+## icon to show identify the boon_bane
+@export var _icon: Texture2D
 @export_group("Application")
-@export var trigger: Constants.TRIGGER  ## the thing that causes the boonbane to apply
-@export var _duration_type: Constants.DURATION_TYPE  ## how the lifetime of the boonbane is determined
-@export var _duration: float  ## how long before being removed. only relevant if duration_type == time or applications, in which case it is seconds or num applications, respectively.
-@export var _interval_length: float  ## if trigger == on_interval then this dictates how long between each interval.
+## the thing that causes the boonbane to apply
+@export var trigger: Constants.TRIGGER
+## how the lifetime of the boonbane is determined
+@export var _duration_type: Constants.DURATION_TYPE
+## how long before being removed. only relevant if duration_type == time or applications,
+## in which case it is seconds or num applications, respectively.
+@export var _duration: float
+## if trigger == on_interval then this dictates how long between each interval.
+@export var _interval_length: float
 @warning_ignore("unused_private_class_variable")  # used in children
+## the scene to create when we are applied
 @export var _application_animation_scene: PackedScene
-@export var is_unique: bool = true  ## whether multiple of the same boonbanes can be applied
+## whether multiple of the same boonbanes can be applied
+@export var is_unique: bool = true
 #endregion
 
 
 #region VARS
 # internals
-var _activations: int = 0  ## number of activations applied
-var _duration_timer: Timer  ## only needed if duration_type is time
-var _interval_timer: Timer  ## only needed if trigger is on_interval
-var _source: CombatActor  ## who is the original source of the effect
+## number of activations applied
+var _activations: int = 0
+## who is the original source of the effect
+var _source: CombatActor
 # config
-var host: CombatActor  ## the actor the boonbane is applied to
-var _effects: Array[ABCAtomicAction] = []  # NOTE: should we use an ABCEffectChain instead?  ## the effects to be activated when the trigger happens
+## how long to last before expiry
+## only used if duration_type is time
+var _duration_timer: Timer
+## how long between each application
+## only needed if trigger is on_interval
+var _interval_timer: Timer
+## the actor the boonbane is applied to
+var host: CombatActor
+# NOTE: should we use an ABCEffectChain instead?
+## the effects to be activated when the trigger happens
+var _effects: Array[ABCAtomicAction] = []
 # TODO: add an internal cooldown to allow limiting how often we trigger
 #endregion
 
@@ -56,16 +73,31 @@ func _ready() -> void:
 	# NOTE: can't check the enums as they default to a meaningful value
 	assert(not _effects.is_empty(), "BoonBane: no effects set.")
 	if trigger == Constants.TRIGGER.on_interval:
-		assert(_interval_length != 0, "BoonBane: trigger is interval, but no interval_length set. Will never activate.")
-		assert(_duration > _interval_length, "BoonBane: duration is less than interval_length. Will never activate.")
+		assert(
+			_interval_length != 0,
+			str(
+				"BoonBane: trigger is interval, but no interval_length set." ,
+				"Will never activate."
+			)
+		)
+		assert(
+			_duration > _interval_length,
+			"BoonBane: duration is less than interval_length. Will never activate."
+		)
 
-	if (_duration_type == Constants.DURATION_TYPE.time or _duration_type == Constants.DURATION_TYPE.applications) and _duration == 0:
-		assert(is_zero_approx(_duration), "BoonBane: duration_type is time or application, but no duration set. Will immediately terminate.")
+	if (_duration_type == Constants.DURATION_TYPE.time or \
+		_duration_type == Constants.DURATION_TYPE.applications) and _duration == 0:
+		assert(
+			is_zero_approx(_duration),
+			str(
+				"BoonBane: duration_type is time or application, but no duration set.",
+				"Will immediately terminate."
+			)
+		)
 
 	# if we need to apply immediately, wait a frame then do so
 	if trigger == Constants.TRIGGER.on_application:
-		await get_tree().process_frame
-		activate()
+		Utility.call_next_frame(activate)
 
 	_setup_timers()
 
@@ -85,7 +117,10 @@ func _setup_timers() -> void:
 
 ## @virtual where the effects are created and defined.
 func _configure_behaviour() -> void:
-	push_error("BoonBane: `_configure_behaviour` called directly, but is virtual. Must be overriden by child." )
+	push_error(
+		"BoonBane: `_configure_behaviour` called directly, but is virtual.",
+		"Must be overriden by child."
+	)
 
 ## apply the effect to the target. called on trigger. must be defined in subclass and super called.
 ##
