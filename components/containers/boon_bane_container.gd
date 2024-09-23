@@ -17,14 +17,17 @@ extends Node
 #region EXPORTS
 @export_group("Component Links")
 @export var _root: CombatActor
-@export var _death_trigger: DeathTrigger  ## needed to connect signals to death triggers
-#
-# @export_group("Details")  # feel free to rename category
+## needed to connect signals to death triggers
+@export var _death_trigger: DeathTrigger
 #endregion
 
 
 #region VARS
-var _boons_banes: Dictionary = {}  ## Constants.TRIGGER : Array[]
+## internal dict of the boon banes, by trigger
+## Constants.TRIGGER : Array[]
+var _boons_banes: Dictionary = {}
+## list of all boon banes
+## dynamically built on request
 var _all_boon_banes: Array[ABCBoonBane]:
 	set(value):
 		push_warning("BoonsBanesContainerComponent: Can't set _all_boon_banes directly.")
@@ -42,27 +45,54 @@ var _all_boon_banes: Array[ABCBoonBane]:
 #region FUNCS
 func _ready() -> void:
 	# check required values
-	assert(_root is CombatActor, "BoonsBanesContainerComponent: _root isnt assigned so won't know who to apply affects to.")
+	assert(
+		_root is CombatActor,
+		str(
+			"BoonsBanesContainerComponent: _root isnt assigned so won't know who ",
+			"to apply affects to."
+		)
+	)
 
 	# init blank dict of arrays
 	for trigger in Constants.TRIGGER.values():
 		_boons_banes[trigger] = []
 
-func add_boon_bane(boon_bane: ABCBoonBane) -> void:
-	# if unique, check for any existing of same class
-	if boon_bane.is_unique:
-		for boon_bane_ in _all_boon_banes:
-			if boon_bane_.get_script().resource_path == boon_bane.get_script().resource_path:
-				return
+## adds a boon bane, if one doesnt exist, otherwise adds the number of stacks to the existing
+## boon bane
+func add_boon_bane(boon_bane: ABCBoonBane, num_stacks: int = 1) -> void:
+	# find existing
+	var found_existing: bool = false
+	for boon_bane_ in _boons_banes[boon_bane_.trigger]:
+		if boon_bane.f_name == boon_bane_.f_name:
+			# overwrite the one given
+			boon_bane = boon_bane_
+			found_existing = true
 
-	add_child(boon_bane)
-	_boons_banes[boon_bane.trigger].append(boon_bane)
-	_link_signals_to_triggers(boon_bane)
-	boon_bane.host = _root
+	if found_existing == false:
+		add_child(boon_bane)
+		_boons_banes[boon_bane.trigger].append(boon_bane)
+		_link_signals_to_triggers(boon_bane)
+		boon_bane.host = _root
+
+	boon_bane.add_stacks(num_stacks)
+
+#	# if unique, check for any existing of same class
+#	if boon_bane.is_unique:
+#		for boon_bane_ in _all_boon_banes:
+#			if boon_bane_.get_script().resource_path == boon_bane.get_script().resource_path:
+#				return
+#
+#	add_child(boon_bane)
+#	_boons_banes[boon_bane.trigger].append(boon_bane)
+#	_link_signals_to_triggers(boon_bane)
+#	boon_bane.host = _root
 
 func remove_boon_bane(boon_bane: ABCBoonBane, ignore_permanent: bool = false) -> void:
-	if boon_bane.duration_type == Constants.DURATION_TYPE.permanent and not ignore_permanent:
-		push_warning("BoonsBanesContainerComponent: can't remove a permanent boon_bane unless ignore_permanent is set to true.")
+	if boon_bane._duration_type == Constants.DURATION_TYPE.permanent and not ignore_permanent:
+		push_warning(
+			"BoonsBanesContainerComponent: can't remove a permanent boon_bane unless",
+			"ignore_permanent is set to true."
+		)
 		return
 
 	_boons_banes[boon_bane.trigger].erase(boon_bane)

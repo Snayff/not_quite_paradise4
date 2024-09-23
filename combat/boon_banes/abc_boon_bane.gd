@@ -42,16 +42,19 @@ signal activated
 @export var _reminder_animation_interval: float = Constants.DEFAULT_BOON_BANE_REMINDER_ANIMATION_INTERVAL
 ## whether multiple of the same boonbanes can be applied
 @export var is_unique: bool = true
+## the max number of stacks that can exist
+## if == 1 then functionally unique.
+@export var _max_stacks: int = 1
 #endregion
 
 
 #region VARS
-# internals
+## number of stacks on the boon bane
+var _stacks: int = 0
 ## number of activations applied
 var _activations: int = 0
 ## who is the original source of the effect
 var _source: CombatActor
-# config
 ## how long to last before expiry
 ## only used if duration_type is time
 var _duration_timer: Timer
@@ -75,6 +78,11 @@ var _is_first_activation: bool = true
 
 
 #region FUNCS
+
+##########################
+####### LIFECYCLE ######
+######################
+
 func _init(source: CombatActor) -> void:
 	_source = source
 
@@ -113,13 +121,6 @@ func _ready() -> void:
 
 	_setup_timers()
 
-## @virtual where the effects are created and defined.
-func _configure_behaviour() -> void:
-	push_error(
-		"BoonBane: `_configure_behaviour` called directly, but is virtual.",
-		"Must be overriden by child."
-	)
-
 ## init and configure required timers.
 ##
 ## assumes _ready, and therefore _configure_behaviour, have been run.
@@ -140,8 +141,6 @@ func _setup_timers() -> void:
 		_reminder_animation_timer = Timer.new()
 		add_child(_reminder_animation_timer)
 		# start after first activation, in activate()
-
-
 
 ## apply the effect to the target. called on trigger. must be defined in subclass and super called.
 ##
@@ -188,6 +187,26 @@ func terminate() -> void:
 
 	queue_free()
 
+##########################
+####### PUBLIC ##########
+########################
+
+## add stacks, up to _max_stacks. reset duration identifiers, such as _activations
+func add_stacks(num_stacks) -> void:
+	_stacks = clampi(_stacks + num_stacks, 0, _max_stacks)
+
+	# reset lifetime/duration
+	if _duration_type == Constants.DURATION_TYPE.time:
+		# if timer is active, reset it
+		if _duration_timer is Timer:
+			_duration_timer.start(_duration)
+
+	_activations = 0
+
+##########################
+####### PRIVATE #########
+########################
+
 func _add_effect(effect: ABCAtomicAction) -> void:
 	add_child(effect)
 	_effects.append(effect)
@@ -196,6 +215,13 @@ func _remove_effect(effect: ABCAtomicAction) -> void:
 	if effect in _effects:
 		_effects[effect].terminate()
 		_effects.erase(effect)
+
+## @virtual where the effects are created and defined.
+func _configure_behaviour() -> void:
+	push_error(
+		"BoonBane: `_configure_behaviour` called directly, but is virtual.",
+		"Must be overriden by child."
+	)
 
 ## create required animations and gets them ready for use.
 ##
