@@ -23,8 +23,10 @@ signal terminated(effect: ABCAtomicAction)
 
 
 #region VARS
-var _parent: Node  ## either [ABCEffectChain] or [ABCBoonBane]
-var _source: Node  ## which entity created the effect, e.g. a [CombatActor]
+## either [ABCEffectChain] or [ABCBoonBane]
+var _parent: Node
+## which entity created the effect, e.g. a [CombatActor]
+var _source: Node
 #endregion
 
 

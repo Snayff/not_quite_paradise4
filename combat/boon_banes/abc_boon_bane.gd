@@ -155,6 +155,11 @@ func activate(target: CombatActor = _host) -> void:
 
 	# apply effects
 	for effect in _effects:
+
+		# if there's a multiplier prop then set it to the number of stacks we have
+		if "multiplier" in effect:
+			effect.multiplier = max(_stacks, 1)
+
 		effect.apply(target)
 
 	if _is_first_activation and _reminder_animation_scene is PackedScene:
@@ -194,7 +199,7 @@ func terminate() -> void:
 ########################
 
 ## add stacks, up to _max_stacks. reset duration identifiers, such as _activations
-func add_stacks(num_stacks) -> void:
+func add_stacks_and_refresh_duration(num_stacks) -> void:
 	_stacks = clampi(_stacks + num_stacks, 0, _max_stacks)
 
 	# reset lifetime/duration

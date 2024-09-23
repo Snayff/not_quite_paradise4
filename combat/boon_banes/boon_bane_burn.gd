@@ -42,7 +42,7 @@ func _configure_behaviour() -> void:
 
 
 	# create damage
-	var damage_effect: AtomicActionDealDamageEffect = AtomicActionDealDamageEffect.new(self, _source)
+	var damage_effect: AtomicActionDealDamage = AtomicActionDealDamage.new(self, _source)
 	@warning_ignore("narrowing_conversion")  # happy with reduced precision
 	damage_effect.base_damage = _damage_per_tick
 	damage_effect.is_one_shot = false

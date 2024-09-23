@@ -79,8 +79,7 @@ func add_boon_bane(
 		_boons_banes[boon_bane.trigger].append(boon_bane)
 		_link_signals_to_triggers(boon_bane)
 
-	boon_bane.add_stacks(num_stacks)
-	#print("added stacks of ", boon_bane.f_name, " to ", _root, ". Fresh? ", !found_existing)
+	boon_bane.add_stacks_and_refresh_duration(num_stacks)
 
 func remove_boon_bane(boon_bane: ABCBoonBane, ignore_permanent: bool = false) -> void:
 	if boon_bane._duration_type == Constants.DURATION_TYPE.permanent and not ignore_permanent:

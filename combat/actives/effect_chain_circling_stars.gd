@@ -34,7 +34,7 @@ func on_hit(hurtbox: HurtboxComponent) -> void:
 	var actor_hit: CombatActor = hurtbox.root
 
 	# initial damage
-	var effect = AtomicActionDealDamageEffect.new(self, _caster)
+	var effect = AtomicActionDealDamage.new(self, _caster)
 	_register_effect(effect)
 	effect.base_damage = _damage
 	effect.scalers = _damage_scalers
