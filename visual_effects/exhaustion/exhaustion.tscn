@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://dcc8behq57msa"]
+
+[ext_resource type="Texture2D" uid="uid://b3x5hrfsqbq2a" path="res://visual_effects/exhaustion/exhaustion.png" id="1_couci"]
+[ext_resource type="Script" path="res://animations/oneshot_animation.gd" id="2_jjus0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3r41d"]
+atlas = ExtResource("1_couci")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kylx6"]
+atlas = ExtResource("1_couci")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_iscf0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3r41d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kylx6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[node name="OneShotAnimation" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_iscf0")
+autoplay = "default"
+frame = 1
+frame_progress = 0.650789
+script = ExtResource("2_jjus0")

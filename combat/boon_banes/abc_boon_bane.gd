@@ -157,8 +157,17 @@ func activate(target: CombatActor = host) -> void:
 		effect.apply(target)
 
 	if _is_first_activation and _reminder_animation_scene is PackedScene:
-		_reminder_animation_timer.timeout.connect(_reminder_animation_visual_effect.apply.bind(target))
-		_reminder_animation_timer.start(_reminder_animation_interval)
+		if _reminder_animation_visual_effect is not AtomicActionSpawnScene:
+			push_warning(
+				"ABCBoonBane: `_reminder_animation_visual_effect` not populated in ",
+				f_name,
+				". Did you call `_create_application_animations` in `_configure_behaviour`?"
+				)
+		else:
+			_reminder_animation_timer.timeout.connect(
+				_reminder_animation_visual_effect.apply.bind(target)
+			)
+			_reminder_animation_timer.start(_reminder_animation_interval)
 
 	# check if we have applied max number of times
 	if _duration_type == Constants.DURATION_TYPE.applications:

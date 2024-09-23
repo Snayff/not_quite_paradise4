@@ -19,9 +19,12 @@ func _configure_behaviour() -> void:
 	# define base self
 	f_name = "exhaustion"
 	is_unique = true
-	#_application_animation_scene = load("res://visual_effects/fire/fire.tscn")
+	var animation: PackedScene = load("res://visual_effects/exhaustion/exhaustion.tscn")
+	_application_animation_scene = animation
 	trigger = Constants.TRIGGER.on_application
 	_duration_type = Constants.DURATION_TYPE.permanent
+	_reminder_animation_scene = animation
+	_reminder_animation_interval = 2.0
 
 	# create the effect
 	var effect: AtomicActionApplyStatMod = AtomicActionApplyStatMod.new(self, _source)
@@ -34,6 +37,9 @@ func _configure_behaviour() -> void:
 		effect.add_mod(stat_type, statmod)
 
 	_add_effect(effect)
+
+	# create visuals
+	_create_application_animations()
 
 
 
