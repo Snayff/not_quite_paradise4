@@ -101,6 +101,13 @@ func _ready() -> void:
 
 	_setup_timers()
 
+## @virtual where the effects are created and defined.
+func _configure_behaviour() -> void:
+	push_error(
+		"BoonBane: `_configure_behaviour` called directly, but is virtual.",
+		"Must be overriden by child."
+	)
+
 ## init and configure required timers
 func _setup_timers() -> void:
 	if _duration_type == Constants.DURATION_TYPE.time:
@@ -115,12 +122,7 @@ func _setup_timers() -> void:
 		_interval_timer.timeout.connect(activate)
 		_interval_timer.start(_interval_length)
 
-## @virtual where the effects are created and defined.
-func _configure_behaviour() -> void:
-	push_error(
-		"BoonBane: `_configure_behaviour` called directly, but is virtual.",
-		"Must be overriden by child."
-	)
+
 
 ## apply the effect to the target. called on trigger. must be defined in subclass and super called.
 ##
@@ -158,5 +160,14 @@ func _remove_effect(effect: ABCAtomicAction) -> void:
 	if effect in _effects:
 		_effects[effect].terminate()
 		_effects.erase(effect)
+
+## create the scene in _application_animation_scene and add it as an effect
+func _create_application_visual_effects() -> void:
+	if _application_animation_scene is not PackedScene:
+		return
+
+	var visual_effect: AtomicActionSpawnScene = AtomicActionSpawnScene.new(self, _source)
+	visual_effect.scene = _application_animation_scene
+	_add_effect(visual_effect)
 
 #endregion

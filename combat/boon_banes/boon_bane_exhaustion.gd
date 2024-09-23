@@ -1,23 +1,9 @@
-## class desc
+## permanent reduction in all stats
 #@icon("")
 class_name BoonBaneExhaustion
 extends ABCBoonBane
 
-
-#region SIGNALS
-
-#endregion
-
-
-#region ON READY (for direct children only)
-
-#endregion
-
-
 #region EXPORTS
-# @export_group("Component Links")
-# @export var
-#
 # @export_group("Details")
 #endregion
 
@@ -29,14 +15,18 @@ extends ABCBoonBane
 
 #region FUNCS
 func _configure_behaviour() -> void:
-	# config behaviour
 	# NOTE: until can come up with a good way to edit in the editor just hardcode it
-	trigger = Constants.TRIGGER.on_application
+
+	# define base self
+	f_name = "exhaustion"
 	is_unique = true
+	#_application_animation_scene = load("res://visual_effects/fire/fire.tscn")
+	trigger = Constants.TRIGGER.on_application
+	_duration_type = Constants.DURATION_TYPE.permanent
 
 	# create the effect
 	var effect: AtomicActionApplyStatMod = AtomicActionApplyStatMod.new(self, _source)
-	var statmod: StatModData             = StatModData.new()
+	var statmod: StatModData = StatModData.new()
 	statmod.setup(0.5, Constants.MATH_MOD_TYPE.multiply)
 
 	# apply to all stats
