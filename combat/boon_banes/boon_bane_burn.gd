@@ -1,5 +1,4 @@
 ## damage over time
-#@icon("")
 class_name BoonBaneBurn
 extends ABCBoonBane
 
@@ -50,7 +49,7 @@ func _configure_behaviour() -> void:
 	_add_effect(damage_effect)
 
 	# create visual
-	_create_application_visual_effects()
+	_create_application_animations()
 
 
 #endregion

@@ -1,5 +1,4 @@
 ## permanent reduction in all stats
-#@icon("")
 class_name BoonBaneExhaustion
 extends ABCBoonBane
 

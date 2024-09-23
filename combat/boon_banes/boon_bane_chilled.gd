@@ -1,5 +1,4 @@
 ## long, proportional slow
-#@icon("")
 class_name BoonBaneChilled
 extends ABCBoonBane
 
@@ -20,10 +19,12 @@ func _configure_behaviour() -> void:
 	# define base self
 	f_name = "chilled"
 	is_unique = true
-	_application_animation_scene = load("res://visual_effects/chilled/chilled.tscn")
+	var chilled_scene: PackedScene = load("res://visual_effects/chilled/chilled.tscn")
+	_application_animation_scene = chilled_scene
 	trigger = Constants.TRIGGER.on_application
 	_duration_type = Constants.DURATION_TYPE.time
 	_duration = 10
+	_reminder_animation_scene = chilled_scene
 
 	# create statmod effect
 	var effect: AtomicActionApplyStatMod = AtomicActionApplyStatMod.new(self, _source)
@@ -33,7 +34,7 @@ func _configure_behaviour() -> void:
 	_add_effect(effect)
 
 	# create visual
-	_create_application_visual_effects()
+	_create_application_animations()
 
 
 

@@ -35,6 +35,11 @@ signal activated
 @warning_ignore("unused_private_class_variable")  # used in children
 ## the scene to create when we are applied
 @export var _application_animation_scene: PackedScene
+## the scene to create periodically, to show still active
+@export var _reminder_animation_scene: PackedScene
+## how often to replay the _reminder_animation_scene.
+## if remindering too fast it will overlap plays.
+@export var _reminder_animation_interval: float = Constants.DEFAULT_BOON_BANE_REMINDER_ANIMATION_INTERVAL
 ## whether multiple of the same boonbanes can be applied
 @export var is_unique: bool = true
 #endregion
@@ -51,13 +56,20 @@ var _source: CombatActor
 ## only used if duration_type is time
 var _duration_timer: Timer
 ## how long between each application
-## only needed if trigger is on_interval
+## only used if trigger is on_interval
 var _interval_timer: Timer
+## how long between creations of the _reminder_animation_scene
+## only used if _reminder_animation_scene is not null
+var _reminder_animation_timer: Timer
 ## the actor the boonbane is applied to
 var host: CombatActor
 # NOTE: should we use an ABCEffectChain instead?
 ## the effects to be activated when the trigger happens
 var _effects: Array[ABCAtomicAction] = []
+## the scene from _reminder_animation_scene, held as an Atomic Action
+var _reminder_animation_visual_effect: ABCAtomicAction
+## if this is the first activation, or not
+var _is_first_activation: bool = true
 # TODO: add an internal cooldown to allow limiting how often we trigger
 #endregion
 
@@ -108,7 +120,9 @@ func _configure_behaviour() -> void:
 		"Must be overriden by child."
 	)
 
-## init and configure required timers
+## init and configure required timers.
+##
+## assumes _ready, and therefore _configure_behaviour, have been run.
 func _setup_timers() -> void:
 	if _duration_type == Constants.DURATION_TYPE.time:
 		_duration_timer = Timer.new()
@@ -122,6 +136,11 @@ func _setup_timers() -> void:
 		_interval_timer.timeout.connect(activate)
 		_interval_timer.start(_interval_length)
 
+	if _reminder_animation_scene is PackedScene:
+		_reminder_animation_timer = Timer.new()
+		add_child(_reminder_animation_timer)
+		# start after first activation, in activate()
+
 
 
 ## apply the effect to the target. called on trigger. must be defined in subclass and super called.
@@ -130,16 +149,24 @@ func _setup_timers() -> void:
 # FIXME: how is this going to work? signals are set by BoonBaneContainer and therefore wont know which target we need. How would we do an effect
 # 	where the attacker gets damage returned?
 func activate(target: CombatActor = host) -> void:
+	# inform listeners we activated boon bane
 	activated.emit()
 
+	# apply effects
 	for effect in _effects:
 		effect.apply(target)
+
+	if _is_first_activation and _reminder_animation_scene is PackedScene:
+		_reminder_animation_timer.timeout.connect(_reminder_animation_visual_effect.apply.bind(target))
+		_reminder_animation_timer.start(_reminder_animation_interval)
 
 	# check if we have applied max number of times
 	if _duration_type == Constants.DURATION_TYPE.applications:
 		_activations += 1
 		if _activations >= _duration:
 			terminate()
+
+	_is_first_activation = false
 
 ## finish and clean up. reverse application of any lingering affects.
 func terminate() -> void:
@@ -161,13 +188,21 @@ func _remove_effect(effect: ABCAtomicAction) -> void:
 		_effects[effect].terminate()
 		_effects.erase(effect)
 
-## create the scene in _application_animation_scene and add it as an effect
-func _create_application_visual_effects() -> void:
-	if _application_animation_scene is not PackedScene:
-		return
+## create required animations and gets them ready for use.
+##
+## specifically:
+## 1. create the scene in _application_animation_scene and add it as an	[AtomicActionSpawnScene] to
+## _effects
+## 2. create the scene in _reminder_animation_scene and add to _reminder_animation_visual_effect
+func _create_application_animations() -> void:
+	if _application_animation_scene is PackedScene:
+		var animation: AtomicActionSpawnScene = AtomicActionSpawnScene.new(self, _source)
+		animation.scene = _application_animation_scene
+		_add_effect(animation)
 
-	var visual_effect: AtomicActionSpawnScene = AtomicActionSpawnScene.new(self, _source)
-	visual_effect.scene = _application_animation_scene
-	_add_effect(visual_effect)
+	if _reminder_animation_scene is PackedScene:
+		var animation: AtomicActionSpawnScene = AtomicActionSpawnScene.new(self, _source)
+		animation.scene = _reminder_animation_scene
+		_reminder_animation_visual_effect = animation
 
 #endregion

@@ -2,6 +2,9 @@
 ##
 ## where an instance may exist with a similar name, e.g. STAT,
 ## we append "_TYPE" or similar to the constant's name, to help differentiation.
+##
+## where a constant may be used as a starting point, i.e. amended,
+## we prefix with "DEFAULT_", to show it is to be seen as a reference or guide.
 extends Node
 
 ########################
@@ -18,11 +21,12 @@ const PATH_COMBAT_ACTIVES: String = "res://combat/actives/"
 ## the reduction in force applied to a physics object when new force not being applied
 const FRICTION: float = 10.3
 ## the standard amount for how long an [ProjectileAura] waits before looping.
-const AURA_TICK_RATE: float = 0.33
+const DEFAULT_AURA_TICK_RATE: float = 0.33
 ## min time to wait between combat active casts
 const GLOBAL_CAST_DELAY: float = 0.33
 ## min time to wait between applications of the same boon bane
-const GLOBAL_BOON_BANE_TRIGGER_DELAY: float = 0.125
+const BOON_BANE_TRIGGER_DELAY: float = 0.125
+const DEFAULT_BOON_BANE_REMINDER_ANIMATION_INTERVAL: float = 2.5
 
 
 ########################
