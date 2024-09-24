@@ -23,6 +23,7 @@ signal died  ## actor has died
 @onready var _physics_movement: PhysicsMovementComponent = %PhysicsMovement
 @onready var _supply_container: SupplyContainer = %SupplyContainer
 @onready var _centre_pivot: Marker2D = %CentrePivot
+@onready var _tags: TagsComponent = %Tags
 
 #endregion
 
@@ -55,6 +56,8 @@ func _ready() -> void:
 
 	update_collisions()
 
+	_death_trigger.died.connect(func(): died.emit())
+
 	if _supply_container is SupplyContainer:
 		# setup triggers and process for death on health empty
 		var health = _supply_container.get_supply(Constants.SUPPLY_TYPE.health)
@@ -75,8 +78,6 @@ func _ready() -> void:
 		var ms = data["stats"][Constants.STAT_TYPE.move_speed]
 		_physics_movement.setup(ms, data["acceleration"], data["deceleration"])
 
-	_death_trigger.died.connect(func(): died.emit())
-
 	if combat_active_container is CombatActiveContainer:
 		combat_active_container.has_ready_active.connect(func(): _num_ready_actives += 1)  # support knowing when to auto cast
 		combat_active_container.new_active_selected.connect(func(active): _target = active.target_actor) # update target to match that of selected active
@@ -88,6 +89,12 @@ func _ready() -> void:
 			var actives: Array[String] = []
 			actives.assign(data["actives"])
 			combat_active_container.create_actives(actives)
+
+	if _tags is TagsComponent:
+		var data = Library.get_data("actor", "wolf_rider")
+		var tags: Array[Constants.COMBAT_TAG] = []
+		tags.assign(data["tags"])
+		_tags.add_multiple_tags(tags)
 
 func _process(delta: float) -> void:
 	_global_cast_cd_counter -= delta
