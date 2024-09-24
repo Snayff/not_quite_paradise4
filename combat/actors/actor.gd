@@ -77,9 +77,17 @@ func _ready() -> void:
 
 	_death_trigger.died.connect(func(): died.emit())
 
-	combat_active_container.has_ready_active.connect(func(): _num_ready_actives += 1)  # support knowing when to auto cast
-	combat_active_container.new_active_selected.connect(func(active): _target = active.target_actor) # update target to match that of selected active
-	combat_active_container.new_target.connect(func(target): _target = target)
+	if combat_active_container is CombatActiveContainer:
+		combat_active_container.has_ready_active.connect(func(): _num_ready_actives += 1)  # support knowing when to auto cast
+		combat_active_container.new_active_selected.connect(func(active): _target = active.target_actor) # update target to match that of selected active
+		combat_active_container.new_target.connect(func(target): _target = target)
+
+		# FIXME: placeholder to get data
+		if _is_player:
+			var data = Library.get_data("actor", "wolf_rider")
+			var actives: Array[String] = []
+			actives.assign(data["actives"])
+			combat_active_container.create_actives(actives)
 
 func _process(delta: float) -> void:
 	_global_cast_cd_counter -= delta

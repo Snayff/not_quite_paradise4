@@ -25,7 +25,7 @@ signal new_target(target: Actor)
 #region EXPORTS
 @export_group("Details")
 ## used to load data from library
-@export var _combat_active_name: String = ""
+@export var combat_active_name: String = ""
 ## time between casts. updates cooldown_timer on update. loaded from library.
 var _cooldown_duration: float = 0:
 	set(v):
@@ -151,19 +151,19 @@ func setup(
 
 ## load data from the library and instantiate required children, e.g. [ABCEffectChain]
 func _load_data(combat_active_name: String) -> void:
-	_combat_active_name = combat_active_name
+	combat_active_name = combat_active_name
 
-	var dict_data: Dictionary = Library.get_combat_active_data(_combat_active_name)
+	var dict_data: Dictionary = Library.get_combat_active_data(combat_active_name)
 
 	# dynamically load icon and effect chain based on name
 	icon = load(
 		Constants.PATH_COMBAT_ACTIVES.path_join(
-			str(_combat_active_name, ".png")
+			str(combat_active_name, ".png")
 		)
 	)
 	var effect_chain_script: Script = load(
 		Constants.PATH_COMBAT_ACTIVES.path_join(
-			str("effect_chain_", _combat_active_name, ".gd")
+			str("effect_chain_", combat_active_name, ".gd")
 		)
 	)
 	_effect_chain = effect_chain_script.new()

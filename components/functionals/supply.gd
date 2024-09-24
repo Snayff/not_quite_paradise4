@@ -26,6 +26,9 @@ signal max_value_changed() ## the resource's max value has changed
 
 
 #region VARS
+## the current value of the supply
+##
+## protected value. to set the value use [set_value]
 var value: int:
 	set(value):
 		push_warning("SupplyComponent: Can't set value directly. Use funcs.")
