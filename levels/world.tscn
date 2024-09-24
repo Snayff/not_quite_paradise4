@@ -103,6 +103,9 @@ custom_integrator = false
 contact_monitor = false
 max_contacts_reported = 0
 linear_damp = 999999.0
+_is_player = false
+_linear_damp = 5.0
+_mass = 100.0
 
 [node name="HorseyRider2" parent="." instance=ExtResource("6_d7rtk")]
 position = Vector2(101, 67)
@@ -114,3 +117,6 @@ custom_integrator = false
 contact_monitor = false
 max_contacts_reported = 0
 linear_damp = 999999.0
+_is_player = false
+_linear_damp = 5.0
+_mass = 100.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cqi7b1uis5b7k"]
+[gd_scene load_steps=13 format=3 uid="uid://cqi7b1uis5b7k"]
 
 [ext_resource type="PackedScene" uid="uid://baut7l07kp2rc" path="res://combat/projectiles/abc_projectile.tscn" id="1_1rweh"]
 [ext_resource type="Script" path="res://combat/projectiles/projectile_throwable.gd" id="2_bbj4i"]
@@ -22,6 +22,9 @@ script = ExtResource("5_l37ln")
 type = 1
 max_value = 999
 regeneration_per_second = 0.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xknae"]
+resource_local_to_scene = true
 
 [node name="ProjectileThrowable" instance=ExtResource("1_1rweh")]
 physics_material_override = SubResource("PhysicsMaterial_q1xa1")
@@ -54,3 +57,6 @@ _destroy_effect_spawner = NodePath("../OnDeathEffectSpawner")
 [node name="PhysicsMovementComponent" type="Node" parent="." index="6" node_paths=PackedStringArray("_root")]
 script = ExtResource("7_v8jiw")
 _root = NodePath("..")
+
+[node name="CollisionShape2D" parent="HitboxComponent" index="0"]
+shape = SubResource("CircleShape2D_xknae")

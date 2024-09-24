@@ -1,6 +1,6 @@
 ## reduce a resource by a given amount, accounting for scaling and mitigants
 #@icon("")
-class_name AtomicActionDealDamageEffect
+class_name AtomicActionDealDamage
 extends ABCAtomicAction
 
 # NOTE: info on damage formulae:
@@ -30,42 +30,55 @@ extends ABCAtomicAction
 
 
 #region VARS
-var is_one_shot: bool = true  ## if true, terminates after 1 application. if false, needs to be terminated manually.
-var base_damage: int
+## if true, terminates after 1 application. if false, needs to be terminated manually.
+var is_one_shot: bool = true
+var base_damage: int = 0
 var scalers: Array[EffectStatScalerData] = []
-var target_supply: Constants.SUPPLY_TYPE = Constants.SUPPLY_TYPE.health ## the supply_type to  reduce
-var has_applied_damage: bool = false  ## if we have applied damage. used in conjunction with `is_one_shot` to prevent multiple applications due to fast movement
+## the supply_type to  reduce
+var target_supply: Constants.SUPPLY_TYPE = Constants.SUPPLY_TYPE.health
+## if we have applied damage.
+## used in conjunction with `is_one_shot` to prevent multiple applications due to fast movement
+var has_applied_damage: bool = false
+## the multiplier to apply to the damage.
+## often used by [ABCBoonBane] for stacks.
+var multiplier: int = 1
+
+
 #endregion
 
 
 #region FUNCS
 
-## reduce health of target
+## reduce health of target. uses `multiplier` then resets it to 0.
 func apply(target: CombatActor) -> void:
 	if is_one_shot and has_applied_damage:
 		return
 
 	var supplies: SupplyContainer = target.get_node_or_null("SupplyContainer")
 	if supplies is SupplyContainer:
-		var supply = supplies.get_supply(target_supply)
-		var damage = _calculate_damage(target)
-		supply.decrease(damage)
+		var supply: SupplyComponent = supplies.get_supply(target_supply)
+		var damage: int = _calculate_damage(target)
+		var mult_damage = damage * multiplier
+		supply.decrease(mult_damage)
 
 		has_applied_damage = true
 
 	if is_one_shot:
 		terminate()
 
+	# reset multiplier
+	multiplier = 1
+
 ## wrapper for all damage calculations
 func _calculate_damage(target: CombatActor) -> int:
-	var damage = _apply_scalers()
+	var damage: int = _apply_scalers()
 	damage = _apply_resistances(target, damage)
 
 	return damage
 
 ## base damage modified by scalers
 func _apply_scalers() -> int:
-	var damage = base_damage
+	var damage: int = base_damage
 	var stats: StatsContainer = _source.get_node_or_null("StatsContainer")
 	if stats == null:
 		return base_damage

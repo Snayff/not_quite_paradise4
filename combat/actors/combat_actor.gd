@@ -107,7 +107,6 @@ func update_collisions() -> void:
 
 ## add the [BoonBaneExhaustion] [ABCBoonBane]. assumed to trigger after stamina is emptied.
 func _apply_exhaustion() -> void:
-	var exhaustion: BoonBaneExhaustion = BoonBaneExhaustion.new(self)
-	boons_banes.add_boon_bane(exhaustion)
+	boons_banes.add_boon_bane(Constants.BOON_BANE_TYPE.exhaustion, self)
 
 #endregion

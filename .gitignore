@@ -7,3 +7,6 @@
 
 # obsidian markdown editor
 .obsidian
+
+# vscode stuff
+.vscode/

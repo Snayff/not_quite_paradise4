@@ -119,7 +119,7 @@ func _restart() -> void:
 	visible = false
 
 	# trigger timer, which will trigger restart when done
-	_timer_tick.start(Constants.AURA_TICK_RATE)
+	_timer_tick.start(Constants.DEFAULT_AURA_TICK_RATE)
 
 	# reset flags
 	_has_signalled_out_hit_valid_targets = false

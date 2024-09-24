@@ -211,7 +211,7 @@ func get_sprite_frame(sprite_frame_name: String) -> SpriteFrames:
 func get_current_sprite_size(sprite: AnimatedSprite2D) -> Vector2:
 	return sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame).get_size()
 
-func call_next_frame(callable: Callable, args: Array) -> void:
+func call_next_frame(callable: Callable, args: Array = []) -> void:
 	var deferred_callable: Callable = callable.bindv(args)
 	get_tree().process_frame.connect(deferred_callable, CONNECT_ONE_SHOT)
 

@@ -20,6 +20,7 @@ extends ABCEffectChain
 @export_group("Details")
 @export var _aoe_damage: int = 1
 @export var _damage_scalers: Array[EffectStatScalerData] = []
+@export var _num_stacks: int = 3
 
 #endregion
 
@@ -41,7 +42,7 @@ func on_hit(hurtbox: HurtboxComponent) -> void:
 
 func _aoe_hit(hurtboxes: Array[HurtboxComponent]) -> void:
 	# create damage effect
-	var effect = AtomicActionDealDamageEffect.new(self, _caster)
+	var effect = AtomicActionDealDamage.new(self, _caster)
 	_register_effect(effect)
 	effect.base_damage = _aoe_damage
 	effect.scalers = _damage_scalers
@@ -56,8 +57,9 @@ func _aoe_hit(hurtboxes: Array[HurtboxComponent]) -> void:
 		if not hurtbox.root.boons_banes is BoonBaneContainer:
 			# no boon bane container to apply a boon bane to
 			continue
-		var burn = BoonBaneBurn.new(_caster)
-		hurtbox.root.boons_banes.add_boon_bane(burn)
+
+		var container: BoonBaneContainer = hurtbox.root.boons_banes
+		container.add_boon_bane(Constants.BOON_BANE_TYPE.burn, _caster, 3)# _num_stacks)
 
 	# clean down damage effect
 	effect.terminate()

@@ -2,6 +2,7 @@
 extends Node
 
 # NOTE: may want to load from external later
+# NOTE: not holding boon_bane data here, due to how bespoke each one is
 ## storage of the static data
 var _data: Dictionary  = {
 	"projectile": {
@@ -116,7 +117,7 @@ var _data: Dictionary  = {
 			"orbit_radius": 32,
 		}
 
-	}
+	},
 }
 
 ## get data of a projectile. passed by ref, so dont edit!
