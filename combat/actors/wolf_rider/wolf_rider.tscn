@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://cta4xur1b7ano"]
 
-[ext_resource type="PackedScene" uid="uid://cgd54nt0un6ix" path="res://combat/actors/combat_actor.tscn" id="1_m432m"]
+[ext_resource type="PackedScene" uid="uid://cgd54nt0un6ix" path="res://combat/actors/actor.tscn" id="1_m432m"]
 [ext_resource type="Texture2D" uid="uid://dopseo1w5jxrl" path="res://combat/actors/wolf_rider/StrongholdSpriteMale-Right(Frame1).png" id="2_2j4ap"]
 [ext_resource type="Texture2D" uid="uid://y6wkn3lkdhy1" path="res://combat/actors/wolf_rider/StrongholdSpriteMale-Right(Frame2).png" id="3_k08ba"]
 [ext_resource type="Texture2D" uid="uid://dcdgt417cspcb" path="res://combat/actors/wolf_rider/StrongholdSpriteMale-Right(Frame3).png" id="4_qq01u"]
