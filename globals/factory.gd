@@ -113,7 +113,7 @@ func create_boon_bane(
 	match boon_bane_type:
 
 		Constants.BOON_BANE_TYPE.exhaustion:
-			boon_bane = BoonBaneChilled.new(host, source)
+			boon_bane = BoonBaneExhaustion.new(host, source)
 
 		Constants.BOON_BANE_TYPE.chilled:
 			boon_bane = BoonBaneChilled.new(host, source)

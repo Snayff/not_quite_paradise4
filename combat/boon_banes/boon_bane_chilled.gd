@@ -19,7 +19,6 @@ func _configure_behaviour() -> void:
 	# define base self
 	f_name = "chilled"
 	type = Constants.BOON_BANE_TYPE.chilled
-	is_unique = true
 	_max_stacks = 10
 	var chilled_scene: PackedScene = load("res://visual_effects/chilled/chilled.tscn")
 	_application_animation_scene = chilled_scene
@@ -31,7 +30,7 @@ func _configure_behaviour() -> void:
 	# create statmod effect
 	var effect: AtomicActionApplyStatMod = AtomicActionApplyStatMod.new(self, _source)
 	var statmod: StatModData = StatModData.new()
-	statmod.setup(0.7, Constants.MATH_MOD_TYPE.multiply)
+	statmod.setup(0.95, Constants.MATH_MOD_TYPE.multiply)
 	effect.add_mod(Constants.STAT_TYPE.move_speed, statmod)
 	_add_effect(effect)
 

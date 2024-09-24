@@ -19,7 +19,6 @@ func _configure_behaviour() -> void:
 	# define base self
 	f_name = "exhaustion"
 	type = Constants.BOON_BANE_TYPE.exhaustion
-	is_unique = true
 	var animation: PackedScene = load("res://visual_effects/exhaustion/exhaustion.tscn")
 	_application_animation_scene = animation
 	trigger = Constants.TRIGGER.on_application
