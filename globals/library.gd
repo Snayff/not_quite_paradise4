@@ -173,8 +173,9 @@ var _data: Dictionary  = {
 			"tags": [
 				# Constants.COMBAT_TAG
 
-			]
+				]
 		}
+	}
 }
 
 ## get data of a projectile. passed by ref, so dont edit!

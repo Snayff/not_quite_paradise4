@@ -1,0 +1,35 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://cbe3hrdfyed8h"]
+
+[ext_resource type="Texture2D" uid="uid://dldmflst28sas" path="res://combat/actors/horse_rider/RampartSpriteFemale-Right(Frame1).png" id="1_jg4ai"]
+[ext_resource type="Texture2D" uid="uid://b0ioe50hirnxg" path="res://combat/actors/horse_rider/RampartSpriteFemale-Right(Frame2).png" id="2_u4syv"]
+[ext_resource type="Texture2D" uid="uid://ffba1pgjsx4n" path="res://combat/actors/horse_rider/RampartSpriteFemale-Right(Frame3).png" id="3_ejpny"]
+[ext_resource type="Texture2D" uid="uid://dwxusomrgbenr" path="res://combat/actors/horse_rider/RampartSpriteFemale-Right(Frame4).png" id="4_uf5x7"]
+
+[resource]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_jg4ai")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_jg4ai")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_u4syv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ejpny")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_uf5x7")
+}],
+"loop": true,
+"name": &"move",
+"speed": 5.0
+}]
