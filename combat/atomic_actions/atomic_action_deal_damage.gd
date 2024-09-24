@@ -60,7 +60,9 @@ func apply(target: CombatActor) -> void:
 		var damage: int = _calculate_damage(target)
 		var mult_damage = damage * multiplier
 		supply.decrease(mult_damage)
-		print("damage after calc: ", damage, " | damage after mult: ", mult_damage)
+		print(
+			"mult: ", multiplier ,"damage after calc: ", damage, " | damage after mult: ", mult_damage
+		)
 
 		has_applied_damage = true
 

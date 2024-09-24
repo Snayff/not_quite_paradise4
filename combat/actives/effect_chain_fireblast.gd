@@ -59,7 +59,7 @@ func _aoe_hit(hurtboxes: Array[HurtboxComponent]) -> void:
 			continue
 
 		var container: BoonBaneContainer = hurtbox.root.boons_banes
-		container.add_boon_bane(Constants.BOON_BANE_TYPE.burn, _caster, _num_stacks)
+		container.add_boon_bane(Constants.BOON_BANE_TYPE.burn, _caster, 3)# _num_stacks)
 
 	# clean down damage effect
 	effect.terminate()

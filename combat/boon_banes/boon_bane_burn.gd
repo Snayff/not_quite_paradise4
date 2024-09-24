@@ -26,6 +26,7 @@ func _configure_behaviour() -> void:
 	f_name = "burn"
 	type = Constants.BOON_BANE_TYPE.burn
 	is_unique = false
+	_max_stacks = 999
 	_application_animation_scene = load("res://visual_effects/fire/fire.tscn")
 	trigger = Constants.TRIGGER.on_interval
 	_interval_length = 0.25

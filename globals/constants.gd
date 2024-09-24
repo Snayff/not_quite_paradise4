@@ -136,10 +136,10 @@ enum TRIGGER {
 
 ## how a lifetime or duration is determined
 enum DURATION_TYPE {
-	time,
-	applications,
-	until_removed,
-	permanent
+	time, ## lasts for a set period of time
+	stacks,  ## lasts until stacks run out
+	until_removed,  ## lasts until explicitly removed
+	permanent  ## not expected to be removed
 }
 
 ## defined types of target preference

@@ -52,8 +52,6 @@ signal activated
 #region VARS
 ## number of stacks on the boon bane
 var _stacks: int = 0
-## number of activations applied
-var _activations: int = 0
 ## who is the original source of the effect
 var _source: CombatActor
 ## how long to last before expiry
@@ -108,7 +106,7 @@ func _ready() -> void:
 		)
 
 	if (_duration_type == Constants.DURATION_TYPE.time or \
-		_duration_type == Constants.DURATION_TYPE.applications) and _duration == 0:
+		_duration_type == Constants.DURATION_TYPE.stacks) and _duration == 0:
 		assert(
 			is_zero_approx(_duration),
 			str(
@@ -158,10 +156,13 @@ func activate(target: CombatActor = _host) -> void:
 
 		# if there's a multiplier prop then set it to the number of stacks we have
 		if "multiplier" in effect:
+			print("stacks: ", _stacks)
 			effect.multiplier = max(_stacks, 1)
+			print("effect.multiplier: ", effect.multiplier)
 
 		effect.apply(target)
 
+	# start the reminder animation on the first activation
 	if _is_first_activation and _reminder_animation_scene is PackedScene:
 		if _reminder_animation_visual_effect is not AtomicActionSpawnScene:
 			push_warning(
@@ -175,10 +176,10 @@ func activate(target: CombatActor = _host) -> void:
 			)
 			_reminder_animation_timer.start(_reminder_animation_interval)
 
-	# check if we have applied max number of times
-	if _duration_type == Constants.DURATION_TYPE.applications:
-		_activations += 1
-		if _activations >= _duration:
+	# if lifetime is determined by applications, reduce num stacks
+	if _duration_type == Constants.DURATION_TYPE.stacks:
+		_stacks -= 1
+		if _stacks <= 0:
 			terminate()
 
 	_is_first_activation = false
@@ -198,7 +199,7 @@ func terminate() -> void:
 ####### PUBLIC ##########
 ########################
 
-## add stacks, up to _max_stacks. reset duration identifiers, such as _activations
+## add stacks, up to _max_stacks. reset duration identifiers, such as duration timer
 func add_stacks_and_refresh_duration(num_stacks) -> void:
 	_stacks = clampi(_stacks + num_stacks, 0, _max_stacks)
 
@@ -207,8 +208,6 @@ func add_stacks_and_refresh_duration(num_stacks) -> void:
 		# if timer is active, reset it
 		if _duration_timer is Timer:
 			_duration_timer.start(_duration)
-
-	_activations = 0
 
 ##########################
 ####### PRIVATE #########
