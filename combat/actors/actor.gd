@@ -58,6 +58,9 @@ func _ready() -> void:
 
 	_death_trigger.died.connect(func(): died.emit())
 
+	# FIXME: placeholder to get data. same for below uses of `data`.
+	var data = Library.get_data("actor", "wolf_rider")
+
 	if _supply_container is SupplyContainer:
 		# setup triggers and process for death on health empty
 		var health = _supply_container.get_supply(Constants.SUPPLY_TYPE.health)
@@ -73,8 +76,7 @@ func _ready() -> void:
 
 	if _physics_movement is PhysicsMovementComponent:
 		_physics_movement.is_attached_to_player = _is_player
-		# FIXME: placeholder to get data
-		var data = Library.get_data("actor", "wolf_rider")
+
 		var ms = data["stats"][Constants.STAT_TYPE.move_speed]
 		_physics_movement.setup(ms, data["acceleration"], data["deceleration"])
 
@@ -83,18 +85,18 @@ func _ready() -> void:
 		combat_active_container.new_active_selected.connect(func(active): _target = active.target_actor) # update target to match that of selected active
 		combat_active_container.new_target.connect(func(target): _target = target)
 
-		# FIXME: placeholder to get data
 		if _is_player:
-			var data = Library.get_data("actor", "wolf_rider")
 			var actives: Array[String] = []
 			actives.assign(data["actives"])
 			combat_active_container.create_actives(actives)
 
 	if _tags is TagsComponent:
-		var data = Library.get_data("actor", "wolf_rider")
 		var tags: Array[Constants.COMBAT_TAG] = []
 		tags.assign(data["tags"])
 		_tags.add_multiple_tags(tags)
+
+	if stats_container is StatsContainer:
+		stats_container.create_stats(data["stats"])
 
 func _process(delta: float) -> void:
 	_global_cast_cd_counter -= delta

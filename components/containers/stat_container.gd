@@ -30,23 +30,40 @@ var _stats: Array[StatData]  ## a unique list of all the stats copied from _edit
 
 #region FUNCS
 
+##########################
+####### LIFECYCLE ######
+######################
+
 func _ready() -> void:
 	_duplicate_editor_resource_arrays()
 	_check_for_duplicates()
 
-## duplicate all supplies in _editor_supplies to _supplies
-func _duplicate_editor_resource_arrays() -> void:
-	for stat in _editor_stats:
-		_stats.append(stat.duplicate(true))
+##########################
+####### PUBLIC ##########
+########################
 
-## check the _stats for multiple of the same stat and generate an error if there is a duplicate
-func _check_for_duplicates() -> void:
-	var check_array = []
-	for stat in _stats:
-		check_array.clear()
-		check_array = _stats.filter(func(i): return i.type == stat.type)
-		if check_array.size() > 1:
-			push_warning("StatsContainer: Multiple instances of ", stat.type, " found. Must be unique.")
+
+## create a series of [Stat]s. Cannot create a duplicate of an existing stat type.
+##
+## stat_type_array: dictionary in the form of `STAT_TYPE : {value}`
+func create_stats(stat_types: Dictionary) -> void:
+	for stat_type in stat_types:
+
+		# error if stat already exists
+		if _stat_exists(stat_type):
+			var printable_stat_type: String = Utility.get_enum_name(
+				Constants.STAT_TYPE,
+				stat_type
+			)
+			push_error(
+				"StatsContainer: cant create stat (",
+				printable_stat_type,
+				") as already exists.")
+			continue
+
+		var value_ = stat_types[stat_type]
+		var new_stat: StatData = StatData.new(stat_type, value_)
+		_stats.append(new_stat)
 
 ## get a stat from the stat sheet.
 ##
@@ -72,5 +89,33 @@ func add_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:
 func remove_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:
 	var stat = get_stat(stat_type)
 	stat.remove_mod(mod)
+
+##########################
+####### PRIVATE #########
+########################
+
+## duplicate all supplies in _editor_supplies to _supplies
+##
+## this is to account for the godot bug that has all editor resources
+func _duplicate_editor_resource_arrays() -> void:
+	for stat in _editor_stats:
+		_stats.append(stat.duplicate(true))
+
+## check the _stats for multiple of the same stat and generate an error if there is a duplicate
+func _check_for_duplicates() -> void:
+	var check_array = []
+	for stat in _stats:
+		check_array.clear()
+		check_array = _stats.filter(func(i): return i.type == stat.type)
+		if check_array.size() > 1:
+			push_warning("StatsContainer: Multiple instances of ", stat.type, " found. Must be unique.")
+
+## check if a stat exists already
+func _stat_exists(stat_type: Constants.STAT_TYPE) -> bool:
+	var check_array: Array = []
+	check_array = _stats.filter(func(x): return x.type == stat_type)
+	if check_array.size() > 0:
+		return true
+	return false
 
 #endregion

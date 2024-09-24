@@ -150,8 +150,8 @@ func setup(
 
 
 ## load data from the library and instantiate required children, e.g. [ABCEffectChain]
-func _load_data(combat_active_name: String) -> void:
-	combat_active_name = combat_active_name
+func _load_data(combat_active_name_: String) -> void:
+	combat_active_name = combat_active_name_
 
 	var dict_data: Dictionary = Library.get_combat_active_data(combat_active_name)
 
