@@ -125,8 +125,8 @@ var _data: Dictionary  = {
 			"sprite_frames": "wolf_rider.tres",
 			"size": 16,
 			"mass": 100.0,
-			"acceleration": 250.0,
-			"deceleration": 200.0,
+			"acceleration": 1000.0,
+			"deceleration": 1000.0,
 			"actives": [
 				"slash",
 				"icy_wind",
@@ -204,3 +204,17 @@ func get_combat_active_data(combat_active_name: String) -> Dictionary:
 	if not _data["combat_active"].has(combat_active_name):
 		push_error("Library: combat_active name (", combat_active_name, ") not found.")
 	return _data["combat_active"][combat_active_name]
+
+
+## get data in the form of a dict. passed by ref, so dont edit!
+##
+## primary_key: the first key in the library. "projectile", "actor", "combat_active" etc.
+## secondary_key: the class. "horsey_rider", "fireball", etc.
+func get_data(primary_key: String, secondary_key: String ) -> Dictionary:
+	if not _data.has(primary_key):
+		push_error("Library: primary key (", primary_key, ") not found.")
+
+	if not _data[primary_key].has(secondary_key):
+		push_error("Library: secondary key (", secondary_key, ") not found.")
+
+	return _data[primary_key][secondary_key]

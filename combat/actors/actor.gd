@@ -70,6 +70,10 @@ func _ready() -> void:
 
 	if _physics_movement is PhysicsMovementComponent:
 		_physics_movement.is_attached_to_player = _is_player
+		# FIXME: placeholder to get data
+		var data = Library.get_data("actor", "wolf_rider")
+		var ms = data["stats"][Constants.STAT_TYPE.move_speed]
+		_physics_movement.setup(ms, data["acceleration"], data["deceleration"])
 
 	_death_trigger.died.connect(func(): died.emit())
 

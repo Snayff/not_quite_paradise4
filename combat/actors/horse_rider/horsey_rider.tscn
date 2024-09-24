@@ -49,6 +49,9 @@ max_value = 10
 regeneration_per_second = 0.0
 
 [node name="HorseyRider" instance=ExtResource("1_2tlmc")]
+_is_player = false
+_linear_damp = 5.0
+_mass = 100.0
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = ExtResource("2_erb4s")
