@@ -6,6 +6,7 @@ extends Node
 ## storage of the static data
 var _data: Dictionary  = {
 	"projectile": {
+		# NOTE: sprite frames are not unique, so specify
 		"fireball": {
 			"effect_delivery_method": Constants.EFFECT_DELIVERY_METHOD.throwable,
 			# base attrs
@@ -64,6 +65,7 @@ var _data: Dictionary  = {
 
 	},
 	"combat_active": {
+		# NOTE: icons are unique, so can load by name
 		"slash": {
 			"cast_type": Constants.CAST_TYPE.manual,
 			"cast_supply": Constants.SUPPLY_TYPE.stamina,
@@ -116,8 +118,63 @@ var _data: Dictionary  = {
 			"orbit_rotation_speed": PI,
 			"orbit_radius": 32,
 		}
-
 	},
+	"actor": {
+		# NOTE: sprite frames are not unique, so specify
+		"wolf_rider" : {
+			"sprite_frames": "wolf_rider.tres",
+			"size": 16,
+			"mass": 100.0,
+			"acceleration": 250.0,
+			"deceleration": 200.0,
+			"actives": [
+				"slash",
+				"icy_wind",
+				"fireblast",
+				"circling_stars"
+			],
+			"supplies": {
+				# SUPPLY_TYPE : [{max_value}, {regen_value}]
+				Constants.SUPPLY_TYPE.health: [10, 0.1],
+				Constants.SUPPLY_TYPE.stamina: [100, 0.0],
+			},
+			"stats": {
+				Constants.STAT_TYPE.strength: 10,
+				Constants.STAT_TYPE.defence: 5,
+				Constants.STAT_TYPE.move_speed: 200,
+			},
+			"tags": [
+				# Constants.COMBAT_TAG
+
+			]
+		},
+		"horsey_rider" : {
+			"sprite_frames": "horsey_rider.tres",
+			"size": 16,
+			"mass": 100.0,
+			"acceleration": 100.0,
+			"deceleration": 80.0,
+			"actives": [
+				"slash",
+				"icy_wind",
+				"fireblast",
+				"circling_stars"
+			],
+			"supplies": {
+				# SUPPLY_TYPE : [{max_value}, {regen_value}]
+				Constants.SUPPLY_TYPE.health: [10, 0.1],
+				Constants.SUPPLY_TYPE.stamina: [100, 0.0],
+			},
+			"stats": {
+				Constants.STAT_TYPE.strength: 10,
+				Constants.STAT_TYPE.defence: 5,
+				Constants.STAT_TYPE.move_speed: 50,
+			},
+			"tags": [
+				# Constants.COMBAT_TAG
+
+			]
+		}
 }
 
 ## get data of a projectile. passed by ref, so dont edit!
