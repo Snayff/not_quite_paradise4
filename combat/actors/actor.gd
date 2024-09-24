@@ -62,6 +62,8 @@ func _ready() -> void:
 	var data = Library.get_data("actor", "wolf_rider")
 
 	if _supply_container is SupplyContainer:
+		_supply_container.create_supplies(data["supplies"])
+
 		# setup triggers and process for death on health empty
 		var health = _supply_container.get_supply(Constants.SUPPLY_TYPE.health)
 		health.emptied.connect(func(): died.emit())  # inform of death when empty

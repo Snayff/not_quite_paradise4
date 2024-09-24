@@ -58,8 +58,6 @@ func _ready() -> void:
 	assert(_cast_position is Marker2D, "Misssing `_cast_position`.")
 	assert(_supplies is SupplyContainer, "Misssing `_supplies`.")
 
-	#_create_actives()
-
 	# select first active
 	if _actives.size() > 0:
 		_actives[0].is_selected = true
@@ -82,32 +80,6 @@ func _unhandled_input(_event: InputEvent) -> void:
 
 	elif cast_active and selected_active != null:
 		cast_ready_active(selected_active.name)
-
-## use actives for which we have names in [_combat_active_names]. Runs setup and connects to
-## signals.
-# FIXME: remove
-# func _create_actives() -> void:
-# 	for name_ in _combat_active_names:
-# 		# create active and take note
-# 		var active_: CombatActive = _COMBAT_ACTIVE.instantiate()
-# 		add_child(active_)
-# 		_actives.append(active_)
-
-# 		# setup active
-# 		active_.setup(name_, _root, _allegiance, _cast_position)
-
-# 		# connect to signals
-# 		active_.now_ready.connect(func(): _ready_actives.append(active_))
-# 		active_.now_ready.connect(has_ready_active.emit)
-
-# 	# if we have a selected active already, connect to its target signal
-# 	if selected_active:
-# 		selected_active.new_target.connect(_emit_new_target)
-
-
-# 	for child in get_children():
-# 		if child is CombatActive:
-# 			_actives.append(child)
 
 ## create [CombatActive]s from names. Runs setup and connects to
 ## signals.
