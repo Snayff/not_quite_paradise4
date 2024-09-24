@@ -41,8 +41,6 @@ signal activated
 ## how often to replay the _reminder_animation_scene.
 ## if remindering too fast it will overlap plays.
 @export var _reminder_animation_interval: float = Constants.DEFAULT_BOON_BANE_REMINDER_ANIMATION_INTERVAL
-## whether multiple of the same boonbanes can be applied
-@export var is_unique: bool = true
 ## the max number of stacks that can exist
 ## if == 1 then functionally unique.
 @export var _max_stacks: int = 1
@@ -115,10 +113,6 @@ func _ready() -> void:
 			)
 		)
 
-	# if we need to apply immediately, wait a frame then do so
-	if trigger == Constants.TRIGGER.on_application:
-		Utility.call_next_frame(activate)
-
 	_setup_timers()
 
 ## init and configure required timers.
@@ -156,9 +150,7 @@ func activate(target: CombatActor = _host) -> void:
 
 		# if there's a multiplier prop then set it to the number of stacks we have
 		if "multiplier" in effect:
-			print("stacks: ", _stacks)
 			effect.multiplier = max(_stacks, 1)
-			print("effect.multiplier: ", effect.multiplier)
 
 		effect.apply(target)
 
