@@ -16,7 +16,7 @@ signal root_is_ready  ## tell children that root is ready, so can run post_ready
 
 #region EXPORTS
 @export_group("Component Links")
-@export var _root: CombatActor
+@export var _root: Actor
 # @export_group("Details")
 #endregion
 
@@ -29,7 +29,7 @@ var _currently_selected_index: int = 0
 
 #region FUNCS
 func _ready() -> void:
-	if _root is CombatActor:
+	if _root is Actor:
 		_root.ready.connect(_post_ready)
 
 func _post_ready() -> void:

@@ -105,8 +105,8 @@ func create_projectile(
 func create_boon_bane(
 	boon_bane_type: Constants.BOON_BANE_TYPE,
 	container: BoonBaneContainer,
-	host: CombatActor,
-	source: CombatActor,
+	host: Actor,
+	source: Actor,
 	) -> ABCBoonBane:
 
 	var boon_bane: ABCBoonBane

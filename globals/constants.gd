@@ -153,7 +153,7 @@ enum TARGET_PREFERENCE {
 	furthest,  ## actor furthest from caller, but still in range
 }
 
-## different animation types for an [CombatActor]
+## different animation types for an [Actor]
 enum ACTOR_ANIMATION_NAME {
 	cast,
 	attack,

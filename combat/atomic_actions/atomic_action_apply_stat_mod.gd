@@ -33,7 +33,7 @@ var multiplier: int = 1
 
 
 #region FUNCS
-func apply(target: CombatActor) -> void:
+func apply(target: Actor) -> void:
 	reverse_application(target)
 
 	var stats: StatsContainer = target.get_node_or_null("StatsContainer")
@@ -78,7 +78,7 @@ func add_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:
 	_stat_mods[stat_type].append(mod)
 
 ## remove the statmods previously applied
-func reverse_application(target: CombatActor) -> void:
+func reverse_application(target: Actor) -> void:
 	var stats: StatsContainer = target.get_node_or_null("StatsContainer")
 	if stats is not StatsContainer:
 		return

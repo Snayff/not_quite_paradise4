@@ -34,7 +34,7 @@ const WALK_MAX_VELOCITY = 200.0
 
 #region VARS
 var _is_facing_left: bool = false
-var _target_actor: CombatActor
+var _target_actor: Actor
 var _current_target_pos: Vector2 = Vector2.ZERO
 ## whether to update _current_target_pos to targets current position
 var _is_following_target_actor: bool = false
@@ -67,7 +67,7 @@ func execute_physics(delta: float) -> void:
 		return
 
 	## calc direction to target
-	if _target_actor is CombatActor or _current_target_pos != Vector2.ZERO:
+	if _target_actor is Actor or _current_target_pos != Vector2.ZERO:
 
 		# get or update target position
 		if _is_following_target_actor or _current_target_pos == Vector2.ZERO:
@@ -114,7 +114,7 @@ func calc_movement(state: PhysicsDirectBodyState2D) -> void:
 	velocity += state.get_total_gravity() * step
 	state.set_linear_velocity(velocity)
 
-func set_target_actor(actor: CombatActor, is_following: bool) -> void:
+func set_target_actor(actor: Actor, is_following: bool) -> void:
 	_target_actor = actor
 	_is_following_target_actor = is_following
 

@@ -1,4 +1,4 @@
-## spawn a scene on a [CombatActor], using the CombatActor's ReusableSpawner (a [SpawnerComponent]).
+## spawn a scene on a [Actor], using the Actor's ReusableSpawner (a [SpawnerComponent]).
 ##
 ## used for deferred spawning of a scene.
 #@icon("")
@@ -30,7 +30,7 @@ var scene: PackedScene
 
 
 #region FUNCS
-func apply(target: CombatActor) -> void:
+func apply(target: Actor) -> void:
 	var spawner: SpawnerComponent = target.get("reusable_spawner")
 	if spawner is SpawnerComponent:
 		spawner.scene = scene

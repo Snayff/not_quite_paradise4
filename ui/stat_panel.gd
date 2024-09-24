@@ -19,14 +19,14 @@ extends VBoxContainer
 
 #region EXPORTS
 @export_group("Component Links")
-@export var _root: CombatActor
+@export var _root: Actor
 # @export_group("Details")
 #endregion
 
 
 #region VARS
 var _labels: Array[Label] = []  ## hold all labels
-var _target: CombatActor
+var _target: Actor
 #endregion
 
 
@@ -43,10 +43,10 @@ func _ready() -> void:
 	_labels.append(label)
 
 func _process(_delta: float) -> void:
-	if _target is CombatActor:
+	if _target is Actor:
 		_update_labels()
 
-func set_target(actor: CombatActor) -> void:
+func set_target(actor: Actor) -> void:
 	_target = actor
 
 func _update_labels() -> void:

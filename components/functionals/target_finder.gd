@@ -5,7 +5,7 @@ extends Area2D
 
 
 #region SIGNALS
-signal new_target(target: CombatActor)
+signal new_target(target: Actor)
 #endregion
 
 
@@ -24,19 +24,19 @@ signal new_target(target: CombatActor)
 
 #region VARS
 var _shape: CollisionShape2D
-var current_target: CombatActor
+var current_target: Actor
 var _refresh_duration: float = 0.3  ## how long to wait before looking for a new target
 var _refresh_counter: float = 0
 # info needed from parent
 var _max_range: float = 0  ## this sets the radius of the area.
 var _target_option: Constants.TARGET_OPTION  ## the type of target we're looking for
-var _root: CombatActor  ## the combat actor who owns this combat active this is attached to
+var _root: Actor  ## the combat actor who owns this combat active this is attached to
 var _allegiance: Allegiance  ## we take this, and not team directly, as Allegiance isnt init in parent before this is
 var has_target: bool:  ## if target finder has a valid target
 	set(_value):
 		push_error("TargetFinder: Can't set has_target directly.")
 	get:
-		return current_target is CombatActor
+		return current_target is Actor
 var _has_run_ready: bool = false  ## if _ready() has finished
 #endregion
 
@@ -50,11 +50,11 @@ func _ready() -> void:
 	_has_run_ready = true
 
 ## run setup process
-func setup(root: CombatActor, max_range: float, target_option: Constants.TARGET_OPTION, allegiance: Allegiance) -> void:
+func setup(root: Actor, max_range: float, target_option: Constants.TARGET_OPTION, allegiance: Allegiance) -> void:
 	if not _has_run_ready:
 		push_error("TargetFinder: setup() called before _ready. ")
 
-	assert(root is CombatActor, "TargetFinder: Missing `root`")
+	assert(root is Actor, "TargetFinder: Missing `root`")
 	assert(max_range is float, "TargetFinder: Missing `max_range`")
 	assert(target_option is Constants.TARGET_OPTION, "TargetFinder: Missing `target_option`")
 	assert(allegiance is Allegiance, "TargetFinder: Missing `allegiance`")
@@ -85,7 +85,7 @@ func update_collisions() -> void:
 		Utility.update_body_collisions(self, _allegiance.team, _target_option)
 
 ## returns nearest target that is within range. If no valid targets in range, returns null.
-func get_nearest_target() -> CombatActor:
+func get_nearest_target() -> Actor:
 	if is_zero_approx(_max_range):
 		# check if we can use self
 		if Utility.target_is_valid(_target_option, _root, _root):
@@ -113,7 +113,7 @@ func get_nearest_target() -> CombatActor:
 			continue
 
 		new_distance = global_position.distance_to(body.global_position)
-		if new_distance < closest_distance and nearest_body is CombatActor:
+		if new_distance < closest_distance and nearest_body is Actor:
 			nearest_body = body
 			closest_distance = new_distance
 

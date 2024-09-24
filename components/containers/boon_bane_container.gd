@@ -16,7 +16,7 @@ extends Node
 
 #region EXPORTS
 @export_group("Component Links")
-@export var _root: CombatActor
+@export var _root: Actor
 ## needed to connect signals to death triggers
 @export var _death_trigger: DeathTrigger
 #endregion
@@ -46,7 +46,7 @@ var _all_boon_banes: Array[ABCBoonBane]:
 func _ready() -> void:
 	# check required values
 	assert(
-		_root is CombatActor,
+		_root is Actor,
 		str(
 			"BoonsBanesContainerComponent: _root isnt assigned so won't know who ",
 			"to apply affects to."
@@ -61,7 +61,7 @@ func _ready() -> void:
 ## boon bane
 func add_boon_bane(
 	boon_bane_type: Constants.BOON_BANE_TYPE,
-	caster: CombatActor,
+	caster: Actor,
 	num_stacks: int = 1
 	) -> void:
 	var boon_bane: ABCBoonBane = null

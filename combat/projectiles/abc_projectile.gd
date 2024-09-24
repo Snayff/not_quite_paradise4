@@ -28,7 +28,7 @@ signal died
 
 #region VARS
 # internals
-var _target_actor: CombatActor
+var _target_actor: Actor
 ## has completed _ready()
 var _has_run_ready: bool = false
 ## how many bodies hit so far. only tracks valid hits.
@@ -120,7 +120,7 @@ func _terminate() -> void:
 ####################
 
 ## set the actor the projectile should target.
-func set_target_actor(actor: CombatActor) -> void:
+func set_target_actor(actor: Actor) -> void:
 	_target_actor = actor
 
 
