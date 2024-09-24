@@ -65,7 +65,6 @@ func add_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:
 	if stat == null:
 		push_error("StatsContainer: stat_type (", Utility.get_enum_name(Constants.STAT_TYPE, stat_type), ") not recognised.")
 	stat.add_mod(mod)
-	print("stat modded: ", Utility.get_enum_name(Constants.STAT_TYPE, stat.type), " is: ", stat.value )
 
 	# keep for debugging
 	# print("mod added to ", Utility.get_enum_name(Constants.STAT_TYPE, stat_type), ". ID: ", stat)
@@ -73,6 +72,5 @@ func add_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:
 func remove_mod(stat_type: Constants.STAT_TYPE, mod: StatModData) -> void:
 	var stat = get_stat(stat_type)
 	stat.remove_mod(mod)
-	print("stat unmodded: ", Utility.get_enum_name(Constants.STAT_TYPE, stat.type), " is: ", stat.value )
 
 #endregion

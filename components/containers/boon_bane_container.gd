@@ -66,6 +66,9 @@ func add_boon_bane(
 	) -> void:
 	var boon_bane: ABCBoonBane = null
 
+	if boon_bane_type == Constants.BOON_BANE_TYPE.chilled:
+		breakpoint
+
 	# find existing
 	var found_existing: bool = false
 	for existing_boon_bane in _all_boon_banes:
@@ -79,7 +82,12 @@ func add_boon_bane(
 		_boons_banes[boon_bane.trigger].append(boon_bane)
 		_link_signals_to_triggers(boon_bane)
 
+	# add required stacks
 	boon_bane.add_stacks_and_refresh_duration(num_stacks)
+
+	# trigger activation
+	if boon_bane.trigger == Constants.TRIGGER.on_application:
+		boon_bane.activate(_root)
 
 func remove_boon_bane(boon_bane: ABCBoonBane, ignore_permanent: bool = false) -> void:
 	if boon_bane._duration_type == Constants.DURATION_TYPE.permanent and not ignore_permanent:
@@ -105,7 +113,7 @@ func _link_signals_to_triggers(boon_bane: ABCBoonBane) -> void:
 			pass
 
 		Constants.TRIGGER.on_application:
-			# activated immediately in boon_bane
+			# activated immediately when added
 			pass
 
 		Constants.TRIGGER.on_interval:
