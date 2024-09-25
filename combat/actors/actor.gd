@@ -171,8 +171,6 @@ func walk_update(delta: float) -> void:
 	else:
 		_flip_sprite()
 
-
-
 func attack_start() -> void:
 	print("entered attack start")
 
@@ -187,6 +185,13 @@ func _flip_sprite() -> void:
 		_sprite.flip_h = false
 	elif linear_velocity.x < 0:
 		_sprite.flip_h = true
+
+# FIXME: remove
+func move(direction: Vector2) -> void:
+	_physics_movement.set_target_destination(direction)
+
+func _physics_process(delta: float) -> void:
+	_physics_movement.execute_physics(delta)
 
 ########### END AI ################
 

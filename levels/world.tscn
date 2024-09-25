@@ -91,6 +91,7 @@ _root = NodePath("../..")
 [node name="Camera2D" type="Camera2D" parent="WolfRider"]
 position = Vector2(-37, -51)
 zoom = Vector2(4, 4)
+process_callback = 0
 position_smoothing_enabled = true
 
 [node name="HorseyRider" parent="." instance=ExtResource("6_d7rtk")]

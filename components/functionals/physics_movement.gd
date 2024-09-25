@@ -25,10 +25,20 @@ extends Node
 
 
 #region VARS
+## an actor to use as a target destination.
+##
+## only used on initial setting unless `_is_following_target_actor == true`
 var _target_actor: Actor
+##  a fixed point to move towards
+var _target_destination: Vector2 = Vector2.ZERO
+## the position current moving towards.
 var _current_target_pos: Vector2 = Vector2.ZERO
 ## whether to update _current_target_pos to targets current position
 var _is_following_target_actor: bool = false
+## which targeting to use
+##
+## "destination" or "actor"
+var _target_mode: String = "actor"
 ## max movement speed. with max_speed < accel < deccel we can get some random sidewinding movement,
 ## but still hit target. with move_speed >= accel we move straight to target
 var max_speed: float
@@ -57,12 +67,11 @@ func execute_physics(delta: float) -> void:
 	if not _has_run_setup:
 		return
 
-	## calc direction to target
-	if _target_actor is Actor or _current_target_pos != Vector2.ZERO:
-
-		# get or update target position
-		if _is_following_target_actor or _current_target_pos == Vector2.ZERO:
-			_current_target_pos = _target_actor.global_position
+	# get current position to target
+	if _target_mode == "actor" and _target_actor is Actor:
+		_current_target_pos = _target_actor.global_position
+	else:
+		_current_target_pos = _target_destination
 
 	var velocity = _root.linear_velocity
 	var movement = _root.global_position.direction_to(_current_target_pos)
@@ -102,8 +111,18 @@ func calc_movement(state: PhysicsDirectBodyState2D) -> void:
 	state.set_linear_velocity(velocity)
 
 func set_target_actor(actor: Actor, is_following: bool) -> void:
-	_target_actor = actor
-	_is_following_target_actor = is_following
+	if _is_following_target_actor:
+		_is_following_target_actor = is_following
+		_target_actor = actor
+		_target_mode = "actor"
+	else:
+		_target_destination = _target_actor.global_position
+		_target_mode = "destination"
+
+
+func set_target_destination(destination: Vector2) -> void:
+	_target_destination = destination
+	_target_mode = "destination"
 
 # FIXME: The below is still used by player for movement. Can't get it to work for projectiles.
 # 		need to unify approach.
