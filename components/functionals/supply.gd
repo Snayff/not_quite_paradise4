@@ -21,11 +21,14 @@ signal max_value_changed() ## the resource's max value has changed
 			set_value(max_value)
 			value_changed.emit()
 		max_value_changed.emit()
-@export var regeneration_per_second: float = 0
+@export var regeneration: float = 0
 #endregion
 
 
 #region VARS
+## the current value of the supply
+##
+## protected value. to set the value use [set_value]
 var value: int:
 	set(value):
 		push_warning("SupplyComponent: Can't set value directly. Use funcs.")
@@ -46,6 +49,12 @@ var _value: int = 999:
 
 
 #region FUNCS
+## process setup
+func setup(type_: Constants.SUPPLY_TYPE, max_value_: int, regeneration_: float) -> void:
+	type = type_
+	max_value = max_value_
+	regeneration = regeneration_
+
 ## decrease the resource by an amount
 func decrease(amount: int) -> void:
 	_value -= amount
@@ -62,8 +71,8 @@ func set_value(value_: int, max_value_: int = -1) -> void:
 	if max_value_ != -1:
 		max_value = max_value_
 
-## wrapper for increase using regeneration_per_second
+## wrapper for increase using regeneration
 func apply_regen() -> void:
 	@warning_ignore("narrowing_conversion")  # happy with reduced precision
-	increase(regeneration_per_second)
+	increase(regeneration)
 #endregion

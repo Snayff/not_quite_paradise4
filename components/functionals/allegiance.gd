@@ -5,7 +5,7 @@ class_name Allegiance
 extends Node
 
 @export_group("Component Links")
-@export var _root: CombatActor
+@export var _root: Actor
 # FIXME: this is dumb. Why would the allegiance be setting the collisions of something else? bad.
 ## if set, updates the collision layers based on team.
 @export var hurtbox: HurtboxComponent
@@ -17,7 +17,7 @@ extends Node
 
 func _ready() -> void:
 	# check for mandatory properties set in editor
-	assert(_root is CombatActor, "Misssing `_root`.")
+	assert(_root is Actor, "Misssing `_root`.")
 
 	_root.add_to_group(str("team_", team), true)
 

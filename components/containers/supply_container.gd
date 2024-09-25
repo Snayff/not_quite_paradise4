@@ -29,28 +29,51 @@ var _supplies: Array[SupplyComponent]  ## all supplies. copied from _editor_supp
 
 
 #region FUNCS
+
+##########################
+####### LIFECYCLE ######
+######################
+
 func _ready() -> void:
 	_duplicate_editor_resource_arrays()
 
 	_check_all_unique()
 
+	# config regen
 	add_child(_regen_timer)
 	_regen_timer.autostart = true
 	_regen_timer.wait_time = 1
 	_regen_timer.timeout.connect(_apply_regen_to_all_supplies)
 
-## duplicate all supplies in _editor_supplies to _supplies
-func _duplicate_editor_resource_arrays() -> void:
-	for supply in _editor_supplies:
-		_supplies.append(supply.duplicate(true))
+##########################
+####### PUBLIC ##########
+########################
 
-func _check_all_unique() -> void:
-	var types: Array[Constants.SUPPLY_TYPE] = []
-	for supply in _supplies:
-		if not supply.type in types:
-			types.append(supply.type)
-		else:
-			push_error("SupplyContainer: Contains duplicate supply type (", Constants.SUPPLY_TYPE.find_key(supply.type), ").")
+## create a series of [Supply]s. Cannot create a duplicate of an existing supply type.
+##
+## supply_types: dictionary in the form of `SUPPLY_TYPE : [{max_value}, {regen_value}]`
+func create_supplies(supply_types: Dictionary) -> void:
+	for supply_type in supply_types.keys():
+
+		# error if stat already exists
+		if _supply_exists(supply_type):
+			var printable_supply_type: String = Utility.get_enum_name(
+				Constants.SUPPLY_TYPE,
+				supply_type
+			)
+			push_error(
+				"SupplyContainer: cant create supply (",
+				printable_supply_type,
+				") as already exists.")
+			continue
+
+		var max_value_ = supply_types[supply_type][0]
+		var regen_value_ = supply_types[supply_type][1]
+		var new_supply: SupplyComponent = SupplyComponent.new()
+		new_supply.resource_local_to_scene = true
+		new_supply.resource_name = Utility.get_enum_name(Constants.SUPPLY_TYPE, supply_type)
+		new_supply.setup(supply_type, max_value_, regen_value_)
+		_supplies.append(new_supply)
 
 ## get a supply from its type. returns null if no matching supply found.
 func get_supply(supply_type: Constants.SUPPLY_TYPE) -> SupplyComponent:
@@ -63,8 +86,36 @@ func get_supply(supply_type: Constants.SUPPLY_TYPE) -> SupplyComponent:
 func get_all_supplies() -> Array[SupplyComponent]:
 	return _supplies
 
+
+##########################
+####### PRIVATE #########
+########################
+
+## duplicate all supplies in _editor_supplies to _supplies
+##
+## this is to account for the godot bug that has all editor resources
+func _duplicate_editor_resource_arrays() -> void:
+	for supply in _editor_supplies:
+		_supplies.append(supply.duplicate(true))
+
+func _check_all_unique() -> void:
+	var types: Array[Constants.SUPPLY_TYPE] = []
+	for supply in _supplies:
+		if not supply.type in types:
+			types.append(supply.type)
+		else:
+			push_error("SupplyContainer: Contains duplicate supply type (", Constants.SUPPLY_TYPE.find_key(supply.type), ").")
+
 func _apply_regen_to_all_supplies() -> void:
 	for supply in _supplies:
 		supply.apply_regen()
+
+## check if a supply exists already
+func _supply_exists(supply_type: Constants.SUPPLY_TYPE) -> bool:
+	var check_array: Array = []
+	check_array = _supplies.filter(func(x): return x.type == supply_type)
+	if check_array.size() > 0:
+		return true
+	return false
 
 #endregion

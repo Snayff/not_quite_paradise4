@@ -19,7 +19,7 @@ func add_tag(tag: Constants.COMBAT_TAG) -> void:
 ## add an array of tags.
 ##
 ## tags that already exist are ignored.
-func add_tags(tags: Array[Constants.COMBAT_TAG]) -> void:
+func add_multiple_tags(tags: Array[Constants.COMBAT_TAG]) -> void:
 	for tag in tags:
 		if tag in _tags:
 			continue
@@ -34,7 +34,7 @@ func remove_tag(tag: Constants.COMBAT_TAG) -> void:
 ## remove an array of tags.
 ##
 ## tags that do not exist are ignored.
-func remove_tags(tags: Array[Constants.COMBAT_TAG]) -> void:
+func remove_multiple_tags(tags: Array[Constants.COMBAT_TAG]) -> void:
 	for tag in tags:
 		_tags.erase(tag)
 

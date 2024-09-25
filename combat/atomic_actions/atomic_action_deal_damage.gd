@@ -50,7 +50,7 @@ var multiplier: int = 1
 #region FUNCS
 
 ## reduce health of target. uses `multiplier` then resets it to 0.
-func apply(target: CombatActor) -> void:
+func apply(target: Actor) -> void:
 	if is_one_shot and has_applied_damage:
 		return
 
@@ -70,7 +70,7 @@ func apply(target: CombatActor) -> void:
 	multiplier = 1
 
 ## wrapper for all damage calculations
-func _calculate_damage(target: CombatActor) -> int:
+func _calculate_damage(target: Actor) -> int:
 	var damage: int = _apply_scalers()
 	damage = _apply_resistances(target, damage)
 
@@ -91,7 +91,7 @@ func _apply_scalers() -> int:
 ## apply target's resistances to the given damage
 ##
 ## NOTE: will need to amend when we add more stats, to account for different resistances and damage types
-func _apply_resistances(target: CombatActor, damage: int) -> int:
+func _apply_resistances(target: Actor, damage: int) -> int:
 	var stats: StatsContainer = target.get_node_or_null("StatSheet")
 	if stats == null:
 		return damage

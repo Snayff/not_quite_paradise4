@@ -5,7 +5,7 @@ extends Area2D
 
 
 @export_group("Component Links")
-@export var root: CombatActor  ## the actor that created the thing that used this hitbox. @REQUIRED.
+@export var root: Actor  ## the actor that created the thing that used this hitbox. @REQUIRED.
 
 
 var is_invincible = false:  # NOTE: probs needs moving to some central status effects
@@ -21,4 +21,4 @@ var is_invincible = false:  # NOTE: probs needs moving to some central status ef
 			child.set_deferred("disabled", is_invincible)
 
 func _ready() -> void:
-	assert(root is CombatActor, "Missing `root`.")
+	assert(root is Actor, "Missing `root`.")

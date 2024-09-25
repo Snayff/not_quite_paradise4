@@ -32,7 +32,11 @@ signal modifier_removed
 
 #region VARS
 var _modifiers: Array[StatModData]
-var _modified_value: float  ## base_value modified by all _modifiers
+## base_value modified by all _modifiers
+var _modified_value: float
+## the current value of the stat
+##
+## protected value. to set the value use [base_value] and adding or removing mods
 var value: float:
 	set(value_):
 		push_error("StatData: Can't set directly.")
@@ -40,7 +44,8 @@ var value: float:
 		if _is_dirty:
 			_recalculate()
 		return _modified_value
-var _is_dirty: bool = true  ## if the value has changed since last recalculated
+## if the value has changed since last recalculated
+var _is_dirty: bool = true
 #endregion
 
 

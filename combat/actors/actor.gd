@@ -1,10 +1,10 @@
 ## entity that can move and fight in combat
 @icon("res://combat/actors/actor.png")
-class_name CombatActor
+class_name Actor
 extends RigidBody2D
 
 #region SIGNALS
-signal new_target(actor: CombatActor)  ## changed target to new combat_actor
+signal new_target(actor: Actor)  ## changed target to new combat_actor
 signal died  ## actor has died
 #endregion
 
@@ -23,6 +23,7 @@ signal died  ## actor has died
 @onready var _physics_movement: PhysicsMovementComponent = %PhysicsMovement
 @onready var _supply_container: SupplyContainer = %SupplyContainer
 @onready var _centre_pivot: Marker2D = %CentrePivot
+@onready var _tags: TagsComponent = %Tags
 
 #endregion
 
@@ -39,7 +40,7 @@ signal died  ## actor has died
 #region VARS
 var _num_ready_actives: int = 0
 var _global_cast_cd_counter: float = 0  ## counter to track time since last cast. # TODO: this needs implementing for player
-var _target: CombatActor:
+var _target: Actor:
 	set(value):
 		_target = value
 		new_target.emit(_target)
@@ -55,7 +56,14 @@ func _ready() -> void:
 
 	update_collisions()
 
+	_death_trigger.died.connect(func(): died.emit())
+
+	# FIXME: placeholder to get data. same for below uses of `data`.
+	var data = Library.get_data("actor", "wolf_rider")
+
 	if _supply_container is SupplyContainer:
+		_supply_container.create_supplies(data["supplies"])
+
 		# setup triggers and process for death on health empty
 		var health = _supply_container.get_supply(Constants.SUPPLY_TYPE.health)
 		health.emptied.connect(func(): died.emit())  # inform of death when empty
@@ -71,11 +79,26 @@ func _ready() -> void:
 	if _physics_movement is PhysicsMovementComponent:
 		_physics_movement.is_attached_to_player = _is_player
 
-	_death_trigger.died.connect(func(): died.emit())
+		var ms = data["stats"][Constants.STAT_TYPE.move_speed]
+		_physics_movement.setup(ms, data["acceleration"], data["deceleration"])
 
-	combat_active_container.has_ready_active.connect(func(): _num_ready_actives += 1)  # support knowing when to auto cast
-	combat_active_container.new_active_selected.connect(func(active): _target = active.target_actor) # update target to match that of selected active
-	combat_active_container.new_target.connect(func(target): _target = target)
+	if combat_active_container is CombatActiveContainer:
+		combat_active_container.has_ready_active.connect(func(): _num_ready_actives += 1)  # support knowing when to auto cast
+		combat_active_container.new_active_selected.connect(func(active): _target = active.target_actor) # update target to match that of selected active
+		combat_active_container.new_target.connect(func(target): _target = target)
+
+		if _is_player:
+			var actives: Array[String] = []
+			actives.assign(data["actives"])
+			combat_active_container.create_actives(actives)
+
+	if _tags is TagsComponent:
+		var tags: Array[Constants.COMBAT_TAG] = []
+		tags.assign(data["tags"])
+		_tags.add_multiple_tags(tags)
+
+	if stats_container is StatsContainer:
+		stats_container.create_stats(data["stats"])
 
 func _process(delta: float) -> void:
 	_global_cast_cd_counter -= delta
@@ -84,7 +107,7 @@ func _process(delta: float) -> void:
 
 	# rotate cast position towards current target
 	if combat_active_container.selected_active is CombatActive:
-		if combat_active_container.selected_active.target_actor is CombatActor:
+		if combat_active_container.selected_active.target_actor is Actor:
 			_centre_pivot.look_at(combat_active_container.selected_active.target_actor.global_position)
 
 ## handle auto casting for non-player combat actors

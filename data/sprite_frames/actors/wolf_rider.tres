@@ -1,0 +1,35 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://c6tvqps1juafs"]
+
+[ext_resource type="Texture2D" uid="uid://dopseo1w5jxrl" path="res://combat/actors/wolf_rider/StrongholdSpriteMale-Right(Frame1).png" id="1_0aehs"]
+[ext_resource type="Texture2D" uid="uid://y6wkn3lkdhy1" path="res://combat/actors/wolf_rider/StrongholdSpriteMale-Right(Frame2).png" id="2_ppuht"]
+[ext_resource type="Texture2D" uid="uid://dcdgt417cspcb" path="res://combat/actors/wolf_rider/StrongholdSpriteMale-Right(Frame3).png" id="3_s3mqr"]
+[ext_resource type="Texture2D" uid="uid://bwamwonvpg20u" path="res://combat/actors/wolf_rider/StrongholdSpriteMale-Right(Frame4).png" id="4_lxiov"]
+
+[resource]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_0aehs")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_0aehs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ppuht")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_s3mqr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_lxiov")
+}],
+"loop": true,
+"name": &"move",
+"speed": 5.0
+}]

@@ -9,7 +9,7 @@ extends Node2D
 
 #region SIGNALS
 signal now_ready
-signal new_target(target: CombatActor)
+signal new_target(target: Actor)
 #endregion
 
 
@@ -25,7 +25,7 @@ signal new_target(target: CombatActor)
 #region EXPORTS
 @export_group("Details")
 ## used to load data from library
-@export var _combat_active_name: String = ""
+@export var combat_active_name: String = ""
 ## time between casts. updates cooldown_timer on update. loaded from library.
 var _cooldown_duration: float = 0:
 	set(v):
@@ -37,11 +37,11 @@ var _cooldown_duration: float = 0:
 
 
 #region VARS
-var target_actor: CombatActor
+var target_actor: Actor
 var target_position: Vector2  ## NOTE: not yet used
 
 # set by parent container
-var _caster: CombatActor  ## who owns this active
+var _caster: Actor  ## who owns this active
 var _allegiance: Allegiance  ## creator's allegiance component
 var _cast_position: Marker2D  ##  projectile spawn location. Must have to be able to use `projectile` delivery method.
 
@@ -55,7 +55,7 @@ var can_cast: bool:
 	set(_value):
 		push_error("CombatActive: Can't set `can_cast` directly.")
 	get:
-		if is_ready and target_actor is CombatActor:
+		if is_ready and target_actor is Actor:
 			return true
 		return false
 var time_until_ready: float:
@@ -120,7 +120,7 @@ func _ready() -> void:
 ## N.B. not recursive, so children are responsible for calling setup() on their own children
 func setup(
 	combat_active_name: String,
-	caster: CombatActor,
+	caster: Actor,
 	allegiance: Allegiance,
 	cast_position: Marker2D
 	) -> void:
@@ -128,7 +128,7 @@ func setup(
 	if not _has_run_ready:
 		push_error("CombatActive: setup() called before _ready. ")
 
-	assert(caster is CombatActor, "CombatActive: Missing `caster`.")
+	assert(caster is Actor, "CombatActive: Missing `caster`.")
 	assert(allegiance is Allegiance, "CombatActive: Missing `allegiance`.")
 	assert(cast_position is Marker2D, "CombatActive: Missing `cast_position`.")
 
@@ -150,20 +150,20 @@ func setup(
 
 
 ## load data from the library and instantiate required children, e.g. [ABCEffectChain]
-func _load_data(combat_active_name: String) -> void:
-	_combat_active_name = combat_active_name
+func _load_data(combat_active_name_: String) -> void:
+	combat_active_name = combat_active_name_
 
-	var dict_data: Dictionary = Library.get_combat_active_data(_combat_active_name)
+	var dict_data: Dictionary = Library.get_combat_active_data(combat_active_name)
 
 	# dynamically load icon and effect chain based on name
 	icon = load(
 		Constants.PATH_COMBAT_ACTIVES.path_join(
-			str(_combat_active_name, ".png")
+			str(combat_active_name, ".png")
 		)
 	)
 	var effect_chain_script: Script = load(
 		Constants.PATH_COMBAT_ACTIVES.path_join(
-			str("effect_chain_", _combat_active_name, ".gd")
+			str("effect_chain_", combat_active_name, ".gd")
 		)
 	)
 	_effect_chain = effect_chain_script.new()
@@ -201,7 +201,7 @@ func _process(_delta: float) -> void:
 func _draw() -> void:
 	## draw circle, or remove circle by redrawing without one
 	if _is_debug and is_selected:
-		if target_actor is CombatActor:
+		if target_actor is Actor:
 			# FIXME: circle wobbles when player moves
 			# get the offset and mulitply by distance
 			var draw_pos: Vector2 = global_position.direction_to(target_actor.global_position) * \
@@ -214,7 +214,7 @@ func _draw() -> void:
 
 ## casts the active
 func cast()-> void:
-	if not target_actor is CombatActor and not target_position is Vector2:
+	if not target_actor is Actor and not target_position is Vector2:
 		push_error("CombatActive: No target given to cast.")
 		return
 
@@ -234,8 +234,8 @@ func cast()-> void:
 		push_error("CombatActive: `_delivery_method` (", _delivery_method, ") not defined.")
 
 ## set the target actor. can accept null.
-func set_target_actor(actor: CombatActor) -> void:
-	if actor is CombatActor:
+func set_target_actor(actor: Actor) -> void:
+	if actor is Actor:
 		target_actor = actor
 		if not target_actor.is_connected("died", set_target_actor):
 			target_actor.died.connect(set_target_actor.bind(null))  # to clear target
@@ -321,7 +321,7 @@ func _cast_area_of_effect() -> void:
 
 func _cast_aura() -> void:
 	# set target so that aura follows them around
-	var target_: CombatActor
+	var target_: Actor
 	# FIXME: this is defined in library, need to get from there.
 	if _valid_target_option == Constants.TARGET_OPTION.self_:
 		target_ = _caster
