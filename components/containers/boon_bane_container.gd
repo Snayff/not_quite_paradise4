@@ -66,9 +66,6 @@ func add_boon_bane(
 	) -> void:
 	var boon_bane: ABCBoonBane = null
 
-	if boon_bane_type == Constants.BOON_BANE_TYPE.chilled:
-		breakpoint
-
 	# find existing
 	var found_existing: bool = false
 	for existing_boon_bane in _all_boon_banes:

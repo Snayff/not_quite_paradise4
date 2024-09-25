@@ -63,6 +63,8 @@ func create_stats(stat_types: Dictionary) -> void:
 
 		var value_ = stat_types[stat_type]
 		var new_stat: StatData = StatData.new(stat_type, value_)
+		new_stat.resource_local_to_scene = true
+		new_stat.resource_name = Utility.get_enum_name(Constants.STAT_TYPE, stat_type)
 		_stats.append(new_stat)
 
 ## get a stat from the stat sheet.

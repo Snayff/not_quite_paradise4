@@ -70,6 +70,8 @@ func create_supplies(supply_types: Dictionary) -> void:
 		var max_value_ = supply_types[supply_type][0]
 		var regen_value_ = supply_types[supply_type][1]
 		var new_supply: SupplyComponent = SupplyComponent.new()
+		new_supply.resource_local_to_scene = true
+		new_supply.resource_name = Utility.get_enum_name(Constants.SUPPLY_TYPE, supply_type)
 		new_supply.setup(supply_type, max_value_, regen_value_)
 		_supplies.append(new_supply)
 
