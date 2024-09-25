@@ -1,9 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://cta4xur1b7ano"]
+[gd_scene load_steps=8 format=3 uid="uid://cta4xur1b7ano"]
 
 [ext_resource type="PackedScene" uid="uid://cgd54nt0un6ix" path="res://combat/actors/actor.tscn" id="1_m432m"]
 [ext_resource type="SpriteFrames" uid="uid://c6tvqps1juafs" path="res://data/sprite_frames/actors/wolf_rider.tres" id="2_bbtss"]
 [ext_resource type="Script" path="res://components/functionals/supply.gd" id="7_04s3i"]
-[ext_resource type="Script" path="res://dataclasses/stat.gd" id="9_nf076"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nwg6j"]
 resource_local_to_scene = true
@@ -11,27 +10,6 @@ radius = 6.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3e800"]
 radius = 7.0
-
-[sub_resource type="Resource" id="Resource_rnwqq"]
-resource_local_to_scene = true
-resource_name = "Strength"
-script = ExtResource("9_nf076")
-type = 0
-base_value = 10.0
-
-[sub_resource type="Resource" id="Resource_kij4k"]
-resource_local_to_scene = true
-resource_name = "Defence"
-script = ExtResource("9_nf076")
-type = 1
-base_value = 5.0
-
-[sub_resource type="Resource" id="Resource_yq0wa"]
-resource_local_to_scene = true
-resource_name = "Move Speed"
-script = ExtResource("9_nf076")
-type = 2
-base_value = 5.0
 
 [sub_resource type="Resource" id="Resource_m0n5g"]
 resource_local_to_scene = true
@@ -65,9 +43,6 @@ collision_layer = 2
 [node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
 visible = false
 shape = SubResource("CircleShape2D_3e800")
-
-[node name="StatsContainer" parent="." index="11"]
-_editor_stats = Array[ExtResource("9_nf076")]([SubResource("Resource_rnwqq"), SubResource("Resource_kij4k"), SubResource("Resource_yq0wa")])
 
 [node name="SupplyContainer" parent="." index="13"]
 _editor_supplies = Array[ExtResource("7_04s3i")]([SubResource("Resource_m0n5g"), SubResource("Resource_424xl")])

@@ -1,10 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://bkqc7x4yp0pn2"]
+[gd_scene load_steps=6 format=3 uid="uid://bkqc7x4yp0pn2"]
 
 [ext_resource type="PackedScene" uid="uid://cgd54nt0un6ix" path="res://combat/actors/actor.tscn" id="1_2tlmc"]
 [ext_resource type="SpriteFrames" uid="uid://cbe3hrdfyed8h" path="res://data/sprite_frames/actors/horsey_rider.tres" id="2_erb4s"]
 [ext_resource type="PackedScene" uid="uid://kupnh58vddx7" path="res://visual_effects/death/death.tscn" id="6_utgjv"]
-[ext_resource type="Script" path="res://components/functionals/supply.gd" id="8_qkltb"]
-[ext_resource type="Script" path="res://dataclasses/stat.gd" id="8_xjwvb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gvith"]
 resource_local_to_scene = true
@@ -12,41 +10,6 @@ radius = 6.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_346nu"]
 radius = 7.0
-
-[sub_resource type="Resource" id="Resource_gugqt"]
-resource_local_to_scene = true
-resource_name = "Strength"
-script = ExtResource("8_xjwvb")
-type = 0
-base_value = 10.0
-
-[sub_resource type="Resource" id="Resource_isuy8"]
-resource_local_to_scene = true
-resource_name = "Defence"
-script = ExtResource("8_xjwvb")
-type = 1
-base_value = 5.0
-
-[sub_resource type="Resource" id="Resource_21ik6"]
-resource_local_to_scene = true
-resource_name = "Move Speed"
-script = ExtResource("8_xjwvb")
-type = 2
-base_value = 5.0
-
-[sub_resource type="Resource" id="Resource_31jfi"]
-resource_local_to_scene = true
-script = ExtResource("8_qkltb")
-type = 0
-max_value = 10
-regeneration_per_second = 0.0
-
-[sub_resource type="Resource" id="Resource_dbt0g"]
-resource_local_to_scene = true
-script = ExtResource("8_qkltb")
-type = 1
-max_value = 10
-regeneration_per_second = 0.0
 
 [node name="HorseyRider" instance=ExtResource("1_2tlmc")]
 _is_player = false
@@ -74,9 +37,3 @@ scene = ExtResource("6_utgjv")
 
 [node name="DamageNumbers" parent="." index="9"]
 position = Vector2(0, -8)
-
-[node name="StatsContainer" parent="." index="11"]
-_editor_stats = Array[ExtResource("8_xjwvb")]([SubResource("Resource_gugqt"), SubResource("Resource_isuy8"), SubResource("Resource_21ik6")])
-
-[node name="SupplyContainer" parent="." index="13"]
-_editor_supplies = Array[ExtResource("8_qkltb")]([SubResource("Resource_31jfi"), SubResource("Resource_dbt0g")])
