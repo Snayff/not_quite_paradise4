@@ -24,6 +24,8 @@ signal died  ## actor has died
 @onready var _supply_container: SupplyContainer = %SupplyContainer
 @onready var _centre_pivot: Marker2D = %CentrePivot
 @onready var _tags: TagsComponent = %Tags
+@onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
+
 
 #endregion
 
@@ -44,6 +46,7 @@ var _target: Actor:
 	set(value):
 		_target = value
 		new_target.emit(_target)
+var main_sm: LimboHSM
 #endregion
 
 
@@ -60,6 +63,8 @@ func _ready() -> void:
 
 	# FIXME: placeholder to get data. same for below uses of `data`.
 	var data = Library.get_data("actor", "wolf_rider")
+
+	_sprite.sprite_frames = Utility.get_sprite_frame("actors", data["sprite_frames"])
 
 	if _supply_container is SupplyContainer:
 		_supply_container.create_supplies(data["supplies"])
@@ -99,6 +104,78 @@ func _ready() -> void:
 
 	if stats_container is StatsContainer:
 		stats_container.create_stats(data["stats"])
+
+	_init_state_machine()
+
+func _init_state_machine() -> void:
+	main_sm = LimboHSM.new()
+	add_child(main_sm)
+
+	# create states
+	var idle_state = LimboState.new() \
+		.named("idle") \
+		.call_on_enter(idle_start) \
+		.call_on_update(idle_update)
+	var walk_state = LimboState.new() \
+		.named("walk") \
+		.call_on_enter(walk_start) \
+		.call_on_update(walk_update)
+	var attack_state = LimboState.new() \
+		.named("attack") \
+		.call_on_enter(attack_start) \
+		.call_on_update(attack_update)
+
+	# add states to state machine
+	main_sm.add_child(idle_state)
+	main_sm.add_child(walk_state)
+	main_sm.add_child(attack_state)
+
+	main_sm.initial_state = idle_state
+
+	main_sm.add_transition(idle_state, walk_state, &"to_walk")
+	main_sm.add_transition(main_sm.ANYSTATE, idle_state, &"state_ended")
+
+	# init and activate state machine
+	main_sm.initialize(self)
+	main_sm.set_active(true)
+
+
+func idle_start() -> void:
+	print("idle start")
+	_sprite.play("idle")
+
+func idle_update(delta: float) -> void:
+	if linear_velocity.x != 0:
+		main_sm.dispatch(&"to_walk")
+	print("idle update.")
+
+
+func walk_start() -> void:
+	print("walk start")
+	_sprite.play("walk")
+
+func walk_update(delta: float) -> void:
+	if linear_velocity.x == 0:
+		main_sm.dispatch(&"state_ended")
+
+	else:
+		_flip_sprite()
+
+	print("walk update")
+
+func attack_start() -> void:
+	print("attack start")
+
+func attack_update(delta: float) -> void:
+	print("attack update")
+
+func _flip_sprite() -> void:
+	if linear_velocity.x > 0:
+		_sprite.flip_h = false
+	elif linear_velocity.x < 0:
+		_sprite.flip_h = true
+
+########### END AI ################
 
 func _process(delta: float) -> void:
 	_global_cast_cd_counter -= delta

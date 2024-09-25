@@ -18,8 +18,6 @@ extends Node
 @export_group("Component Links")
 ## the body to apply forces to
 @export var _root: PhysicsBody2D
-## the sprite we're going to flip the facing of, based on direction
-@export var _sprite: Node2D
 @export_group("Details")
 ## divert logic to respond to controls rather than targeting
 @export var is_attached_to_player: bool = false
@@ -27,7 +25,6 @@ extends Node
 
 
 #region VARS
-var _is_facing_left: bool = false
 var _target_actor: Actor
 var _current_target_pos: Vector2 = Vector2.ZERO
 ## whether to update _current_target_pos to targets current position
@@ -100,10 +97,6 @@ func calc_movement(state: PhysicsDirectBodyState2D) -> void:
 	if is_attached_to_player:
 		velocity = _apply_input_movement_velocity(velocity, step)
 
-	# TODO: only amend facing if we intend to move in a direction. e.g. dont face direction
-	#	because knocked back in that direction.
-	_amend_facing(velocity, velocity.x < 0, velocity.x > 0)
-
 	# apply gravity and set back the linear velocity.
 	velocity += state.get_total_gravity() * step
 	state.set_linear_velocity(velocity)
@@ -111,37 +104,6 @@ func calc_movement(state: PhysicsDirectBodyState2D) -> void:
 func set_target_actor(actor: Actor, is_following: bool) -> void:
 	_target_actor = actor
 	_is_following_target_actor = is_following
-
-## amend the attached sprites facing based on movement and velocity
-func _amend_facing(velocity: Vector2, move_left: bool, move_right: bool) -> void:
-	# FIXME: this is no longer working
-	if !is_instance_valid(_sprite):
-		return
-
-	var new_facing_left: bool = _is_facing_left
-
-	# Check facing
-	if velocity.x < 0 and move_left:
-		new_facing_left = true
-	elif velocity.x > 0 and move_right:
-		new_facing_left = false
-
-	# Update facings
-	if new_facing_left != _is_facing_left:
-		if new_facing_left:
-			# some nodes just need the x axis flipping
-			_sprite.scale.x = -1
-
-			# but some nodes need their relative position flipping, too
-			if _sprite.position.x != 0:
-				_sprite.position.x = _sprite.position.x * -1
-		else:
-			_sprite.scale.x = 1
-
-			if _sprite.position.x != 0:
-				_sprite.position.x = _sprite.position.x * -1
-
-	_is_facing_left = new_facing_left
 
 # FIXME: The below is still used by player for movement. Can't get it to work for projectiles.
 # 		need to unify approach.

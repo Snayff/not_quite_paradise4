@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://bkqc7x4yp0pn2"]
+[gd_scene load_steps=5 format=3 uid="uid://bkqc7x4yp0pn2"]
 
 [ext_resource type="PackedScene" uid="uid://cgd54nt0un6ix" path="res://combat/actors/actor.tscn" id="1_2tlmc"]
-[ext_resource type="SpriteFrames" uid="uid://cbe3hrdfyed8h" path="res://data/sprite_frames/actors/horsey_rider.tres" id="2_erb4s"]
 [ext_resource type="PackedScene" uid="uid://kupnh58vddx7" path="res://visual_effects/death/death.tscn" id="6_utgjv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gvith"]
@@ -12,13 +11,6 @@ radius = 6.0
 radius = 7.0
 
 [node name="HorseyRider" instance=ExtResource("1_2tlmc")]
-_is_player = false
-_linear_damp = 5.0
-_mass = 100.0
-
-[node name="AnimatedSprite2D" parent="." index="0"]
-sprite_frames = ExtResource("2_erb4s")
-animation = &"move"
 
 [node name="CollisionShape2D" parent="." index="1"]
 shape = SubResource("CircleShape2D_gvith")
