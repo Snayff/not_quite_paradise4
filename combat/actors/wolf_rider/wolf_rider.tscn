@@ -31,7 +31,6 @@ shape = SubResource("CircleShape2D_3e800")
 
 [node name="CombatActiveContainer" parent="." index="14"]
 visible = false
-_combat_active_names = Array[String](["slash", "icy_wind", "fireblast", "circling_stars"])
 
 [node name="CastPosition" parent="CentrePivot" index="0"]
 position = Vector2(10, -1)
