@@ -133,41 +133,54 @@ func _init_state_machine() -> void:
 	main_sm.initial_state = idle_state
 
 	main_sm.add_transition(idle_state, walk_state, &"to_walk")
-	main_sm.add_transition(main_sm.ANYSTATE, idle_state, &"state_ended")
+	main_sm.add_transition(main_sm.ANYSTATE, idle_state, &"to_idle")
+	main_sm.add_transition(main_sm.ANYSTATE, attack_state, &"to_attack")
 
 	# init and activate state machine
 	main_sm.initialize(self)
 	main_sm.set_active(true)
 
+var announced: bool = false
 
 func idle_start() -> void:
-	print("idle start")
+	print("entered idle start")
 	_sprite.play("idle")
 
 func idle_update(delta: float) -> void:
+	if announced == false:
+		print("entered idle update.")
+		announced = true
+
 	if linear_velocity.x != 0:
 		main_sm.dispatch(&"to_walk")
-	print("idle update.")
-
+		announced = false
 
 func walk_start() -> void:
-	print("walk start")
+	print("entered walk start")
 	_sprite.play("walk")
 
 func walk_update(delta: float) -> void:
+	if announced == false:
+		print("entered walk update")
+		announced = true
+
 	if linear_velocity.x == 0:
-		main_sm.dispatch(&"state_ended")
+		main_sm.dispatch(&"to_idle")
+		announced = false
 
 	else:
 		_flip_sprite()
 
-	print("walk update")
+
 
 func attack_start() -> void:
-	print("attack start")
+	print("entered attack start")
 
 func attack_update(delta: float) -> void:
-	print("attack update")
+	if announced == false:
+		print("entered attack update")
+		announced = true
+
 
 func _flip_sprite() -> void:
 	if linear_velocity.x > 0:
