@@ -20,7 +20,6 @@ func _tick(delta: float) -> Status:
 
 	if target_actor is Actor:
 		blackboard.set_var(target_actor_var, target_actor)
-		agent.new_target(target_actor)
 		return SUCCESS
 	else:
 		return FAILURE

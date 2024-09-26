@@ -76,42 +76,69 @@ func execute_physics(delta: float) -> void:
 	if not _has_run_setup:
 		return
 
+	# not moving towards anything, so slow down to zero
 	if _target_mode == Constants.MOVEMENT_TARGET_MODE.none:
+		var current_velocity: Vector2 = _root.linear_velocity
+
+		if current_velocity.is_zero_approx():
+			return
+
+		var slow_down: Vector2 = Vector2.ZERO
+		if current_velocity.x > 0:
+			slow_down.x = -deceleration * delta
+		elif current_velocity.x < 0:
+			slow_down.x = deceleration  * delta
+
+		if current_velocity.y > 0:
+			slow_down.y = -deceleration  * delta
+		elif current_velocity.y < 0:
+			slow_down.y = deceleration  * delta
+
+		_root.apply_impulse(slow_down, _root.global_position)
+
 		return
 
 	# get current position to move towards
 	if _target_mode == Constants.MOVEMENT_TARGET_MODE.actor and _target_actor is Actor:
 		_current_target_pos = _target_actor.global_position
 
-	elif Constants.MOVEMENT_TARGET_MODE.destination:
+	elif _target_mode == Constants.MOVEMENT_TARGET_MODE.destination:
 		_current_target_pos = _target_destination
 
-	elif Constants.MOVEMENT_TARGET_MODE.direction:
+	elif _target_mode == Constants.MOVEMENT_TARGET_MODE.direction:
 		_current_target_pos = _target_direction * max_speed
 
-	var velocity = _root.linear_velocity
-	var movement = _root.global_position.direction_to(_current_target_pos)
+	var current_velocity: Vector2 = _root.linear_velocity
+	var movement_direction: Vector2 = _root.global_position.direction_to(_current_target_pos)
+	var movement: Vector2 = movement_direction * acceleration * delta
 
-	# if already at max speed, slow down
-	var slow_down_force: Vector2 = Vector2.ZERO
-	if absf(velocity.x) > max_speed:
-		if velocity.x > 0:
-			slow_down_force.x -= deceleration
-		else:
-			slow_down_force.x += deceleration
+	# debug to show where we're moving
+	HyperLog.sketch_arrow(_root.global_position, movement, delta + 0.1)
 
-	if absf(velocity.y) > max_speed:
-		if velocity.y > 0:
-			slow_down_force.y -= deceleration
-		else:
-			slow_down_force.y += deceleration
 
-	# apply slowdown, if needed
-	if not slow_down_force.is_zero_approx():
-		_root.apply_impulse(slow_down_force * delta, _root.global_position)
+	#if _root._is_player and movement_direction != Vector2.ZERO:
+		#breakpoint
+
+	## if already at max speed, slow down
+	#var slow_down_force: Vector2 = Vector2.ZERO
+	#if absf(current_velocity.x) > max_speed:
+		#if current_velocity.x > 0:
+			#slow_down_force.x -= deceleration
+		#else:
+			#slow_down_force.x += deceleration
+#
+	#if absf(current_velocity.y) > max_speed:
+		#if current_velocity.y > 0:
+			#slow_down_force.y -= deceleration
+		#else:
+			#slow_down_force.y += deceleration
+#
+	## apply slowdown, if needed
+	#if not slow_down_force.is_zero_approx():
+		#_root.apply_impulse(slow_down_force * delta, _root.global_position)
 
 	# move towards target
-	_root.apply_impulse(movement * acceleration * delta, _root.global_position)
+	_root.apply_impulse(movement, _root.global_position)
 
 # TODO: remove and fold into physics process/execute physics above, so projecitle and actor use same
 func calc_movement(state: PhysicsDirectBodyState2D) -> void:
@@ -121,8 +148,6 @@ func calc_movement(state: PhysicsDirectBodyState2D) -> void:
 	# get player input.
 	if is_attached_to_player:
 		velocity = _apply_input_movement_velocity(velocity, step)
-
-
 
 	# apply gravity and set back the linear velocity.
 	velocity += state.get_total_gravity() * step
@@ -137,12 +162,17 @@ func set_target_actor(actor: Actor, is_following: bool) -> void:
 		_target_destination = actor.global_position
 		_target_mode = Constants.MOVEMENT_TARGET_MODE.destination
 
-
 func set_target_destination(destination: Vector2) -> void:
 	_target_destination = destination
 	_target_mode = Constants.MOVEMENT_TARGET_MODE.destination
 
+## set a direction to move in, for the specified duration.
+##
+## does nothing if duration <= 0
 func set_target_direction(direction: Vector2, duration: float) -> void:
+	if duration <= 0:
+		return
+
 	_target_direction = direction
 	_move_in_direction_duration = duration
 	_target_mode = Constants.MOVEMENT_TARGET_MODE.direction

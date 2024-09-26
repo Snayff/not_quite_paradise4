@@ -24,7 +24,7 @@ radius = 6.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_ir07l"]
 resource_local_to_scene = true
 
-[node name="CombatActor" type="RigidBody2D"]
+[node name="Actor" type="RigidBody2D"]
 collision_layer = 0
 collision_mask = 0
 physics_material_override = SubResource("PhysicsMaterial_8wo5g")

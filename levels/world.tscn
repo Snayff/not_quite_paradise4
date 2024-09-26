@@ -68,8 +68,6 @@ contact_monitor = false
 max_contacts_reported = 0
 linear_damp = 999999.0
 _is_player = true
-_linear_damp = 3.0
-_mass = 5.0
 
 [node name="UI" type="CanvasLayer" parent="WolfRider"]
 
@@ -96,17 +94,6 @@ position_smoothing_enabled = true
 
 [node name="HorseyRider" parent="." instance=ExtResource("6_d7rtk")]
 position = Vector2(110, 54)
-collision_layer = 1
-collision_mask = 1
-physics_material_override = null
-can_sleep = false
-custom_integrator = false
-contact_monitor = false
-max_contacts_reported = 0
-linear_damp = 999999.0
-
-[node name="HorseyRider2" parent="." instance=ExtResource("6_d7rtk")]
-position = Vector2(101, 67)
 collision_layer = 1
 collision_mask = 1
 physics_material_override = null

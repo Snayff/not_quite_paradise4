@@ -5,6 +5,7 @@ extends BTAction
 
 ## blackboard var for target
 @export var target_actor_var: StringName = &"target_actor"
+## blackboard var for direction
 @export var target_direction_var: StringName = &"target_direction"
 
 func _generate_name() -> String:

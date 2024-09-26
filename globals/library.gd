@@ -124,7 +124,7 @@ var _data: Dictionary  = {
 		"wolf_rider" : {
 			"sprite_frames": "wolf_rider.tres",
 			"size": 16,
-			"mass": 100.0,
+			"mass": 10.0,
 			"acceleration": 1000.0,
 			"deceleration": 1000.0,
 			"actives": [
@@ -151,7 +151,7 @@ var _data: Dictionary  = {
 		"horsey_rider" : {
 			"sprite_frames": "horsey_rider.tres",
 			"size": 16,
-			"mass": 100.0,
+			"mass": 10.0,
 			"acceleration": 100.0,
 			"deceleration": 80.0,
 			"actives": [

@@ -20,13 +20,11 @@ signal died  ## actor has died
 @onready var boons_banes: BoonBaneContainer = %BoonsBanesContainer
 @onready var _damage_numbers: PopUpNumbers = %DamageNumbers
 @onready var _death_trigger: DeathTrigger = %DeathTrigger
-@onready var _physics_movement: PhysicsMovementComponent = %PhysicsMovement
+@onready var physics_movement: PhysicsMovementComponent = %PhysicsMovement
 @onready var _supply_container: SupplyContainer = %SupplyContainer
 @onready var _centre_pivot: Marker2D = %CentrePivot
 @onready var _tags: TagsComponent = %Tags
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
-
-
 #endregion
 
 
@@ -34,8 +32,8 @@ signal died  ## actor has died
 @export_group("Details")
 @export var _is_player: bool = false  ## if the actor is player controlled
 @export_group("Physics")
-@export var _linear_damp: float = 5  ## set here, rather than built-in prop, due to editor issue
-@export var _mass: float = 100  ## set here, rather than built-in prop, due to editor issue
+#@export var _linear_damp: float = 5  ## set here, rather than built-in prop, due to editor issue
+#@export var _mass: float = 100  ## set here, rather than built-in prop, due to editor issue
 #endregion
 
 
@@ -52,17 +50,17 @@ var main_sm: LimboHSM
 
 #region FUNCS
 func _ready() -> void:
+	# FIXME: placeholder to get data. same for below uses of `data`.
+	var data = Library.get_data("actor", "wolf_rider")
+
 	# NOTE: for some reason these arent being applied via the editor, but applying via code works
-	linear_damp = _linear_damp
-	mass = _mass
+	linear_damp = Constants.LINEAR_DAMP
+	mass = data["mass"]
 	lock_rotation = true
 
 	update_collisions()
 
 	_death_trigger.died.connect(func(): died.emit())
-
-	# FIXME: placeholder to get data. same for below uses of `data`.
-	var data = Library.get_data("actor", "wolf_rider")
 
 	_sprite.sprite_frames = Utility.get_sprite_frame("actors", data["sprite_frames"])
 
@@ -81,12 +79,12 @@ func _ready() -> void:
 		var stamina = _supply_container.get_supply(Constants.SUPPLY_TYPE.stamina)
 		stamina.emptied.connect(_apply_exhaustion)
 
-	if _physics_movement is PhysicsMovementComponent:
-		_physics_movement.is_attached_to_player = _is_player
+	if physics_movement is PhysicsMovementComponent:
+		physics_movement.is_attached_to_player = _is_player
 
 		var ms = data["stats"][Constants.STAT_TYPE.move_speed]
-		_physics_movement.setup(ms, data["acceleration"], data["deceleration"])
-		new_target.connect(_physics_movement.set_target_actor.bind(false))
+		physics_movement.setup(ms, data["acceleration"], data["deceleration"])
+		new_target.connect(physics_movement.set_target_actor.bind(false))
 
 	if combat_active_container is CombatActiveContainer:
 		combat_active_container.has_ready_active.connect(func(): _num_ready_actives += 1)  # support knowing when to auto cast
@@ -189,10 +187,10 @@ func _flip_sprite() -> void:
 
 # FIXME: remove
 #func move(direction: Vector2) -> void:
-	#_physics_movement.set_target_destination(direction)
+	#physics_movement.set_target_destination(direction)
 #
-#func _physics_process(delta: float) -> void:
-	#_physics_movement.execute_physics(delta)
+func _physics_process(delta: float) -> void:
+	physics_movement.execute_physics(delta)
 
 ########### END AI ################
 
@@ -217,8 +215,8 @@ func _update_non_player_auto_casting() -> void:
 					_global_cast_cd_counter = Constants.GLOBAL_CAST_DELAY
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
-	if _physics_movement is PhysicsMovementComponent:
-		_physics_movement.calc_movement(state)
+	if physics_movement is PhysicsMovementComponent:
+		physics_movement.calc_movement(state)
 
 ## updates all collisions to reflect current _target, team etc.
 func update_collisions() -> void:

@@ -25,11 +25,9 @@ func _generate_name() -> String:
 		distance_max
 	]
 
-
 func _setup() -> void:
 	_min_distance_squared = distance_min * distance_min
 	_max_distance_squared = distance_max * distance_max
-
 
 func _tick(_delta: float) -> Status:
 	var target_actor: Actor = blackboard.get_var(target_actor_var, null)
