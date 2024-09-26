@@ -214,8 +214,9 @@ func _update_non_player_auto_casting() -> void:
 					_global_cast_cd_counter = Constants.GLOBAL_CAST_DELAY
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
-	if physics_movement is PhysicsMovementComponent:
-		physics_movement.calc_movement(state)
+	# player uses a different approach to physics, for now
+	if physics_movement is PhysicsMovementComponent and _is_player:
+		physics_movement.apply_input_velocity(state)
 
 ## updates all collisions to reflect current _target, team etc.
 func update_collisions() -> void:

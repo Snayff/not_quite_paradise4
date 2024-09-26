@@ -57,6 +57,11 @@ var _has_run_setup: bool = false
 
 
 #region FUNCS
+
+##########################
+####### LIFECYCLE #######
+########################
+
 func setup(max_speed_: float, acceleration_: float, deceleration_: float) -> void:
 	max_speed = max_speed_
 	acceleration = acceleration_
@@ -78,45 +83,7 @@ func execute_physics(delta: float) -> void:
 
 	# not moving towards anything, so slow down to zero
 	if _target_mode == Constants.MOVEMENT_TARGET_MODE.none:
-		var current_velocity: Vector2 = _root.linear_velocity
-
-		if current_velocity.is_zero_approx():
-			_root.linear_velocity = Vector2.ZERO
-
-		var slow_down_force: Vector2 = Vector2.ZERO
-		var set_x_zero: bool = false
-		if current_velocity.x > 0:
-			if current_velocity.x < deceleration:
-				set_x_zero = true
-			else:
-				slow_down_force.x = max(0, current_velocity.x - deceleration)
-
-		elif current_velocity.x < 0:
-			if current_velocity.x > -deceleration:
-				set_x_zero = true
-			else:
-				slow_down_force.x = min(0, current_velocity.x + deceleration)
-
-		var set_y_zero: bool = false
-		if current_velocity.y > 0:
-			if current_velocity.y < deceleration:
-				set_y_zero = true
-			else:
-				slow_down_force.y = max(0, current_velocity.y - deceleration)
-
-		elif current_velocity.y < 0:
-			if current_velocity.y > -deceleration:
-				set_y_zero = true
-			else:
-				slow_down_force.y = min(0, current_velocity.y + deceleration)
-
-		if set_x_zero and set_y_zero:
-			_root.linear_velocity = Vector2.ZERO
-		else:
-			_root.apply_impulse(slow_down_force, _root.global_position)
-
-
-
+		_decelerate_until_stop(delta)
 		return
 
 	# get current position to move towards
@@ -129,60 +96,42 @@ func execute_physics(delta: float) -> void:
 	elif _target_mode == Constants.MOVEMENT_TARGET_MODE.direction:
 		_current_target_pos = _target_direction * max_speed
 
-	var current_velocity: Vector2 = _root.linear_velocity
+
+	# get direction to move to current target pos
 	var movement_direction: Vector2 = _root.global_position.direction_to(_current_target_pos)
 
+	# if direction is 0 then slow down
 	if movement_direction.is_zero_approx():
+		_decelerate_until_stop(delta)
 		return
 
-	#var movement: Vector2 = _get_velocity(
-			#current_velocity,
-			#delta,
-			#movement_direction.x < 0,
-			#movement_direction.x > 0,
-			#movement_direction.y < 0,
-			#movement_direction.y > 0,
-#
-		#)
-
+	# move towards target
 	var movement: Vector2 = movement_direction * acceleration * delta
+	_root.apply_impulse(movement, _root.global_position)
 
 	# debug to show where we're moving
 	HyperLog.sketch_arrow(_root.global_position, movement, delta + 0.1)
 
 
-	#if _root._is_player and movement_direction != Vector2.ZERO:
-		#breakpoint
+##########################
+####### PUBLIC  #########
+########################
 
-	## if already at max speed, slow down
-	#var slow_down_force: Vector2 = Vector2.ZERO
-	#if absf(current_velocity.x) > max_speed:
-		#if current_velocity.x > 0:
-			#slow_down_force.x -= deceleration
-		#else:
-			#slow_down_force.x += deceleration
-#
-	#if absf(current_velocity.y) > max_speed:
-		#if current_velocity.y > 0:
-			#slow_down_force.y -= deceleration
-		#else:
-			#slow_down_force.y += deceleration
-#
-	## apply slowdown, if needed
-	#if not slow_down_force.is_zero_approx():
-		#_root.apply_impulse(slow_down_force * delta, _root.global_position)
 
-	# move towards target
-	_root.apply_impulse(movement, _root.global_position)
-
-# TODO: remove and fold into physics process/execute physics above, so projecitle and actor use same
-func calc_movement(state: PhysicsDirectBodyState2D) -> void:
+# TODO: remove and fold into physics process/execute physics above, so player uses same
+## convert input into velocity
+func apply_input_velocity(state: PhysicsDirectBodyState2D) -> void:
 	var velocity: Vector2 = state.get_linear_velocity()
 	var step: float = state.get_step()
 
 	# get player input.
 	if is_attached_to_player:
-		velocity = _apply_input_movement_velocity(velocity, step)
+		var move_left := Input.is_action_pressed(&"move_left")
+		var move_right := Input.is_action_pressed(&"move_right")
+		var move_up := Input.is_action_pressed(&"move_up")
+		var move_down := Input.is_action_pressed(&"move_down")
+
+		velocity = _get_input_velocity(velocity, step, move_left, move_right, move_up, move_down)
 
 	# apply gravity and set back the linear velocity.
 	velocity += state.get_total_gravity() * step
@@ -212,20 +161,53 @@ func set_target_direction(direction: Vector2, duration: float) -> void:
 	_move_in_direction_duration = duration
 	_target_mode = Constants.MOVEMENT_TARGET_MODE.direction
 
+##########################
+####### PRIVATE #########
+########################
 
+## apply deceleration until stopped
+func _decelerate_until_stop(delta: float) -> void:
+	var current_velocity: Vector2 = _root.linear_velocity
 
-# FIXME: The below is still used by player for movement. Can't get it to work for projectiles.
-# 		need to unify approach.
-## amends given velocity by input and returns amended velocity
-func _apply_input_movement_velocity(velocity: Vector2, delta: float) -> Vector2:
-	var move_left := Input.is_action_pressed(&"move_left")
-	var move_right := Input.is_action_pressed(&"move_right")
-	var move_up := Input.is_action_pressed(&"move_up")
-	var move_down := Input.is_action_pressed(&"move_down")
+	if current_velocity.is_zero_approx():
+		_root.linear_velocity = Vector2.ZERO
 
-	return _get_velocity(velocity, delta, move_left, move_right, move_up, move_down)
+	var slow_down_force: Vector2 = Vector2.ZERO
+	var set_x_zero: bool = false
+	if current_velocity.x > 0:
+		if current_velocity.x < deceleration * delta:
+			set_x_zero = true
+		else:
+			slow_down_force.x = -min(current_velocity.x, deceleration * delta)
 
-func _get_velocity(velocity: Vector2, delta: float, move_left: bool, move_right: bool, move_up: bool, move_down: bool) -> Vector2:
+	elif current_velocity.x < 0:
+		if current_velocity.x > -deceleration * delta:
+			set_x_zero = true
+		else:
+			slow_down_force.x = max(current_velocity.x, deceleration * delta)
+
+	var set_y_zero: bool = false
+	if current_velocity.y > 0:
+		if current_velocity.y < deceleration *delta:
+			set_y_zero = true
+		else:
+			slow_down_force.y = -min(current_velocity.x, deceleration * delta)
+
+	elif current_velocity.y < 0:
+		if current_velocity.y > -deceleration * delta:
+			set_y_zero = true
+		else:
+			slow_down_force.y = max(current_velocity.y, deceleration * delta)
+
+	# apply slowdown
+	_root.apply_impulse(slow_down_force, _root.global_position)
+
+	if set_x_zero:
+		_root.linear_velocity.x = 0
+	if set_y_zero:
+		_root.linear_velocity.y = 0
+
+func _get_input_velocity(velocity: Vector2, delta: float, move_left: bool, move_right: bool, move_up: bool, move_down: bool) -> Vector2:
 
 	if move_left and not move_right:
 		if velocity.x > -max_speed:
