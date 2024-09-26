@@ -150,7 +150,7 @@ func idle_update(delta: float) -> void:
 		print("entered idle update.")
 		announced = true
 
-	if linear_velocity.x != 0:
+	if not linear_velocity.is_zero_approx():
 		main_sm.dispatch(&"to_walk")
 		announced = false
 
@@ -163,10 +163,9 @@ func walk_update(delta: float) -> void:
 		print("entered walk update")
 		announced = true
 
-	if linear_velocity.x == 0:
+	if linear_velocity.is_zero_approx():
 		main_sm.dispatch(&"to_idle")
 		announced = false
-
 	else:
 		_flip_sprite()
 
@@ -177,7 +176,6 @@ func attack_update(delta: float) -> void:
 	if announced == false:
 		print("entered attack update")
 		announced = true
-
 
 func _flip_sprite() -> void:
 	if linear_velocity.x > 0:
@@ -190,7 +188,8 @@ func _flip_sprite() -> void:
 	#physics_movement.set_target_destination(direction)
 #
 func _physics_process(delta: float) -> void:
-	physics_movement.execute_physics(delta)
+	if not _is_player:
+		physics_movement.execute_physics(delta)
 
 ########### END AI ################
 

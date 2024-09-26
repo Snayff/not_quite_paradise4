@@ -81,20 +81,41 @@ func execute_physics(delta: float) -> void:
 		var current_velocity: Vector2 = _root.linear_velocity
 
 		if current_velocity.is_zero_approx():
-			return
+			_root.linear_velocity = Vector2.ZERO
 
-		var slow_down: Vector2 = Vector2.ZERO
+		var slow_down_force: Vector2 = Vector2.ZERO
+		var set_x_zero: bool = false
 		if current_velocity.x > 0:
-			slow_down.x = -deceleration * delta
+			if current_velocity.x < deceleration:
+				set_x_zero = true
+			else:
+				slow_down_force.x = max(0, current_velocity.x - deceleration)
+
 		elif current_velocity.x < 0:
-			slow_down.x = deceleration  * delta
+			if current_velocity.x > -deceleration:
+				set_x_zero = true
+			else:
+				slow_down_force.x = min(0, current_velocity.x + deceleration)
 
+		var set_y_zero: bool = false
 		if current_velocity.y > 0:
-			slow_down.y = -deceleration  * delta
-		elif current_velocity.y < 0:
-			slow_down.y = deceleration  * delta
+			if current_velocity.y < deceleration:
+				set_y_zero = true
+			else:
+				slow_down_force.y = max(0, current_velocity.y - deceleration)
 
-		_root.apply_impulse(slow_down, _root.global_position)
+		elif current_velocity.y < 0:
+			if current_velocity.y > -deceleration:
+				set_y_zero = true
+			else:
+				slow_down_force.y = min(0, current_velocity.y + deceleration)
+
+		if set_x_zero and set_y_zero:
+			_root.linear_velocity = Vector2.ZERO
+		else:
+			_root.apply_impulse(slow_down_force, _root.global_position)
+
+
 
 		return
 
@@ -110,6 +131,20 @@ func execute_physics(delta: float) -> void:
 
 	var current_velocity: Vector2 = _root.linear_velocity
 	var movement_direction: Vector2 = _root.global_position.direction_to(_current_target_pos)
+
+	if movement_direction.is_zero_approx():
+		return
+
+	#var movement: Vector2 = _get_velocity(
+			#current_velocity,
+			#delta,
+			#movement_direction.x < 0,
+			#movement_direction.x > 0,
+			#movement_direction.y < 0,
+			#movement_direction.y > 0,
+#
+		#)
+
 	var movement: Vector2 = movement_direction * acceleration * delta
 
 	# debug to show where we're moving
@@ -176,6 +211,8 @@ func set_target_direction(direction: Vector2, duration: float) -> void:
 	_target_direction = direction
 	_move_in_direction_duration = duration
 	_target_mode = Constants.MOVEMENT_TARGET_MODE.direction
+
+
 
 # FIXME: The below is still used by player for movement. Can't get it to work for projectiles.
 # 		need to unify approach.

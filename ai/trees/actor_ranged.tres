@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=15 format=3 uid="uid://c3g0nsvud4nl"]
+[gd_resource type="BehaviorTree" load_steps=16 format=3 uid="uid://c3g0nsvud4nl"]
 
 [ext_resource type="Script" path="res://ai/tasks/find_target.gd" id="1_42p2s"]
 [ext_resource type="Script" path="res://ai/tasks/target_in_range.gd" id="1_dqkqj"]
@@ -16,7 +16,7 @@ target_actor_var = &"target_actor"
 [sub_resource type="BTCondition" id="BTCondition_6bhr3"]
 script = ExtResource("1_dqkqj")
 distance_min = 10.0
-distance_max = 300.0
+distance_max = 100.0
 target_actor_var = &"target_actor"
 
 [sub_resource type="BTAction" id="BTAction_o36so"]
@@ -38,8 +38,12 @@ timeout_var_name_var = &"direction_duration"
 custom_name = "Run Away"
 children = [SubResource("BTAction_qhj27"), SubResource("BTCondition_6bhr3"), SubResource("BTAction_o36so"), SubResource("BTAction_v25np"), SubResource("BTAction_sysvq")]
 
+[sub_resource type="BTWait" id="BTWait_vxyc2"]
+duration = 0.3
+
 [sub_resource type="BTSequence" id="BTSequence_bcb5p"]
 custom_name = "Do Nothing"
+children = [SubResource("BTWait_vxyc2")]
 
 [sub_resource type="BTSelector" id="BTSelector_5nax6"]
 children = [SubResource("BTSequence_pwv4t"), SubResource("BTSequence_bcb5p")]
