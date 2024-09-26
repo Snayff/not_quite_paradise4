@@ -171,3 +171,11 @@ enum BOON_BANE_TYPE {
 	burn,
 
 }
+
+## how movement's targeting is handled in [PhysicsMovementComponent]
+enum MOVEMENT_TARGET_MODE {
+	none, ## not moving
+	actor,  ## moving to an actor
+	destination,  ## moving to a set position
+	direction,  ## moving in a given direction
+}

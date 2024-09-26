@@ -4,7 +4,7 @@ class_name Actor
 extends RigidBody2D
 
 #region SIGNALS
-signal new_target(actor: Actor)  ## changed target to new combat_actor
+signal new_target(actor: Actor)  ## changed target to new actor
 signal died  ## actor has died
 #endregion
 
@@ -86,6 +86,7 @@ func _ready() -> void:
 
 		var ms = data["stats"][Constants.STAT_TYPE.move_speed]
 		_physics_movement.setup(ms, data["acceleration"], data["deceleration"])
+		new_target.connect(_physics_movement.set_target_actor.bind(false))
 
 	if combat_active_container is CombatActiveContainer:
 		combat_active_container.has_ready_active.connect(func(): _num_ready_actives += 1)  # support knowing when to auto cast
@@ -187,11 +188,11 @@ func _flip_sprite() -> void:
 		_sprite.flip_h = true
 
 # FIXME: remove
-func move(direction: Vector2) -> void:
-	_physics_movement.set_target_destination(direction)
-
-func _physics_process(delta: float) -> void:
-	_physics_movement.execute_physics(delta)
+#func move(direction: Vector2) -> void:
+	#_physics_movement.set_target_destination(direction)
+#
+#func _physics_process(delta: float) -> void:
+	#_physics_movement.execute_physics(delta)
 
 ########### END AI ################
 

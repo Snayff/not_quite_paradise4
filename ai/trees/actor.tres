@@ -1,13 +1,19 @@
-[gd_resource type="BehaviorTree" load_steps=11 format=3 uid="uid://tv22nxt4mupx"]
+[gd_resource type="BehaviorTree" load_steps=13 format=3 uid="uid://tv22nxt4mupx"]
 
+[ext_resource type="Script" path="res://ai/tasks/find_target.gd" id="1_ofs4i"]
 [ext_resource type="Script" path="res://ai/tasks/choose_random_pos.gd" id="1_qff7k"]
 [ext_resource type="Script" path="res://ai/tasks/move_to_pos.gd" id="2_g1lfe"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_2lcym"]
 
-[sub_resource type="BTConsolePrint" id="BTConsolePrint_4vdht"]
-text = "Entered random move
-"
+[sub_resource type="BTAction" id="BTAction_ba7i0"]
+script = ExtResource("1_ofs4i")
+group = &"team2"
+target_actor_var = &"target_actor"
+
+[sub_resource type="BTSequence" id="BTSequence_w07s7"]
+custom_name = "Move To Enemy Sequence"
+children = [SubResource("BTAction_ba7i0")]
 
 [sub_resource type="BTAction" id="BTAction_101hq"]
 script = ExtResource("1_qff7k")
@@ -32,10 +38,10 @@ children = [SubResource("BTRandomWait_7gwt3")]
 
 [sub_resource type="BTSequence" id="BTSequence_v3nst"]
 custom_name = "Random Move Sequence"
-children = [SubResource("BTConsolePrint_4vdht"), SubResource("BTAction_101hq"), SubResource("BTAction_vionx"), SubResource("BTSequence_oblko")]
+children = [SubResource("BTAction_101hq"), SubResource("BTAction_vionx"), SubResource("BTSequence_oblko")]
 
 [sub_resource type="BTSelector" id="BTSelector_6yxud"]
-children = [SubResource("BTSequence_v3nst")]
+children = [SubResource("BTSequence_w07s7"), SubResource("BTSequence_v3nst")]
 
 [resource]
 blackboard_plan = SubResource("BlackboardPlan_2lcym")

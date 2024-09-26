@@ -19,7 +19,7 @@ func _ready() -> void:
 	# check for mandatory properties set in editor
 	assert(_root is Actor, "Misssing `_root`.")
 
-	_root.add_to_group(str("team_", team), true)
+	_root.add_to_group(Utility.get_enum_name(Constants.TEAM, team), true)
 
 	if hurtbox is HurtboxComponent:
 		_update_hurtbox_collisions()

@@ -31,6 +31,7 @@ extends Node
 var _target_actor: Actor
 ##  a fixed point to move towards
 var _target_destination: Vector2 = Vector2.ZERO
+var _target_direction: Vector2 = Vector2.ZERO
 ## the position current moving towards.
 var _current_target_pos: Vector2 = Vector2.ZERO
 ## whether to update _current_target_pos to targets current position
@@ -38,7 +39,9 @@ var _is_following_target_actor: bool = false
 ## which targeting to use
 ##
 ## "destination" or "actor"
-var _target_mode: String = "actor"
+var _target_mode: Constants.MOVEMENT_TARGET_MODE = Constants.MOVEMENT_TARGET_MODE.none
+## how long to reside in the _target_mode = "direction"
+var _move_in_direction_duration: float = 0.0
 ## max movement speed. with max_speed < accel < deccel we can get some random sidewinding movement,
 ## but still hit target. with move_speed >= accel we move straight to target
 var max_speed: float
@@ -61,17 +64,30 @@ func setup(max_speed_: float, acceleration_: float, deceleration_: float) -> voi
 
 	_has_run_setup = true
 
+func _process(delta: float) -> void:
+	# count down duration of move in direction
+	_move_in_direction_duration -= delta
+	if _move_in_direction_duration <= 0 and _target_mode == Constants.MOVEMENT_TARGET_MODE.direction:
+		_target_mode = Constants.MOVEMENT_TARGET_MODE.none
+
 # TODO: eventually, this should just be the _physics process, so that it doesnt need to be called.
 ## update the physics state's velocity. won't run until setup() has been called.
 func execute_physics(delta: float) -> void:
 	if not _has_run_setup:
 		return
 
-	# get current position to target
-	if _target_mode == "actor" and _target_actor is Actor:
+	if _target_mode == Constants.MOVEMENT_TARGET_MODE.none:
+		return
+
+	# get current position to move towards
+	if _target_mode == Constants.MOVEMENT_TARGET_MODE.actor and _target_actor is Actor:
 		_current_target_pos = _target_actor.global_position
-	else:
+
+	elif Constants.MOVEMENT_TARGET_MODE.destination:
 		_current_target_pos = _target_destination
+
+	elif Constants.MOVEMENT_TARGET_MODE.direction:
+		_current_target_pos = _target_direction * max_speed
 
 	var velocity = _root.linear_velocity
 	var movement = _root.global_position.direction_to(_current_target_pos)
@@ -106,6 +122,8 @@ func calc_movement(state: PhysicsDirectBodyState2D) -> void:
 	if is_attached_to_player:
 		velocity = _apply_input_movement_velocity(velocity, step)
 
+
+
 	# apply gravity and set back the linear velocity.
 	velocity += state.get_total_gravity() * step
 	state.set_linear_velocity(velocity)
@@ -114,15 +132,20 @@ func set_target_actor(actor: Actor, is_following: bool) -> void:
 	if _is_following_target_actor:
 		_is_following_target_actor = is_following
 		_target_actor = actor
-		_target_mode = "actor"
+		_target_mode = Constants.MOVEMENT_TARGET_MODE.actor
 	else:
-		_target_destination = _target_actor.global_position
-		_target_mode = "destination"
+		_target_destination = actor.global_position
+		_target_mode = Constants.MOVEMENT_TARGET_MODE.destination
 
 
 func set_target_destination(destination: Vector2) -> void:
 	_target_destination = destination
-	_target_mode = "destination"
+	_target_mode = Constants.MOVEMENT_TARGET_MODE.destination
+
+func set_target_direction(direction: Vector2, duration: float) -> void:
+	_target_direction = direction
+	_move_in_direction_duration = duration
+	_target_mode = Constants.MOVEMENT_TARGET_MODE.direction
 
 # FIXME: The below is still used by player for movement. Can't get it to work for projectiles.
 # 		need to unify approach.
