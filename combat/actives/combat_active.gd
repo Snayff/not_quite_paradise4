@@ -180,10 +180,23 @@ func _load_data(combat_active_name_: String) -> void:
 	_cooldown_duration = dict_data["cooldown_duration"]
 
 	# config orbiter
+	var max_projectiles: int = 0
+	var orbit_radius: float = 0.0
+	var orbit_rotation_speed: float = 0.0
+
+	if (
+		dict_data.has("max_projectiles") and \
+		dict_data.has("orbit_radius") and \
+		dict_data.has("orbit_rotation_speed")
+	):
+		max_projectiles = dict_data["max_projectiles"]
+		orbit_radius = dict_data["orbit_radius"]
+		orbit_rotation_speed = dict_data["orbit_rotation_speed"]
+
 	_orbiter.setup(
-		dict_data["max_projectiles"],
-		dict_data["orbit_radius"],
-		dict_data["orbit_rotation_speed"],
+		max_projectiles,
+		orbit_radius,
+		orbit_rotation_speed,
 	)
 
 	# internalise some projectile data, for easier use later

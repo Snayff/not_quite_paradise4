@@ -18,7 +18,7 @@ func _generate_name() -> String:
 		]
 
 func _tick(delta: float) -> Status:
-	var active_container: CombatActiveContainer = blackboard.get_var(combat_actives_container_var) \
+	var active_container = blackboard.get_var(combat_actives_container_var) \
 		as CombatActiveContainer
 	if active_container is not CombatActiveContainer:
 		return FAILURE
@@ -27,5 +27,5 @@ func _tick(delta: float) -> Status:
 	if active is not CombatActive:
 		return FAILURE
 
-	blackboard.set_var(combat_actives_container_var, agent.combat_active_container.get_all_actives())
+	blackboard.set_var(combat_active_var, active)
 	return SUCCESS

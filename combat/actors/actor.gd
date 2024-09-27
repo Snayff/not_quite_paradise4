@@ -206,13 +206,14 @@ func _process(delta: float) -> void:
 
 ## handle auto casting for non-player combat actors
 func _update_non_player_auto_casting() -> void:
+	pass
 	# NOTE: should this be in an AI node?
-	if not _is_player:
-		if _num_ready_actives > 0:
-			if _global_cast_cd_counter <= 0:
-				if combat_active_container.cast_random_ready_active():
-					_num_ready_actives -= 1
-					_global_cast_cd_counter = Constants.GLOBAL_CAST_DELAY
+	#if not _is_player:
+		#if _num_ready_actives > 0:
+			#if _global_cast_cd_counter <= 0:
+				#if combat_active_container.cast_random_ready_active():
+					#_num_ready_actives -= 1
+					#_global_cast_cd_counter = Constants.GLOBAL_CAST_DELAY
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	# player uses a different approach to physics, for now

@@ -135,7 +135,7 @@ func _emit_new_target(target: Actor) -> void:
 ## get an active by its class_name. returns null if nothing matching found.
 func get_active(active_name: String) -> CombatActive:
 	for active in _actives:
-		if active.name == active_name:
+		if active.combat_active_name == active_name:
 			return active
 
 	return null

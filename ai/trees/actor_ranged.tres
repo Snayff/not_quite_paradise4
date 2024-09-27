@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=31 format=3 uid="uid://c3g0nsvud4nl"]
+[gd_resource type="BehaviorTree" load_steps=32 format=3 uid="uid://c3g0nsvud4nl"]
 
 [ext_resource type="Script" path="res://ai/tasks/find_target.gd" id="1_42p2s"]
 [ext_resource type="Script" path="res://ai/tasks/get_team.gd" id="1_imrcs"]
@@ -28,18 +28,26 @@ smallest_range_var = &"smallest_range"
 largest_range_var = &"largest_range"
 
 [sub_resource type="BTConsolePrint" id="BTConsolePrint_yl7c0"]
-text = "Ran get info. Got \\n team: %s \\n combat actives container: %s \\n combat actives range: [%d, %d]"
+text = "Ran get info. Got
+-> team: %s
+-> combat actives container: %s 
+-> combat actives range: [%d, %d]"
 bb_format_parameters = PackedStringArray("team", "combat_actives_container", "smallest_range", "largest_range")
 
 [sub_resource type="BTSequence" id="BTSequence_kwoyh"]
 custom_name = "Get Info"
 children = [SubResource("BTAction_qfwgb"), SubResource("BTAction_av6j8"), SubResource("BTAction_bof4m"), SubResource("BTConsolePrint_yl7c0")]
 
-[sub_resource type="BTRunLimit" id="BTRunLimit_lafif"]
+[sub_resource type="BTRunLimit" id="BTRunLimit_rb351"]
 children = [SubResource("BTSequence_kwoyh")]
 
 [sub_resource type="BTComment" id="BTComment_uoql2"]
 custom_name = "get attack info, if ready then use one then set global cooldown between skills"
+
+[sub_resource type="BTConsolePrint" id="BTConsolePrint_q04li"]
+text = "Enter attack:
+-> container: %s"
+bb_format_parameters = PackedStringArray("combat_actives_container")
 
 [sub_resource type="BTAction" id="BTAction_235hm"]
 script = ExtResource("7_rrc66")
@@ -63,7 +71,7 @@ max_duration = 0.5
 
 [sub_resource type="BTSequence" id="BTSequence_eurao"]
 custom_name = "Attack"
-children = [SubResource("BTComment_uoql2"), SubResource("BTAction_235hm"), SubResource("BTCondition_7175d"), SubResource("BTAction_6eheb"), SubResource("BTRandomWait_lda3x")]
+children = [SubResource("BTComment_uoql2"), SubResource("BTConsolePrint_q04li"), SubResource("BTAction_235hm"), SubResource("BTCondition_7175d"), SubResource("BTAction_6eheb"), SubResource("BTRandomWait_lda3x")]
 
 [sub_resource type="BTAction" id="BTAction_qhj27"]
 script = ExtResource("1_42p2s")
@@ -96,9 +104,9 @@ timeout_var_name_var = &"direction_duration"
 custom_name = "Run Away"
 children = [SubResource("BTAction_qhj27"), SubResource("BTCondition_6td41"), SubResource("BTAction_o36so"), SubResource("BTAction_v25np"), SubResource("BTAction_sysvq")]
 
-[sub_resource type="BTSequence" id="BTSequence_npyw4"]
-children = [SubResource("BTRunLimit_lafif"), SubResource("BTSequence_eurao"), SubResource("BTSequence_pwv4t")]
+[sub_resource type="BTSelector" id="BTSelector_ma8ia"]
+children = [SubResource("BTRunLimit_rb351"), SubResource("BTSequence_eurao"), SubResource("BTSequence_pwv4t")]
 
 [resource]
 blackboard_plan = SubResource("BlackboardPlan_jb4f4")
-root_task = SubResource("BTSequence_npyw4")
+root_task = SubResource("BTSelector_ma8ia")

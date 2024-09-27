@@ -16,6 +16,10 @@ extends Resource
 @export var max_bodies_can_hit: int
 ## the animation for the projectile
 @export var sprite_frames: SpriteFrames
+
+@export_group("Throwable")
+## how far the projectile can travel
+@export var max_range: float
 ## max movement speed. with max_speed < accel < deccel we can get some random sidewinding movement,
 ## but still hit target. with move_speed >= accel we move straight to target
 @export var max_speed: float
@@ -25,16 +29,10 @@ extends Resource
 ## how quickly we decelerate. uses delta, so will apply ~1/60th per frame to the velocity.
 ## applied when max_speed is hit. should be >= acceleration.
 @export var deceleration: float
-## whether object can rotate
-@export var lock_rotation: bool
-
-@export_group("Throwable")
-## how far the projectile can travel
-@export var max_range: float
-## how fast we travel
-@export var move_speed: float
 ## whether we track targets movement and follow, or not
 @export var is_homing: bool
+## whether object can rotate
+@export var lock_rotation: bool
 
 @export_group("AoE")
 ## the animation frame on which to look for hits
@@ -73,16 +71,14 @@ func define(
 ## definition of the [ProjectileThrowable] subclass. call after define.
 func define_throwable(
 	max_range_: float,
-	move_speed_: float,
+	max_speed_: float,
 	is_homing_: bool,
-	max_speed_: float = 100.0,
 	acceleration_: float = 100.0,
 	deceleration_: float = 100.0,
 	lock_rotation_: bool = true,
 	) -> void:
 
 	max_range = max_range_
-	move_speed = move_speed_
 	is_homing = is_homing_
 	max_speed = max_speed_
 	acceleration = acceleration_

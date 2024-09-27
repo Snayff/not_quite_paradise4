@@ -110,7 +110,7 @@ func execute_physics(delta: float) -> void:
 	_root.apply_impulse(movement, _root.global_position)
 
 	# debug to show where we're moving
-	HyperLog.sketch_arrow(_root.global_position, movement, delta + 0.1)
+	#HyperLog.sketch_arrow(_root.global_position, movement, delta + 0.1)
 
 
 ##########################

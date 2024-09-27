@@ -16,12 +16,11 @@ var _data: Dictionary  = {
 			"max_bodies_can_hit": 1,
 			# throwable attrs
 			"max_range": 100.0,
-			"move_speed": 50.0,
-			"is_homing": false,
-			"max_speed": 100.0,
+			"max_speed": 50.0,
 			"acceleration": 1000.0,
 			"deceleration": 2000.0,
-			"lock_rotation": true,
+			"is_homing": true,
+			"lock_rotation": false,
 		},
 		"explosion": {
 			"effect_delivery_method": Constants.EFFECT_DELIVERY_METHOD.area_of_effect,
@@ -74,10 +73,6 @@ var _data: Dictionary  = {
 			"valid_effect_option": Constants.TARGET_OPTION.enemy,
 			"projectile_name": "slash",
 			"cooldown_duration": 3,
-			# orbitals only
-			"max_projectiles": -1,
-			"orbit_rotation_speed": -1,
-			"orbit_radius": -1,
 		},
 		"icy_wind": {
 			"cast_type": Constants.CAST_TYPE.manual,
@@ -87,10 +82,6 @@ var _data: Dictionary  = {
 			"valid_effect_option": Constants.TARGET_OPTION.enemy,
 			"projectile_name": "icy_wind",
 			"cooldown_duration": 5,
-			# orbitals only
-			"max_projectiles": -1,
-			"orbit_rotation_speed": -1,
-			"orbit_radius": -1,
 		},
 		"fireblast": {
 			"cast_type": Constants.CAST_TYPE.manual,
@@ -100,10 +91,6 @@ var _data: Dictionary  = {
 			"valid_effect_option": Constants.TARGET_OPTION.enemy,
 			"projectile_name": "fireball",
 			"cooldown_duration": 3,
-			# orbitals only
-			"max_projectiles": -1,
-			"orbit_rotation_speed": -1,
-			"orbit_radius": -1,
 		},
 		"circling_stars": {
 			"cast_type": Constants.CAST_TYPE.auto,

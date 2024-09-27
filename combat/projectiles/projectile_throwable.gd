@@ -32,7 +32,7 @@ signal hit_valid_target(hurtbox: HurtboxComponent)
 ## the amount of stamina we can drain before expiry
 var _max_range: float
 ## how fast we travel at max speed
-var _move_speed: float
+var _max_speed: float
 ## whether we track targets movement and follow, or not
 var _is_homing: bool
 
@@ -59,8 +59,8 @@ func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
 		"ProjectileThrowable: `_max_range` is missing."
 	)
 	assert(
-		data.move_speed is float,
-		"ProjectileThrowable: `_move_speed` is missing."
+		data.max_speed is float,
+		"ProjectileThrowable: `_max_speed` is missing."
 	)
 	assert(
 		data.is_homing is bool,
@@ -70,7 +70,7 @@ func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
 	super.setup(spawn_pos, data)
 
 	_set_max_range(data.max_range)
-	_move_speed = data.move_speed
+	_max_speed = data.max_speed
 	_is_homing = data.is_homing
 	lock_rotation = data.lock_rotation
 
