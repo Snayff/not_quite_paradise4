@@ -38,7 +38,6 @@ var _cooldown_duration: float = 0:
 
 #region VARS
 var target_actor: Actor
-var target_position: Vector2  ## NOTE: not yet used
 
 # set by parent container
 var _caster: Actor  ## who owns this active
@@ -214,7 +213,7 @@ func _draw() -> void:
 
 ## casts the active
 func cast()-> void:
-	if not target_actor is Actor and not target_position is Vector2:
+	if not target_actor is Actor:
 		push_error("CombatActive: No target given to cast.")
 		return
 
@@ -251,9 +250,6 @@ func set_allegiance(allegiance: Allegiance) -> void:
 	# FIXME: travel range and target option are set in library, need to get from there
 	_target_finder.set_targeting_info(_max_range, _valid_target_option, _allegiance)
 
-func set_projectile_position(marker: Marker2D) -> void:
-	_cast_position = marker
-
 ##########################
 ####### PRIVATE #########
 ########################
@@ -262,8 +258,6 @@ func set_projectile_position(marker: Marker2D) -> void:
 func _restart_cooldown() -> void:
 	_cooldown_timer.start()
 	is_ready = false
-
-
 
 func _create_projectile(cast_position: Vector2, on_hit_callable: Callable) -> ABCProjectile:
 	var projectile: ABCProjectile = Factory.create_projectile(
