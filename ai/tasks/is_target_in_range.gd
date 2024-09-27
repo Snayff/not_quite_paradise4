@@ -63,6 +63,11 @@ func _tick(_delta: float) -> Status:
 	if not is_instance_valid(target_actor):
 		return FAILURE
 
+	# check if targeting self. if so, force success
+	if target_actor == agent:
+		print("IsTargetInRange - SUCCESS")
+		return SUCCESS
+
 	if _distance_max_squared == 0.0:
 		print("Max range of active is 0.0")
 		print("IsTargetInRange - FAILURE")
