@@ -12,13 +12,18 @@ extends BTAction
 @export_group("Config")
 ## set a target option to use to validate the targeting.
 ## if set, ignores target_option_var
-@export var target_option_override: Constants.TARGET_OPTION
+##
+## due to a bug with using the Constants.TARGET_OPTION enum where it keeps resetting the value
+## we use a local enum and map it
+@export_enum("self", "enemy", "ally") var target_option_override_string: String = ""
 
+
+var _target_option_override: Constants.TARGET_OPTION = Constants.TARGET_OPTION.none
 
 func _generate_name() -> String:
 	var target_option_name: Variant
-	if target_option_override != Constants.TARGET_OPTION.none:
-		target_option_name = Utility.get_enum_name(Constants.TARGET_OPTION, target_option_override)
+	if target_option_override_string != "":
+		target_option_name = target_option_override_string
 	else:
 		target_option_name = LimboUtility.decorate_var(target_option_var)
 
@@ -27,6 +32,20 @@ func _generate_name() -> String:
 		LimboUtility.decorate_var(team_var),
 		LimboUtility.decorate_var(target_actor_var)
 	]
+
+func _setup() -> void:
+	if target_option_override_string == "":
+		return
+
+	match target_option_override_string:
+		"self":
+			_target_option_override = Constants.TARGET_OPTION.self_
+
+		"enemy":
+			_target_option_override = Constants.TARGET_OPTION.enemy
+
+		"ally":
+			_target_option_override = Constants.TARGET_OPTION.ally
 
 func _tick(delta: float) -> Status:
 	print("Run FindTarget")
@@ -46,8 +65,8 @@ func get_target() -> Actor:
 		return null
 
 	var target_option: Variant
-	if target_option_override != Constants.TARGET_OPTION.none:
-		target_option = target_option_override
+	if _target_option_override != Constants.TARGET_OPTION.none:
+		target_option = _target_option_override
 	else:
 		target_option = blackboard.get_var(target_option_var)
 		if target_option == null:

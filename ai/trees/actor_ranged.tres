@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=40 format=3 uid="uid://c3g0nsvud4nl"]
+[gd_resource type="BehaviorTree" load_steps=39 format=3 uid="uid://c3g0nsvud4nl"]
 
 [ext_resource type="Script" path="res://ai/tasks/find_target.gd" id="1_42p2s"]
 [ext_resource type="Script" path="res://ai/tasks/get_team.gd" id="1_imrcs"]
@@ -44,11 +44,6 @@ children = [SubResource("BTConsolePrint_stmgy"), SubResource("BTAction_qfwgb"), 
 [sub_resource type="BTRunLimit" id="BTRunLimit_rb351"]
 children = [SubResource("BTSequence_kwoyh")]
 
-[sub_resource type="BTConsolePrint" id="BTConsolePrint_q04li"]
-text = "Enter attack:
--> container: %s"
-bb_format_parameters = PackedStringArray("combat_actives_container")
-
 [sub_resource type="BTAction" id="BTAction_235hm"]
 script = ExtResource("7_rrc66")
 combat_actives_container_var = &"combat_actives_container"
@@ -61,15 +56,15 @@ script = ExtResource("1_42p2s")
 team_var = &"team"
 target_option_var = &"combat_active_target_option"
 target_actor_var = &"target_actor"
-target_option_override = 0
+target_option_override_string = null
 
 [sub_resource type="BTCondition" id="BTCondition_7175d"]
 script = ExtResource("6_vu0c2")
 distance_min_var = &""
 distance_max_var = &"combat_active_range"
 target_actor_var = &"target_actor"
-tolerance = null
-distance_max_override = null
+tolerance = 0.0
+distance_max_override = 0.0
 
 [sub_resource type="BTAction" id="BTAction_6eheb"]
 script = ExtResource("8_m7qav")
@@ -106,7 +101,7 @@ children = [SubResource("BTAction_l1so4"), SubResource("BTAction_2no28"), SubRes
 
 [sub_resource type="BTSequence" id="BTSequence_eurao"]
 custom_name = "Attempt Attack"
-children = [SubResource("BTConsolePrint_q04li"), SubResource("BTSequence_hbfj2"), SubResource("BTSequence_byj3g")]
+children = [SubResource("BTSequence_hbfj2"), SubResource("BTSequence_byj3g")]
 
 [sub_resource type="BTConsolePrint" id="BTConsolePrint_d7hq0"]
 text = "Entered run away."
@@ -116,7 +111,7 @@ script = ExtResource("1_42p2s")
 team_var = &"team"
 target_option_var = &""
 target_actor_var = &"target_actor"
-target_option_override = 0
+target_option_override_string = "ally"
 
 [sub_resource type="BTCondition" id="BTCondition_6td41"]
 script = ExtResource("6_vu0c2")
