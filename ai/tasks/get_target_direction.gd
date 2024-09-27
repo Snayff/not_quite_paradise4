@@ -23,7 +23,8 @@ func _tick(_delta: float) -> Status:
 		return FAILURE
 
 	# FIXME: sometimes this isnt getting the direction away from the target, but is close
-	var direction: Vector2 = agent.global_position.direction_to(target_actor.global_position)
+	#var direction: Vector2 = agent.global_position.direction_to(target_actor.global_position)
+	var direction: Vector2 = target_actor.global_position - agent.global_position
 
 	var target_direction: Vector2
 	if _movement_intent == "away":
@@ -31,6 +32,7 @@ func _tick(_delta: float) -> Status:
 		target_direction = -direction
 	else:
 		target_direction = direction
+
 	blackboard.set_var(target_direction_var, target_direction)
 
 	return SUCCESS

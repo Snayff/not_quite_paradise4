@@ -26,6 +26,7 @@ func _enter() -> void:
 
 func _tick(delta: float) -> Status:
 	if duration <= 0.0:
+		push_warning("Duration started at 0.0. Will never run.")
 		return FAILURE
 
 	duration -= delta

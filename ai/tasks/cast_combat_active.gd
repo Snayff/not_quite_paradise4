@@ -11,7 +11,7 @@ func _generate_name() -> String:
 			LimboUtility.decorate_var(combat_active_var)
 		]
 
-func _tick(delta: float) -> Status:
+func _tick(_delta: float) -> Status:
 	var active: CombatActive = blackboard.get_var(combat_active_var) as CombatActive
 	var active_container: CombatActiveContainer = blackboard.get_var(combat_actives_container_var) \
 		as CombatActiveContainer

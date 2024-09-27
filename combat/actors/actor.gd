@@ -143,12 +143,12 @@ func _init_state_machine() -> void:
 var announced: bool = false
 
 func idle_start() -> void:
-	print("entered idle start")
+	#print("entered idle start")
 	_sprite.play("idle")
 
 func idle_update(delta: float) -> void:
 	if announced == false:
-		print("entered idle update.")
+		#print("entered idle update.")
 		announced = true
 
 	if not linear_velocity.is_zero_approx():
@@ -156,12 +156,12 @@ func idle_update(delta: float) -> void:
 		announced = false
 
 func walk_start() -> void:
-	print("entered walk start")
-	_sprite.play("walk")
+	#sprite.play("walk")
+	pass
 
 func walk_update(delta: float) -> void:
 	if announced == false:
-		print("entered walk update")
+		#print("entered walk update")
 		announced = true
 
 	if linear_velocity.is_zero_approx():
@@ -171,11 +171,12 @@ func walk_update(delta: float) -> void:
 		_flip_sprite()
 
 func attack_start() -> void:
-	print("entered attack start")
+	#print("entered attack start")
+	pass
 
 func attack_update(delta: float) -> void:
 	if announced == false:
-		print("entered attack update")
+		#print("entered attack update")
 		announced = true
 
 func _flip_sprite() -> void:
@@ -184,10 +185,6 @@ func _flip_sprite() -> void:
 	elif linear_velocity.x < 0:
 		_sprite.flip_h = true
 
-# FIXME: remove
-#func move(direction: Vector2) -> void:
-	#physics_movement.set_target_destination(direction)
-#
 func _physics_process(delta: float) -> void:
 	if not _is_player:
 		physics_movement.execute_physics(delta)

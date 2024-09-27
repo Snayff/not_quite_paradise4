@@ -95,7 +95,7 @@ func _unhandled_input(_event: InputEvent) -> void:
 		selected_active.is_selected = true
 
 	elif cast_active and selected_active != null:
-		cast_ready_active(selected_active.name)
+		cast_ready_active(selected_active.combat_active_name)
 
 ## create [CombatActive]s from names. Runs setup and connects to
 ## signals.

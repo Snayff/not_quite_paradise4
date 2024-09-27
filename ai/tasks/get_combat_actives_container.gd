@@ -11,7 +11,7 @@ func _generate_name() -> String:
 		LimboUtility.decorate_var(combat_actives_container_var)
 	]
 
-func _tick(delta: float) -> Status:
+func _tick(_delta: float) -> Status:
 	if agent.combat_active_container is not CombatActiveContainer:
 		return FAILURE
 

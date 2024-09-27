@@ -47,16 +47,16 @@ func _setup() -> void:
 		"ally":
 			_target_option_override = Constants.TARGET_OPTION.ally
 
-func _tick(delta: float) -> Status:
-	print("Run FindTarget")
+func _tick(_delta: float) -> Status:
+	#print("Run FindTarget")
 	var target_actor: Actor = get_target()
 
 	if target_actor is Actor:
 		blackboard.set_var(target_actor_var, target_actor)
-		print("FindTarget - SUCCESS")
+		#print("FindTarget - SUCCESS")
 		return SUCCESS
 	else:
-		print("FindTarget - FAILURE")
+		#print("FindTarget - FAILURE")
 		return FAILURE
 
 func get_target() -> Actor:
@@ -70,15 +70,15 @@ func get_target() -> Actor:
 	else:
 		target_option = blackboard.get_var(target_option_var)
 		if target_option == null:
-			print("Target option not found")
+			#print("Target option not found")
 			return null
 	if not target_option in [Constants.TARGET_OPTION.ally, Constants.TARGET_OPTION.enemy, Constants.TARGET_OPTION.self_]:
-			print("Wrong target option")
+			#print("Wrong target option")
 			return null
 
 	var group = get_group(team, target_option)
 	if group == "":
-		print("Group is empty")
+		#print("Group is empty")
 		return null
 
 	var actors: Array[Node] = agent.get_tree().get_nodes_in_group(group)
@@ -86,7 +86,7 @@ func get_target() -> Actor:
 		if Utility.target_is_valid(target_option, agent, actor):
 			return actor
 
-	print("No actor find")
+	#print("No actor find")
 	return null
 
 ## get the required group to look for, based on team and target_option

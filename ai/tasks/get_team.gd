@@ -10,7 +10,7 @@ func _generate_name() -> String:
 		LimboUtility.decorate_var(team_var)
 	]
 
-func _tick(delta: float) -> Status:
+func _tick(_delta: float) -> Status:
 	if agent.allegiance is not Allegiance:
 		return FAILURE
 

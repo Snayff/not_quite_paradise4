@@ -13,9 +13,6 @@
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_jb4f4"]
 
-[sub_resource type="BTConsolePrint" id="BTConsolePrint_stmgy"]
-text = "Entered get info."
-
 [sub_resource type="BTAction" id="BTAction_qfwgb"]
 script = ExtResource("1_imrcs")
 team_var = &"team"
@@ -30,16 +27,9 @@ combat_actives_container_var = &"combat_actives_container"
 smallest_range_var = &"smallest_range"
 largest_range_var = &"largest_range"
 
-[sub_resource type="BTConsolePrint" id="BTConsolePrint_yl7c0"]
-text = "Ran get info. Got
--> team: %s
--> combat actives container: %s 
--> combat actives range: [%d, %d]"
-bb_format_parameters = PackedStringArray("team", "combat_actives_container", "smallest_range", "largest_range")
-
 [sub_resource type="BTSequence" id="BTSequence_kwoyh"]
 custom_name = "Get Info"
-children = [SubResource("BTConsolePrint_stmgy"), SubResource("BTAction_qfwgb"), SubResource("BTAction_av6j8"), SubResource("BTAction_bof4m"), SubResource("BTConsolePrint_yl7c0")]
+children = [SubResource("BTAction_qfwgb"), SubResource("BTAction_av6j8"), SubResource("BTAction_bof4m")]
 
 [sub_resource type="BTRunLimit" id="BTRunLimit_rb351"]
 children = [SubResource("BTSequence_kwoyh")]
@@ -72,8 +62,8 @@ combat_actives_container_var = &"combat_actives_container"
 combat_active_var = &"combat_active"
 
 [sub_resource type="BTRandomWait" id="BTRandomWait_lda3x"]
-min_duration = 0.2
-max_duration = 0.5
+min_duration = 0.1
+max_duration = 0.3
 
 [sub_resource type="BTSequence" id="BTSequence_hbfj2"]
 custom_name = "Attack"
@@ -95,16 +85,28 @@ move_in_direction_duration = 1.0
 script = ExtResource("5_3kx3d")
 timeout_var_name_var = &"direction_duration"
 
+[sub_resource type="BTCondition" id="BTCondition_i45n5"]
+script = ExtResource("6_vu0c2")
+distance_min_var = &"smallest_range"
+distance_max_var = &"largest_range"
+target_actor_var = &"target_actor"
+tolerance = 0.0
+distance_max_override = 0.0
+
+[sub_resource type="BTSelector" id="BTSelector_c2ued"]
+custom_name = "Move Until Timeout Or In Range"
+children = [SubResource("BTAction_vw1gx"), SubResource("BTCondition_i45n5")]
+
+[sub_resource type="BTRepeatUntilSuccess" id="BTRepeatUntilSuccess_rysbl"]
+children = [SubResource("BTSelector_c2ued")]
+
 [sub_resource type="BTSequence" id="BTSequence_byj3g"]
 custom_name = "Close Distance"
-children = [SubResource("BTAction_l1so4"), SubResource("BTAction_2no28"), SubResource("BTAction_vw1gx")]
+children = [SubResource("BTAction_l1so4"), SubResource("BTAction_2no28"), SubResource("BTRepeatUntilSuccess_rysbl")]
 
 [sub_resource type="BTSequence" id="BTSequence_eurao"]
 custom_name = "Attempt Attack"
 children = [SubResource("BTSequence_hbfj2"), SubResource("BTSequence_byj3g")]
-
-[sub_resource type="BTConsolePrint" id="BTConsolePrint_d7hq0"]
-text = "Entered run away."
 
 [sub_resource type="BTAction" id="BTAction_qhj27"]
 script = ExtResource("1_42p2s")
@@ -131,7 +133,7 @@ _movement_intent = "towards"
 script = ExtResource("4_82spp")
 target_direction_var = &"target_direction"
 direction_duration_var = &"direction_duration"
-move_in_direction_duration = 0.5
+move_in_direction_duration = 1.0
 
 [sub_resource type="BTAction" id="BTAction_rkrcc"]
 script = ExtResource("5_3kx3d")
@@ -139,7 +141,7 @@ timeout_var_name_var = &"direction_duration"
 
 [sub_resource type="BTSequence" id="BTSequence_pwv4t"]
 custom_name = "Run Away"
-children = [SubResource("BTConsolePrint_d7hq0"), SubResource("BTAction_qhj27"), SubResource("BTCondition_6td41"), SubResource("BTAction_o36so"), SubResource("BTAction_v25np"), SubResource("BTAction_rkrcc")]
+children = [SubResource("BTAction_qhj27"), SubResource("BTCondition_6td41"), SubResource("BTAction_o36so"), SubResource("BTAction_v25np"), SubResource("BTAction_rkrcc")]
 
 [sub_resource type="BTCooldown" id="BTCooldown_ltr83"]
 duration = 5.0

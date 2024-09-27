@@ -21,23 +21,22 @@ func _generate_name() -> String:
 			LimboUtility.decorate_var(combat_active_target_option_var)
 		]
 
-func _tick(delta: float) -> Status:
-	print("Run GetReadyCombatActives")
+func _tick(_delta: float) -> Status:
+	#print("Run GetReadyCombatActives")
 	var active_container = blackboard.get_var(combat_actives_container_var) \
 		as CombatActiveContainer
 	if active_container is not CombatActiveContainer:
-		print("Active container not found")
-		print("GetReadyCombatActives - SUCCESS")
+		#print("Active container not found")
+		#print("GetReadyCombatActives - SUCCESS")
 		return FAILURE
 
 	var active: CombatActive = active_container.get_random_ready_active()
 	if active is not CombatActive:
-		print("Active not found")
-		print("GetReadyCombatActives - FAILURE")
+		#print("Active not found")
+		#print("GetReadyCombatActives - FAILURE")
 		return FAILURE
 
 	blackboard.set_var(combat_active_var, active)
 	blackboard.set_var(combat_active_range_var, active.get_range())
-	var x = active.valid_target_option
 	blackboard.set_var(combat_active_target_option_var, active.valid_target_option)
 	return SUCCESS

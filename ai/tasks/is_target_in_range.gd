@@ -35,14 +35,14 @@ func _generate_name() -> String:
 	]
 
 func _enter() -> void:
-	print("Enter IsTargetInRange")
+	#print("Enter IsTargetInRange")
 	var distance_min: Variant
 	if blackboard.has_var(distance_min_var):
-		blackboard.get_var(distance_min_var)
+		distance_min = blackboard.get_var(distance_min_var)
 
 	var distance_max: Variant
 	if blackboard.has_var(distance_max_var):
-		blackboard.get_var(distance_max_var)
+		distance_max = blackboard.get_var(distance_max_var)
 
 	if distance_min is not float:
 		distance_min = 0.0
@@ -58,19 +58,20 @@ func _enter() -> void:
 	_tolerance_squared = tolerance * tolerance
 
 func _tick(_delta: float) -> Status:
-	print("Run IsTargetInRange")
+	#print("Run IsTargetInRange")
 	var target_actor: Actor = blackboard.get_var(target_actor_var, null)
 	if not is_instance_valid(target_actor):
 		return FAILURE
 
 	# check if targeting self. if so, force success
 	if target_actor == agent:
-		print("IsTargetInRange - SUCCESS")
+		#print("IsTargetInRange - SUCCESS")
 		return SUCCESS
 
 	if _distance_max_squared == 0.0:
-		print("Max range of active is 0.0")
-		print("IsTargetInRange - FAILURE")
+		#print("Max range of active is 0.0")
+		#print("IsTargetInRange - FAILURE")
+		# FIXME: we shouldnt get this, but still do
 		return FAILURE
 
 	var dist_sq: float = agent.global_position.distance_squared_to(target_actor.global_position)
@@ -78,9 +79,9 @@ func _tick(_delta: float) -> Status:
 		dist_sq >= _distance_min_squared - _tolerance_squared and \
 		dist_sq <= _distance_max_squared + _tolerance_squared
 	):
-		print("IsTargetInRange - SUCCESS")
+		#print("IsTargetInRange - SUCCESS")
 		return SUCCESS
 	else:
-		print("Noone in range")
-		print("IsTargetInRange - FAILURE")
+		#print("Noone in range")
+		#print("IsTargetInRange - FAILURE")
 		return FAILURE

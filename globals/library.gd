@@ -118,7 +118,7 @@ var _data: Dictionary  = {
 				"slash",
 				"icy_wind",
 				"fireblast",
-				"circling_stars"
+				#"circling_stars"
 			],
 			"supplies": {
 				# SUPPLY_TYPE : [{max_value}, {regen_value}]

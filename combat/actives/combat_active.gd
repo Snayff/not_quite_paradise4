@@ -248,6 +248,8 @@ func cast()-> void:
 
 	was_cast.emit()
 
+	print(_caster.name, " cast ", combat_active_name)
+
 ## set the target actor. can accept null.
 func set_target_actor(actor: Actor) -> void:
 	if actor is Actor:
