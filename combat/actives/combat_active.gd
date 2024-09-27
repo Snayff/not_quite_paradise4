@@ -82,7 +82,7 @@ var _cast_type: Constants.CAST_TYPE = Constants.CAST_TYPE.manual
 var cast_supply: Constants.SUPPLY_TYPE = Constants.SUPPLY_TYPE.stamina
 ## how much supply the cast costs
 var cast_cost: int = 0
-var _valid_target_option: Constants.TARGET_OPTION  ## who the active can target
+var valid_target_option: Constants.TARGET_OPTION  ## who the active can target
 var _valid_effect_option: Constants.TARGET_OPTION  ## who the active's effects can affect
 var _projectile_name: String = ""
 var _effect_chain: ABCEffectChain
@@ -146,7 +146,7 @@ func setup(
 
 	_effect_chain.setup(_caster, _allegiance, _valid_effect_option)
 
-	_target_finder.setup(_caster, _max_range, _valid_target_option, _allegiance)
+	_target_finder.setup(_caster, _max_range, valid_target_option, _allegiance)
 
 
 ## load data from the library and instantiate required children, e.g. [ABCEffectChain]
@@ -173,7 +173,7 @@ func _load_data(combat_active_name_: String) -> void:
 	_cast_type = dict_data["cast_type"]
 	cast_supply = dict_data["cast_supply"]
 	cast_cost = dict_data["cast_cost"]
-	_valid_target_option = dict_data["valid_target_option"]
+	valid_target_option = dict_data["valid_target_option"]
 	_valid_effect_option = dict_data["valid_effect_option"]
 	_projectile_name = dict_data["projectile_name"]
 	_cooldown_timer.start(_cooldown_duration)
@@ -264,7 +264,7 @@ func set_target_actor(actor: Actor) -> void:
 func set_allegiance(allegiance: Allegiance) -> void:
 	_allegiance = allegiance
 	# FIXME: travel range and target option are set in library, need to get from there
-	_target_finder.set_targeting_info(_max_range, _valid_target_option, _allegiance)
+	_target_finder.set_targeting_info(_max_range, valid_target_option, _allegiance)
 
 ## get how far the active can reach
 func get_range() -> float:
@@ -337,7 +337,7 @@ func _cast_aura() -> void:
 	# set target so that aura follows them around
 	var target_: Actor
 	# FIXME: this is defined in library, need to get from there.
-	if _valid_target_option == Constants.TARGET_OPTION.self_:
+	if valid_target_option == Constants.TARGET_OPTION.self_:
 		target_ = _caster
 	else:
 		target_ = target_actor

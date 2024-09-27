@@ -59,6 +59,7 @@ const COLLISION_LAYER_MAP: Dictionary = {
 
 ## target options
 enum TARGET_OPTION {
+	none,  ## used as a safety, e.g. null
 	self_,
 	ally,
 	enemy,
