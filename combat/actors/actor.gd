@@ -87,11 +87,11 @@ func _ready() -> void:
 		new_target.connect(physics_movement.set_target_actor.bind(false))
 
 	if combat_active_container is CombatActiveContainer:
-		combat_active_container.has_ready_active.connect(func(): _num_ready_actives += 1)  # support knowing when to auto cast
+		combat_active_container.active_became_ready.connect(func(): _num_ready_actives += 1)  # support knowing when to auto cast
 		combat_active_container.new_active_selected.connect(func(active): _target = active.target_actor) # update target to match that of selected active
 		combat_active_container.new_target.connect(func(target): _target = target)
 
-		if _is_player:
+		if true:# _is_player:
 			var actives: Array[String] = []
 			actives.assign(data["actives"])
 			combat_active_container.create_actives(actives)
@@ -139,6 +139,7 @@ func _init_state_machine() -> void:
 	main_sm.initialize(self)
 	main_sm.set_active(true)
 
+## debug - announced state
 var announced: bool = false
 
 func idle_start() -> void:

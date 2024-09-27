@@ -10,6 +10,7 @@ extends Node2D
 #region SIGNALS
 signal now_ready
 signal new_target(target: Actor)
+signal was_cast
 #endregion
 
 
@@ -88,7 +89,7 @@ var _effect_chain: ABCEffectChain
 # data from library - projectile
 var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
 # FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?!
-## how far the projectile can travel. when set, updates target finder.
+## how far the can reach. when set, updates target finder.
 var _max_range: float:
 	set(value):
 		_max_range = value
@@ -118,7 +119,7 @@ func _ready() -> void:
 ##
 ## N.B. not recursive, so children are responsible for calling setup() on their own children
 func setup(
-	combat_active_name: String,
+	combat_active_name_: String,
 	caster: Actor,
 	allegiance: Allegiance,
 	cast_position: Marker2D
@@ -131,7 +132,7 @@ func setup(
 	assert(allegiance is Allegiance, "CombatActive: Missing `allegiance`.")
 	assert(cast_position is Marker2D, "CombatActive: Missing `cast_position`.")
 
-	_load_data(combat_active_name)
+	_load_data(combat_active_name_)
 
 	# check effect chain loaded properly
 	assert(_effect_chain is ABCEffectChain, "CombatActive: Missing `_effect_chain`.")
@@ -232,6 +233,8 @@ func cast()-> void:
 	else:
 		push_error("CombatActive: `_delivery_method` (", _delivery_method, ") not defined.")
 
+	was_cast.emit()
+
 ## set the target actor. can accept null.
 func set_target_actor(actor: Actor) -> void:
 	if actor is Actor:
@@ -249,6 +252,10 @@ func set_allegiance(allegiance: Allegiance) -> void:
 	_allegiance = allegiance
 	# FIXME: travel range and target option are set in library, need to get from there
 	_target_finder.set_targeting_info(_max_range, _valid_target_option, _allegiance)
+
+## get how far the active can reach
+func get_range() -> float:
+	return _max_range
 
 ##########################
 ####### PRIVATE #########

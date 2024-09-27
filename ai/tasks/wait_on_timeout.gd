@@ -6,7 +6,8 @@
 extends BTAction
 
 
-## blackboard var for direction duration
+@export_group("Input")
+## var to look at to get the duration to wait
 @export var timeout_var_name_var: StringName
 
 
