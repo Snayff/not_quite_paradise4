@@ -21,7 +21,7 @@ const PATH_COMBAT_ACTIVES: String = "res://combat/actives/"
 ## the reduction in force applied to a physics object when new force not being applied
 const FRICTION: float = 10.3
 ## the linear damping applied to bodies
-const LINEAR_DAMP: float = 50.0
+const LINEAR_DAMP: float = 1.0
 ## the standard amount for how long an [ProjectileAura] waits before looping.
 const DEFAULT_AURA_TICK_RATE: float = 0.33
 ## min time to wait between combat active casts
@@ -59,6 +59,7 @@ const COLLISION_LAYER_MAP: Dictionary = {
 
 ## target options
 enum TARGET_OPTION {
+	none,  ## used as a safety, e.g. null
 	self_,
 	ally,
 	enemy,
@@ -170,4 +171,12 @@ enum BOON_BANE_TYPE {
 	chilled,
 	burn,
 
+}
+
+## how movement's targeting is handled in [PhysicsMovementComponent]
+enum MOVEMENT_TARGET_MODE {
+	none, ## not moving
+	actor,  ## moving to an actor
+	destination,  ## moving to a set position
+	direction,  ## moving in a given direction
 }

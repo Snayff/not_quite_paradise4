@@ -10,6 +10,7 @@ extends Node2D
 #region SIGNALS
 signal now_ready
 signal new_target(target: Actor)
+signal was_cast
 #endregion
 
 
@@ -38,7 +39,6 @@ var _cooldown_duration: float = 0:
 
 #region VARS
 var target_actor: Actor
-var target_position: Vector2  ## NOTE: not yet used
 
 # set by parent container
 var _caster: Actor  ## who owns this active
@@ -82,14 +82,14 @@ var _cast_type: Constants.CAST_TYPE = Constants.CAST_TYPE.manual
 var cast_supply: Constants.SUPPLY_TYPE = Constants.SUPPLY_TYPE.stamina
 ## how much supply the cast costs
 var cast_cost: int = 0
-var _valid_target_option: Constants.TARGET_OPTION  ## who the active can target
+var valid_target_option: Constants.TARGET_OPTION  ## who the active can target
 var _valid_effect_option: Constants.TARGET_OPTION  ## who the active's effects can affect
 var _projectile_name: String = ""
 var _effect_chain: ABCEffectChain
 # data from library - projectile
 var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
 # FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?!
-## how far the projectile can travel. when set, updates target finder.
+## how far the can reach. when set, updates target finder.
 var _max_range: float:
 	set(value):
 		_max_range = value
@@ -119,7 +119,7 @@ func _ready() -> void:
 ##
 ## N.B. not recursive, so children are responsible for calling setup() on their own children
 func setup(
-	combat_active_name: String,
+	combat_active_name_: String,
 	caster: Actor,
 	allegiance: Allegiance,
 	cast_position: Marker2D
@@ -132,7 +132,7 @@ func setup(
 	assert(allegiance is Allegiance, "CombatActive: Missing `allegiance`.")
 	assert(cast_position is Marker2D, "CombatActive: Missing `cast_position`.")
 
-	_load_data(combat_active_name)
+	_load_data(combat_active_name_)
 
 	# check effect chain loaded properly
 	assert(_effect_chain is ABCEffectChain, "CombatActive: Missing `_effect_chain`.")
@@ -146,7 +146,7 @@ func setup(
 
 	_effect_chain.setup(_caster, _allegiance, _valid_effect_option)
 
-	_target_finder.setup(_caster, _max_range, _valid_target_option, _allegiance)
+	_target_finder.setup(_caster, _max_range, valid_target_option, _allegiance)
 
 
 ## load data from the library and instantiate required children, e.g. [ABCEffectChain]
@@ -173,17 +173,30 @@ func _load_data(combat_active_name_: String) -> void:
 	_cast_type = dict_data["cast_type"]
 	cast_supply = dict_data["cast_supply"]
 	cast_cost = dict_data["cast_cost"]
-	_valid_target_option = dict_data["valid_target_option"]
+	valid_target_option = dict_data["valid_target_option"]
 	_valid_effect_option = dict_data["valid_effect_option"]
 	_projectile_name = dict_data["projectile_name"]
 	_cooldown_timer.start(_cooldown_duration)
 	_cooldown_duration = dict_data["cooldown_duration"]
 
 	# config orbiter
+	var max_projectiles: int = 0
+	var orbit_radius: float = 0.0
+	var orbit_rotation_speed: float = 0.0
+
+	if (
+		dict_data.has("max_projectiles") and \
+		dict_data.has("orbit_radius") and \
+		dict_data.has("orbit_rotation_speed")
+	):
+		max_projectiles = dict_data["max_projectiles"]
+		orbit_radius = dict_data["orbit_radius"]
+		orbit_rotation_speed = dict_data["orbit_rotation_speed"]
+
 	_orbiter.setup(
-		dict_data["max_projectiles"],
-		dict_data["orbit_radius"],
-		dict_data["orbit_rotation_speed"],
+		max_projectiles,
+		orbit_radius,
+		orbit_rotation_speed,
 	)
 
 	# internalise some projectile data, for easier use later
@@ -214,7 +227,7 @@ func _draw() -> void:
 
 ## casts the active
 func cast()-> void:
-	if not target_actor is Actor and not target_position is Vector2:
+	if not target_actor is Actor:
 		push_error("CombatActive: No target given to cast.")
 		return
 
@@ -233,6 +246,10 @@ func cast()-> void:
 	else:
 		push_error("CombatActive: `_delivery_method` (", _delivery_method, ") not defined.")
 
+	was_cast.emit()
+
+	print(_caster.name, " cast ", combat_active_name)
+
 ## set the target actor. can accept null.
 func set_target_actor(actor: Actor) -> void:
 	if actor is Actor:
@@ -249,10 +266,11 @@ func set_target_actor(actor: Actor) -> void:
 func set_allegiance(allegiance: Allegiance) -> void:
 	_allegiance = allegiance
 	# FIXME: travel range and target option are set in library, need to get from there
-	_target_finder.set_targeting_info(_max_range, _valid_target_option, _allegiance)
+	_target_finder.set_targeting_info(_max_range, valid_target_option, _allegiance)
 
-func set_projectile_position(marker: Marker2D) -> void:
-	_cast_position = marker
+## get how far the active can reach
+func get_range() -> float:
+	return _max_range
 
 ##########################
 ####### PRIVATE #########
@@ -262,8 +280,6 @@ func set_projectile_position(marker: Marker2D) -> void:
 func _restart_cooldown() -> void:
 	_cooldown_timer.start()
 	is_ready = false
-
-
 
 func _create_projectile(cast_position: Vector2, on_hit_callable: Callable) -> ABCProjectile:
 	var projectile: ABCProjectile = Factory.create_projectile(
@@ -323,7 +339,7 @@ func _cast_aura() -> void:
 	# set target so that aura follows them around
 	var target_: Actor
 	# FIXME: this is defined in library, need to get from there.
-	if _valid_target_option == Constants.TARGET_OPTION.self_:
+	if valid_target_option == Constants.TARGET_OPTION.self_:
 		target_ = _caster
 	else:
 		target_ = target_actor

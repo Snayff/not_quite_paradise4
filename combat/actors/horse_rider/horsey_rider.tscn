@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bkqc7x4yp0pn2"]
+[gd_scene load_steps=7 format=3 uid="uid://bkqc7x4yp0pn2"]
 
 [ext_resource type="PackedScene" uid="uid://cgd54nt0un6ix" path="res://combat/actors/actor.tscn" id="1_2tlmc"]
-[ext_resource type="SpriteFrames" uid="uid://cbe3hrdfyed8h" path="res://data/sprite_frames/actors/horsey_rider.tres" id="2_erb4s"]
+[ext_resource type="BehaviorTree" uid="uid://c3g0nsvud4nl" path="res://ai/trees/actor_ranged.tres" id="3_ihj4a"]
 [ext_resource type="PackedScene" uid="uid://kupnh58vddx7" path="res://visual_effects/death/death.tscn" id="6_utgjv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gvith"]
@@ -11,14 +11,9 @@ radius = 6.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_346nu"]
 radius = 7.0
 
-[node name="HorseyRider" instance=ExtResource("1_2tlmc")]
-_is_player = false
-_linear_damp = 5.0
-_mass = 100.0
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_s52f7"]
 
-[node name="AnimatedSprite2D" parent="." index="0"]
-sprite_frames = ExtResource("2_erb4s")
-animation = &"move"
+[node name="HorseyRider" instance=ExtResource("1_2tlmc")]
 
 [node name="CollisionShape2D" parent="." index="1"]
 shape = SubResource("CircleShape2D_gvith")
@@ -37,3 +32,7 @@ scene = ExtResource("6_utgjv")
 
 [node name="DamageNumbers" parent="." index="9"]
 position = Vector2(0, -8)
+
+[node name="BTPlayer" type="BTPlayer" parent="." index="16"]
+behavior_tree = ExtResource("3_ihj4a")
+blackboard_plan = SubResource("BlackboardPlan_s52f7")

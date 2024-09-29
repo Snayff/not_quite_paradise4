@@ -49,9 +49,8 @@ func create_projectile(
 			# finish setting up data class
 			data_class.define_throwable(
 				dict_data["max_range"],
-				dict_data["move_speed"],
-				dict_data["is_homing"],
 				dict_data["max_speed"],
+				dict_data["is_homing"],
 				dict_data["acceleration"],
 				dict_data["deceleration"],
 				dict_data["lock_rotation"]

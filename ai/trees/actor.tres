@@ -1,0 +1,48 @@
+[gd_resource type="BehaviorTree" load_steps=13 format=3 uid="uid://tv22nxt4mupx"]
+
+[ext_resource type="Script" path="res://ai/tasks/find_target.gd" id="1_ofs4i"]
+[ext_resource type="Script" path="res://ai/tasks/choose_random_pos.gd" id="1_qff7k"]
+[ext_resource type="Script" path="res://ai/tasks/move_to_pos.gd" id="2_g1lfe"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_2lcym"]
+
+[sub_resource type="BTAction" id="BTAction_ba7i0"]
+script = ExtResource("1_ofs4i")
+group = &"team2"
+target_actor_var = &"target_actor"
+
+[sub_resource type="BTSequence" id="BTSequence_w07s7"]
+custom_name = "Move To Enemy Sequence"
+children = [SubResource("BTAction_ba7i0")]
+
+[sub_resource type="BTAction" id="BTAction_101hq"]
+script = ExtResource("1_qff7k")
+range_min_in_direction = 40.0
+range_max_in_direction = 100.0
+position_var = &"pos"
+direction_var = &"direction"
+
+[sub_resource type="BTAction" id="BTAction_vionx"]
+script = ExtResource("2_g1lfe")
+target_pos_var = &"pos"
+direction_var = &"direction"
+speed_var = 40.0
+tolerance = 10.0
+
+[sub_resource type="BTRandomWait" id="BTRandomWait_7gwt3"]
+max_duration = 4.0
+
+[sub_resource type="BTSequence" id="BTSequence_oblko"]
+custom_name = "Idle Sequence"
+children = [SubResource("BTRandomWait_7gwt3")]
+
+[sub_resource type="BTSequence" id="BTSequence_v3nst"]
+custom_name = "Random Move Sequence"
+children = [SubResource("BTAction_101hq"), SubResource("BTAction_vionx"), SubResource("BTSequence_oblko")]
+
+[sub_resource type="BTSelector" id="BTSelector_6yxud"]
+children = [SubResource("BTSequence_w07s7"), SubResource("BTSequence_v3nst")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_2lcym")
+root_task = SubResource("BTSelector_6yxud")

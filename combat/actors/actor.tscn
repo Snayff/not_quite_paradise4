@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cgd54nt0un6ix"]
+[gd_scene load_steps=18 format=3 uid="uid://cgd54nt0un6ix"]
 
 [ext_resource type="Script" path="res://combat/actors/actor.gd" id="1_7c8xu"]
 [ext_resource type="Script" path="res://components/functionals/hurtbox.gd" id="2_24d4q"]
@@ -17,20 +17,6 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8wo5g"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_vxvtc"]
-resource_local_to_scene = true
-animations = [{
-"frames": [],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"move",
-"speed": 5.0
-}]
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_cr44w"]
 resource_local_to_scene = true
 radius = 6.0
@@ -38,7 +24,7 @@ radius = 6.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_ir07l"]
 resource_local_to_scene = true
 
-[node name="CombatActor" type="RigidBody2D"]
+[node name="Actor" type="RigidBody2D"]
 collision_layer = 0
 collision_mask = 0
 physics_material_override = SubResource("PhysicsMaterial_8wo5g")
@@ -48,14 +34,8 @@ custom_integrator = true
 contact_monitor = true
 max_contacts_reported = 4
 script = ExtResource("1_7c8xu")
-_is_player = null
-_linear_damp = null
-_mass = null
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_vxvtc")
-animation = &"idle"
-autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_cr44w")
