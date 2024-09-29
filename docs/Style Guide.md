@@ -60,7 +60,7 @@ We avoid shortened names, unless they are widely-used outside of the project. Th
 
 # Formatting
 ## Ordering
-A template is provided, which provides a standard organisation for .gd files. Every gd file should use this template. 
+A template is provided, which provides a standard organisation for .gd files. It can be found in `\script_templates\Node\default.gd`. Every gd file that isnt for the Behaviour Tree should use this template. 
 
 The code order, broken into discrete regions, is:
 1. Class definition
