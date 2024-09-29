@@ -1,3 +1,11 @@
+---
+name: Enhancement Or Feature Request
+about: Suggest something new
+title: ''
+labels: enhancement,feature
+assignees: ''
+
+---
 ### Summary 
 _[high level description]_
 
