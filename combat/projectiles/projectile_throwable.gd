@@ -126,7 +126,6 @@ func set_target_actor(actor: Actor) -> void:
 
 ## update the stamina value of the supply container and the associated max range
 func _set_max_range(max_range_: float) -> void:
-	#FIXME: supply has stamina, but thinks it is health?!?!
 	var supply: SupplyComponent = _supply_container.get_supply(Constants.SUPPLY_TYPE.stamina)
 
 	if supply is SupplyComponent:

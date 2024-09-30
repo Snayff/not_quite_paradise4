@@ -84,6 +84,7 @@ func _apply_scalers() -> int:
 		return base_damage
 
 	for scaler in scalers:
+		@warning_ignore("narrowing_conversion")  # happy with reduced precision
 		damage += stats.get_stat(scaler.stat).value * scaler.scale_value
 
 	return damage

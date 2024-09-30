@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cgd54nt0un6ix"]
+[gd_scene load_steps=19 format=3 uid="uid://cgd54nt0un6ix"]
 
 [ext_resource type="Script" path="res://combat/actors/actor.gd" id="1_7c8xu"]
 [ext_resource type="Script" path="res://components/functionals/hurtbox.gd" id="2_24d4q"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://components/containers/supply_container.gd" id="14_51mcn"]
 [ext_resource type="Script" path="res://components/containers/stat_container.gd" id="14_rlc1x"]
 [ext_resource type="Script" path="res://components/containers/boon_bane_container.gd" id="14_wly6u"]
+[ext_resource type="Script" path="res://components/functionals/state_machine.gd" id="15_illff"]
 [ext_resource type="Script" path="res://components/containers/combat_active_container.gd" id="16_von4t"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8wo5g"]
@@ -121,3 +122,8 @@ unique_name_in_owner = true
 
 [node name="CastPosition" type="Marker2D" parent="CentrePivot"]
 unique_name_in_owner = true
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("_root", "_sprite")]
+script = ExtResource("15_illff")
+_root = NodePath("..")
+_sprite = NodePath("../AnimatedSprite2D")

@@ -53,7 +53,7 @@ var _has_run_setup: bool = false
 
 
 #region FUNCS
-func setup(max_projectiles: int, orbit_radius: int, rotation_speed: float) -> void:
+func setup(max_projectiles: int, orbit_radius: float, rotation_speed: float) -> void:
 	_max_projectiles = max_projectiles
 	_orbit_radius = orbit_radius
 	_rotation_speed = rotation_speed
