@@ -86,6 +86,8 @@ File list:
 "res://visual_effects/frost_ring/FrostRing(Frame4).png"
 "res://visual_effects/slash/slash.png"
 "res://visual_effects/slash/slash_right_facing.png"
+"res://data/sprite_frames/actors/horsey_rider.png"
+"res://data/sprite_frames/actors/wolf_rider.png"
 
 "
 Artist: Stealthix
