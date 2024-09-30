@@ -248,8 +248,6 @@ func cast()-> void:
 
 	was_cast.emit()
 
-	print(_caster.name, " cast ", combat_active_name)
-
 ## set the target actor. can accept null.
 func set_target_actor(actor: Actor) -> void:
 	if actor is Actor:
@@ -262,7 +260,8 @@ func set_target_actor(actor: Actor) -> void:
 			# if no target then keep cooldown going but dont connect to the cast
 			_cooldown_timer.timeout.disconnect(cast)
 
-## sets allegiance and updates child target finder's targeting info (as this is contingent on allegiance).
+## sets allegiance and updates child target finder's targeting info
+##  (as this is contingent on allegiance).
 func set_allegiance(allegiance: Allegiance) -> void:
 	_allegiance = allegiance
 	# FIXME: travel range and target option are set in library, need to get from there

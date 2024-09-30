@@ -25,6 +25,9 @@ extends Node
 
 #region VARS
 var _state_machine: LimboHSM
+## flag showing whether a new state has been announced or not
+## used when [member _is_debug] is true.
+var _announced: bool = false
 #endregion
 
 
@@ -54,8 +57,10 @@ func init_state_machine() -> void:
 	_state_machine.add_child(walk_state)
 	_state_machine.add_child(attack_state)
 
+	# define initial state
 	_state_machine.initial_state = idle_state
 
+	# define possible transitions
 	_state_machine.add_transition(idle_state, walk_state, &"to_walk")
 	_state_machine.add_transition(_state_machine.ANYSTATE, idle_state, &"to_idle")
 	_state_machine.add_transition(_state_machine.ANYSTATE, attack_state, &"to_attack")
@@ -64,9 +69,6 @@ func init_state_machine() -> void:
 	_state_machine.initialize(self)
 	_state_machine.set_active(true)
 
-## debug - announced state
-var announced: bool = false
-
 func _idle_start() -> void:
 	if _is_debug:
 		print("entered idle start")
@@ -74,13 +76,13 @@ func _idle_start() -> void:
 
 func _idle_update(delta: float) -> void:
 	if _is_debug:
-		if announced == false:
+		if _announced == false:
 			print("entered idle update.")
-			announced = true
+			_announced = true
 
 	if not _root.linear_velocity.is_zero_approx():
 		_state_machine.dispatch(&"to_walk")
-		announced = false
+		_announced = false
 
 func _walk_start() -> void:
 	if _is_debug:
@@ -89,13 +91,13 @@ func _walk_start() -> void:
 
 func _walk_update(delta: float) -> void:
 	if _is_debug:
-		if announced == false:
+		if _announced == false:
 			print("entered walk update")
-			announced = true
+			_announced = true
 
 	if _root.linear_velocity.is_zero_approx():
 		_state_machine.dispatch(&"to_idle")
-		announced = false
+		_announced = false
 	else:
 		_flip_sprite()
 
@@ -106,9 +108,9 @@ func _attack_start() -> void:
 
 func _attack_update(delta: float) -> void:
 	if _is_debug:
-		if announced == false:
+		if _announced == false:
 			print("entered attack update")
-			announced = true
+			_announced = true
 
 ## flips _sprite based on [member _root].[member linear_velocity]
 func _flip_sprite() -> void:
