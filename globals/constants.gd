@@ -29,6 +29,8 @@ const GLOBAL_CAST_DELAY: float = 0.33
 ## min time to wait between applications of the same boon bane
 const BOON_BANE_TRIGGER_DELAY: float = 0.125
 const DEFAULT_BOON_BANE_REMINDER_ANIMATION_INTERVAL: float = 2.5
+## how far each pixel costs to move, in stamina
+const TRAVEL_STAMINA_COST: float = 0.9
 
 
 ########################

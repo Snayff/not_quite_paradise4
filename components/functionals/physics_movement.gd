@@ -5,7 +5,7 @@ extends Node
 
 
 #region SIGNALS
-
+signal last_moved(distance: float)
 #endregion
 
 
@@ -53,6 +53,8 @@ var acceleration: float
 var deceleration: float
 ## whether setup() has been called
 var _has_run_setup: bool = false
+## how far the [member _root] moved this frame
+var distance_moved_last_period: float = 0.0
 #endregion
 
 
@@ -61,6 +63,9 @@ var _has_run_setup: bool = false
 ##########################
 ####### LIFECYCLE #######
 ########################
+const DISTANCE_CHECK_WAIT_TIME: float = 0.25
+var distance_timer: float = 0.0
+var prev_pos: Vector2 = Vector2.INF
 
 func setup(max_speed_: float, acceleration_: float, deceleration_: float) -> void:
 	max_speed = max_speed_
@@ -74,6 +79,24 @@ func _process(delta: float) -> void:
 	_move_in_direction_duration -= delta
 	if _move_in_direction_duration <= 0 and _target_mode == Constants.MOVEMENT_TARGET_MODE.direction:
 		_target_mode = Constants.MOVEMENT_TARGET_MODE.none
+
+	# periodically track distance moved
+	distance_timer -= delta
+	if distance_timer <= 0:
+		# if we havent captured previous position yet, update it and reset timer
+		if prev_pos == Vector2.INF:
+			prev_pos = _root.global_position
+			distance_moved_last_period = 0.0
+
+		else:
+			# capture distance moved
+			distance_moved_last_period = prev_pos.distance_to(_root.global_position)
+			last_moved.emit(distance_moved_last_period)
+
+			# update previous position
+			prev_pos = _root.global_position
+
+		distance_timer = DISTANCE_CHECK_WAIT_TIME
 
 # TODO: eventually, this should just be the _physics process, so that it doesnt need to be called.
 ## update the physics state's velocity. won't run until setup() has been called.
@@ -100,7 +123,6 @@ func execute_physics(delta: float) -> void:
 
 	elif _target_mode == Constants.MOVEMENT_TARGET_MODE.direction:
 		_current_target_pos = _target_direction * max_speed
-
 
 	# get direction to move to current target pos
 	var movement_direction: Vector2 = _root.global_position.direction_to(_current_target_pos)
@@ -145,9 +167,6 @@ func set_target_actor(actor: Actor, is_following: bool) -> void:
 		_is_following_target_actor = is_following
 		_target_actor = actor
 		_target_mode = Constants.MOVEMENT_TARGET_MODE.actor
-
-		if _root is ProjectileThrowable:
-			print("target set to ", actor)
 
 	else:
 		_target_destination = actor.global_position

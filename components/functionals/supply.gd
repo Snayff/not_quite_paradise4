@@ -14,7 +14,7 @@ signal max_value_changed() ## the resource's max value has changed
 #region EXPORTS
 @export_group("Details")
 @export var type: Constants.SUPPLY_TYPE
-@export var max_value: int = 999:
+@export var max_value: float = 999:
 	set(value):
 		max_value = clamp(value, 1, INF)
 		if max_value < value:
@@ -29,12 +29,12 @@ signal max_value_changed() ## the resource's max value has changed
 ## the current value of the supply
 ##
 ## protected value. to set the value use [set_value]
-var value: int:
+var value: float:
 	set(value):
 		push_warning("SupplyComponent: Can't set value directly. Use funcs.")
 	get:
 		return _value
-var _value: int = 999:
+var _value: float = 999:
 	set(value):
 		if value > max_value:
 			_value = max_value
@@ -56,16 +56,16 @@ func setup(type_: Constants.SUPPLY_TYPE, max_value_: int, regeneration_: float) 
 	regeneration = regeneration_
 
 ## decrease the resource by an amount
-func decrease(amount: int) -> void:
+func decrease(amount: float) -> void:
 	_value -= amount
 	value_decreased.emit(amount)
 
 ## increase the resource by an amount
-func increase(amount: int) -> void:
+func increase(amount: float) -> void:
 	_value = clamp(value + amount, value, max_value)
 
 ## set the current and max value. If max_value not set, it is left as is.
-func set_value(value_: int, max_value_: int = -1) -> void:
+func set_value(value_: float, max_value_: float = -1) -> void:
 	_value = value_
 
 	if max_value_ != -1:
