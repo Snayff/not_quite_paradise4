@@ -13,7 +13,7 @@ signal hit_valid_target(hurtbox: HurtboxComponent)
 
 #region ON READY (for direct children only)
 @onready var _on_hit_effect_spawner: SpawnerComponent = $OnHitEffectSpawner
-@onready var _supply_container: SupplyContainer = $SupplyContainerComponent
+@onready var _supply: SupplyComponent = $SupplyContainerComponent.get_supply(Constants.SUPPLY_TYPE.stamina)
 @onready var _death_trigger: DeathTrigger = $DeathTrigger
 @onready var _movement_component: PhysicsMovementComponent = $PhysicsMovementComponent
 
@@ -51,6 +51,11 @@ func _ready() -> void:
 
 	# link hitbox signal to our on_hit
 	_hitbox.hit_hurtbox.connect(_on_hit)
+
+	# connect distance travelled to stamina drain, to manage range
+	_movement_component.last_moved.connect(
+		func(distance): _supply.decrease(distance * Constants.TRAVEL_STAMINA_COST)
+	)
 
 ## process setup. does NOT automatically trigger activate.
 func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
@@ -92,7 +97,12 @@ func _physics_process(delta: float) -> void:
 	_movement_component.execute_physics(delta)
 
 func _on_hit(hurtbox: HurtboxComponent) -> void:
-	if !Utility.target_is_valid(_valid_hit_option, _hitbox.originator, hurtbox.root, _target_actor):
+	if not Utility.target_is_valid(
+		_valid_hit_option,
+		_hitbox.originator,
+		hurtbox.root,
+		_target_actor
+	):
 		return
 
 	# update track of num bodies can hit
@@ -126,24 +136,8 @@ func set_target_actor(actor: Actor) -> void:
 
 ## update the stamina value of the supply container and the associated max range
 func _set_max_range(max_range_: float) -> void:
-	var supply: SupplyComponent = _supply_container.get_supply(Constants.SUPPLY_TYPE.stamina)
-
-	if supply is SupplyComponent:
+	if _supply is SupplyComponent:
 		@warning_ignore("narrowing_conversion")  # happy with reduced precision
-		supply.set_value(max_range_, max_range_)
-
-	else:
-		var supplies: Array[SupplyComponent] = _supply_container.get_all_supplies()
-		var supply_names: Array[String] = []
-		for s in supplies:
-			supply_names.append(Utility.get_enum_name(Constants.SUPPLY_TYPE, s.type))
-		push_error(
-			"ProjectileThrowable: supply (",
-			Utility.get_enum_name(Constants.SUPPLY_TYPE, Constants.SUPPLY_TYPE.stamina),
-			") not found. SupplyContainer has ",
-			supply_names,
-			"."
-		)
-
+		_supply.set_value(max_range_, max_range_)
 
 #endregion
