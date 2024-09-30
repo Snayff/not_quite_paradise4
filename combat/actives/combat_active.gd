@@ -101,8 +101,8 @@ var _max_range: float:
 #region FUNCS
 
 ##########################
-####### LIFECYCLE ######
-######################
+####### LIFECYCLE #######
+########################
 
 func _ready() -> void:
 	# check for mandatory properties set in editor

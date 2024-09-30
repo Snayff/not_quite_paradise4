@@ -19,13 +19,13 @@ func _tick(_delta: float) -> Status:
 
 	return SUCCESS
 
-# FIXME: only uses x
+# FIXME: only uses x, not y
 func random_position(direction: Vector2) -> Vector2:
 	var distance = randi_range(range_min_in_direction, range_max_in_direction) * direction.x
 	var final_position = (distance + agent.global_position.x)
 	return Vector2(final_position, 0)
 
-# FIXME: only uses x
+# FIXME: only uses x, not y
 func random_direction() -> Vector2:
 	var direction_x = randi_range(-2, 1)  # 50/50 chance of postiive
 

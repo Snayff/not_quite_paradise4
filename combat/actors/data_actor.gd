@@ -50,8 +50,8 @@ func define(
 	) -> void:
 
 	team = team_
-	size = size_
 	sprite_frames = sprite_frames_
+	size = size_
 	mass = mass_
 	acceleration = acceleration_
 	deceleration = deceleration_
