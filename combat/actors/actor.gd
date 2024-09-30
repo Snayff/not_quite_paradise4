@@ -71,7 +71,7 @@ func _ready() -> void:
 	var tags: Array[Constants.COMBAT_TAG] = []
 	tags.assign(data_dict["tags"])
 	data.define(
-		# FIXME: currently ignored as set in scene. fied when moved to actor spawner
+		# FIXME: currently ignored as set in scene. used when moved to actor spawner
 		Constants.TEAM.team1,
 		Utility.get_sprite_frame("actors", data_dict["sprite_frames"]),
 		data_dict["size"],
@@ -122,16 +122,11 @@ func _physics_process(delta: float) -> void:
 		physics_movement.execute_physics(delta)
 
 func _process(delta: float) -> void:
-	_global_cast_cd_counter -= delta
-
-	_update_non_player_auto_casting()
 
 	# rotate cast position towards current target
 	if combat_active_container.selected_active is CombatActive:
 		if combat_active_container.selected_active.target_actor is Actor:
 			_centre_pivot.look_at(combat_active_container.selected_active.target_actor.global_position)
-
-
 
 ##########################
 ####### PUBLIC ##########
@@ -144,18 +139,6 @@ func update_collisions() -> void:
 ##########################
 ####### PRIVATE #########
 ########################
-
-## handle auto casting for non-player combat actors
-func _update_non_player_auto_casting() -> void:
-	pass
-	# NOTE: should this be in an AI node?
-	#if not _is_player:
-		#if _num_ready_actives > 0:
-			#if _global_cast_cd_counter <= 0:
-				#if combat_active_container.cast_random_ready_active():
-					#_num_ready_actives -= 1
-					#_global_cast_cd_counter = Constants.GLOBAL_CAST_DELAY
-
 
 ## add the [BoonBaneExhaustion]. assumed to trigger after stamina is emptied.
 func _apply_exhaustion() -> void:

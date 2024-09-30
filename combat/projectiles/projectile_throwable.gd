@@ -140,18 +140,4 @@ func _set_max_range(max_range_: float) -> void:
 		@warning_ignore("narrowing_conversion")  # happy with reduced precision
 		_supply.set_value(max_range_, max_range_)
 
-	#else:
-		#var supplies: Array[SupplyComponent] = _supply_container.get_all_supplies()
-		#var supply_names: Array[String] = []
-		#for s in supplies:
-			#supply_names.append(Utility.get_enum_name(Constants.SUPPLY_TYPE, s.type))
-		#push_error(
-			#"ProjectileThrowable: supply (",
-			#Utility.get_enum_name(Constants.SUPPLY_TYPE, Constants.SUPPLY_TYPE.stamina),
-			#") not found. SupplyContainer has ",
-			#supply_names,
-			#"."
-		#)
-
-
 #endregion
