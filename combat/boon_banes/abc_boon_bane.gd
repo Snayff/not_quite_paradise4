@@ -20,9 +20,9 @@ signal activated
 ## the friendly name
 @export var f_name: String = "placeholder name"
 @export var type: Constants.BOON_BANE_TYPE
-# NOTE: Not yet used
+@warning_ignore("unused_variable")  # (will be) used by other classes
 ## icon to show identify the boon_bane
-@export var _icon: Texture2D
+@export var icon: Texture2D
 @export_group("Application")
 ## the thing that causes the boonbane to apply
 @export var trigger: Constants.TRIGGER

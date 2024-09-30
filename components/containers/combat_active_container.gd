@@ -30,9 +30,6 @@ signal new_target(target: Actor)
 @export var _cast_position: Marker2D
 ## the supplies to be used to cast actives
 @export var _supplies: SupplyContainer
-@export_group("Details")
-## list of names of the combat actives. used on init to instantiate the names given as nodes.
-@export var _combat_active_names: Array[String] = []
 #endregion
 
 
