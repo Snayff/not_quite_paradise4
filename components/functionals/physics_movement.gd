@@ -86,8 +86,13 @@ func execute_physics(delta: float) -> void:
 		_decelerate_until_stop(delta)
 		return
 
+	if _root is ProjectileThrowable:
+			pass#breakpoint
+
 	# get current position to move towards
 	if _target_mode == Constants.MOVEMENT_TARGET_MODE.actor and _target_actor is Actor:
+		if _root is ProjectileThrowable:
+			pass#breakpoint
 		_current_target_pos = _target_actor.global_position
 
 	elif _target_mode == Constants.MOVEMENT_TARGET_MODE.destination:
@@ -112,11 +117,9 @@ func execute_physics(delta: float) -> void:
 	# debug to show where we're moving
 	HyperLog.sketch_arrow(_root.global_position, movement, delta + 0.1)
 
-
 ##########################
 ####### PUBLIC  #########
 ########################
-
 
 # TODO: remove and fold into physics process/execute physics above, so player uses same
 ## convert input into velocity
@@ -138,10 +141,14 @@ func apply_input_velocity(state: PhysicsDirectBodyState2D) -> void:
 	state.set_linear_velocity(velocity)
 
 func set_target_actor(actor: Actor, is_following: bool) -> void:
-	if _is_following_target_actor:
+	if is_following:
 		_is_following_target_actor = is_following
 		_target_actor = actor
 		_target_mode = Constants.MOVEMENT_TARGET_MODE.actor
+
+		if _root is ProjectileThrowable:
+			print("target set to ", actor)
+
 	else:
 		_target_destination = actor.global_position
 		_target_mode = Constants.MOVEMENT_TARGET_MODE.destination
