@@ -26,6 +26,7 @@ signal died
 @onready var _centre_pivot: Marker2D = %CentrePivot
 @onready var _tags: TagsComponent = %Tags
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var _state_machine: ActorStateMachine = $StateMachine
 #endregion
 
 
@@ -46,7 +47,7 @@ var _target: Actor:
 	set(value):
 		_target = value
 		new_target.emit(_target)
-var _state_machine: LimboHSM
+
 #endregion
 
 
@@ -108,7 +109,7 @@ func setup(data: DataActor) -> void:
 	if stats_container is StatsContainer:
 		_setup_stats_container(data)
 
-	_init_state_machine()
+	_state_machine.init_state_machine()
 	update_collisions()
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
@@ -160,13 +161,6 @@ func _update_non_player_auto_casting() -> void:
 func _apply_exhaustion() -> void:
 	boons_banes.add_boon_bane(Constants.BOON_BANE_TYPE.exhaustion, self)
 
-## flips _sprite based on [member linear_velocity]
-func _flip_sprite() -> void:
-	if linear_velocity.x > 0:
-		_sprite.flip_h = false
-	elif linear_velocity.x < 0:
-		_sprite.flip_h = true
-
 func _setup_supply_container(data: DataActor) -> void:
 	# create the required supplies
 	_supply_container.create_supplies(data["supplies"])
@@ -212,77 +206,5 @@ func _setup_tags_container(data: DataActor) -> void:
 func _setup_stats_container(data: DataActor) -> void:
 	stats_container.create_stats(data["stats"])
 
-func _init_state_machine() -> void:
-	_state_machine = LimboHSM.new()
-	add_child(_state_machine)
-
-	# create states
-	var idle_state = LimboState.new() \
-		.named("idle") \
-		.call_on_enter(idle_start) \
-		.call_on_update(idle_update)
-	var walk_state = LimboState.new() \
-		.named("walk") \
-		.call_on_enter(walk_start) \
-		.call_on_update(walk_update)
-	var attack_state = LimboState.new() \
-		.named("attack") \
-		.call_on_enter(attack_start) \
-		.call_on_update(attack_update)
-
-	# add states to state machine
-	_state_machine.add_child(idle_state)
-	_state_machine.add_child(walk_state)
-	_state_machine.add_child(attack_state)
-
-	_state_machine.initial_state = idle_state
-
-	_state_machine.add_transition(idle_state, walk_state, &"to_walk")
-	_state_machine.add_transition(_state_machine.ANYSTATE, idle_state, &"to_idle")
-	_state_machine.add_transition(_state_machine.ANYSTATE, attack_state, &"to_attack")
-
-	# init and activate state machine
-	_state_machine.initialize(self)
-	_state_machine.set_active(true)
-
-## debug - announced state
-var announced: bool = false
-
-func idle_start() -> void:
-	#print("entered idle start")
-	_sprite.play("idle")
-
-func idle_update(delta: float) -> void:
-	if announced == false:
-		#print("entered idle update.")
-		announced = true
-
-	if not linear_velocity.is_zero_approx():
-		_state_machine.dispatch(&"to_walk")
-		announced = false
-
-func walk_start() -> void:
-	#sprite.play("walk")
-	pass
-
-func walk_update(delta: float) -> void:
-	if announced == false:
-		#print("entered walk update")
-		announced = true
-
-	if linear_velocity.is_zero_approx():
-		_state_machine.dispatch(&"to_idle")
-		announced = false
-	else:
-		_flip_sprite()
-
-func attack_start() -> void:
-	#print("entered attack start")
-	pass
-
-func attack_update(delta: float) -> void:
-	if announced == false:
-		#print("entered attack update")
-		announced = true
 
 #endregion
