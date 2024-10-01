@@ -68,76 +68,76 @@ var distance_timer: float = 0.0
 var prev_pos: Vector2 = Vector2.INF
 
 func setup(max_speed_: float, acceleration_: float, deceleration_: float) -> void:
-	max_speed = max_speed_
-	acceleration = acceleration_
-	deceleration = deceleration_
+    max_speed = max_speed_
+    acceleration = acceleration_
+    deceleration = deceleration_
 
-	_has_run_setup = true
+    _has_run_setup = true
 
 func _process(delta: float) -> void:
-	# count down duration of move in direction
-	_move_in_direction_duration -= delta
-	if _move_in_direction_duration <= 0 and _target_mode == Constants.MOVEMENT_TARGET_MODE.direction:
-		_target_mode = Constants.MOVEMENT_TARGET_MODE.none
+    # count down duration of move in direction
+    _move_in_direction_duration -= delta
+    if _move_in_direction_duration <= 0 and _target_mode == Constants.MOVEMENT_TARGET_MODE.direction:
+        _target_mode = Constants.MOVEMENT_TARGET_MODE.none
 
-	# periodically track distance moved
-	distance_timer -= delta
-	if distance_timer <= 0:
-		# if we havent captured previous position yet, update it and reset timer
-		if prev_pos == Vector2.INF:
-			prev_pos = _root.global_position
-			distance_moved_last_period = 0.0
+    # periodically track distance moved
+    distance_timer -= delta
+    if distance_timer <= 0:
+        # if we havent captured previous position yet, update it and reset timer
+        if prev_pos == Vector2.INF:
+            prev_pos = _root.global_position
+            distance_moved_last_period = 0.0
 
-		else:
-			# capture distance moved
-			distance_moved_last_period = prev_pos.distance_to(_root.global_position)
-			last_moved.emit(distance_moved_last_period)
+        else:
+            # capture distance moved
+            distance_moved_last_period = prev_pos.distance_to(_root.global_position)
+            last_moved.emit(distance_moved_last_period)
 
-			# update previous position
-			prev_pos = _root.global_position
+            # update previous position
+            prev_pos = _root.global_position
 
-		distance_timer = DISTANCE_CHECK_WAIT_TIME
+        distance_timer = DISTANCE_CHECK_WAIT_TIME
 
 # TODO: eventually, this should just be the _physics process, so that it doesnt need to be called.
 ## update the physics state's velocity. won't run until setup() has been called.
 func execute_physics(delta: float) -> void:
-	if not _has_run_setup:
-		return
+    if not _has_run_setup:
+        return
 
-	# not moving towards anything, so slow down to zero
-	if _target_mode == Constants.MOVEMENT_TARGET_MODE.none:
-		_decelerate_until_stop(delta)
-		return
+    # not moving towards anything, so slow down to zero
+    if _target_mode == Constants.MOVEMENT_TARGET_MODE.none:
+        _decelerate_until_stop(delta)
+        return
 
-	if _root is ProjectileThrowable:
-			pass#breakpoint
+    if _root is ProjectileThrowable:
+            pass#breakpoint
 
-	# get current position to move towards
-	if _target_mode == Constants.MOVEMENT_TARGET_MODE.actor and _target_actor is Actor:
-		if _root is ProjectileThrowable:
-			pass#breakpoint
-		_current_target_pos = _target_actor.global_position
+    # get current position to move towards
+    if _target_mode == Constants.MOVEMENT_TARGET_MODE.actor and _target_actor is Actor:
+        if _root is ProjectileThrowable:
+            pass#breakpoint
+        _current_target_pos = _target_actor.global_position
 
-	elif _target_mode == Constants.MOVEMENT_TARGET_MODE.destination:
-		_current_target_pos = _target_destination
+    elif _target_mode == Constants.MOVEMENT_TARGET_MODE.destination:
+        _current_target_pos = _target_destination
 
-	elif _target_mode == Constants.MOVEMENT_TARGET_MODE.direction:
-		_current_target_pos = _target_direction * max_speed
+    elif _target_mode == Constants.MOVEMENT_TARGET_MODE.direction:
+        _current_target_pos = _target_direction * max_speed
 
-	# get direction to move to current target pos
-	var movement_direction: Vector2 = _root.global_position.direction_to(_current_target_pos)
+    # get direction to move to current target pos
+    var movement_direction: Vector2 = _root.global_position.direction_to(_current_target_pos)
 
-	# if direction is 0 then slow down
-	if movement_direction.is_zero_approx():
-		_decelerate_until_stop(delta)
-		return
+    # if direction is 0 then slow down
+    if movement_direction.is_zero_approx():
+        _decelerate_until_stop(delta)
+        return
 
-	# move towards target
-	var movement: Vector2 = movement_direction * acceleration * delta
-	_root.apply_impulse(movement, _root.global_position)
+    # move towards target
+    var movement: Vector2 = movement_direction * acceleration * delta
+    _root.apply_impulse(movement, _root.global_position)
 
-	# debug to show where we're moving
-	HyperLog.sketch_arrow(_root.global_position, movement, delta + 0.1)
+    # debug to show where we're moving
+    HyperLog.sketch_arrow(_root.global_position, movement, delta + 0.1)
 
 ##########################
 ####### PUBLIC  #########
@@ -146,46 +146,46 @@ func execute_physics(delta: float) -> void:
 # TODO: remove and fold into physics process/execute physics above, so player uses same
 ## convert input into velocity
 func apply_input_velocity(state: PhysicsDirectBodyState2D) -> void:
-	var velocity: Vector2 = state.get_linear_velocity()
-	var step: float = state.get_step()
+    var velocity: Vector2 = state.get_linear_velocity()
+    var step: float = state.get_step()
 
-	# get player input.
-	if is_attached_to_player:
-		var move_left := Input.is_action_pressed(&"move_left")
-		var move_right := Input.is_action_pressed(&"move_right")
-		var move_up := Input.is_action_pressed(&"move_up")
-		var move_down := Input.is_action_pressed(&"move_down")
+    # get player input.
+    if is_attached_to_player:
+        var move_left := Input.is_action_pressed(&"move_left")
+        var move_right := Input.is_action_pressed(&"move_right")
+        var move_up := Input.is_action_pressed(&"move_up")
+        var move_down := Input.is_action_pressed(&"move_down")
 
-		velocity = _get_input_velocity(velocity, step, move_left, move_right, move_up, move_down)
+        velocity = _get_input_velocity(velocity, step, move_left, move_right, move_up, move_down)
 
-	# apply gravity and set back the linear velocity.
-	velocity += state.get_total_gravity() * step
-	state.set_linear_velocity(velocity)
+    # apply gravity and set back the linear velocity.
+    velocity += state.get_total_gravity() * step
+    state.set_linear_velocity(velocity)
 
 func set_target_actor(actor: Actor, is_following: bool) -> void:
-	if is_following:
-		_is_following_target_actor = is_following
-		_target_actor = actor
-		_target_mode = Constants.MOVEMENT_TARGET_MODE.actor
+    if is_following:
+        _is_following_target_actor = is_following
+        _target_actor = actor
+        _target_mode = Constants.MOVEMENT_TARGET_MODE.actor
 
-	else:
-		_target_destination = actor.global_position
-		_target_mode = Constants.MOVEMENT_TARGET_MODE.destination
+    else:
+        _target_destination = actor.global_position
+        _target_mode = Constants.MOVEMENT_TARGET_MODE.destination
 
 func set_target_destination(destination: Vector2) -> void:
-	_target_destination = destination
-	_target_mode = Constants.MOVEMENT_TARGET_MODE.destination
+    _target_destination = destination
+    _target_mode = Constants.MOVEMENT_TARGET_MODE.destination
 
 ## set a direction to move in, for the specified duration.
 ##
 ## does nothing if duration <= 0
 func set_target_direction(direction: Vector2, duration: float) -> void:
-	if duration <= 0:
-		return
+    if duration <= 0:
+        return
 
-	_target_direction = direction
-	_move_in_direction_duration = duration
-	_target_mode = Constants.MOVEMENT_TARGET_MODE.direction
+    _target_direction = direction
+    _move_in_direction_duration = duration
+    _target_mode = Constants.MOVEMENT_TARGET_MODE.direction
 
 ##########################
 ####### PRIVATE #########
@@ -193,76 +193,76 @@ func set_target_direction(direction: Vector2, duration: float) -> void:
 
 ## apply deceleration until stopped
 func _decelerate_until_stop(delta: float) -> void:
-	var current_velocity: Vector2 = _root.linear_velocity
+    var current_velocity: Vector2 = _root.linear_velocity
 
-	if current_velocity.is_zero_approx():
-		_root.linear_velocity = Vector2.ZERO
+    if current_velocity.is_zero_approx():
+        _root.linear_velocity = Vector2.ZERO
 
-	var slow_down_force: Vector2 = Vector2.ZERO
-	var set_x_zero: bool = false
-	if current_velocity.x > 0:
-		if current_velocity.x < deceleration * delta:
-			set_x_zero = true
-		else:
-			slow_down_force.x = -min(current_velocity.x, deceleration * delta)
+    var slow_down_force: Vector2 = Vector2.ZERO
+    var set_x_zero: bool = false
+    if current_velocity.x > 0:
+        if current_velocity.x < deceleration * delta:
+            set_x_zero = true
+        else:
+            slow_down_force.x = -min(current_velocity.x, deceleration * delta)
 
-	elif current_velocity.x < 0:
-		if current_velocity.x > -deceleration * delta:
-			set_x_zero = true
-		else:
-			slow_down_force.x = max(current_velocity.x, deceleration * delta)
+    elif current_velocity.x < 0:
+        if current_velocity.x > -deceleration * delta:
+            set_x_zero = true
+        else:
+            slow_down_force.x = max(current_velocity.x, deceleration * delta)
 
-	var set_y_zero: bool = false
-	if current_velocity.y > 0:
-		if current_velocity.y < deceleration *delta:
-			set_y_zero = true
-		else:
-			slow_down_force.y = -min(current_velocity.x, deceleration * delta)
+    var set_y_zero: bool = false
+    if current_velocity.y > 0:
+        if current_velocity.y < deceleration *delta:
+            set_y_zero = true
+        else:
+            slow_down_force.y = -min(current_velocity.x, deceleration * delta)
 
-	elif current_velocity.y < 0:
-		if current_velocity.y > -deceleration * delta:
-			set_y_zero = true
-		else:
-			slow_down_force.y = max(current_velocity.y, deceleration * delta)
+    elif current_velocity.y < 0:
+        if current_velocity.y > -deceleration * delta:
+            set_y_zero = true
+        else:
+            slow_down_force.y = max(current_velocity.y, deceleration * delta)
 
-	# apply slowdown
-	_root.apply_impulse(slow_down_force, _root.global_position)
+    # apply slowdown
+    _root.apply_impulse(slow_down_force, _root.global_position)
 
-	if set_x_zero:
-		_root.linear_velocity.x = 0
-	if set_y_zero:
-		_root.linear_velocity.y = 0
+    if set_x_zero:
+        _root.linear_velocity.x = 0
+    if set_y_zero:
+        _root.linear_velocity.y = 0
 
 func _get_input_velocity(velocity: Vector2, delta: float, move_left: bool, move_right: bool, move_up: bool, move_down: bool) -> Vector2:
 
-	if move_left and not move_right:
-		if velocity.x > -max_speed:
-			velocity.x -= acceleration * delta
-	elif move_right and not move_left:
-		if velocity.x < max_speed:
-			velocity.x += acceleration * delta
-	else:
-		var xv := absf(velocity.x)
-		xv -= deceleration * delta
-		if xv < 0:
-			xv = 0
-		velocity.x = signf(velocity.x) * xv
+    if move_left and not move_right:
+        if velocity.x > -max_speed:
+            velocity.x -= acceleration * delta
+    elif move_right and not move_left:
+        if velocity.x < max_speed:
+            velocity.x += acceleration * delta
+    else:
+        var xv := absf(velocity.x)
+        xv -= deceleration * delta
+        if xv < 0:
+            xv = 0
+        velocity.x = signf(velocity.x) * xv
 
-	# up down
-	if move_up and not move_down:
-		if velocity.y > -max_speed:
-			velocity.y -= acceleration * delta
-	elif move_down and not move_up:
-		if velocity.y < max_speed:
-			velocity.y += acceleration * delta
-	else:
-		var yv := absf(velocity.y)
-		yv -= deceleration * delta
-		if yv < 0:
-			yv = 0
-		velocity.y = signf(velocity.y) * yv
+    # up down
+    if move_up and not move_down:
+        if velocity.y > -max_speed:
+            velocity.y -= acceleration * delta
+    elif move_down and not move_up:
+        if velocity.y < max_speed:
+            velocity.y += acceleration * delta
+    else:
+        var yv := absf(velocity.y)
+        yv -= deceleration * delta
+        if yv < 0:
+            yv = 0
+        velocity.y = signf(velocity.y) * yv
 
-	return velocity
+    return velocity
 
 
 

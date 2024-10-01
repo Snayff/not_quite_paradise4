@@ -90,7 +90,7 @@ script = ExtResource("6_vu0c2")
 distance_min_var = &"smallest_range"
 distance_max_var = &"largest_range"
 target_actor_var = &"target_actor"
-tolerance = 0.0
+tolerance = 64.0
 distance_max_override = 0.0
 
 [sub_resource type="BTSelector" id="BTSelector_c2ued"]

@@ -55,44 +55,44 @@ extends Resource
 #region FUNCS
 ## define the dataclass
 func define(
-	team_: Constants.TEAM,
-	valid_hit_option_: Constants.TARGET_OPTION,
-	sprite_frames_: SpriteFrames,
-	size_: float = -1,
-	max_bodies_can_hit_: int = 1,
-	) -> void:
+    team_: Constants.TEAM,
+    valid_hit_option_: Constants.TARGET_OPTION,
+    sprite_frames_: SpriteFrames,
+    size_: float = -1,
+    max_bodies_can_hit_: int = 1,
+    ) -> void:
 
-	team = team_
-	valid_hit_option = valid_hit_option_
-	size = size_
-	max_bodies_can_hit = max_bodies_can_hit_
-	sprite_frames = sprite_frames_
+    team = team_
+    valid_hit_option = valid_hit_option_
+    size = size_
+    max_bodies_can_hit = max_bodies_can_hit_
+    sprite_frames = sprite_frames_
 
 ## definition of the [ProjectileThrowable] subclass. call after define.
 func define_throwable(
-	max_range_: float,
-	max_speed_: float,
-	is_homing_: bool,
-	acceleration_: float = 100.0,
-	deceleration_: float = 100.0,
-	lock_rotation_: bool = true,
-	) -> void:
+    max_range_: float,
+    max_speed_: float,
+    is_homing_: bool,
+    acceleration_: float = 100.0,
+    deceleration_: float = 100.0,
+    lock_rotation_: bool = true,
+    ) -> void:
 
-	max_range = max_range_
-	is_homing = is_homing_
-	max_speed = max_speed_
-	acceleration = acceleration_
-	deceleration = deceleration_
-	lock_rotation = lock_rotation_
+    max_range = max_range_
+    is_homing = is_homing_
+    max_speed = max_speed_
+    acceleration = acceleration_
+    deceleration = deceleration_
+    lock_rotation = lock_rotation_
 
 ## definition of the [ProjectileAreaofEffect] subclass. call after define.
 func define_aoe(application_frame: int) -> void:
-	aoe_application_frame = application_frame
+    aoe_application_frame = application_frame
 
 ## definition of the [ProjectileAura] subclass. call after define.
 func define_aura(application_frame: int, lifetime_: float) -> void:
-	aura_application_frame = application_frame
-	lifetime = lifetime_
+    aura_application_frame = application_frame
+    lifetime = lifetime_
 
 #endregion
 

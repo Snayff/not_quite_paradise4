@@ -52,68 +52,68 @@ var _max_bodies_can_hit: int
 ######################
 
 func _ready() -> void:
-	_sprite.stop()
-	_set_collision_disabled(true)
-	_set_hitbox_disabled(true)
+    _sprite.stop()
+    _set_collision_disabled(true)
+    _set_hitbox_disabled(true)
 
-	_has_run_ready = true
+    _has_run_ready = true
 
 func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
-	if not _has_run_ready:
-		push_error("ABCProjectile: setup() called before _ready. ")
+    if not _has_run_ready:
+        push_error("ABCProjectile: setup() called before _ready. ")
 
-	assert(
-		data.team is Constants.TEAM,
-		"ABCProjectile: `team` is missing."
-	)
-	assert(
-		data.valid_hit_option is Constants.TARGET_OPTION,
-		"ABCProjectile: `valid_hit_option` is missing."
-	)
-	assert(
-		data.max_bodies_can_hit is int and data.max_bodies_can_hit != 0,
-		"ABCProjectile: `max_bodies_can_hit` is missing or invalid."
-	)
-	assert(
-		data.sprite_frames is SpriteFrames,
-		"ABCProjectile: `sprite_frames` is missing."
-	)
+    assert(
+        data.team is Constants.TEAM,
+        "ABCProjectile: `team` is missing."
+    )
+    assert(
+        data.valid_hit_option is Constants.TARGET_OPTION,
+        "ABCProjectile: `valid_hit_option` is missing."
+    )
+    assert(
+        data.max_bodies_can_hit is int and data.max_bodies_can_hit != 0,
+        "ABCProjectile: `max_bodies_can_hit` is missing or invalid."
+    )
+    assert(
+        data.sprite_frames is SpriteFrames,
+        "ABCProjectile: `sprite_frames` is missing."
+    )
 
-	global_position = spawn_pos
+    global_position = spawn_pos
 
-	_team = data.team
-	_valid_hit_option = data.valid_hit_option
-	_max_bodies_can_hit = data.max_bodies_can_hit
-	_sprite.sprite_frames = data.sprite_frames
+    _team = data.team
+    _valid_hit_option = data.valid_hit_option
+    _max_bodies_can_hit = data.max_bodies_can_hit
+    _sprite.sprite_frames = data.sprite_frames
 
-	_align_collisions_to_sprite()
+    _align_collisions_to_sprite()
 
-	if data.size > 0:
-		_resize(data.size)
+    if data.size > 0:
+        _resize(data.size)
 
-	_update_collisions()
+    _update_collisions()
 
 ## enable self and begin to act
 ##
 ## @virtual
 func activate() -> void:
-	push_error(
-		"ABCProjectile: `activate` called directly, but is virtual. Must be overriden by child."
-	)
+    push_error(
+        "ABCProjectile: `activate` called directly, but is virtual. Must be overriden by child."
+    )
 
 ## on hit functionality
 ##
 ## @virtual
 @warning_ignore("unused_parameter")  # virtual, so obv not used
 func _on_hit(hurtbox: HurtboxComponent) -> void:
-	push_error(
-		"ABCProjectile: `_on_hit` called directly, but is virtual. Must be overriden by child."
-	)
+    push_error(
+        "ABCProjectile: `_on_hit` called directly, but is virtual. Must be overriden by child."
+    )
 
 ## self-terminate. inform of death via died signal.
 func _terminate() -> void:
-	died.emit()
-	queue_free()
+    died.emit()
+    queue_free()
 
 ######################
 ####### PUBLIC ######
@@ -121,7 +121,7 @@ func _terminate() -> void:
 
 ## set the actor the projectile should target.
 func set_target_actor(actor: Actor) -> void:
-	_target_actor = actor
+    _target_actor = actor
 
 
 ########################
@@ -130,47 +130,47 @@ func set_target_actor(actor: Actor) -> void:
 
 ## set the collision shapes on self and hitbox to closely match the sprite size
 func _align_collisions_to_sprite() -> void:
-	var sprite_size: Vector2 = Utility.get_current_sprite_size(_sprite)
-	var longest_size_length: float = 0
-	if sprite_size.x > sprite_size.y:
-		longest_size_length = sprite_size.x
-	else:
-		longest_size_length = sprite_size.y
+    var sprite_size: Vector2 = Utility.get_current_sprite_size(_sprite)
+    var longest_size_length: float = 0
+    if sprite_size.x > sprite_size.y:
+        longest_size_length = sprite_size.x
+    else:
+        longest_size_length = sprite_size.y
 
-	for shape_ in [get_node("./CollisionShape2D").shape, _hitbox.get_node("./CollisionShape2D").shape]:
-		if shape_ is CircleShape2D:
-			shape_.radius = longest_size_length / 2
-		else:
-			push_warning(
-				"ABCProjectile: shape not recognised, so collision shape not matched to sprite size"
-			)
+    for shape_ in [get_node("./CollisionShape2D").shape, _hitbox.get_node("./CollisionShape2D").shape]:
+        if shape_ is CircleShape2D:
+            shape_.radius = longest_size_length / 2
+        else:
+            push_warning(
+                "ABCProjectile: shape not recognised, so collision shape not matched to sprite size"
+            )
 
 ## enable or diasble the collisions. Deferred call.
 ##
 ## true disables the projectile's collisions.
 func _set_collision_disabled(is_disabled: bool) -> void:
-	var shape: CollisionShape2D = get_node("CollisionShape2D")
-	shape.set_deferred("disabled", is_disabled)
+    var shape: CollisionShape2D = get_node("CollisionShape2D")
+    shape.set_deferred("disabled", is_disabled)
 
 ## enable or diasble the hitbox. Deferred call.
 ##
 ## true disables the hitbox.
 func _set_hitbox_disabled(is_disabled: bool) -> void:
-	_hitbox.set_disabled_status(is_disabled)
+    _hitbox.set_disabled_status(is_disabled)
 
 ## scale to a new size
 func _resize(size: float) -> void:
-	var shape: Shape2D = get_node("CollisionShape2D").shape
-	var ratio: float = Utility.get_ratio_desired_vs_current(size, shape)
+    var shape: Shape2D = get_node("CollisionShape2D").shape
+    var ratio: float = Utility.get_ratio_desired_vs_current(size, shape)
 
-	# FIXME: the scaling seems to work for a single frame, then reverts.
-	scale = Vector2(ratio, ratio)
+    # FIXME: the scaling seems to work for a single frame, then reverts.
+    scale = Vector2(ratio, ratio)
 
 ## turns off body coliisions layer and updates body mask and hitbox collisions to align to team etc.
 func _update_collisions() -> void:
-	Utility.update_body_collisions(self, _team, _valid_hit_option, _target_actor, false)
-	Utility.update_hitbox_hurtbox_collision(_hitbox, _team, _valid_hit_option, _target_actor, false)
+    Utility.update_body_collisions(self, _team, _valid_hit_option, _target_actor, false)
+    Utility.update_hitbox_hurtbox_collision(_hitbox, _team, _valid_hit_option, _target_actor, false)
 
 
 
-	#endregion
+    #endregion
