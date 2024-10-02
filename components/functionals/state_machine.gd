@@ -43,6 +43,10 @@ var _active_to_cast: String = ""
 ## we want to hold this at point of beginning cast so that if they move out of range during
 ## cast we still complete casting
 var _target_actor: Actor
+## whether the full cast animation, i.e. the one used in use_active has compelted. 
+var _completed_cast_animation: bool = false
+## timer for tracking the waiting after using an active
+var _post_cast_delay_duration: float = 0.0
 #endregion
 
 
@@ -217,22 +221,29 @@ func _use_active_start() -> void:
 		print("Entered use active start")
 
 	_sprite.play("cast_full")
-	## cast the active when animation finished
+	_completed_cast_animation = false
+
+	# update flag when animation finished
 	_sprite.animation_looped.connect(
-		func(): _combat_active_container.cast_ready_active(_active_to_cast, _target_actor),
-		ConnectFlags.CONNECT_ONE_SHOT
-	)
-	# exit to idle when animation finished
-	_sprite.animation_looped.connect(
-		func(): _state_machine.dispatch("to_idle"),
+		func(): _completed_cast_animation = true,
 		ConnectFlags.CONNECT_ONE_SHOT
 	)
 
-func _use_active_update(_delta: float) -> void:
+func _use_active_update(delta: float) -> void:
 	if _is_debug:
 		if _announced == false:
 			print("Entered use active update")
 			_announced = true
+
+	# if cast animation complete, cast active
+	if _completed_cast_animation:
+		_combat_active_container.cast_ready_active(_active_to_cast, _target_actor)
+		_post_cast_delay_duration = Constants.GLOBAL_CAST_DELAY
+
+	# countdown delay before reverting to idle
+	_post_cast_delay_duration -= delta
+	if _post_cast_delay_duration <= 0 and _completed_cast_animation:
+		_state_machine.dispatch("to_idle")
 
 func _use_active_exit() -> void:
 	_announced = false
