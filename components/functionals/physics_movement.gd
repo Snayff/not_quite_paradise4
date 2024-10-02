@@ -59,6 +59,11 @@ var _deviation: float
 var _has_run_setup: bool = false
 ## how far the [member _root] moved this frame
 var distance_moved_last_period: float = 0.0
+## track time until next distance check
+var _distance_timer: float = 0.0
+## previous position, for checking distance moved
+var _prev_pos: Vector2 = Vector2.INF
+
 #endregion
 
 
@@ -67,20 +72,17 @@ var distance_moved_last_period: float = 0.0
 ##########################
 ####### LIFECYCLE #######
 ########################
-const DISTANCE_CHECK_WAIT_TIME: float = 0.25
-var distance_timer: float = 0.0
-var prev_pos: Vector2 = Vector2.INF
 
 func setup(
-	_max_speed_: float,
-	_acceleration_: float,
-	_deceleration_: float,
-	_deviation_: float = 0.0
+	max_speed_: float,
+	acceleration_: float,
+	deceleration_: float,
+	deviation_: float = 0.0
 	) -> void:
-	_max_speed = _max_speed_
-	_acceleration = _acceleration_
-	_deceleration = _deceleration_
-	_deviation = _deviation_
+	_max_speed = max_speed_
+	_acceleration = acceleration_
+	_deceleration = deceleration_
+	_deviation = deviation_
 
 	_has_run_setup = true
 
@@ -91,22 +93,22 @@ func _process(delta: float) -> void:
 		_target_mode = Constants.MOVEMENT_TARGET_MODE.none
 
 	# periodically track distance moved
-	distance_timer -= delta
-	if distance_timer <= 0:
+	_distance_timer -= delta
+	if _distance_timer <= 0:
 		# if we havent captured previous position yet, update it and reset timer
-		if prev_pos == Vector2.INF:
-			prev_pos = _root.global_position
+		if _prev_pos == Vector2.INF:
+			_prev_pos = _root.global_position
 			distance_moved_last_period = 0.0
 
 		else:
 			# capture distance moved
-			distance_moved_last_period = prev_pos.distance_to(_root.global_position)
+			distance_moved_last_period = _prev_pos.distance_to(_root.global_position)
 			last_moved.emit(distance_moved_last_period)
 
 			# update previous position
-			prev_pos = _root.global_position
+			_prev_pos = _root.global_position
 
-		distance_timer = DISTANCE_CHECK_WAIT_TIME
+		_distance_timer = Constants.DISTANCE_CHECK_WAIT_TIME
 
 # TODO: eventually, this should just be the _physics process, so that it doesnt need to be called.
 ## update the physics state's velocity. won't run until setup() has been called.
@@ -179,12 +181,12 @@ func set_target_actor(actor: Actor, is_following: bool) -> void:
 		_target_mode = Constants.MOVEMENT_TARGET_MODE.actor
 
 	else:
-		_target_destination = actor.global_position
 		_target_mode = Constants.MOVEMENT_TARGET_MODE.destination
+		_update_target_destination(actor.global_position)
 
 func set_target_destination(destination: Vector2) -> void:
-	_target_destination = destination
 	_target_mode = Constants.MOVEMENT_TARGET_MODE.destination
+	_update_target_destination(destination)
 
 ## set a direction to move in, for the specified duration.
 ##
@@ -200,6 +202,29 @@ func set_target_direction(direction: Vector2, duration: float) -> void:
 ##########################
 ####### PRIVATE #########
 ########################
+
+## update [member _target_destination] based on [member _target_mode] and applying
+## [member _deviation]
+func _update_target_destination(target_pos: Vector2) -> void:
+	# get random value to deviate from target
+	var deviation_x: float = randf_range(-_deviation, _deviation)
+	var deviation_y: float = randf_range(-_deviation, _deviation)
+
+	# apply deviation
+	var x: float = target_pos.x
+	var y: float = target_pos.y
+	if deviation_x <= 0:
+		x -= deviation_x
+	else:
+		x += deviation_x
+	if deviation_y <= 0:
+		y -= deviation_y
+	else:
+		y += deviation_y
+
+	# set new value
+	_target_destination = Vector2(x, y)
+
 
 ## apply _deceleration until stopped
 func _decelerate_until_stop(delta: float) -> void:

@@ -121,8 +121,7 @@ func _physics_process(delta: float) -> void:
 	if not _is_player:
 		physics_movement.execute_physics(delta)
 
-func _process(delta: float) -> void:
-
+func _process(_delta: float) -> void:
 	# rotate cast position towards current target
 	if combat_active_container.selected_active is CombatActive:
 		if combat_active_container.selected_active.target_actor is Actor:

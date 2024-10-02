@@ -53,7 +53,8 @@ func create_projectile(
 				dict_data["is_homing"],
 				dict_data["acceleration"],
 				dict_data["deceleration"],
-				dict_data["lock_rotation"]
+				dict_data["lock_rotation"],
+				dict_data["deviation"],
 			)
 
 			projectile = _PROJECTILE_THROWABLE.instantiate() as ProjectileThrowable
