@@ -88,7 +88,6 @@ var _projectile_name: String = ""
 var _effect_chain: ABCEffectChain
 # data from library - projectile
 var _delivery_method: Constants.EFFECT_DELIVERY_METHOD  ## how the active's effects are delivered
-# FIXME: this isnt helpful for designing orbitals, e.g. how many rotations is it?!
 ## how far the can reach. when set, updates target finder.
 var _max_range: float:
 	set(value):
@@ -137,7 +136,7 @@ func setup(
 	# check effect chain loaded properly
 	assert(_effect_chain is ABCEffectChain, "CombatActive: Missing `_effect_chain`.")
 
-	# config target finder - # ensure we're in sync with range finders new target
+	# config target finder -  ensure we're in sync with range finders new target
 	_target_finder.new_target.connect(set_target_actor)
 
 	_caster = caster
@@ -226,22 +225,24 @@ func _draw() -> void:
 ########################
 
 ## casts the active
-func cast()-> void:
-	if not target_actor is Actor:
+## 
+## target_actor: the actor to target. if null, uses [member target_actor]
+func cast(target_override: Actor = null)-> void:
+	if not target_override is Actor:
 		push_error("CombatActive: No target given to cast.")
 		return
 
 	if _delivery_method == Constants.EFFECT_DELIVERY_METHOD.throwable:
-		_cast_throwable()
+		_cast_throwable(target_override)
 
 	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.orbital:
 		_cast_orbital()
 
 	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.area_of_effect:
-		_cast_area_of_effect()
+		_cast_area_of_effect(target_override)
 
 	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.aura:
-		_cast_aura()
+		_cast_aura(target_override)
 
 	else:
 		push_error("CombatActive: `_delivery_method` (", _delivery_method, ") not defined.")
@@ -289,57 +290,78 @@ func _create_projectile(cast_position: Vector2, on_hit_callable: Callable) -> AB
 	)
 	return projectile
 
-func _cast_throwable() -> void:
-	if _cast_position is Marker2D:
-		var projectile: ProjectileThrowable = _create_projectile(
-			_cast_position.global_position,
-			_effect_chain.on_hit
-		)
-		projectile.set_target_actor(target_actor)
-		projectile.activate()
-		_restart_cooldown()
-	else:
+func _cast_throwable(target_override: Actor = null) -> void:
+	if _cast_position is not Marker2D:
 		push_error("CombatActive: `_cast_position` not defined.")
+
+	var projectile: ProjectileThrowable = _create_projectile(
+		_cast_position.global_position,
+		_effect_chain.on_hit
+	)
+	
+	# set target
+	var target_: Actor
+	if target_override is Actor:
+		target_ = target_override
+	else:
+		target_ = target_actor
+
+	# create projectile
+	projectile.set_target_actor(target_)
+	projectile.activate()
+	_restart_cooldown()		
 
 func _cast_orbital() -> void:
-	if _orbiter is ProjectileOrbiterComponent:
-		if _orbiter.has_max_projectiles:
-			return
-
-		var projectile: ProjectileOrbital = _create_projectile(
-			_cast_position.global_position,
-			_effect_chain.on_hit
-		)
-		projectile.died.connect(_orbiter.remove_projectile.bind(projectile))
-		_orbiter.add_projectile(projectile)
-
-		# FIXME: projectile appears at (0,0) and then jumps to position
-		#		even moving this into orbiter, and even deferring, doesnt fix.
-		projectile.activate()
-
-		_restart_cooldown()
-
-	else:
+	if _orbiter is not ProjectileOrbiterComponent:
 		push_error("CombatActive: `_orbiter` not defined.")
 
-func _cast_area_of_effect() -> void:
-	if _cast_position is Marker2D:
-		var projectile: ProjectileAreaOfEffect = _create_projectile(
-			_cast_position.global_position,
-			_effect_chain.on_hit_multiple
-		)
-		var angle: float = _caster.get_angle_to(target_actor.global_position)
-		projectile.rotation = angle
-		_restart_cooldown()
-	else:
+	if _orbiter.has_max_projectiles:
+		return
+
+	var projectile: ProjectileOrbital = _create_projectile(
+		_cast_position.global_position,
+		_effect_chain.on_hit
+	)
+	projectile.died.connect(_orbiter.remove_projectile.bind(projectile))
+	_orbiter.add_projectile(projectile)
+
+	# FIXME: projectile appears at (0,0) and then jumps to position
+	#		even moving this into orbiter, and even deferring, doesnt fix.
+	projectile.activate()
+
+	_restart_cooldown()
+
+func _cast_area_of_effect(target_override: Actor = null) -> void:
+	if _cast_position is not Marker2D:
 		push_error("CombatActive: `_cast_position` not defined.")
 
-func _cast_aura() -> void:
+	var projectile: ProjectileAreaOfEffect = _create_projectile(
+		_cast_position.global_position,
+		_effect_chain.on_hit_multiple
+	)
+
+	# set target
+	var target_: Actor
+	if target_override is Actor:
+		target_ = target_override
+	else:
+		target_ = target_actor
+
+	var angle: float = _caster.get_angle_to(target_.global_position)
+	projectile.rotation = angle
+	_restart_cooldown()
+		
+
+func _cast_aura(target_override: Actor = null) -> void:
 	# set target so that aura follows them around
 	var target_: Actor
+	if target_override is Actor:
+		target_ = target_override
+
 	# FIXME: this is defined in library, need to get from there.
-	if valid_target_option == Constants.TARGET_OPTION.self_:
+	elif valid_target_option == Constants.TARGET_OPTION.self_:
 		target_ = _caster
+	
 	else:
 		target_ = target_actor
 

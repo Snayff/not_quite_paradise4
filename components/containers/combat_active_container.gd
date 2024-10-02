@@ -161,23 +161,32 @@ func cast_random_ready_active() -> bool:
 		return false
 
 ## casts the specified active, if it is ready and there is a target.
-## If not, nothing happens.returns true if successfully cast.
-func cast_ready_active(active_name: String) -> bool:
+## If not, nothing happens. returns true if successfully cast.
+##
+## target_override: the actor to target. If not provided, targets whoever active is currently
+## targeting.
+## force_cast: whether to ignore checks. if true, skips check against [member can_cast].
+func cast_ready_active(
+	active_name: String,
+	target_override: Actor = null, 
+	force_cast: bool = false
+	) -> bool:
 	var active: CombatActive = get_active(active_name)
-	if active.can_cast:
+	if active.can_cast or force_cast:
 		# pay the toll
 		var supply: SupplyComponent = _supplies.get_supply(active.cast_supply)
 		# only health supply MUST have enough to use
 		if active.cast_supply == Constants.SUPPLY_TYPE.health:
 			if active.cast_cost > supply.value:
 				# not enough health to afford casting. actor would die
+				print("active not cast. not enough resources.")
 				return false
 
 		# for any supply other than health, just drain the amount
 		supply.decrease(active.cast_cost)
 
 		# cast the active
-		active.cast()
+		active.cast(target_override)
 
 		# confirm positive result
 		return true

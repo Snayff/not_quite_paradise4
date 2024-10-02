@@ -38,6 +38,11 @@ var _cast_queue: Array[Dictionary] = []
 var _cast_duration: float = 0.0
 ## which active to cast from [CombatActiveContainer] when [member _cast_duration] expires
 var _active_to_cast: String = ""
+## target for cast
+##
+## we want to hold this at point of beginning cast so that if they move out of range during
+## cast we still complete casting
+var _target_actor: Actor
 #endregion
 
 
@@ -56,7 +61,12 @@ func _ready() -> void:
 
 ## add a ready active to the cast queue. if not casting already, begins casting.
 func _add_to_cast_queue(active: CombatActive) -> void:
-	_cast_queue.append({"name": active.combat_active_name, "cast_time": active.cast_time})
+	_cast_queue.append(
+		{
+			"name": active.combat_active_name,
+			"cast_time": active.cast_time,
+		}
+	)
 	_state_machine.dispatch(&"to_cast")
 
 func _has_active_to_cast() -> bool:
@@ -175,10 +185,16 @@ func _cast_start() -> void:
 	if _is_debug:
 		print("Entered cast start")
 
-	# get info from queue
+	# get info from queue and container
 	var cast_info: Dictionary = _cast_queue.pop_front()
 	_active_to_cast = cast_info[0]
 	_cast_duration = cast_info[1]
+	_target_actor = _combat_active_container.get_active(_active_to_cast).target_actor
+	
+	# if no target, abort back to idle
+	if _target_actor is not Actor:
+		_state_machine.dispatch(&"to_idle")
+		return
 
 	_sprite.play("cast_loop")
 
@@ -203,7 +219,7 @@ func _use_active_start() -> void:
 	_sprite.play("cast_full")
 	## cast the active when animation finished
 	_sprite.animation_looped.connect(
-		func(): _combat_active_container.cast_ready_active(_active_to_cast),
+		func(): _combat_active_container.cast_ready_active(_active_to_cast, _target_actor),
 		ConnectFlags.CONNECT_ONE_SHOT
 	)
 	# exit to idle when animation finished
