@@ -42,19 +42,28 @@ var _is_following_target_actor: bool = false
 var _target_mode: Constants.MOVEMENT_TARGET_MODE = Constants.MOVEMENT_TARGET_MODE.none
 ## how long to reside in the _target_mode = "direction"
 var _move_in_direction_duration: float = 0.0
-## max movement speed. with max_speed < accel < deccel we can get some random sidewinding movement,
+## max movement speed. with _max_speed < accel < deccel we can get some random sidewinding movement,
 ## but still hit target. with move_speed >= accel we move straight to target
-var max_speed: float
+var _max_speed: float
 ## how quickly we accelerate. uses delta, so will apply ~1/60th per frame to the velocity,
-## up to max_speed.
-var acceleration: float
+## up to _max_speed.
+var _acceleration: float
 ## how quickly we decelerate. uses delta, so will apply ~1/60th per frame to the velocity.
-## applied when max_speed is hit. should be >= acceleration.
-var deceleration: float
+## applied when _max_speed is hit. should be >= _acceleration.
+var _deceleration: float
+## how far from target's pos can target.
+##
+## ignored when [member _is_following_target_actor] == true.
+var _deviation: float
 ## whether setup() has been called
 var _has_run_setup: bool = false
 ## how far the [member _root] moved this frame
 var distance_moved_last_period: float = 0.0
+## track time until next distance check
+var _distance_timer: float = 0.0
+## previous position, for checking distance moved
+var _prev_pos: Vector2 = Vector2.INF
+
 #endregion
 
 
@@ -63,14 +72,17 @@ var distance_moved_last_period: float = 0.0
 ##########################
 ####### LIFECYCLE #######
 ########################
-const DISTANCE_CHECK_WAIT_TIME: float = 0.25
-var distance_timer: float = 0.0
-var prev_pos: Vector2 = Vector2.INF
 
-func setup(max_speed_: float, acceleration_: float, deceleration_: float) -> void:
-	max_speed = max_speed_
-	acceleration = acceleration_
-	deceleration = deceleration_
+func setup(
+	max_speed_: float,
+	acceleration_: float,
+	deceleration_: float,
+	deviation_: float = 0.0
+	) -> void:
+	_max_speed = max_speed_
+	_acceleration = acceleration_
+	_deceleration = deceleration_
+	_deviation = deviation_
 
 	_has_run_setup = true
 
@@ -81,22 +93,22 @@ func _process(delta: float) -> void:
 		_target_mode = Constants.MOVEMENT_TARGET_MODE.none
 
 	# periodically track distance moved
-	distance_timer -= delta
-	if distance_timer <= 0:
+	_distance_timer -= delta
+	if _distance_timer <= 0:
 		# if we havent captured previous position yet, update it and reset timer
-		if prev_pos == Vector2.INF:
-			prev_pos = _root.global_position
+		if _prev_pos == Vector2.INF:
+			_prev_pos = _root.global_position
 			distance_moved_last_period = 0.0
 
 		else:
 			# capture distance moved
-			distance_moved_last_period = prev_pos.distance_to(_root.global_position)
+			distance_moved_last_period = _prev_pos.distance_to(_root.global_position)
 			last_moved.emit(distance_moved_last_period)
 
 			# update previous position
-			prev_pos = _root.global_position
+			_prev_pos = _root.global_position
 
-		distance_timer = DISTANCE_CHECK_WAIT_TIME
+		_distance_timer = Constants.DISTANCE_CHECK_WAIT_TIME
 
 # TODO: eventually, this should just be the _physics process, so that it doesnt need to be called.
 ## update the physics state's velocity. won't run until setup() has been called.
@@ -122,7 +134,7 @@ func execute_physics(delta: float) -> void:
 		_current_target_pos = _target_destination
 
 	elif _target_mode == Constants.MOVEMENT_TARGET_MODE.direction:
-		_current_target_pos = _target_direction * max_speed
+		_current_target_pos = _target_direction * _max_speed
 
 	# get direction to move to current target pos
 	var movement_direction: Vector2 = _root.global_position.direction_to(_current_target_pos)
@@ -133,7 +145,7 @@ func execute_physics(delta: float) -> void:
 		return
 
 	# move towards target
-	var movement: Vector2 = movement_direction * acceleration * delta
+	var movement: Vector2 = movement_direction * _acceleration * delta
 	_root.apply_impulse(movement, _root.global_position)
 
 	# debug to show where we're moving
@@ -169,12 +181,12 @@ func set_target_actor(actor: Actor, is_following: bool) -> void:
 		_target_mode = Constants.MOVEMENT_TARGET_MODE.actor
 
 	else:
-		_target_destination = actor.global_position
 		_target_mode = Constants.MOVEMENT_TARGET_MODE.destination
+		_update_target_destination(actor.global_position)
 
 func set_target_destination(destination: Vector2) -> void:
-	_target_destination = destination
 	_target_mode = Constants.MOVEMENT_TARGET_MODE.destination
+	_update_target_destination(destination)
 
 ## set a direction to move in, for the specified duration.
 ##
@@ -191,7 +203,30 @@ func set_target_direction(direction: Vector2, duration: float) -> void:
 ####### PRIVATE #########
 ########################
 
-## apply deceleration until stopped
+## update [member _target_destination] based on [member _target_mode] and applying
+## [member _deviation]
+func _update_target_destination(target_pos: Vector2) -> void:
+	# get random value to deviate from target
+	var deviation_x: float = randf_range(-_deviation, _deviation)
+	var deviation_y: float = randf_range(-_deviation, _deviation)
+
+	# apply deviation
+	var x: float = target_pos.x
+	var y: float = target_pos.y
+	if deviation_x <= 0:
+		x -= deviation_x
+	else:
+		x += deviation_x
+	if deviation_y <= 0:
+		y -= deviation_y
+	else:
+		y += deviation_y
+
+	# set new value
+	_target_destination = Vector2(x, y)
+
+
+## apply _deceleration until stopped
 func _decelerate_until_stop(delta: float) -> void:
 	var current_velocity: Vector2 = _root.linear_velocity
 
@@ -201,29 +236,29 @@ func _decelerate_until_stop(delta: float) -> void:
 	var slow_down_force: Vector2 = Vector2.ZERO
 	var set_x_zero: bool = false
 	if current_velocity.x > 0:
-		if current_velocity.x < deceleration * delta:
+		if current_velocity.x < _deceleration * delta:
 			set_x_zero = true
 		else:
-			slow_down_force.x = -min(current_velocity.x, deceleration * delta)
+			slow_down_force.x = -min(current_velocity.x, _deceleration * delta)
 
 	elif current_velocity.x < 0:
-		if current_velocity.x > -deceleration * delta:
+		if current_velocity.x > -_deceleration * delta:
 			set_x_zero = true
 		else:
-			slow_down_force.x = max(current_velocity.x, deceleration * delta)
+			slow_down_force.x = max(current_velocity.x, _deceleration * delta)
 
 	var set_y_zero: bool = false
 	if current_velocity.y > 0:
-		if current_velocity.y < deceleration *delta:
+		if current_velocity.y < _deceleration *delta:
 			set_y_zero = true
 		else:
-			slow_down_force.y = -min(current_velocity.x, deceleration * delta)
+			slow_down_force.y = -min(current_velocity.x, _deceleration * delta)
 
 	elif current_velocity.y < 0:
-		if current_velocity.y > -deceleration * delta:
+		if current_velocity.y > -_deceleration * delta:
 			set_y_zero = true
 		else:
-			slow_down_force.y = max(current_velocity.y, deceleration * delta)
+			slow_down_force.y = max(current_velocity.y, _deceleration * delta)
 
 	# apply slowdown
 	_root.apply_impulse(slow_down_force, _root.global_position)
@@ -236,28 +271,28 @@ func _decelerate_until_stop(delta: float) -> void:
 func _get_input_velocity(velocity: Vector2, delta: float, move_left: bool, move_right: bool, move_up: bool, move_down: bool) -> Vector2:
 
 	if move_left and not move_right:
-		if velocity.x > -max_speed:
-			velocity.x -= acceleration * delta
+		if velocity.x > -_max_speed:
+			velocity.x -= _acceleration * delta
 	elif move_right and not move_left:
-		if velocity.x < max_speed:
-			velocity.x += acceleration * delta
+		if velocity.x < _max_speed:
+			velocity.x += _acceleration * delta
 	else:
 		var xv := absf(velocity.x)
-		xv -= deceleration * delta
+		xv -= _deceleration * delta
 		if xv < 0:
 			xv = 0
 		velocity.x = signf(velocity.x) * xv
 
 	# up down
 	if move_up and not move_down:
-		if velocity.y > -max_speed:
-			velocity.y -= acceleration * delta
+		if velocity.y > -_max_speed:
+			velocity.y -= _acceleration * delta
 	elif move_down and not move_up:
-		if velocity.y < max_speed:
-			velocity.y += acceleration * delta
+		if velocity.y < _max_speed:
+			velocity.y += _acceleration * delta
 	else:
 		var yv := absf(velocity.y)
-		yv -= deceleration * delta
+		yv -= _deceleration * delta
 		if yv < 0:
 			yv = 0
 		velocity.y = signf(velocity.y) * yv

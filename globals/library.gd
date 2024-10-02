@@ -21,6 +21,7 @@ var _data: Dictionary  = {
 			"deceleration": 2000.0,
 			"is_homing": true,
 			"lock_rotation": false,
+			"deviation": 0.0,
 		},
 		"explosion": {
 			"effect_delivery_method": Constants.EFFECT_DELIVERY_METHOD.area_of_effect,

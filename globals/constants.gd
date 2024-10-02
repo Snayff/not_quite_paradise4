@@ -31,6 +31,8 @@ const BOON_BANE_TRIGGER_DELAY: float = 0.125
 const DEFAULT_BOON_BANE_REMINDER_ANIMATION_INTERVAL: float = 2.5
 ## how far each pixel costs to move, in stamina
 const TRAVEL_STAMINA_COST: float = 0.9
+## how long to wait before checking the distance moved
+const DISTANCE_CHECK_WAIT_TIME: float = 0.25
 
 
 ########################

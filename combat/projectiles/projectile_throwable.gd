@@ -1,4 +1,4 @@
-## A projectile that moves, expires on reaching end of travel range,
+# A projectile that moves, expires on reaching end of travel range,
 ## triggers effects on hit and on death
 @icon("res://projectiles/projectile_throwable.png")
 class_name ProjectileThrowable
@@ -79,7 +79,7 @@ func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
 	_is_homing = data.is_homing
 	lock_rotation = data.lock_rotation
 
-	_movement_component.setup(data.max_speed, data.acceleration, data.deceleration)
+	_movement_component.setup(data.max_speed, data.acceleration, data.deceleration, data.deviation)
 
 func activate() -> void:
 	assert(
