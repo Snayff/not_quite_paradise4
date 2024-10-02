@@ -26,7 +26,7 @@ signal died
 @onready var _centre_pivot: Marker2D = %CentrePivot
 @onready var _tags: TagsComponent = %Tags
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var _state_machine: ActorStateMachine = $StateMachine
+@onready var _state_machine: ActorStateMachine = %StateMachine
 #endregion
 
 
