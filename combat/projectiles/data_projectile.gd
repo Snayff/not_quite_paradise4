@@ -33,6 +33,10 @@ extends Resource
 @export var is_homing: bool
 ## whether object can rotate
 @export var lock_rotation: bool
+## how far from target can deviate.
+##
+## ignored if [member is_homing] == true
+@export var deviation: float
 
 @export_group("AoE")
 ## the animation frame on which to look for hits
@@ -76,6 +80,7 @@ func define_throwable(
 	acceleration_: float = 100.0,
 	deceleration_: float = 100.0,
 	lock_rotation_: bool = true,
+	deviation_: float = 0.0
 	) -> void:
 
 	max_range = max_range_
@@ -84,6 +89,7 @@ func define_throwable(
 	acceleration = acceleration_
 	deceleration = deceleration_
 	lock_rotation = lock_rotation_
+	deviation = deviation_
 
 ## definition of the [ProjectileAreaofEffect] subclass. call after define.
 func define_aoe(application_frame: int) -> void:

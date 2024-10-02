@@ -1,4 +1,4 @@
-## A projectile that moves, expires on reaching end of travel range,
+# A projectile that moves, expires on reaching end of travel range,
 ## triggers effects on hit and on death
 @icon("res://projectiles/projectile_throwable.png")
 class_name ProjectileThrowable
