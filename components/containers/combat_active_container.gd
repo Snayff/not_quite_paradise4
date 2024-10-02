@@ -168,7 +168,7 @@ func cast_random_ready_active() -> bool:
 ## force_cast: whether to ignore checks. if true, skips check against [member can_cast].
 func cast_ready_active(
 	active_name: String,
-	target_override: Actor = null, 
+	target_override: Actor = null,
 	force_cast: bool = false
 	) -> bool:
 	var active: CombatActive = get_active(active_name)
@@ -208,7 +208,12 @@ func get_ranges() -> Array[float]:
 
 	return [smallest, largest]
 
-
+## whether any active has a target in range
+func has_target_in_range() -> bool:
+	for a in _actives:
+		if a.target_actor is Actor:
+			return true
+	return false
 
 
 

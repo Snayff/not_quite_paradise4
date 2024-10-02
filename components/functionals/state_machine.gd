@@ -19,6 +19,8 @@ extends Node
 @export var _root: Actor
 @export var _sprite: AnimatedSprite2D
 @export var _combat_active_container: CombatActiveContainer
+@export var _physics_movement: PhysicsMovementComponent
+@export var _allegiance: Allegiance
 @export_group("Debug")
 @export var _is_debug: bool = false
 #endregion
@@ -30,23 +32,26 @@ var _state_machine: LimboHSM
 ##
 ## used when [member _is_debug] is true.
 var _announced: bool = false
+# TODO: the cast queue stuff should be in actives container
 ## actives available for casting
 ##
 ## [{name: xxx, cast_time: 0.0}]
 var _cast_queue: Array[Dictionary] = []
-## how long to cast for, i.e. to stay in cast state before using the [CombatActive]
-var _cast_duration: float = 0.0
-## which active to cast from [CombatActiveContainer] when [member _cast_duration] expires
+## track time of cast, i.e. to stay in cast state before using the [CombatActive]
+var _cast_countdown: float = 0.0
+## which active to cast from [CombatActiveContainer] when [member _cast_countdown] expires
 var _active_to_cast: String = ""
 ## target for cast
 ##
 ## we want to hold this at point of beginning cast so that if they move out of range during
 ## cast we still complete casting
 var _target_actor: Actor
-## whether the full cast animation, i.e. the one used in use_active has compelted. 
+## whether the full cast animation, i.e. the one used in use_active has compelted.
 var _completed_cast_animation: bool = false
-## timer for tracking the waiting after using an active
-var _post_cast_delay_duration: float = 0.0
+## track time after casting before can act again
+var _post_cast_cooloff_countdown: float = 0.0
+## track time until next update of the target to move towards
+var _movement_target_update_countdown: float = 0.0
 #endregion
 
 
@@ -73,8 +78,100 @@ func _add_to_cast_queue(active: CombatActive) -> void:
 	)
 	_state_machine.dispatch(&"to_cast")
 
+## if there is a [CombatActive] in the [member _cast_queue]
 func _has_active_to_cast() -> bool:
 	return _cast_queue.size() > 0
+
+## @nullable. get the nearest target from the relevant team, based on  actives.
+func _get_target() -> Actor:
+	# determine which teams to check
+	var consider_team1: bool = false
+	var consider_team2: bool = false
+	var actives: Array[CombatActive] = _combat_active_container.get_all_actives()
+	for a in actives:
+		var targeting_info: Array = a.get_target_info()
+		if targeting_info[2] == Constants.TEAM.team1:
+			if targeting_info[1] == Constants.TARGET_OPTION.ally:
+				consider_team1 = true
+			
+			elif targeting_info[1] == Constants.TARGET_OPTION.enemy:
+				consider_team2 = true
+		
+		elif targeting_info[2] == Constants.TEAM.team2:
+			if targeting_info[1] == Constants.TARGET_OPTION.ally:
+				consider_team2 = true
+			
+			elif targeting_info[1] == Constants.TARGET_OPTION.enemy:
+				consider_team1 = true
+
+
+	var nearest_actor_team1: Actor = null
+	var nearest_actor_team2: Actor = null
+	var group_name: String = ""
+	var actors: Array[Actor] = []
+
+	# team 1
+	if consider_team1:
+		group_name = Utility.get_group_name_from_targeting(
+			Constants.TEAM.team1, 
+			Constants.TARGET_OPTION.ally
+		)
+		actors = _root.get_tree().get_nodes_in_group(group_name) as Array[Actor]
+		nearest_actor_team1 = _get_nearest_actor(actors)
+
+	# team 2
+	if consider_team2:
+		group_name = Utility.get_group_name_from_targeting(
+			Constants.TEAM.team2, 
+			Constants.TARGET_OPTION.ally
+		)
+		actors = _root.get_tree().get_nodes_in_group(group_name) as Array[Actor]
+		nearest_actor_team2 = _get_nearest_actor(actors)
+
+	
+	# get nearest of the nearest
+	var nearest_actor: Actor = null
+	if nearest_actor_team1 is Actor and nearest_actor_team2 is Actor:
+		var dist_to_1: float = _root.global_position.distance_to(nearest_actor_team1.lobal_position)
+		var dist_to_2: float = _root.global_position.distance_to(nearest_actor_team2.lobal_position)
+		if  dist_to_1 < dist_to_2:
+			nearest_actor = nearest_actor_team1
+		else:
+			nearest_actor = nearest_actor_team2
+
+	# one of them must be null, check team 1
+	elif nearest_actor_team1 is Actor:
+		nearest_actor = nearest_actor_team1
+
+	# one of them must be null, check team 2
+	elif nearest_actor_team2 is Actor:
+		nearest_actor = nearest_actor_team2
+
+	# nothing found
+	else:
+		return null
+
+	return nearest_actor
+	
+
+
+func _get_nearest_actor(actors: Array[Actor]) -> Actor:
+	if actors.is_empty():
+		push_error("`actors` is empty")
+
+	# loop actors in array and find nearest
+	var nearest: Actor = actors.pop_back()
+	var distance: float = _root.global_position.distance_to(nearest.global_position)
+	var new_distance: float = 0.0
+	for a in actors:
+		new_distance = _root.global_position.distance_to(a.global_position)
+		if new_distance < distance:
+			distance = new_distance
+			nearest = a
+	
+	return nearest
+
+
 
 ##########################
 ####### PUBLIC ##########
@@ -149,13 +246,16 @@ func _idle_update(_delta: float) -> void:
 			print("Entered idle update.")
 			_announced = true
 
-	# move to walking when velocity != 0
-	if not _root.linear_velocity.is_zero_approx():
-		_state_machine.dispatch(&"to_walk")
-
-	## move to cast if we have something in cast queue
+	# move to cast if we have something in cast queue
 	if _has_active_to_cast:
 		_state_machine.dispatch(&"to_cast")
+		return
+
+	# move to walking when velocity != 0
+	#if not _root.linear_velocity.is_zero_approx():
+	if not _combat_active_container.has_target_in_range():
+		_state_machine.dispatch(&"to_walk")
+		return
 
 func _idle_exit() -> void:
 	_announced = false
@@ -166,21 +266,41 @@ func _walk_start() -> void:
 
 	_sprite.play("walk")
 
-func _walk_update(_delta: float) -> void:
+func _walk_update(delta: float) -> void:
 	if _is_debug:
 		if _announced == false:
 			print("Entered walk update")
 			_announced = true
 
-	# move to idle when velocity == 0
-	if _root.linear_velocity.is_zero_approx():
-		_state_machine.dispatch(&"to_idle")
-	else:
+	# if walking anywhere, update sprites direction
+	if not _root.linear_velocity.is_zero_approx():
 		_flip_sprite()
 
-	## move to cast if we have something in cast queue
+
+	# if time for next update
+	# get target and move in their direction
+	_movement_target_update_countdown -= delta
+	if _movement_target_update_countdown <= 0:
+		var target: Actor = _get_target()
+		
+		# if no target found, reset countdown and wait
+		if target is not Actor:
+			_movement_target_update_countdown = Constants.MOVEMENT_TARGETING_WAIT_TIME
+			return
+
+		var direction = _root.global_position.direction_to(target.global_position)
+		_physics_movement.set_target_direction(direction, Constants.MOVEMENT_TARGETING_WAIT_TIME)
+		_movement_target_update_countdown = Constants.MOVEMENT_TARGETING_WAIT_TIME
+
+	# move to cast if we have something in cast queue
 	if _has_active_to_cast:
 		_state_machine.dispatch(&"to_cast")
+		return
+
+	# if has target in range, but (due to not hitting above check) we have no ready active, go idle
+	if _combat_active_container.has_target_in_range():
+		_state_machine.dispatch(&"to_idle")
+		return
 
 func _walk_exit() -> void:
 	_announced = false
@@ -192,9 +312,9 @@ func _cast_start() -> void:
 	# get info from queue and container
 	var cast_info: Dictionary = _cast_queue.pop_front()
 	_active_to_cast = cast_info[0]
-	_cast_duration = cast_info[1]
+	_cast_countdown = cast_info[1]
 	_target_actor = _combat_active_container.get_active(_active_to_cast).target_actor
-	
+
 	# if no target, abort back to idle
 	if _target_actor is not Actor:
 		_state_machine.dispatch(&"to_idle")
@@ -209,8 +329,8 @@ func _cast_update(delta: float) -> void:
 			_announced = true
 
 	# countdown cast time
-	_cast_duration -= delta
-	if _cast_duration <= 0:
+	_cast_countdown -= delta
+	if _cast_countdown <= 0:
 		_state_machine.dispatch(&"to_use_active")
 
 func _cast_exit() -> void:
@@ -238,11 +358,11 @@ func _use_active_update(delta: float) -> void:
 	# if cast animation complete, cast active
 	if _completed_cast_animation:
 		_combat_active_container.cast_ready_active(_active_to_cast, _target_actor)
-		_post_cast_delay_duration = Constants.GLOBAL_CAST_DELAY
+		_post_cast_cooloff_countdown = Constants.GLOBAL_CAST_DELAY
 
 	# countdown delay before reverting to idle
-	_post_cast_delay_duration -= delta
-	if _post_cast_delay_duration <= 0 and _completed_cast_animation:
+	_post_cast_cooloff_countdown -= delta
+	if _post_cast_cooloff_countdown <= 0 and _completed_cast_animation:
 		_state_machine.dispatch("to_idle")
 
 func _use_active_exit() -> void:

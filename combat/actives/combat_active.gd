@@ -272,6 +272,14 @@ func set_allegiance(allegiance: Allegiance) -> void:
 func get_range() -> float:
 	return _max_range
 
+## returns [
+## max_range as float,
+## valid_target_option as Constants.TARGET_OPTION,
+##  team as Constants.TEAM
+## ]
+func get_target_info() -> Array:
+	return [_max_range, valid_target_option, _allegiance.team]
+
 ##########################
 ####### PRIVATE #########
 ########################

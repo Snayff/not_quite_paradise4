@@ -33,6 +33,8 @@ const DEFAULT_BOON_BANE_REMINDER_ANIMATION_INTERVAL: float = 2.5
 const TRAVEL_STAMINA_COST: float = 0.9
 ## how long to wait before checking the distance moved
 const DISTANCE_CHECK_WAIT_TIME: float = 0.25
+## how long to wait before updating the movement target
+const MOVEMENT_TARGETING_WAIT_TIME: float = 0.25
 
 
 ########################

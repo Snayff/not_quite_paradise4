@@ -37,3 +37,6 @@ position = Vector2(0, -8)
 behavior_tree = ExtResource("3_ihj4a")
 active = false
 blackboard_plan = SubResource("BlackboardPlan_s52f7")
+
+[node name="StateMachine" parent="." index="17"]
+_is_debug = null

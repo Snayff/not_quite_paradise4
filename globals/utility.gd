@@ -217,4 +217,25 @@ func call_next_frame(callable: Callable, args: Array = []) -> void:
 	var deferred_callable: Callable = callable.bindv(args)
 	get_tree().process_frame.connect(deferred_callable, CONNECT_ONE_SHOT)
 
+
+## get the required group to look for, based on team and target_option
+## returns empty if not found
+func get_group_name_from_targeting(
+	team: Constants.TEAM, 
+	target_option: Constants.TARGET_OPTION
+	) -> String:
+		
+	var group: String = ""
+	if target_option in [Constants.TARGET_OPTION.ally, Constants.TARGET_OPTION.self_]:
+		group = Utility.get_enum_name(Constants.TEAM, team)
+
+	elif target_option == Constants.TARGET_OPTION.enemy:
+		if team == Constants.TEAM.team1:
+			group = Utility.get_enum_name(Constants.TEAM, Constants.TEAM.team2)
+
+		elif team == Constants.TEAM.team2:
+			group = Utility.get_enum_name(Constants.TEAM, Constants.TEAM.team1)
+
+	return group
+
 #endregion
