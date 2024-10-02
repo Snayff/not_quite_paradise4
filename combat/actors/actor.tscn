@@ -124,6 +124,7 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("_root", "_sprite")]
+unique_name_in_owner = true
 script = ExtResource("15_illff")
 _root = NodePath("..")
 _sprite = NodePath("../AnimatedSprite2D")

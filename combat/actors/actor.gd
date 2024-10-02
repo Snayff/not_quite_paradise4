@@ -26,7 +26,7 @@ signal died
 @onready var _centre_pivot: Marker2D = %CentrePivot
 @onready var _tags: TagsComponent = %Tags
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var _state_machine: ActorStateMachine = %StateMachine
+@onready var state_machine: ActorStateMachine = %StateMachine
 #endregion
 
 
@@ -109,7 +109,7 @@ func setup(data: DataActor) -> void:
 	if stats_container is StatsContainer:
 		_setup_stats_container(data)
 
-	_state_machine.init_state_machine()
+	state_machine.init_state_machine()
 	update_collisions()
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:

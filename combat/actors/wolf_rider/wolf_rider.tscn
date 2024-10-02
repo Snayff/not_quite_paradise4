@@ -28,5 +28,5 @@ visible = false
 [node name="CastPosition" parent="CentrePivot" index="0"]
 position = Vector2(10, -1)
 
-[node name="StateMachine" parent="." index="16"]
-unique_name_in_owner = true
+[node name="StateMachine" parent="." index="16" node_paths=PackedStringArray("_combat_active_container")]
+_combat_active_container = NodePath("../CombatActiveContainer")

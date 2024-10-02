@@ -35,4 +35,5 @@ position = Vector2(0, -8)
 
 [node name="BTPlayer" type="BTPlayer" parent="." index="16"]
 behavior_tree = ExtResource("3_ihj4a")
+active = false
 blackboard_plan = SubResource("BlackboardPlan_s52f7")

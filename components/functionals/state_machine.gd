@@ -18,6 +18,7 @@ extends Node
 @export_group("Component Links")
 @export var _root: Actor
 @export var _sprite: AnimatedSprite2D
+@export var _combat_active_container: CombatActiveContainer
 @export_group("Debug")
 @export var _is_debug: bool = false
 #endregion
@@ -29,8 +30,14 @@ var _state_machine: LimboHSM
 ##
 ## used when [member _is_debug] is true.
 var _announced: bool = false
+## actives available for casting
+##
+## [{name: xxx, cast_time: 0.0}]
+var _cast_queue: Array[Dictionary] = []
 ## how long to cast for, i.e. to stay in cast state before using the [CombatActive]
 var _cast_duration: float = 0.0
+## which active to cast from [CombatActiveContainer] when [member _cast_duration] expires
+var _active_to_cast: String = ""
 #endregion
 
 
@@ -43,6 +50,17 @@ var _cast_duration: float = 0.0
 func _ready() -> void:
 	_state_machine = LimboHSM.new()
 	add_child(_state_machine)
+
+	# when an active becomes ready, add to queue
+	_combat_active_container.active_became_ready.connect(_add_to_cast_queue)
+
+## add a ready active to the cast queue. if not casting already, begins casting.
+func _add_to_cast_queue(active: CombatActive) -> void:
+	_cast_queue.append({"name": active.combat_active_name, "cast_time": active.cast_time})
+	_state_machine.dispatch(&"to_cast")
+
+func _has_active_to_cast() -> bool:
+	return _cast_queue.size() > 0
 
 ##########################
 ####### PUBLIC ##########
@@ -89,20 +107,17 @@ func init_state_machine() -> void:
 
 	# define possible transitions
 	_state_machine.add_transition(idle_state, walk_state, &"to_walk")
-	_state_machine.add_transition(_state_machine.ANYSTATE, idle_state, &"to_idle")
 	_state_machine.add_transition(idle_state, cast_state, &"to_cast")
+	_state_machine.add_transition(walk_state, idle_state, &"to_idle")
 	_state_machine.add_transition(walk_state, cast_state, &"to_cast")
 	_state_machine.add_transition(cast_state, use_active_state, &"to_use_active")
+	_state_machine.add_transition(use_active_state, idle_state, &"to_idle")
 	_state_machine.add_transition(_state_machine.ANYSTATE, dead_state, &"to_dead")
 
 	# init and activate state machine
 	_state_machine.initialize(self)
 	_state_machine.set_active(true)
 
-## move to cast state, if in appropriate state (idle, walk)
-func to_cast(cast_duration: float) -> void:
-	_cast_duration = cast_duration
-	_state_machine.dispatch(&"to_cast")
 
 ##########################
 ####### PRIVATE #########
@@ -123,6 +138,10 @@ func _idle_update(_delta: float) -> void:
 	# move to walking when velocity != 0
 	if not _root.linear_velocity.is_zero_approx():
 		_state_machine.dispatch(&"to_walk")
+
+	## move to cast if we have something in cast queue
+	if _has_active_to_cast:
+		_state_machine.dispatch(&"to_cast")
 
 func _idle_exit() -> void:
 	_announced = false
@@ -145,12 +164,21 @@ func _walk_update(_delta: float) -> void:
 	else:
 		_flip_sprite()
 
+	## move to cast if we have something in cast queue
+	if _has_active_to_cast:
+		_state_machine.dispatch(&"to_cast")
+
 func _walk_exit() -> void:
 	_announced = false
 
 func _cast_start() -> void:
 	if _is_debug:
 		print("Entered cast start")
+
+	# get info from queue
+	var cast_info: Dictionary = _cast_queue.pop_front()
+	_active_to_cast = cast_info[0]
+	_cast_duration = cast_info[1]
 
 	_sprite.play("cast_loop")
 
@@ -173,6 +201,16 @@ func _use_active_start() -> void:
 		print("Entered use active start")
 
 	_sprite.play("cast_full")
+	## cast the active when animation finished
+	_sprite.animation_looped.connect(
+		func(): _combat_active_container.cast_ready_active(_active_to_cast),
+		ConnectFlags.CONNECT_ONE_SHOT
+	)
+	# exit to idle when animation finished
+	_sprite.animation_looped.connect(
+		func(): _state_machine.dispatch("to_idle"),
+		ConnectFlags.CONNECT_ONE_SHOT
+	)
 
 func _use_active_update(_delta: float) -> void:
 	if _is_debug:
