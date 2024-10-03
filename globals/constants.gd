@@ -13,6 +13,7 @@ extends Node
 
 const PATH_SPRITE_FRAMES: String = "res://data/sprite_frames/"
 const PATH_COMBAT_ACTIVES: String = "res://combat/actives/"
+const PATH_COMBAT_PASSIVES: String = "res://combat/passives/"
 
 #########################
 ####### COMBAT #########
@@ -26,6 +27,8 @@ const LINEAR_DAMP: float = 1.0
 const DEFAULT_AURA_TICK_RATE: float = 0.33
 ## min time to wait between combat active casts
 const GLOBAL_CAST_DELAY: float = 0.33
+## min time to wait before a passive can effect the same target again
+const PASSIVE_REAPPLICATION_DELAY: float = 0.25
 ## min time to wait between applications of the same boon bane
 const BOON_BANE_TRIGGER_DELAY: float = 0.125
 const DEFAULT_BOON_BANE_REMINDER_ANIMATION_INTERVAL: float = 2.5
@@ -126,7 +129,7 @@ enum MATH_MOD_TYPE {
 
 ## the things that can cause a reaction.
 ##
-## usually used for [ABCBoonBane]s.
+## usually used for [ABCBoonBane]s and [ABCCombatPassive].
 enum TRIGGER {
 	on_hit_received,
 	on_death,

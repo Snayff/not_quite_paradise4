@@ -5,9 +5,11 @@ extends RigidBody2D
 
 #region SIGNALS
 ## changed target to new actor
-signal new_target(actor: Actor)
-## actor has died
-signal died
+signal new_target(target: Actor)
+## actor has died. 
+signal died(deceased: Actor)
+## actor had health reduced
+signal took_damage(who: Actor, amount: float)
 #endregion
 
 
@@ -20,7 +22,6 @@ signal died
 @onready var stats_container: StatsContainer = %StatsContainer
 @onready var boons_banes: BoonBaneContainer = %BoonsBanesContainer
 @onready var _damage_numbers: PopUpNumbers = %DamageNumbers
-@onready var _death_trigger: DeathTrigger = %DeathTrigger
 @onready var physics_movement: PhysicsMovementComponent = %PhysicsMovement
 @onready var _supply_container: SupplyContainer = %SupplyContainer
 @onready var _centre_pivot: Marker2D = %CentrePivot
@@ -34,7 +35,6 @@ signal died
 @export_group("Details")
 ## if the actor is player controlled
 @export var _is_player: bool = false
-@export_group("Physics")
 #endregion
 
 
@@ -89,8 +89,6 @@ func _ready() -> void:
 func setup(data: DataActor) -> void:
 	# NOTE: for some reason these arent being applied via the editor, but applying via code works
 	mass = data["mass"]
-
-	_death_trigger.died.connect(func(): died.emit())
 
 	_sprite.sprite_frames = data.sprite_frames
 
@@ -150,13 +148,16 @@ func _setup_supply_container(data: DataActor) -> void:
 	# set up triggers and process for death on health empty
 	var health = _supply_container.get_supply(Constants.SUPPLY_TYPE.health)
 	# inform of death when empty
-	health.emptied.connect(func(): died.emit())
+	health.emptied.connect(func(): died.emit(self))
 
 	# and hit effects
 	# activate flash on hit
 	health.value_decreased.connect(_on_hit_flash.activate.unbind(1))
 	# show damage numbers
 	health.value_decreased.connect(_damage_numbers.display_number)
+	# emit took damage
+	health.value_decreased.connect(func(amount): took_damage.emit(self, amount))
+
 
 	# setup triggers and process for exhaustion on stamina empty
 	var stamina = _supply_container.get_supply(Constants.SUPPLY_TYPE.stamina)

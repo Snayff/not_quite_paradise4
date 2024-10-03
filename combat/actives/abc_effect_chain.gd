@@ -21,7 +21,8 @@ extends Node
 # @export var
 @export_group("Details")
 @export var _caster_required_tags: Array[Constants.COMBAT_TAG] = []  ## tags the caster must have to be able to activate
-@export var target_required_tags: Array[Constants.COMBAT_TAG] = []  ## tags the target must have to be able to effect  # NOTE: not currently used. Should maybe be on the effect.
+# NOTE: not currently used. Should maybe be on the effect.
+@export var target_required_tags: Array[Constants.COMBAT_TAG] = []  ## tags the target must have to be able to effect  
 #endregion
 
 
@@ -35,6 +36,11 @@ var _has_run_ready: bool = false  ## if _ready() has finished
 
 
 #region FUNCS
+
+##########################
+####### LIFECYCLE #######
+########################
+
 func _ready() -> void:
 	_has_run_ready = true
 
@@ -51,6 +57,20 @@ func setup(caster: Actor, allegiance: Allegiance, valid_effect_option: Constants
 	_valid_effect_option = valid_effect_option
 	_allegiance = allegiance
 
+## remove any lingering aspects of an effect in this class
+##
+## called automatically on effect.terminate()
+func _cleanup_effect(effect: ABCAtomicAction) -> void:
+	if effect in _active_effects:
+		_active_effects.erase(effect)
+
+func _terminate() -> void:
+	queue_free()
+
+##########################
+####### PUBLIC ##########
+########################
+
 ## check the conditions to activate are met
 ##
 ## this is usually casting, but can be activated by other means.
@@ -60,21 +80,20 @@ func can_activate() -> bool:
 		return tags.has_tags(_caster_required_tags)
 	return false
 
-## activate the chain of effects.
-##
-## this is usually casting, but can be activated by other means.
-## NOTE: not yet used
-func activate() -> void:
-	pass
-
-## NOTE: not yet used
-func on_activate() -> void:
-	pass
+## @virtual. process effects triggered by on_hit.
+@warning_ignore("unused_parameter")  # virtual, so wont be used
+func apply(target: Actor, source: Actor = null) -> void:
+	push_error("EffectChain: `apply` called directly, but is virtual. Must be overriden by child.")
 
 ## @virtual. process effects triggered by on_hit.
 @warning_ignore("unused_parameter")  # virtual, so wont be used
 func on_hit(hurtbox: HurtboxComponent) -> void:
 	push_error("EffectChain: `on_hit` called directly, but is virtual. Must be overriden by child." )
+
+
+##########################
+####### PRIVATE #########
+########################
 
 ## acts as a wrapper for processing multiple `on_hit` calls at once.
 ##
@@ -90,13 +109,5 @@ func _register_effect(effect: ABCAtomicAction) -> void:
 		_active_effects.append(effect)
 		effect.terminated.connect(_cleanup_effect)
 
-## remove any lingering aspects of an effect in this class
-##
-## called automatically on effect.terminate()
-func _cleanup_effect(effect: ABCAtomicAction) -> void:
-	if effect in _active_effects:
-		_active_effects.erase(effect)
 
-func _terminate() -> void:
-	queue_free()
 #endregion

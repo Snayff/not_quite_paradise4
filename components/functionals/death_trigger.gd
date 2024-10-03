@@ -4,7 +4,6 @@
 class_name DeathTrigger
 extends Node
 
-signal died
 
 @export_group("Component Links")
 @export var _root: Node  ## the node this component will operate on. @REQUIRED.
@@ -29,7 +28,5 @@ func activate() -> void:
 	# create an effect (from the spawner component) and free the actor
 	if _destroy_effect_spawner is SpawnerComponent:
 		_destroy_effect_spawner.spawn_scene(_root.global_position)
-
-	died.emit()
 
 	_root.queue_free()

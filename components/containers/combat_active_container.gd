@@ -35,12 +35,10 @@ signal new_target(target: Actor)
 
 #region VARS
 ## all combat actives.
-var _actives: Array[CombatActive]:
-	set(value):
-		_actives = value
+var _actives: Array[CombatActive]
 ## actives that are ready to cast - may not have a target.
 var _ready_actives: Array[CombatActive] = []
-# NOTE: the selection things might be better elsewhere, in a control node
+# NOTE: the selection things might be better elsewhere, e.g. in a control node
 ## the currently selected index in _active.
 var _selection_index: int = 0
 ## the active selected. determined by _selection_index

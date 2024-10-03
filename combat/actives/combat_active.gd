@@ -124,6 +124,7 @@ func setup(
 	allegiance: Allegiance,
 	cast_position: Marker2D
 	) -> void:
+	combat_active_name = combat_active_name_
 
 	if not _has_run_ready:
 		push_error("CombatActive: setup() called before _ready. ")
@@ -132,7 +133,7 @@ func setup(
 	assert(allegiance is Allegiance, "CombatActive: Missing `allegiance`.")
 	assert(cast_position is Marker2D, "CombatActive: Missing `cast_position`.")
 
-	_load_data(combat_active_name_)
+	_load_data()
 
 	# check effect chain loaded properly
 	assert(_effect_chain is ABCEffectChain, "CombatActive: Missing `_effect_chain`.")
@@ -150,8 +151,7 @@ func setup(
 
 
 ## load data from the library and instantiate required children, e.g. [ABCEffectChain]
-func _load_data(combat_active_name_: String) -> void:
-	combat_active_name = combat_active_name_
+func _load_data() -> void:
 
 	var dict_data: Dictionary = Library.get_combat_active_data(combat_active_name)
 
@@ -231,20 +231,21 @@ func cast()-> void:
 		push_error("CombatActive: No target given to cast.")
 		return
 
-	if _delivery_method == Constants.EFFECT_DELIVERY_METHOD.throwable:
-		_cast_throwable()
+	match _delivery_method:
+		Constants.EFFECT_DELIVERY_METHOD.throwable:
+			_cast_throwable()
 
-	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.orbital:
-		_cast_orbital()
+		Constants.EFFECT_DELIVERY_METHOD.orbital:
+			_cast_orbital()
 
-	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.area_of_effect:
-		_cast_area_of_effect()
+		Constants.EFFECT_DELIVERY_METHOD.area_of_effect:
+			_cast_area_of_effect()
 
-	elif _delivery_method == Constants.EFFECT_DELIVERY_METHOD.aura:
-		_cast_aura()
+		Constants.EFFECT_DELIVERY_METHOD.aura:
+			_cast_aura()
 
-	else:
-		push_error("CombatActive: `_delivery_method` (", _delivery_method, ") not defined.")
+		_:
+			push_error("CombatActive: `_delivery_method` (", _delivery_method, ") not defined.")
 
 	was_cast.emit()
 
@@ -253,7 +254,8 @@ func set_target_actor(actor: Actor) -> void:
 	if actor is Actor:
 		target_actor = actor
 		if not target_actor.is_connected("died", set_target_actor):
-			target_actor.died.connect(set_target_actor.bind(null))  # to clear target
+			# remove the deceased from the signal and replace with null, to clear the target
+			target_actor.died.connect(set_target_actor.unbind(1).bind(null))
 		new_target.emit(actor)
 	else:
 		if _cooldown_timer.is_connected("timeout", cast):

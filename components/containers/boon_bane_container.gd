@@ -103,7 +103,7 @@ func remove_boon_bane(boon_bane: ABCBoonBane, ignore_permanent: bool = false) ->
 func _link_signals_to_triggers(boon_bane: ABCBoonBane) -> void:
 	match  boon_bane.trigger:
 		Constants.TRIGGER.on_death:
-			_death_trigger.died.connect(boon_bane.activate)
+			_root.died.connect(boon_bane.activate.unbind(1))
 
 		Constants.TRIGGER.on_hit_received:
 			# TODO: implement

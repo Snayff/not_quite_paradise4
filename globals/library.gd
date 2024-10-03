@@ -107,6 +107,17 @@ var _data: Dictionary  = {
 			"orbit_radius": 32,
 		}
 	},
+	"combat_passive": {
+		# NOTE: icons are unique, so can load by name
+		"reflect": {
+			"triggers": {
+				# Constants.TRIGGER : [effect_chain_name]
+				Constants.TRIGGER.on_hit_received : [
+
+				]
+			}
+		}
+	},
 	"actor": {
 		# NOTE: sprite frames are not unique, so specify
 		"wolf_rider" : {
