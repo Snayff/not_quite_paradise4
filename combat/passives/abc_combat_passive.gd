@@ -1,4 +1,4 @@
-## class desc
+## reactions to the game world
 @icon("res://shared_assets/node_icons/abc.png")
 class_name ABCCombatPassive
 extends Node2D
@@ -23,12 +23,12 @@ extends Node2D
 
 #region VARS
 
-## { Constants.TRIGGER: [ABCEffectChain]}
-var _effect_chains: Dictionary = {}
 var combat_passive_name: String = ""
 var _caster: Actor
 ## {Actor: time_remaining as float}
 var _recent_applications: Dictionary = {}
+## { Constants.TRIGGER: Callable }
+var _trigger_method_map: Dictionary = {}
 
 #endregion
 
@@ -40,16 +40,26 @@ var _recent_applications: Dictionary = {}
 ########################
 
 func _ready() -> void:
-	# init blank dict of arrays
+	# init map of trigger to method
 	for trigger in Constants.TRIGGER.values():
-		_effect_chains[trigger] = []
+		var callable: Callable
+		match trigger:
+			Constants.TRIGGER.on_death:
+				callable = _on_death
 
+			Constants.TRIGGER.on_receive_damage:
+				callable = _on_receive_damage
+
+			_:
+				pass
+			
+		
+		_trigger_method_map[trigger] = callable
 
 func setup(combat_passive_name_: String, caster: Actor) -> void:
 	combat_passive_name = combat_passive_name_
 	_caster = caster
 
-	_load_effect_chains()
 
 func _process(delta: float) -> void:
 	# reduce reapplication cooldowns
@@ -63,51 +73,31 @@ func _process(delta: float) -> void:
 	for a in to_delete:
 		_recent_applications.erase(a)
 
-func activate(trigger: Constants.TRIGGER, target: Actor, source: Actor = null) -> bool:
+func activate(data: DataCombatPassive) -> bool:
 	# check if we have recently applied to target
-	if target in _recent_applications:
+	if data.target in _recent_applications:
 		return false
-
-	# define the source
-	var source_: Actor
-	if source is Actor:
-		source_ = source
-	else:
-		source_ = _caster
 	
-	# get effects
-	var effect_chains: Array[ABCEffectChain] = _effect_chains[trigger]
-
-	# apply the effect chains
-	for e in effect_chains:
-		e.apply(target, source_)
+	# call relevant method
+	_trigger_method_map[data.trigger].call(data)
 
 	return true
 
 ##########################
 ####### PRIVATE #########
 ########################
-
-func _load_effect_chains() -> void:
-	var dict_data: Dictionary = Library.get_data("combat_passives", combat_passive_name)
-
-	# loop all listed triggers and load the effect chains
-	var effect_chain_script: Script = null
-	var effect_chain: ABCEffectChain = null
-	for trigger in dict_data["triggers"]:
-		for chain_name in dict_data["triggers"]["trigger"]:
-			
-			# load the script
-			effect_chain_script = load(
-				Constants.PATH_COMBAT_PASSIVES.path_join(
-					str(chain_name, ".gd")
-				)
-			)
-
-			# create and add the script
-			effect_chain = effect_chain_script.new()
-			add_child(effect_chain)
-			_effect_chains[trigger].append(effect_chain)
 	
+
+## @virtual. actions to trigger when passive receives Constants.TRIGGER.on_death
+func _on_death(data: DataCombatPassive) -> void:
+	push_error(
+		"ABCCombatPassive: `_on_death` called directly, but is virtual. Must be overriden by child."
+	)
+
+## @virtual. actions to trigger when passive receives Constants.TRIGGER.on_receive_damage
+func _on_receive_damage(data: DataCombatPassive) -> void:
+	push_error(
+		"ABCCombatPassive: `_on_receive_damage` called directly, but is virtual. Must be overriden by child."
+	)
 
 #endregion

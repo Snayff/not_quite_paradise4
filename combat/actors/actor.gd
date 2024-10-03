@@ -9,7 +9,7 @@ signal new_target(target: Actor)
 ## actor has died. 
 signal died(deceased: Actor)
 ## actor had health reduced
-signal took_damage(who: Actor, amount: float)
+signal received_damage(who: Actor, amount: float)
 #endregion
 
 
@@ -155,8 +155,8 @@ func _setup_supply_container(data: DataActor) -> void:
 	health.value_decreased.connect(_on_hit_flash.activate.unbind(1))
 	# show damage numbers
 	health.value_decreased.connect(_damage_numbers.display_number)
-	# emit took damage
-	health.value_decreased.connect(func(amount): took_damage.emit(self, amount))
+	# emit received_damage
+	health.value_decreased.connect(func(amount): received_damage.emit(self, amount))
 
 
 	# setup triggers and process for exhaustion on stamina empty
