@@ -5,7 +5,8 @@ extends Node
 
 
 #region SIGNALS
-signal last_moved(distance: float)
+## how far moved in last period. period define by [DISTANCE_CHECK_WAIT_TIME]
+signal updated_distance_recently_moved(distance: float)
 #endregion
 
 
@@ -58,7 +59,7 @@ var _deviation: float
 ## whether setup() has been called
 var _has_run_setup: bool = false
 ## how far the [member _root] moved this frame
-var distance_moved_last_period: float = 0.0
+var _distance_recently_moved: float = 0.0
 ## track time until next distance check
 var _distance_timer: float = 0.0
 ## previous position, for checking distance moved
@@ -98,12 +99,12 @@ func _process(delta: float) -> void:
 		# if we havent captured previous position yet, update it and reset timer
 		if _prev_pos == Vector2.INF:
 			_prev_pos = _root.global_position
-			distance_moved_last_period = 0.0
+			_distance_recently_moved = 0.0
 
 		else:
 			# capture distance moved
-			distance_moved_last_period = _prev_pos.distance_to(_root.global_position)
-			last_moved.emit(distance_moved_last_period)
+			_distance_recently_moved = _prev_pos.distance_to(_root.global_position)
+			updated_distance_recently_moved.emit(_distance_recently_moved)
 
 			# update previous position
 			_prev_pos = _root.global_position

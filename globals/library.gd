@@ -72,7 +72,6 @@ var _data: Dictionary  = {
 			# aoe attrs
 			"application_frame": 1
 		},
-
 	},
 	"combat_active": {
 		# NOTE: icons are unique, so can load by name

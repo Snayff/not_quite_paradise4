@@ -4,11 +4,12 @@ class_name HitboxComponent
 extends Area2D
 
 
-# Create a signal for when the hitbox hits a hurtbox
+# when the hitbox hits a hurtbox
 signal hit_hurtbox(hurtbox: HurtboxComponent)
 
 
-var originator: Actor  ## the actor that created the thing that used this hitbox
+## the actor that created the thing that used this hitbox
+var originator: Actor
 
 
 func _ready():

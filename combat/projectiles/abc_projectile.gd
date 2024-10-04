@@ -59,6 +59,8 @@ func _ready() -> void:
 	_has_run_ready = true
 
 func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
+	# FIXME: we are not setting hitbox.originator, which means later is_target_valid checks
+	#		are coming to the wrong answer
 	if not _has_run_ready:
 		push_error("ABCProjectile: setup() called before _ready. ")
 

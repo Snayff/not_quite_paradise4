@@ -29,8 +29,6 @@ signal hit_valid_target(hurtbox: HurtboxComponent)
 
 
 #region VARS
-## the amount of stamina we can drain before expiry
-var _max_range: float
 ## how fast we travel at max speed
 var _max_speed: float
 ## whether we track targets movement and follow, or not
@@ -38,7 +36,6 @@ var _is_homing: bool
 
 #endregion
 
-# TODO: need to spend down stamina on movement
 
 #region FUNCS
 
@@ -53,7 +50,7 @@ func _ready() -> void:
 	_hitbox.hit_hurtbox.connect(_on_hit)
 
 	# connect distance travelled to stamina drain, to manage range
-	_movement_component.last_moved.connect(
+	_movement_component.updated_distance_recently_moved.connect(
 		func(distance): _supply.decrease(distance * Constants.TRAVEL_STAMINA_COST)
 	)
 
@@ -61,15 +58,15 @@ func _ready() -> void:
 func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
 	assert(
 		data.max_range is float,
-		"ProjectileThrowable: `_max_range` is missing."
+		"ProjectileThrowable: `_max_range` is missing from data."
 	)
 	assert(
 		data.max_speed is float,
-		"ProjectileThrowable: `_max_speed` is missing."
+		"ProjectileThrowable: `_max_speed` is missing from data."
 	)
 	assert(
 		data.is_homing is bool,
-		"ProjectileThrowable: `is_homing` is missing."
+		"ProjectileThrowable: `is_homing` is missing from data."
 	)
 
 	super.setup(spawn_pos, data)

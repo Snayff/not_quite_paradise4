@@ -74,6 +74,8 @@ func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
 
 	activate()
 
+## begin animation and checking for enabling of hitbox
+## called during setup
 func activate() -> void:
 	_sprite.play()
 
