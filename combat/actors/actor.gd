@@ -6,7 +6,7 @@ extends RigidBody2D
 #region SIGNALS
 ## changed target to new actor
 signal new_target(target: Actor)
-## actor has died. 
+## actor has died.
 signal died(deceased: Actor)
 ## actor had health reduced
 signal received_damage(who: Actor, amount: float)

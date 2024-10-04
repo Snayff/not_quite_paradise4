@@ -33,6 +33,16 @@ var _data: Dictionary  = {
 			# aoe attrs
 			"application_frame": 0
 		},
+		"spike_explosion": {
+			"effect_delivery_method": Constants.EFFECT_DELIVERY_METHOD.area_of_effect,
+			# base attrs
+			"sprite_frames": "explosion.tres",
+			"valid_hit_option": Constants.TARGET_OPTION.other,
+			"size": 16,
+			"max_bodies_can_hit": -1,
+			# aoe attrs
+			"application_frame": 0
+		},
 		"icy_wind": {
 			"effect_delivery_method": Constants.EFFECT_DELIVERY_METHOD.aura,
 			# base attrs
@@ -110,13 +120,8 @@ var _data: Dictionary  = {
 	"combat_passive": {
 		# NOTE: icons are unique, so can load by name
 		"reflect": {
-			"triggers": {
-				# Constants.TRIGGER : [effect_chain_name]
-				Constants.TRIGGER.on_hit_received : [
 
-				]
-			}
-		}
+			},
 	},
 	"actor": {
 		# NOTE: sprite frames are not unique, so specify
@@ -175,6 +180,7 @@ var _data: Dictionary  = {
 	}
 }
 
+# TODO: remove
 ## get data of a projectile. passed by ref, so dont edit!
 func get_projectile_data(projectile_name: String) -> Dictionary:
 	if not _data["projectile"].has(projectile_name):
@@ -196,6 +202,7 @@ func get_projectile_range(projectile_name: String) -> float:
 
 	return max_range
 
+# TODO: remove
 ## get data of a combat active. passed by ref, so dont edit!
 func get_combat_active_data(combat_active_name: String) -> Dictionary:
 	if not _data["combat_active"].has(combat_active_name):

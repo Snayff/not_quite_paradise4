@@ -51,9 +51,8 @@ func _ready() -> void:
 				callable = _on_receive_damage
 
 			_:
-				pass
+				push_error("Trigger (", trigger, ") not handled.")
 			
-		
 		_trigger_method_map[trigger] = callable
 
 func setup(combat_passive_name_: String, caster: Actor) -> void:

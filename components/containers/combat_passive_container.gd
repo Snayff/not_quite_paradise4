@@ -31,42 +31,40 @@ var _passives: Array[ABCCombatPassive] = []
 func _ready() -> void:
 	# check for mandatory properties set in editor
 	assert(_root is Actor, "Misssing `_root`.")
-	
+
 	_link_signals_to_triggers()
 
 
-func create_passives(combat_passive_names) -> void:
-	# FIXME: get name from lib, load script, add
-	var dict_data: Dictionary = Library.get_data("combat_passives", combat_passive_name)
+func create_passives(combat_passive_names: Array[String]) -> void:
+	var dict_data: Dictionary = {}
+	var passive: ABCCombatPassive = null
+	for passive_name in combat_passive_names:
+		dict_data = Library.get_data("combat_passives", passive_name)
 
-	# loop all listed triggers and load the effect chains
-	var effect_chain_script: Script = null
-	var effect_chain: ABCEffectChain = null
-	for trigger in dict_data["triggers"]:
-		for chain_name in dict_data["triggers"]["trigger"]:
-			
-			# load the script
-			effect_chain_script = load(
-				Constants.PATH_COMBAT_PASSIVES.path_join(
-					str(chain_name, ".gd")
-				)
+		# load the script
+		passive = load(
+			Constants.PATH_COMBAT_PASSIVES.path_join(
+				str(passive_name, ".gd")
 			)
+		).new()
 
-			# create and add the script
-			effect_chain = effect_chain_script.new()
-			add_child(effect_chain)
-			_effect_chains[trigger].append(effect_chain)
+		# add the script
+		add_child(passive)
+		_passives.append(passive)
 
-
-## link the relevant signals, from linked components, to 
+## link the relevant signals, from linked components, to `_activate_passives` and build a
+## [DataCombatPassive]
 func _link_signals_to_triggers() -> void:
 
+	# Constants.TRIGGER.on_death
 	_root.died.connect(
 		func(deceased): \
 		_activate_passives(
 			DataCombatPassive.new().define(deceased, Constants.TRIGGER.on_death)
 		)
 	)
+
+	# Constants.TRIGGER.on_receive_damage
 	_root.received_damage.connect(
 		func(who, amount): \
 		_activate_passives(
@@ -80,11 +78,6 @@ func _link_signals_to_triggers() -> void:
 func _activate_passives(data: DataCombatPassive):
 	for p in _passives:
 		p.activate(data)
-
-
-# TODO: add passives 
-#       link effects to relevant calls
-
 
 
 #endregion

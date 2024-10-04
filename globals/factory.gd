@@ -25,6 +25,7 @@ const _ACTOR: PackedScene = preload(
 
 
 #region FUNCS
+## create a projectile based on data in the library, then run setup when that projectile is ready.
 func create_projectile(
 	projectile_name: String,
 	team: Constants.TEAM,

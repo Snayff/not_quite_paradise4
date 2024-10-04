@@ -27,12 +27,16 @@ extends Resource
 func define(
 	target_: Variant,
 	trigger_: Constants.TRIGGER
-	) -> void:
+	) -> DataCombatPassive:
 	target = target_
 	trigger = trigger_
+
+	return self
 
 ## definition for Constants.TRIGGER.on_receive_damage. call after define.
 func define_receive_damage(
 	dmg_received_: float
-	) -> void:
+	) -> DataCombatPassive:
 	dmg_received = dmg_received_
+
+	return self
