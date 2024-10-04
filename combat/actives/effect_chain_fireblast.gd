@@ -35,6 +35,11 @@ extends ABCEffectChain
 func on_hit(hurtbox: HurtboxComponent) -> void:
 	# FIXME: using hurtbox.global_position centres the explosion, whereas we want it at
 	#		site of coliision
+	#		can we get direction between the 2 colliders and then place the collision point
+	#		in the direction by the size of the radius. probs need to copy the effect chain
+	#		onto the projectile for each use, so combat active would hold a reference to the
+	#		script to load, not a node as it does now.
+	# var aoe_pos: Vector2 =
 	Utility.call_next_frame(
 		Factory.create_projectile,
 		["explosion", _allegiance.team, hurtbox.global_position, _aoe_hit]

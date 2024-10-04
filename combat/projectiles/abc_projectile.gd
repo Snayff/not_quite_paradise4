@@ -81,7 +81,7 @@ func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
 		"ABCProjectile: `sprite_frames` is missing."
 	)
 
-	global_position = spawn_pos
+	#global_position = spawn_pos
 
 	_team = data.team
 	_valid_hit_option = data.valid_hit_option

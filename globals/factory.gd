@@ -99,6 +99,7 @@ func create_projectile(
 
 	# create and setup instance
 	projectile.ready.connect(projectile.setup.bind(spawn_pos, data_class), CONNECT_ONE_SHOT)
+	projectile.global_position = spawn_pos
 	# TODO: find a better way to do this. Perhaps a top level projectiles node?
 	get_tree().get_root().add_child(projectile)
 
@@ -133,7 +134,6 @@ func create_boon_bane(
 
 	# setup instance
 	container.add_child(boon_bane)
-
 
 	return boon_bane
 
@@ -176,7 +176,7 @@ func create_actor(
 
 	# connect ready to setup
 	actor.ready.connect(actor.setup.bind(spawn_pos, data_class), CONNECT_ONE_SHOT)
-
+	actor.global_position = spawn_pos
 	# add to actor container parent
 	get_tree().get_root().get_node("World/Actors").add_child(actor)
 

@@ -40,11 +40,12 @@ func spawn_scene(global_spawn_position: Vector2 = global_position, parent = null
 
 	var instance = scene.instantiate()
 
+	# set position before adding to tree
+	instance.global_position = global_spawn_position
+
 	# add it as a child of the parent
 	parent.add_child(instance)
 
-	# update the global position of the instance. (This must be done after adding it as a child)
-	instance.global_position = global_spawn_position
 
 	# return the instance
 	return instance

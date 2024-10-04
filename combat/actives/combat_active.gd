@@ -42,12 +42,16 @@ var _cooldown_duration: float = 0:
 var target_actor: Actor
 
 # set by parent container
-var _caster: Actor  ## who owns this active
-var _allegiance: Allegiance  ## creator's allegiance component
-var _cast_position: Marker2D  ##  projectile spawn location. Must have to be able to use `projectile` delivery method.
+## who owns this active
+var _caster: Actor
+## creator's allegiance component
+var _allegiance: Allegiance
+##  projectile spawn location. Must have to be able to use `projectile` delivery method.
+var _cast_position: Marker2D
 
 # cast state
-var is_ready: bool = false:  ## if is off cooldown. set by cooldown timer timeout
+## if is off cooldown. set by cooldown timer timeout
+var is_ready: bool = false:
 	set(_value):
 		is_ready = _value
 		if is_ready:
@@ -69,10 +73,12 @@ var percent_ready: float:
 		push_error("CombatActive: Can't set `percent_ready` directly.")
 	get():
 		return _cooldown_timer.time_left / _cooldown_timer.wait_time
-var is_selected: bool = false  ## whether this active is selected by the parent container
+## whether this active is selected by the parent container
+var is_selected: bool = false
 
 # flags
-var _has_run_ready: bool = false  ## if _ready() has finished
+## if _ready() has finished
+var _has_run_ready: bool = false
 
 # data from library - combat active
 ## the icon used to identify the active

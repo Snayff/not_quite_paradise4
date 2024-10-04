@@ -20,18 +20,25 @@ extends Node
 # @export_group("Component Links")
 # @export var
 @export_group("Details")
-@export var _caster_required_tags: Array[Constants.COMBAT_TAG] = []  ## tags the caster must have to be able to activate
+## tags the caster must have to be able to activate
+@export var _caster_required_tags: Array[Constants.COMBAT_TAG] = []
 # NOTE: not currently used. Should maybe be on the effect.
-@export var target_required_tags: Array[Constants.COMBAT_TAG] = []  ## tags the target must have to be able to effect
+## tags the target must have to be able to effect
+@export var target_required_tags: Array[Constants.COMBAT_TAG] = []
 #endregion
 
 
 #region VARS
 var _caster: Actor
-var _active_effects: Array[ABCAtomicAction] = []  ## an array of all active effects. Each effect needs to be removed when terminated.
-var _valid_effect_option: Constants.TARGET_OPTION  ## who the active's effects can affect. expedted from parent.
-var _allegiance: Allegiance  ## the caster's allegiance. We take this rather than the team as the team can change, but this ref wont.
-var _has_run_ready: bool = false  ## if _ready() has finished
+## an array of all active effects. Each effect needs to be removed when terminated.
+var _active_effects: Array[ABCAtomicAction] = []
+## who the active's effects can affect. expedted from parent.
+var _valid_effect_option: Constants.TARGET_OPTION
+## the caster's allegiance.
+## we take this rather than the team as the team can change, but this ref wont.
+var _allegiance: Allegiance
+## if _ready() has finished
+var _has_run_ready: bool = false
 #endregion
 
 
@@ -45,7 +52,11 @@ func _ready() -> void:
 	_has_run_ready = true
 
 ## run setup process
-func setup(caster: Actor, allegiance: Allegiance, valid_effect_option: Constants.TARGET_OPTION) -> void:
+func setup(
+	caster: Actor,
+	allegiance: Allegiance,
+	valid_effect_option: Constants.TARGET_OPTION
+	) -> void:
 	if not _has_run_ready:
 		push_error("EffectChain: setup() called before _ready. ")
 

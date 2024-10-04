@@ -35,6 +35,8 @@ func setup(combat_passive_name_: String, caster: Actor) -> void:
 
 @warning_ignore("unused_parameter")  # required by virtual method
 func _on_receive_damage(data: DataCombatPassive) -> void:
+	return
+
 	# TODO: need to set the cooldown of passive as either global or per target
 	# 		so that we can control whether soemthing like this can trigger multiple times
 	#		in a row, regardless of whether from multiple people
