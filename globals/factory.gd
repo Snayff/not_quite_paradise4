@@ -151,8 +151,8 @@ func create_actor(
 	var dict_data: Dictionary =  Library.get_library_data("actor", actor_name)
 
 	# apply typing to arrays (they dont come out of dict with a type)
-	var actives: Array[String]
-	actives.assign(dict_data["actives"])
+	var active_names: Array[String]
+	active_names.assign(dict_data["active_names"])
 	var tags: Array[Constants.COMBAT_TAG]
 	tags.assign(dict_data["tags"])
 
@@ -165,7 +165,7 @@ func create_actor(
 		dict_data["mass"],
 		dict_data["acceleration"],
 		dict_data["deceleration"],
-		actives,
+		active_names,
 		dict_data["supplies"],
 		dict_data["stats"],
 		tags

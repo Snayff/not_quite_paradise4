@@ -19,6 +19,7 @@ signal received_damage(who: Actor, amount: float)
 @onready var reusable_spawner: SpawnerComponent = %ReusableSpawner
 @onready var allegiance: Allegiance = %Allegiance
 @onready var combat_active_container: CombatActiveContainer = %CombatActiveContainer
+@onready var _combat_passive_container: CombatPassiveContainer = %CombatPassiveContainer
 @onready var stats_container: StatsContainer = %StatsContainer
 @onready var boons_banes: BoonBaneContainer = %BoonsBanesContainer
 @onready var _damage_numbers: PopUpNumbers = %DamageNumbers
@@ -40,9 +41,6 @@ signal received_damage(who: Actor, amount: float)
 
 #region VARS
 var _num_ready_actives: int = 0
-# TODO: this needs implementing
-## counter to track time since last cast.
-var _global_cast_cd_counter: float = 0
 var _target: Actor:
 	set(value):
 		_target = value
@@ -66,8 +64,8 @@ func _ready() -> void:
 	var data_dict = Library.get_data("actor", "wolf_rider")
 	# TODO: move to an actor spawner object and factory, as required
 	var data = DataActor.new()
-	var actives: Array[String] = []
-	actives.assign(data_dict["actives"])
+	var active_names: Array[String] = []
+	active_names.assign(data_dict["active_names"])
 	var tags: Array[Constants.COMBAT_TAG] = []
 	tags.assign(data_dict["tags"])
 	data.define(
@@ -78,7 +76,7 @@ func _ready() -> void:
 		data_dict["mass"],
 		data_dict["acceleration"],
 		data_dict["deceleration"],
-		actives,
+		active_names,
 		data_dict["supplies"],
 		data_dict["stats"],
 		tags
@@ -100,6 +98,9 @@ func setup(data: DataActor) -> void:
 
 	if combat_active_container is CombatActiveContainer:
 		_setup_combat_active_container(data)
+
+	if _combat_passive_container is CombatPassiveContainer:
+		_setup_combat_passive_container(data)
 
 	if _tags is TagsComponent:
 		_setup_tags_container(data)
@@ -181,7 +182,11 @@ func _setup_combat_active_container(data: DataActor) -> void:
 	combat_active_container.new_active_selected.connect(func(active): _target = active.target_actor)
 	combat_active_container.new_target.connect(func(target): _target = target)
 
-	combat_active_container.create_actives(data.actives)
+	combat_active_container.create_actives(data.active_names)
+
+
+func _setup_combat_passive_container(data: DataActor) -> void:
+	_combat_passive_container.create_passives(data.passive_names)
 
 func _setup_tags_container(data: DataActor) -> void:
 	_tags.add_multiple_tags(data.tags)

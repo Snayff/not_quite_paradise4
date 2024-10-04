@@ -19,7 +19,8 @@ extends Resource
 ## how quickly we decelerate. uses delta, so will apply ~1/60th per frame to the velocity.
 ## applied when max_speed is hit. should be >= acceleration.
 @export var deceleration: float
-@export var actives: Array[String]
+@export var active_names: Array[String]
+@export var passive_names: Array[String]
 # SUPPLY_TYPE : [{max_value}, {regen_value}]
 @export var supplies: Dictionary
 # STAT_TYPE : {value}
@@ -55,7 +56,7 @@ func define(
 	mass = mass_
 	acceleration = acceleration_
 	deceleration = deceleration_
-	actives = actives_
+	active_names = actives_
 	supplies = supplies_
 	stats = stats_
 	tags = tags_

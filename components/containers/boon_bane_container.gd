@@ -17,8 +17,6 @@ extends Node
 #region EXPORTS
 @export_group("Component Links")
 @export var _root: Actor
-## needed to connect signals to death triggers
-@export var _death_trigger: DeathTrigger
 #endregion
 
 

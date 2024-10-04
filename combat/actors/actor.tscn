@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cgd54nt0un6ix"]
+[gd_scene load_steps=20 format=3 uid="uid://cgd54nt0un6ix"]
 
 [ext_resource type="Script" path="res://combat/actors/actor.gd" id="1_7c8xu"]
 [ext_resource type="Script" path="res://components/functionals/hurtbox.gd" id="2_24d4q"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://components/containers/supply_container.gd" id="14_51mcn"]
 [ext_resource type="Script" path="res://components/containers/stat_container.gd" id="14_rlc1x"]
 [ext_resource type="Script" path="res://components/containers/boon_bane_container.gd" id="14_wly6u"]
+[ext_resource type="Script" path="res://components/containers/combat_passive_container.gd" id="15_6xms2"]
 [ext_resource type="Script" path="res://components/functionals/state_machine.gd" id="15_illff"]
 [ext_resource type="Script" path="res://components/containers/combat_active_container.gd" id="16_von4t"]
 
@@ -99,11 +100,10 @@ _root = NodePath("..")
 unique_name_in_owner = true
 script = ExtResource("14_rlc1x")
 
-[node name="BoonsBanesContainer" type="Node" parent="." node_paths=PackedStringArray("_root", "_death_trigger")]
+[node name="BoonsBanesContainer" type="Node" parent="." node_paths=PackedStringArray("_root")]
 unique_name_in_owner = true
 script = ExtResource("14_wly6u")
 _root = NodePath("..")
-_death_trigger = NodePath("../DeathTrigger")
 
 [node name="SupplyContainer" type="Node" parent="."]
 unique_name_in_owner = true
@@ -116,6 +116,11 @@ _root = NodePath("..")
 _allegiance = NodePath("../Allegiance")
 _cast_position = NodePath("../CentrePivot/CastPosition")
 _supplies = NodePath("../SupplyContainer")
+
+[node name="CombatPassiveContainer" type="Node2D" parent="." node_paths=PackedStringArray("_root")]
+unique_name_in_owner = true
+script = ExtResource("15_6xms2")
+_root = NodePath("..")
 
 [node name="CentrePivot" type="Marker2D" parent="."]
 unique_name_in_owner = true

@@ -131,7 +131,7 @@ var _data: Dictionary  = {
 			"mass": 10.0,
 			"acceleration": 1000.0,
 			"deceleration": 1000.0,
-			"actives": [
+			"active_names": [
 				"slash",
 				"icy_wind",
 				"fireblast",
@@ -158,7 +158,7 @@ var _data: Dictionary  = {
 			"mass": 10.0,
 			"acceleration": 100.0,
 			"deceleration": 80.0,
-			"actives": [
+			"active_names": [
 				"slash",
 				"fireblast",
 			],
