@@ -119,7 +119,7 @@ var _data: Dictionary  = {
 	},
 	"combat_passive": {
 		# NOTE: icons are unique, so can load by name
-		"reflect": {
+		"reflective_shell": {
 
 			},
 	},
@@ -136,6 +136,9 @@ var _data: Dictionary  = {
 				"icy_wind",
 				"fireblast",
 				#"circling_stars"
+			],
+			"passive_names": [
+				"reflective_shell"
 			],
 			"supplies": {
 				# SUPPLY_TYPE : [{max_value}, {regen_value}]

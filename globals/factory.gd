@@ -153,6 +153,8 @@ func create_actor(
 	# apply typing to arrays (they dont come out of dict with a type)
 	var active_names: Array[String]
 	active_names.assign(dict_data["active_names"])
+	var passive_names: Array[String]
+	passive_names.assign(dict_data["passive_names"])
 	var tags: Array[Constants.COMBAT_TAG]
 	tags.assign(dict_data["tags"])
 
@@ -166,6 +168,7 @@ func create_actor(
 		dict_data["acceleration"],
 		dict_data["deceleration"],
 		active_names,
+		passive_names,
 		dict_data["supplies"],
 		dict_data["stats"],
 		tags

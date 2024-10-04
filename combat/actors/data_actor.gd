@@ -43,12 +43,13 @@ func define(
 	mass_: float,
 	acceleration_: float,
 	deceleration_: float,
-	actives_: Array[String],
+	active_names_: Array[String],
+	passive_names_: Array[String],
 	supplies_: Dictionary,
 	stats_: Dictionary,
 	tags_: Array[Constants.COMBAT_TAG]
 
-	) -> void:
+	) -> DataActor:
 
 	team = team_
 	sprite_frames = sprite_frames_
@@ -56,9 +57,12 @@ func define(
 	mass = mass_
 	acceleration = acceleration_
 	deceleration = deceleration_
-	active_names = actives_
+	active_names = active_names_
+	passive_names = passive_names_
 	supplies = supplies_
 	stats = stats_
 	tags = tags_
+
+	return self
 
 #endregion

@@ -66,6 +66,8 @@ func _ready() -> void:
 	var data = DataActor.new()
 	var active_names: Array[String] = []
 	active_names.assign(data_dict["active_names"])
+	var passive_names: Array[String]
+	passive_names.assign(data_dict["passive_names"])
 	var tags: Array[Constants.COMBAT_TAG] = []
 	tags.assign(data_dict["tags"])
 	data.define(
@@ -77,6 +79,7 @@ func _ready() -> void:
 		data_dict["acceleration"],
 		data_dict["deceleration"],
 		active_names,
+		passive_names,
 		data_dict["supplies"],
 		data_dict["stats"],
 		tags

@@ -22,7 +22,7 @@ extends Node
 @export_group("Details")
 @export var _caster_required_tags: Array[Constants.COMBAT_TAG] = []  ## tags the caster must have to be able to activate
 # NOTE: not currently used. Should maybe be on the effect.
-@export var target_required_tags: Array[Constants.COMBAT_TAG] = []  ## tags the target must have to be able to effect  
+@export var target_required_tags: Array[Constants.COMBAT_TAG] = []  ## tags the target must have to be able to effect
 #endregion
 
 

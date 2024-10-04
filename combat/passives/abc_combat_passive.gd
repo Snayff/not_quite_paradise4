@@ -24,6 +24,9 @@ extends Node2D
 #region VARS
 
 var combat_passive_name: String = ""
+## list of triggers used by class
+## defined in subclass
+var _triggers_used: Array[Constants.TRIGGER] = []
 var _caster: Actor
 ## {Actor: time_remaining as float}
 var _recent_applications: Dictionary = {}
@@ -51,8 +54,8 @@ func _ready() -> void:
 				callable = _on_receive_damage
 
 			_:
-				push_error("Trigger (", trigger, ") not handled.")
-			
+				pass
+
 		_trigger_method_map[trigger] = callable
 
 func setup(combat_passive_name_: String, caster: Actor) -> void:
@@ -72,11 +75,16 @@ func _process(delta: float) -> void:
 	for a in to_delete:
 		_recent_applications.erase(a)
 
+## activate the passive. can fail if target has been affected recently or if trigger in data
+## isnt in [member _triggers_used]
 func activate(data: DataCombatPassive) -> bool:
 	# check if we have recently applied to target
 	if data.target in _recent_applications:
 		return false
-	
+
+	if data.trigger not in _triggers_used:
+		return false
+
 	# call relevant method
 	_trigger_method_map[data.trigger].call(data)
 
@@ -85,15 +93,17 @@ func activate(data: DataCombatPassive) -> bool:
 ##########################
 ####### PRIVATE #########
 ########################
-	
+
 
 ## @virtual. actions to trigger when passive receives Constants.TRIGGER.on_death
+@warning_ignore("unused_parameter")  # is virtual
 func _on_death(data: DataCombatPassive) -> void:
 	push_error(
 		"ABCCombatPassive: `_on_death` called directly, but is virtual. Must be overriden by child."
 	)
 
 ## @virtual. actions to trigger when passive receives Constants.TRIGGER.on_receive_damage
+@warning_ignore("unused_parameter")  # is virtual
 func _on_receive_damage(data: DataCombatPassive) -> void:
 	push_error(
 		"ABCCombatPassive: `_on_receive_damage` called directly, but is virtual. Must be overriden by child."

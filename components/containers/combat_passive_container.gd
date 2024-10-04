@@ -36,21 +36,25 @@ func _ready() -> void:
 
 
 func create_passives(combat_passive_names: Array[String]) -> void:
+	@warning_ignore("unused_variable")  # godot things dict_data isnt used for some reason
 	var dict_data: Dictionary = {}
 	var passive: ABCCombatPassive = null
 	for passive_name in combat_passive_names:
-		dict_data = Library.get_data("combat_passives", passive_name)
+		dict_data = Library.get_data("combat_passive", passive_name)
 
 		# load the script
 		passive = load(
 			Constants.PATH_COMBAT_PASSIVES.path_join(
-				str(passive_name, ".gd")
+				str("combat_passive_", passive_name, ".gd")
 			)
 		).new()
 
 		# add the script
 		add_child(passive)
 		_passives.append(passive)
+
+		# run setup
+		passive.setup(passive_name, _root)
 
 ## link the relevant signals, from linked components, to `_activate_passives` and build a
 ## [DataCombatPassive]

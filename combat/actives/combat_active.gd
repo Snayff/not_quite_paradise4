@@ -18,7 +18,8 @@ signal was_cast
 @onready var _cooldown_timer: Timer = %CooldownTimer
 @onready var _scene_spawner: SpawnerComponent = %SceneSpawner
 @onready var _target_finder: TargetFinder = %TargetFinder
-@onready var _orbiter: ProjectileOrbiterComponent = %ProjectileOrbiter  ## handler for orbitals. Must have to be able to use `orbital` delivery method.
+## handler for orbitals. Must have to be able to use `orbital` delivery method.
+@onready var _orbiter: ProjectileOrbiterComponent = %ProjectileOrbiter
 
 #endregion
 
