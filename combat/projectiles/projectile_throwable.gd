@@ -55,7 +55,7 @@ func _ready() -> void:
 	)
 
 ## process setup. does NOT automatically trigger activate.
-func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
+func setup(data: DataProjectile) -> void:
 	assert(
 		data.max_range is float,
 		"ProjectileThrowable: `_max_range` is missing from data."
@@ -69,7 +69,7 @@ func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
 		"ProjectileThrowable: `is_homing` is missing from data."
 	)
 
-	super.setup(spawn_pos, data)
+	super.setup(data)
 
 	_set_max_range(data.max_range)
 	_max_speed = data.max_speed

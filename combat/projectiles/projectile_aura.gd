@@ -60,8 +60,8 @@ func _ready() -> void:
 	visible = false
 
 ## complete setup process and trigger activate
-func setup(spawn_pos: Vector2, data: DataProjectile) -> void:
-	super.setup(spawn_pos, data)
+func setup(data: DataProjectile) -> void:
+	super.setup(data)
 
 	assert(
 		data.lifetime > 0,

@@ -98,7 +98,7 @@ func create_projectile(
 			)
 
 	# create and setup instance
-	projectile.ready.connect(projectile.setup.bind(spawn_pos, data_class), CONNECT_ONE_SHOT)
+	projectile.ready.connect(projectile.setup.bind(data_class), CONNECT_ONE_SHOT)
 	projectile.global_position = spawn_pos
 	# TODO: find a better way to do this. Perhaps a top level projectiles node?
 	get_tree().get_root().add_child(projectile)
