@@ -4,6 +4,7 @@
 ## [PATH_COMBAT_ACTIVES].
 @icon("res://combat/actives/combat_active.png")
 class_name CombatActive
+# TODO: convert to Node to reduce overhead and simplify interface - we shouldnt need pos
 extends Node2D
 
 
@@ -20,21 +21,21 @@ signal was_cast
 @onready var _target_finder: TargetFinder = %TargetFinder
 ## handler for orbitals. Must have to be able to use `orbital` delivery method.
 @onready var _orbiter: ProjectileOrbiterComponent = %ProjectileOrbiter
-
 #endregion
 
 
 #region EXPORTS
 @export_group("Details")
 ## used to load data from library
-@export var combat_active_name: String = ""
+@export var f_name: String = ""
 ## time between casts. updates cooldown_timer on update. loaded from library.
 var _cooldown_duration: float = 0:
 	set(v):
 		_cooldown_duration = v
 		_cooldown_timer.wait_time = v
 @export_group("Debug")
-@export var _is_debug: bool = true  ## whether to show debug stuff
+## whether to show debug stuff
+@export var _is_debug: bool = true
 #endregion
 
 
@@ -131,7 +132,7 @@ func setup(
 	allegiance: Allegiance,
 	cast_position: Marker2D
 	) -> void:
-	combat_active_name = combat_active_name_
+	f_name = combat_active_name_
 
 	if not _has_run_ready:
 		push_error("CombatActive: setup() called before _ready. ")
@@ -160,17 +161,17 @@ func setup(
 ## load data from the library and instantiate required children, e.g. [ABCEffectChain]
 func _load_data() -> void:
 
-	var dict_data: Dictionary = Library.get_combat_active_data(combat_active_name)
+	var dict_data: Dictionary = Library.get_combat_active_data(f_name)
 
 	# dynamically load icon and effect chain based on name
 	icon = load(
 		Constants.PATH_COMBAT_ACTIVES.path_join(
-			str(combat_active_name, ".png")
+			str(f_name, ".png")
 		)
 	)
 	var effect_chain_script: Script = load(
 		Constants.PATH_COMBAT_ACTIVES.path_join(
-			str("effect_chain_", combat_active_name, ".gd")
+			str("effect_chain_", f_name, ".gd")
 		)
 	)
 	_effect_chain = effect_chain_script.new()

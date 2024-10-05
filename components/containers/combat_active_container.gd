@@ -90,7 +90,7 @@ func _unhandled_input(_event: InputEvent) -> void:
 		selected_active.is_selected = true
 
 	elif cast_active and selected_active != null:
-		cast_ready_active(selected_active.combat_active_name)
+		cast_ready_active(selected_active.f_name)
 
 ## create [CombatActive]s from names. Runs setup and connects to
 ## signals.
@@ -101,7 +101,7 @@ func create_actives(combat_active_names: Array[String]) -> void:
 
 		# ensure we dont create one that already exists
 		for a in _actives:
-			if name_ == a.combat_active_name:
+			if name_ == a.f_name:
 				continue
 
 		# create active and take note
@@ -130,7 +130,7 @@ func _emit_new_target(target: Actor) -> void:
 ## get an active by its class_name. returns null if nothing matching found.
 func get_active(active_name: String) -> CombatActive:
 	for active in _actives:
-		if active.combat_active_name == active_name:
+		if active.f_name == active_name:
 			return active
 
 	return null

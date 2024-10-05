@@ -206,10 +206,10 @@ func get_projectile_range(projectile_name: String) -> float:
 
 # TODO: remove
 ## get data of a combat active. passed by ref, so dont edit!
-func get_combat_active_data(combat_active_name: String) -> Dictionary:
-	if not _data["combat_active"].has(combat_active_name):
-		push_error("Library: combat_active name (", combat_active_name, ") not found.")
-	return _data["combat_active"][combat_active_name]
+func get_combat_active_data(f_name: String) -> Dictionary:
+	if not _data["combat_active"].has(f_name):
+		push_error("Library: combat_active name (", f_name, ") not found.")
+	return _data["combat_active"][f_name]
 
 
 ## get data in the form of a dict. passed by ref, so dont edit!

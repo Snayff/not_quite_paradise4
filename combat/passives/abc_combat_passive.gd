@@ -22,8 +22,7 @@ extends Node2D
 
 
 #region VARS
-
-var combat_passive_name: String = ""
+var f_name: String = ""
 ## list of triggers used by class
 ## defined in subclass
 var _triggers_used: Array[Constants.TRIGGER] = []
@@ -59,7 +58,7 @@ func _ready() -> void:
 		_trigger_method_map[trigger] = callable
 
 func setup(combat_passive_name_: String, caster: Actor) -> void:
-	combat_passive_name = combat_passive_name_
+	f_name = combat_passive_name_
 	_caster = caster
 
 

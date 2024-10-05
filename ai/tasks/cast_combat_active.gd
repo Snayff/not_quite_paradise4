@@ -18,7 +18,7 @@ func _tick(_delta: float) -> Status:
 	if active_container is not CombatActiveContainer or active is not CombatActive:
 		return FAILURE
 
-	var was_successful: bool = active_container.cast_ready_active(active.combat_active_name)
+	var was_successful: bool = active_container.cast_ready_active(active.f_name)
 	if was_successful:
 		return SUCCESS
 	else:
