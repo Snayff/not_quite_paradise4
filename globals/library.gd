@@ -37,7 +37,7 @@ var _data: Dictionary  = {
 			"effect_delivery_method": Constants.EFFECT_DELIVERY_METHOD.area_of_effect,
 			# base attrs
 			"sprite_frames": "explosion.tres",
-			"valid_hit_option": Constants.TARGET_OPTION.other,
+			"valid_hit_option": Constants.TARGET_OPTION.enemy,
 			"size": 16,
 			"max_bodies_can_hit": -1,
 			# aoe attrs
@@ -119,7 +119,7 @@ var _data: Dictionary  = {
 	"combat_passive": {
 		# NOTE: icons are unique, so can load by name
 		"reflective_shell": {
-
+				"cooldown": 2.0,
 			},
 	},
 	"actor": {
@@ -131,8 +131,8 @@ var _data: Dictionary  = {
 			"acceleration": 1000.0,
 			"deceleration": 1000.0,
 			"active_names": [
-				"slash",
-				"icy_wind",
+				#"slash",
+				#"icy_wind",
 				"fireblast",
 				#"circling_stars"
 			],

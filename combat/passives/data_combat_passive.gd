@@ -1,4 +1,4 @@
-## data for [ABCCombatPassive]
+## data for creating a [ABCCombatPassive]
 #@icon("res://projectiles/data_projectile.png")
 class_name DataCombatPassive
 extends Resource
@@ -6,13 +6,8 @@ extends Resource
 
 #region EXPORTS
 @export_group("Base")
-# FIXME: if we cant hold ref to an actor, maybe give actors a UID and keep a dict of all actors
-# and their UID, then get actor back from that list
-@export var target = -1
-@export var trigger: Constants.TRIGGER
-
-@export_group("Receive Damage")
-@export var dmg_received: float = 0
+@export var f_name: String = ""
+@export var cooldown: float = 0.0
 
 #endregion
 
@@ -25,18 +20,10 @@ extends Resource
 #region FUNCS
 ## define the dataclass
 func define(
-	target_: Variant,
-	trigger_: Constants.TRIGGER
+	f_name_: String,
+	cooldown_: float,
 	) -> DataCombatPassive:
-	target = target_
-	trigger = trigger_
-
-	return self
-
-## definition for Constants.TRIGGER.on_receive_damage. call after define.
-func define_receive_damage(
-	dmg_received_: float
-	) -> DataCombatPassive:
-	dmg_received = dmg_received_
+	f_name = f_name_
+	cooldown = cooldown_
 
 	return self

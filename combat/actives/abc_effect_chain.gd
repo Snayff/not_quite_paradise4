@@ -35,6 +35,7 @@ var _active_effects: Array[ABCAtomicAction] = []
 ## who the active's effects can affect. expedted from parent.
 var _valid_effect_option: Constants.TARGET_OPTION
 ## the caster's allegiance.
+##
 ## we take this rather than the team as the team can change, but this ref wont.
 var _allegiance: Allegiance
 ## if _ready() has finished

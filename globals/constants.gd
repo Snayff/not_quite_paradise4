@@ -27,9 +27,11 @@ const LINEAR_DAMP: float = 1.0
 const DEFAULT_AURA_TICK_RATE: float = 0.33
 ## min time to wait between combat active casts
 const GLOBAL_CAST_DELAY: float = 0.33
+## min time to wait between applications of a [ABCCombatPassive]
+const PASSIVE_TRIGGER_DELAY: float = 0.5
 ## min time to wait before a passive can effect the same target again
-const PASSIVE_REAPPLICATION_DELAY: float = 0.25
-## min time to wait between applications of the same boon bane
+const PASSIVE_REAPPLICATION_DELAY: float = 1.0
+## min time to wait between applications of a [ABCBoonBane]
 const BOON_BANE_TRIGGER_DELAY: float = 0.125
 const DEFAULT_BOON_BANE_REMINDER_ANIMATION_INTERVAL: float = 2.5
 ## how far each pixel costs to move, in stamina

@@ -31,7 +31,12 @@ var _caster: Actor
 var _recent_applications: Dictionary = {}
 ## { Constants.TRIGGER: Callable }
 var _trigger_method_map: Dictionary = {}
-
+## how long to wait between activations.
+##
+## never less than the trigger delay Constants.PASSIVE_TRIGGER_DELAY
+var _cooldown: float = 0.0
+## tracking time of current cooldown
+var _cooldown_countdown: float = 0.0
 #endregion
 
 
@@ -57,12 +62,16 @@ func _ready() -> void:
 
 		_trigger_method_map[trigger] = callable
 
-func setup(combat_passive_name_: String, caster: Actor) -> void:
-	f_name = combat_passive_name_
+func setup(data: DataCombatPassive, caster: Actor) -> void:
+	f_name = data.f_name
+	_cooldown = max(data.cooldown, Constants.PASSIVE_TRIGGER_DELAY)
+
 	_caster = caster
 
-
 func _process(delta: float) -> void:
+	# reduce internal cooldown
+	_cooldown_countdown -= delta
+
 	# reduce reapplication cooldowns
 	var to_delete: Array[Actor] = []
 	for a in _recent_applications:
@@ -74,18 +83,28 @@ func _process(delta: float) -> void:
 	for a in to_delete:
 		_recent_applications.erase(a)
 
-## activate the passive. can fail if target has been affected recently or if trigger in data
-## isnt in [member _triggers_used]
-func activate(data: DataCombatPassive) -> bool:
+## activate the passive.
+##
+## can fail if target has been affected recently, if trigger in data
+## isnt in [member _triggers_used], or [member _cooldown_countdown] is still counting down
+func activate(data: DataCombatPassiveActivation) -> bool:
+	# check for internal cooldown
+	if _cooldown_countdown > 0:
+		return false
+
 	# check if we have recently applied to target
 	if data.target in _recent_applications:
 		return false
 
+	# ignore calls to triggers we dont make use of
 	if data.trigger not in _triggers_used:
 		return false
 
 	# call relevant method
 	_trigger_method_map[data.trigger].call(data)
+
+	# set internal cooldown
+	_cooldown_countdown = _cooldown
 
 	return true
 
@@ -96,14 +115,14 @@ func activate(data: DataCombatPassive) -> bool:
 
 ## @virtual. actions to trigger when passive receives Constants.TRIGGER.on_death
 @warning_ignore("unused_parameter")  # is virtual
-func _on_death(data: DataCombatPassive) -> void:
+func _on_death(data: DataCombatPassiveActivation) -> void:
 	push_error(
 		"ABCCombatPassive: `_on_death` called directly, but is virtual. Must be overriden by child."
 	)
 
 ## @virtual. actions to trigger when passive receives Constants.TRIGGER.on_receive_damage
 @warning_ignore("unused_parameter")  # is virtual
-func _on_receive_damage(data: DataCombatPassive) -> void:
+func _on_receive_damage(data: DataCombatPassiveActivation) -> void:
 	push_error(
 		"ABCCombatPassive: `_on_receive_damage` called directly, but is virtual. Must be overriden by child."
 	)

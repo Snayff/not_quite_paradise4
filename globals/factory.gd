@@ -1,5 +1,5 @@
 ## global factory for standardised, simplified object production. holds production of objects
-## required across the project
+## required to be created across the project
 extends Node
 
 # N.B. can't preload with variable, so all hardcoded

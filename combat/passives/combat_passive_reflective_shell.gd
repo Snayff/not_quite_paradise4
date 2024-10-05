@@ -28,14 +28,14 @@ extends ABCCombatPassive
 
 
 #region FUNCS
-func setup(combat_passive_name_: String, caster: Actor) -> void:
-	super.setup(combat_passive_name_, caster)
+func setup(data: DataCombatPassive, caster: Actor) -> void:
+	super.setup(data, caster)
 
 	_triggers_used.append(Constants.TRIGGER.on_receive_damage)
 
 @warning_ignore("unused_parameter")  # required by virtual method
-func _on_receive_damage(data: DataCombatPassive) -> void:
-	return
+func _on_receive_damage(data: DataCombatPassiveActivation) -> void:
+	#return
 
 	# TODO: need to set the cooldown of passive as either global or per target
 	# 		so that we can control whether soemthing like this can trigger multiple times

@@ -57,14 +57,14 @@ func create_passives(combat_passive_names: Array[String]) -> void:
 		passive.setup(passive_name, _root)
 
 ## link the relevant signals, from linked components, to `_activate_passives` and build a
-## [DataCombatPassive]
+## [DataCombatPassiveActivation]
 func _link_signals_to_triggers() -> void:
 
 	# Constants.TRIGGER.on_death
 	_root.died.connect(
 		func(deceased): \
 		_activate_passives(
-			DataCombatPassive.new().define(deceased, Constants.TRIGGER.on_death)
+			DataCombatPassiveActivation.new().define(deceased, Constants.TRIGGER.on_death)
 		)
 	)
 
@@ -72,14 +72,14 @@ func _link_signals_to_triggers() -> void:
 	_root.received_damage.connect(
 		func(who, amount): \
 		_activate_passives(
-			DataCombatPassive.new() \
+			DataCombatPassiveActivation.new() \
 			.define(who, Constants.TRIGGER.on_receive_damage) \
 			.define_receive_damage(amount)
 		)
 	)
 
 ## activate all passives that have the trigger
-func _activate_passives(data: DataCombatPassive):
+func _activate_passives(data: DataCombatPassiveActivation):
 	for p in _passives:
 		p.activate(data)
 

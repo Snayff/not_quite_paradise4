@@ -32,7 +32,7 @@ var _source: Node
 
 #region FUNCS
 func _init(parent: Node, source: Node) -> void:
-	assert(parent is ABCEffectChain or parent is ABCBoonBane, "Effect: parent isnt of expected type.")
+	#assert(parent is ABCEffectChain or parent is ABCBoonBane, "Effect: parent isnt of expected type.")
 	assert(source != null, "Effect: source is empty.")
 	_parent = parent
 	_source = source
