@@ -22,9 +22,7 @@ func _tick(_delta: float) -> Status:
 	if target_actor is not Actor:
 		return FAILURE
 
-	# FIXME: sometimes this isnt getting the direction away from the target, but is close
-	#var direction: Vector2 = agent.global_position.direction_to(target_actor.global_position)
-	var direction: Vector2 = target_actor.global_position - agent.global_position
+	var direction: Vector2 = agent.global_position.direction_to(target_actor.global_position)
 
 	var target_direction: Vector2
 	if _movement_intent == "away":
